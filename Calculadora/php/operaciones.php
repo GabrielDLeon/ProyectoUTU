@@ -16,6 +16,9 @@ class matematica {
  public static function dividir($num1,$num2){
   $divi=$num1/$num2;
   return $divi;
+
+  //Acá abajo van todos los calculos matemáticos
+  
  }
 }
 ?>

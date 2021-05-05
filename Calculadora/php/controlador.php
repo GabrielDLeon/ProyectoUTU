@@ -1,6 +1,6 @@
 <?php
 include("funciones.php"); //Conecta este el menú con las funciones
-if(isset($_REQUEST['calcular'])){
+if(isset($_REQUEST['calcularBasicas'])){
 
     //Creación de variables
     $num1 = $_REQUEST['numero1'];
