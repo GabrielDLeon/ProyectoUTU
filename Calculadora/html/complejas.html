@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operaciones complejas</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body style="background-color: #d1d145;">
+    <div class="contenido">
+        <!-- Creación del formulario -->
+        <form method="POST" action="../php/controlador.php">
+
+            <!-- Caja de texto donde se ingresan los números -->
+            <input type="text" name="numero1" placeholder="ingrese el primer numero">
+            <input type="text" name="numero2" placeholder="ingrese el segundo numero">
+            
+            <!-- Selector de operaciones -->
+            <select name="selector">
+                <option value="0">Sumar</option>
+                <option value="1">Restar</option>
+                <option value="2">Multiplicar</option>
+                <option value="3">Dividir</option>
+            </select>
+
+            <!-- Al presionar el botón calcular, se envían los valores ingresados en el formulario -->
+            <input type="submit" name="calcularBasicas" value="Calcular">
+        </form>
+    </div>
+</body>
+</html>
