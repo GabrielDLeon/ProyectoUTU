@@ -9,24 +9,21 @@
 </head>
 <body style="background-color: #5dbd3a;">
     <div class="contenido">
-        <!-- Creación del formulario -->
-        <form method="POST" action="../php/controlador.php">
-
-            <!-- Caja de texto donde se ingresan los números -->
-            <input type="text" name="numero1" placeholder="ingrese el primer numero">
-            <input type="text" name="numero2" placeholder="ingrese el segundo numero">
-            
-            <!-- Selector de operaciones -->
-            <select name="selector">
-                <option value="0">Sumar</option>
-                <option value="1">Restar</option>
-                <option value="2">Multiplicar</option>
-                <option value="3">Dividir</option>
-            </select>
-
-            <!-- Al presionar el botón calcular, se envían los valores ingresados en el formulario -->
-            <input type="submit" name="calcularGeometricas" value="Calcular">
-        </form>
+        <div class="bloque">
+            <div class="bloque2">
+                <form method="POST" action="../php/controlador.php">
+                    <input type="text" name="numero1" placeholder="ingrese el primer numero">
+                    <input type="text" name="numero2" placeholder="ingrese el segundo numero">            
+                    <select name="selector">
+                        <option value="0">Sumar</option>
+                        <option value="1">Restar</option>
+                        <option value="2">Multiplicar</option>
+                        <option value="3">Dividir</option>
+                    </select>
+                    <input type="submit" name="calcularGeometricas" value="Calcular">
+                </form>
+            </div>
+        </div>
     </div>
 </body>
 </html>

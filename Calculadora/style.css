@@ -3,16 +3,33 @@ body{
     padding: 0%;
     overflow-x: hidden;
     overflow-y: hidden;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .contenido{
     min-height: 100vh;
-    display: flex;
+    display: grid;
+}
+
+.bloque{
     justify-content: center;
     align-items: center;
+    display: flex;
+    
+}
+
+.bloque2{
+    display: block;
+    text-align: center;
+}
+
+.formulario{
+    display: flex;
 }
 
 .menu{
+    justify-content: center;
+    align-items: center;
     display: flex;
 }
 
@@ -42,4 +59,8 @@ body{
     color: #9b0e0e;
     background-color: #bc6355;
     text-decoration: none;
+}
+
+input {
+    height: 35px;
 }
