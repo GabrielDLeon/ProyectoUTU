@@ -7,8 +7,25 @@ $op = $_REQUEST['selector'];
 
 //Si se presiona el botón "Calcular" en las operaciones básicas.
 if(isset($_REQUEST['calcularBasicas'])){    
+
     
-    echo "<script> alert('Suma realizada correctamente $num1 / $num2'); window.location.href='../index.html'; </script>";
+
+switch($op){
+        case 0:
+            echo "<script> alert('Se ha realizado la suma de $num1 y $num2. Resultado: ".matematica::sumar($num1,$num2)."');window.location.href='../index.html'; </script>";
+            break;
+            
+        case 1:
+            echo "<script> alert('Se ha realizado la resta de $num1 y $num2. Resultado: ".matematica::restar($num1,$num2)."');window.location.href='../index.html'; </script>";
+            break;
+       
+        case 2:
+            echo "<script> alert('Se ha realizado la multiplicación de $num1 y $num2. Resultado: ".matematica::multiplicar($num1,$num2)."');window.location.href='../index.html'; </script>";
+            break;
+
+        case 3:
+            echo "<script> alert('Se ha realizado la división de $num1 y $num2. Resultado: ".matematica::dividir($num1,$num2)."');window.location.href='../index.html'; </script>";
+            break;
     
 }
 
@@ -16,10 +33,7 @@ if(isset($_REQUEST['calcularComplejas'])){
 
     //Si se presiona el botón "Calcular" en las operaciones complejas.
 
-    switch($op){
-        case 0:
-            
-            break;
+    
     }
 
 }
