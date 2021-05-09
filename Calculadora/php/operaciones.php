@@ -16,8 +16,13 @@ class matematica {
         return $multi;
     }
     public static function dividir($num1,$num2){
-        $divi=$num1/$num2;
-        return $divi;
+        if ($num2 != 0){
+            $divi=$num1/$num2;
+            return $divi;
+        } else if ($num2 == 0){
+            return "No se puede dividir entre 0 xd";
+        }
+        
     }
 
     //Operaciones complejas:
