@@ -8,8 +8,6 @@ $op = $_REQUEST['selector'];
 //Si se presiona el botón "Calcular" en las operaciones básicas.
 if(isset($_REQUEST['calcularBasicas'])){    
 
-    
-
 switch($op){
         case 0:
             echo "<script> alert('Se ha realizado la suma de $num1 y $num2. Resultado: ".matematica::sumar($num1,$num2)."');window.location.href='../index.html'; </script>";
@@ -27,15 +25,6 @@ switch($op){
             echo "<script> alert('Se ha realizado la división de $num1 y $num2. Resultado: ".matematica::dividir($num1,$num2)."');window.location.href='../index.html'; </script>";
             break;
     
-}
-
-if(isset($_REQUEST['calcularComplejas'])){
-
-    //Si se presiona el botón "Calcular" en las operaciones complejas.
-
-    
-    }
-
 }
 
 if (isset($_REQUEST['calcularPotencia'])){
@@ -59,7 +48,20 @@ if (isset($_REQUEST['calcularBaskara'])){
 if(isset($_REQUEST['calcularGeometricas'])){
 
     //Si se presiona el botón "Calcular" en las operaciones geometricas.
-    echo "<script> alert('Falta hacer la función'); window.location.href='../index.html'; </script>";
-
+    
+        switch($op){
+        case 0:
+            echo "<script> alert('El area del cuadrado es: " .matematica::aCuadrado($num1,$num2)." cm²'); window.location.href='../index.html'; </script>";
+            break;
+	case 1:
+            echo "<script> alert('El area del rectangulo es: " .matematica::aRectangulo($num1,$num2)." cm²'); window.location.href='../index.html'; </script>";
+            break;
+        case 2: 
+	    echo "<script> alert('El area de la circunferencia es: " .matematica::aCircunferencia($num1,$num2)." cm²'); window.location.href='../index.html'; </script>";
+            break;
+	case 3: 
+	    echo "<script> alert('El area del triangulo es: " .matematica::aTriangulo($num1,$num2)." cm²'); window.location.href='../index.html'; </script>";
+            break;
+    }
 }
 ?>

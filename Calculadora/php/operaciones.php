@@ -50,6 +50,22 @@ class matematica {
 
     //Operaciones geometricas:
 
-
+    public static function aCuadrado($num1,$num2){
+        $areaCuadrado=$num1*$num2;
+        return $areaCuadrado;
+    }
+    public static function aRectangulo($num1,$num2){
+        $areaRectangulo=$num1*$num2;
+        return $areaRectangulo;
+    }	
+    public static function aCircunferencia($num1,$num2){
+        $areaCircunferencia=$num1*$num2;
+        return $areaCincurferencia;
+    }	
+    public static function aTriangulo($num1,$num2){
+        $areaTriangulo=$num1*$num2;
+        $areaTriangulo=$resultado/2;
+        return $resultado;
+    }
 }
 ?>
