@@ -48,12 +48,12 @@ if (isset($_REQUEST['calcularBaskara'])){
 if(isset($_REQUEST['calcularGeometricas'])){
     switch($op){
         case 0:
-            echo "<script> alert('El area del cuadrado es: ".matematica::aCuadrado($num1,$num2)." cm²'); window.location.href='../index.html'; </script>";
+            echo "<script> alert('".matematica::aCuadrado($num1,$num2)." '); window.location.href='../index.html'; </script>";
             break;
 	    case 1:
-            echo "<script> alert('El area del rectangulo es: ".matematica::aRectangulo($num1,$num2)." cm²'); window.location.href='../index.html'; </script>";
+            echo "<script> alert('".matematica::aRectangulo($num1,$num2)." '); window.location.href='../index.html'; </script>";
             break;
-        case 2: 
+       	    case 2: 
 	        echo "<script> alert('El area de la circunferencia es: ".matematica::aCircunferencia($num1,$num2)." cm²'); window.location.href='../index.html'; </script>";
             break;
 	    case 3: 
