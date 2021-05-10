@@ -56,29 +56,33 @@ class matematica {
     //Operaciones geometricas:
 
     public static function aCuadrado($num1,$num2){
-	if ($num1==$num2) {
-	$areaCuadrado=$num1*$num2;
-        return "El area del cuadrado es $areaCuadrado cm²";
-	} else {
-        return "Ingrese dos medidas iguales";
+        if ($num1==$num2) {
+        $areaCuadrado=$num1*$num2;
+            return "El area del cuadrado es $areaCuadrado cm²";
+        } else {
+            return "Ingrese dos medidas iguales";
+        }
     }
- }
+
     public static function aRectangulo($num1,$num2){
         if ($num1!=$num2) {
-	$areaRectangulo=$num1*$num2;
-        return "El area del rectangulo es $areaRectangulo cm²";
-	} else {
-        return "Ingrese dos medidas distintas";
-    }	
-}
+        $areaRectangulo=$num1*$num2;
+            return "El area del rectangulo es $areaRectangulo cm²";
+        } else {
+            return "Ingrese dos medidas distintas";
+        }	
+    }
+
     public static function aCircunferencia($num1){
         $areaCircunferencia=3.141592*$num1*$num1;
         return $areaCircunferencia;
-    }	
+    }
+    
     public static function aTriangulo($num1,$num2){
         $areaTriangulo=$num1*$num2;
-	$areaTriangulo=$areaTriangulo/2;
+	    $areaTriangulo=$areaTriangulo/2;
         return $areaTriangulo;
     }
+    
 }
 ?>

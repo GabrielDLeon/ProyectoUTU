@@ -88,6 +88,10 @@ input[type=submit] {
     background-repeat: no-repeat;
 }
 
+input[name="btmSalir"]{
+    background-image: url('exit.png');
+}
+
 select{
     padding: 15px 20px;
     border: none;
