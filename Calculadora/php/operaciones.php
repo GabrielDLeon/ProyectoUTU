@@ -83,6 +83,16 @@ class matematica {
 	    $areaTriangulo=$areaTriangulo/2;
         return $areaTriangulo;
     }
-    
+
+    //Comprobador de existencia
+    //Comprueba si se ingreso un valor en el campo
+
+    public static function comprobadorExistencia($valor){
+        if ($valor == ""){
+            return false;
+        } else if ($valor != ""){
+            return true;
+        }
+    }
 }
 ?>
