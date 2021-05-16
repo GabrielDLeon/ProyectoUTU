@@ -1,9 +1,16 @@
 <?php
 class matematica {
 
-    //Operaciones básicas:
-
-    public static function factorial($n){
+   public static function multiplicaciones($numero, $limite){
+        $cadena = "";
+        for ($i=1; $i <= $limite+1; $i++) {
+            $resultado = $numero * $i; 
+            $cadena .= " $numero x $i = $resultado |";
+        }
+        echo "<script> alert('$cadena'); window.location.href='../html/geometricas.html'; </script>";
+    }
+   
+   public static function factorial($n){
         
         if ($n != 0){
             $factorial = 1;
