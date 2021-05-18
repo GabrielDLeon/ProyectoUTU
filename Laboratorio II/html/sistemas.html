@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tablas</title>
+    <link rel="stylesheet" href="../css/estilo.css">
+</head>
+<body style="background-color: #0b4455;">
+    <div class="contenido">
+        <div class="bloque">
+            <div class="bloque2">
+                <form method="POST" action="../php/controlador.php">
+                    <input type="text" name="numTabla" placeholder="Tabla">
+                    <select name="Multiplicar">
+                        <option  selected disabled="true">Multiplicar hasta</option>
+                        <option value="0">x1</option>
+                        <option value="1">x2</option>
+                        <option value="2">x3</option>
+                        <option value="3">x4</option>
+                        <option value="4">x5</option>
+                        <option value="5">x6</option>
+                        <option value="6">x7</option>
+                        <option value="7">x8</option>
+                        <option value="8">x9</option>
+                        <option value="9">x10</option>
+                    </select>
+                    <input type="submit" name="calcularTablas" value="Mostrar Tablas">
+                    <input type="submit" name="salir" value="Salir">
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

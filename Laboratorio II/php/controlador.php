@@ -1,24 +1,30 @@
 <?php
+include("operaciones.php");
 
-if(isset($_REQUEST['calcularGeometricas'])){
-    $num = $_REQUEST['numero1'];
-    $op = $_REQUEST['selector'];
+if(isset($_REQUEST['salir'])){
+    header("Status: 301 Moved Permanently");
+    header("Location: ../index.html");
+    exit;
+}
+
+if(isset($_REQUEST['calcularTablas'])){
+    $num = $_REQUEST['numTabla'];
+    $op = $_REQUEST['Multiplicar'];
 
     if (matematica::comprobadorExistencia($num) == true){
         matematica::multiplicaciones($num, $op);
     } else {
-        echo "<script> alert('Falta ingresar valor!');window.location.href='../html/otros.html'; </script>";
+        echo "<script> alert('Falta ingresar valor!');window.location.href='../html/sistemas.html'; </script>";
     }
 }
     
 
-if(isset($_REQUEST['Nombre del boton'])){   
-    $num = $_REQUEST['Nombre de la caja de texto'];
-    
+if(isset($_REQUEST['calcularFactorial'])){   
+    $num = $_REQUEST['numero'];
     if (matematica::comprobadorExistencia($num) == true){
         matematica::factorial($num);
     } else {
-        echo "<script> alert('Falta ingresar valor!');window.location.href='../html/otros.html'; </script>";
+        echo "<script> alert('Falta ingresar valor!');window.location.href='../html/factoriales.html'; </script>";
     }  
 }
 
