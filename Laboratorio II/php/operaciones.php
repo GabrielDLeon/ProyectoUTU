@@ -36,6 +36,7 @@ class matematica {
         }
     }
 
+
     //Comprobador de existencia
     //Comprueba si se ingreso un valor en el campo
 
@@ -46,6 +47,18 @@ class matematica {
             return true;
         }
     }
-}
+    
+    public static function aEntero($num1,$num2,$num3,$num4,$num5){
+        $res1= 5/48;
+        $res2= 4/47;
+        $res3= 3/46;
+        $res4= 2/45;
+        $res5= 1/44;
+        $res6= ($res1*$res2)*($res3*$res4);
+        $res7= $res5*$res6;
+        echo "<script> alert('Se ha realizado la probabilidad de tu 5 de oro. Resultado: $res7 %');window.location.href='../html/5deOro.html'; </script>";
+        }
+    }
+
 
 ?>

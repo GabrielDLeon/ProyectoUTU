@@ -27,5 +27,19 @@ if(isset($_REQUEST['calcularFactorial'])){
         echo "<script> alert('Falta ingresar valor!');window.location.href='../html/factoriales.html'; </script>";
     }  
 }
+if(isset($_REQUEST['calcularPosibilidad'])){
+    $num1 = $_REQUEST['bolilla1'];
+    $num2 = $_REQUEST['bolilla2'];
+    $num3 = $_REQUEST['bolilla3'];
+    $num4 = $_REQUEST['bolilla4'];
+    $num5 = $_REQUEST['bolilla5'];
+    
+    if (matematica::comprobadorExistencia($num1) == true &&  matematica::comprobadorExistencia($num2) == true && matematica::comprobadorExistencia($num3) == true &&  matematica::comprobadorExistencia($num4) == true && matematica::comprobadorExistencia($num5) == true){
+        matematica::aEntero($num1,$num2,$num3,$num4,$num5);
+    } else {
+        echo "<script> alert('Falta ingresar valor!');window.location.href='../html/factoriales.html'; </script>";
+    }  
+ 
+}
 
 ?>
