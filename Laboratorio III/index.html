@@ -1,12 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página principal</title>
+    <link rel="stylesheet" href="estilo.css">
 </head>
 <body>
-    
+
+    <button id="btn" onclick="cambiarPrograma()">Empezar programa</button>
+
+    <!-- Parte uno del Laboratorio III -->
+    <form action="php/controlador.php" id="part1">
+        <input type="number" name="val1Part1" placeholder="Valor" required>
+        <input type="number" name="val2Part1" placeholder="Valor2" required>
+        <input type="submit" name="btmPart1" value="Calcular">
+    </form>
+
+    <!-- Parte dos del Laboratorio III -->
+    <form action="php/controlador.php" id="part2">
+        <input type="number" name="val1Part2" placeholder="Valor90" required>
+        <input type="number" name="val2Part2" placeholder="Valor91" required>
+        <input type="submit" name="btmPart2" value="Calcular">
+    </form>
+
+    <!-- Javascript, no tocar  >:(   -->
+    <script>
+        const btn = document.querySelector('#btn');
+        var i = 0;
+        function cambiarPrograma(){
+            i ++;
+            if ((i%2)!=0){
+                document.getElementById('part1').style.display = 'block';
+                document.getElementById('part2').style.display = 'none';
+            } else if ((i%2)==0){
+                document.getElementById('part1').style.display = 'none';
+                document.getElementById('part2').style.display = 'block';
+            }
+            btn.innerText = "Cambiar función";
+        }
+    </script>
+
 </body>
-</html>l
+</html>
