@@ -13,15 +13,33 @@
 
     <!-- Parte uno del Laboratorio III -->
     <form action="php/controlador.php" id="part1">
-        <input type="number" name="val1Part1" placeholder="Valor" required>
-        <input type="number" name="val2Part1" placeholder="Valor2" required>
+        <input type="text" name="val1Part1" placeholder="Valor" required>
+        <select name="base1Part1">
+            <option value="2">Binario</option>
+            <option value="8">Octal</option>
+            <option value="10">Decimal</option>
+            <option value="16">Hexadecimal</option>
+        </select>
+        <input type="text" name="val2Part1" placeholder="Valor2" required>
+        <select name="base2Part1">
+            <option value="2">Binario</option>
+            <option value="8">Octal</option>
+            <option value="10">Decimal</option>
+            <option value="16">Hexadecimal</option>
+        </select>
+        <select name="operacion">
+            <option value="1">+</option>
+            <option value="2">-</option>
+            <option value="3">*</option>
+            <option value="4">/</option>
+        </select>
         <input type="submit" name="btmPart1" value="Calcular">
     </form>
 
     <!-- Parte dos del Laboratorio III -->
     <form action="php/controlador.php" id="part2">
-        <input type="number" name="val1Part2" placeholder="Valor90" required>
-        <input type="number" name="val2Part2" placeholder="Valor91" required>
+        <input type="text" name="val1Part2" placeholder="Valor90" required>
+        <input type="text" name="val2Part2" placeholder="Valor91" required>
         <input type="submit" name="btmPart2" value="Calcular">
     </form>
 
