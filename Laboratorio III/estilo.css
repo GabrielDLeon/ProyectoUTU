@@ -5,3 +5,56 @@
 #part2{
     display: none;
 }
+
+body{
+    margin: 0;
+    padding: 0%;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    font-family:Arial, Helvetica, sans-serif;
+    background-color: #d6d6d6;
+}
+
+.contenido{
+    min-height: 100vh;
+    display: grid;
+}
+
+.bloque{
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.bloque2{
+    display: block;
+    text-align: center;
+    padding: 15px;
+    /* border: 3px solid #f1f1f1; */
+}
+
+input{
+    padding: 16px 20px;
+    border: none;
+    border-radius: 2px;
+    background-color: #f1f1f1;
+}
+
+input[type=text] {
+    width: 80px;
+}
+
+select{
+    padding: 15px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #f1f1f1;
+}
+
+input::placeholder{
+    text-align: center;
+}
+
+button{
+    margin: 8px;
+}
