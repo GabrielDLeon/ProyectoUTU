@@ -10,8 +10,8 @@
 <body>
 
     <button id="btn" onclick="cambiarPrograma()">Empezar programa</button>
-
-    <!-- Parte uno del Laboratorio III -->
+    
+    <!-- Parte dos del Laboratorio III -->
     <form action="php/controlador.php" id="part1">
         <input type="text" name="val1Part1" placeholder="Valor" required>
         <select name="base1Part1">
@@ -38,10 +38,23 @@
 
     <!-- Parte dos del Laboratorio III -->
     <form action="php/controlador.php" id="part2">
-        <input type="text" name="val1Part2" placeholder="Valor90" required>
-        <input type="text" name="val2Part2" placeholder="Valor91" required>
+        <select name="base1Part2">
+            <option value="2">Binario</option>
+            <option value="8">Octal</option>
+            <option value="10">Decimal</option>
+            <option value="16">Hexadecimal</option>
+        </select>
+        <input type="text" name="val1Part2" placeholder="ingrese un numero" required>
+        <select name="base2Part2">
+            <option value="2">Binario</option>
+            <option value="8">Octal</option>
+            <option value="10">Decimal</option>
+            <option value="16">Hexadecimal</option>
+        </select>
         <input type="submit" name="btmPart2" value="Calcular">
     </form>
+
+
 
     <!-- Javascript, no tocar  >:(   -->
     <script>

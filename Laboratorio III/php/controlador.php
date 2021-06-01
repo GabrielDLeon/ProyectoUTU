@@ -23,11 +23,13 @@ if(isset($_REQUEST['btmPart1'])){
             break;
     }
 }
+
+if(isset($_REQUEST['btmPart2'])){
+    $num = $_REQUEST['val1Part2'];
+    $base = $_REQUEST['base1Part2'];
+    $op = $_REQUEST['base2Part2'];
     
-if(isset($_REQUEST['btmPart2'])){     
-
-    //Líneas de código
-
-}
-
+    operacion :: conversion ($num, $base, $op);
+    }
+    
 ?>
