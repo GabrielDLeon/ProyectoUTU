@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="estilo.css">
+    <title>Verificar de cédulas truchas</title>
+</head>
+<body>
+    
+    <!-- Parte uno del Laboratorio III -->
+    <button id="btn" onclick="cambiarPrograma()">Empezar programa</button>
+
+    <form action="php/controlador.php" id="part1">
+        <input type="number" name="valor1" placeholder="Verificar cédula" required min="10000000" max="99999999">
+        <input type="submit" name="btmPart1" value="Calcular">
+    </form>
+
+    <!-- Parte dos del Laboratorio III -->
+    <form action="php/controlador.php" id="part2">
+        <input type="number" name="valor2" placeholder="Calcular verificador" required min="1000000" max="9999999">
+        <input type="submit" name="btmPart2" value="Calcular">
+    </form>
+
+    <script>
+        const btn = document.querySelector('#btn');
+        var i = 0;
+        var parte1 = document.getElementById('part1');
+        var parte2 = document.getElementById('part2');
+        function cambiarPrograma(){
+            i ++;
+            if ((i%2)!=0){
+                parte1.style.display = 'block';
+                parte2.style.display = 'none';
+            } else if ((i%2)==0){
+                parte1.style.display = 'none';
+                parte2.style.display = 'block';
+            }
+            btn.innerText = "Cambiar función";
+        }
+    </script>
+
+</body>
+</html>
