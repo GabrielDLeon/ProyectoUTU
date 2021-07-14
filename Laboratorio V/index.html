@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>Registro de alumnos</title>
+  </head>
+  <body class="bg-light">
+
+    <div class="container">
+        <div class="py-5 text-center">
+            <img class="mb-3 d-block mx-auto" src="img/mortarboard.png" width="72" height="72">
+            <h2>Registro de alumno</h1>
+            <p class="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis aliquam quasi exercitationem excepturi magnam maxime, obcaecati nulla incidunt doloremque architecto quis facilis cum fugiat, repellat dignissimos ipsum? Incidunt, dolore similique.</p>
+        </div>
+    </div>
+
+    <form action="post.php" method="POST">
+    <div class="container mb-5">
+        <h4 class="mb-3">Datos del alumno</h2>
+            <div class="row g-3">
+                <div class="col-sm-4">
+                    <label for="nombre" class="form-label">Nombre completo</label>
+                    <input id="nombre" name="nombre" type="text" class="form-control" placeholder="Mario De León" required>
+                </div>
+                <div class="col-sm-4">
+                    <label for="nombre" class="form-label">Cédula de identidad</label>
+                    <input id="cedula" name="cedula" type="number" class="form-control" placeholder="5461883" required min="1000000" max="9999999">
+                </div>
+                <div class="col-md-4">
+                    <label for="telefono" class="form-label">Mail</label>
+                    <input id="email" name="email" type="email" class="form-control" placeholder="ejemplo@gmail.com" required>
+                </div>
+                <div class="col-sm-4">
+                    <label for="nombre" class="form-label">Localidad</label>
+                    <input id="localidad" name="localidad" type="text" class="form-control" placeholder="Emanuel">
+                </div>
+                <div class="col-md-4">
+                    <label for="direccion" class="form-label">Dirección</label>
+                    <input id="direccion" name="direccion" type="text" class="form-control" placeholder="25 de agosto">
+                </div>
+                <div class="col-md-4">
+                    <label for="telefono" class="form-label">Teléfono</label>
+                    <input id="telefono" name="telefono" type="number" class="form-control" placeholder="098200540">
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="form-group">
+                <h4 class="mb-3">Notas del alumno</h2>
+                <div class="row g-3 mt-1">
+                    <label for="ada" class="form-label col-sm-3">ADA</label>
+                    <div class="col-sm-3">
+                        <input id="ada" type="number" name="nota1" class="form-control" min="1" max="12" required>
+                    </div>
+                </div>
+                <div class="row g-3 mt-1">
+                    <label for="basedatos" class="form-label col-sm-3">Base de datos II</label>
+                    <div class="col-sm-3">
+                        <input id="basedatos" type="number" name="nota2" min="1" max="12" class="form-control" required>
+                    </div>
+                </div>
+                <div class="row g-3 mt-1">
+                    <label for="web" class="form-label col-sm-3">Diseño Web</label>
+                    <div class="col-sm-3">
+                        <input id="web" type="number" name="nota3" min="1" max="12" class="form-control" required>
+                    </div> 
+                </div>
+                <div class="row g-3 mt-1">
+                    <label for="proyecto" class="form-label col-sm-3">Gestión de proyecto</label>
+                    <div class="col-sm-3">
+                        <input id="proyecto" type="number" name="nota4" min="1" max="12" class="form-control" required>
+                    </div>
+                </div>
+                <div class="row g-3 mt-1">
+                    <label for="filosofia" class="form-label col-sm-3">Filosofía</label>
+                    <div class="col-sm-3">
+                        <input id="filosofia" type="number" name="nota5" min="1" max="12" class="form-control" required>
+                    </div>
+                </div>
+                <div class="row g-3 mt-1">
+                    <label for="formacion" class="form-label col-sm-3">Formación empresarial</label>
+                    <div class="col-sm-3">
+                        <input id="formacion" type="number" name="nota6" min="1" max="12" class="form-control" required>
+                    </div>
+                </div>
+                <div class="row g-3 mt-1">
+                    <label for="ingles" class="form-label col-sm-3">Inglés</label>
+                    <div class="col-sm-3">
+                        <input id="ingles" type="number" name="nota7" min="1" max="12" class="form-control" required>
+                    </div>
+                </div>
+                <div class="row g-3 mt-1">
+                    <label for="matematicas" class="form-label col-sm-3">Matemáticas</label>
+                    <div class="col-sm-3">
+                        <input id="matematicas" type="number" name="nota8" min="1" max="12" class="form-control" required>
+                    </div>
+                </div>
+                <div class="row g-3 mt-1">
+                    <label for="programacion" class="form-label col-sm-3">Programación</label>
+                    <div class="col-sm-3">
+                        <input id="programacion" type="number" name="nota9" min="1" max="12" class="form-control" required>
+                    </div>
+                </div>
+                <div class="row g-3 mt-1">
+                    <label for="sistemas" class="form-label col-sm-3">Sistemas operativos III</label>
+                    <div class="col-sm-3">
+                        <input id="sistemas" type="number" name="nota10" min="1" max="12" class="form-control" required>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-primary" type="submit">Enviar</button>
+        
+    </div>
+</form>
+
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    -->
+  </body>
+</html>
