@@ -7,6 +7,7 @@ $(document).ready(function(){
         $('#form-calculosComplejos').hide();
         $('#form-calculosAreas').hide();
         $('#form-baskara').hide();
+        $('#form-5oro').hide();
         hideComplejos($);
         hideAreas($);
     }
@@ -132,7 +133,39 @@ $(document).ready(function(){
         })
     })
 
+    $('#5oro').click(function(){
+        hideAll($);
+        $('#form-5oro').show();
+        let oroJugados = 0, probabilidad = 0;
+
+        $('#btn-5oro-jugar-1').click(function(){
+            oroJugados = jugarOro(1, oroJugados, probabilidad);
+        })
+        $('#btn-5oro-jugar-10').click(function(){
+            oroJugados = jugarOro(10, oroJugados, probabilidad);
+        })
+        $('#btn-5oro-jugar-100').click(function(){
+            oroJugados = jugarOro(100, oroJugados, probabilidad);
+        })
+        $('#btn-5oro-jugar-ganar').click(function(){
+            oroJugados = jugarOro(171230400, oroJugados, probabilidad);
+        })
+        $('#btn-5oro-reset').click(function(){
+            probabilidad = 0, oroJugados = 0;
+            resultado.text("Veces jugado: "+0+" / Probabilidad de ganar: "+0+"%");
+        })
+    })
+
+    jugarOro = (cantidad,jugadas,probabilidad) => {
+        console.log()
+        jugadas+= cantidad;
+        probabilidad = 1/1712304*jugadas;
+        resultado.text("Veces jugado: "+jugadas+" / Probabilidad de ganar: "+probabilidad+"%");
+        return jugadas;
+    }
 })
+
+//5 de oro
 
 //Operaciones simples
 sumar = (num1, num2) => (num1+num2);

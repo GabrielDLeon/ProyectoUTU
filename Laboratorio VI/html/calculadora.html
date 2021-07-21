@@ -10,14 +10,15 @@
 </head>
 <body>
 
-    <button id="calculosBasicos">Calculos básicos</button>
-    <button id="calculosComplejos">Calculos complejo</button>
-    <button id="baskara">Calcular baskara</button>
-    <button id="calculosAreas">Calcular áreas</button>
+    <button type="button" id="calculosBasicos">Calculos básicos</button>
+    <button type="button" id="calculosComplejos">Calculos complejo</button>
+    <button type="button" id="baskara">Calcular baskara</button>
+    <button type="button" id="calculosAreas">Calcular áreas</button>
+    <button type="button" id="5oro">Calcular 5 de oro</button>
 
-    <form id="form-calculosBasicos">
+    <form action="#" action="#" id="form-calculosBasicos">
         <label for="num1">Numero 1:</label>
-        <input type="number" id="num1">
+        <input type="number" id="num1" required>
         <select id="operacionBasicos">
             <option value="sumar">+</option>
             <option value="restar">-</option>
@@ -25,11 +26,11 @@
             <option value="dividir">/</option>
         </select>
         <label for="num2">Numero 2:</label>
-        <input type="number" id="num2">
-        <p class="btn btn-primary" id="btn-calculosBasicos">Calcular</p>
+        <input type="number" id="num2" required>
+        <button type="submit" class="btn btn-primary" id="btn-calculosBasicos">Calcular</button>
     </form>
 
-    <form id="form-calculosComplejos">
+    <form action="#"  id="form-calculosComplejos">
         <select id="operacionComplejos">
             <option value="default" selected disabled>Seleccione una opción</option>
             <option value="Potencia">Potencia</option>
@@ -41,21 +42,21 @@
             <input type="number" id="pow-base">
             <label for="pow-exponente">Exponente:</label>
             <input type="number" id="pow-exponente">
-            <p class="btn btn-primary" id="btn-potencia">Calcular potencia</button>
+            <button type="submit" id="btn-potencia">Calcular potencia</button>
         </div>
         <div class="form-group" id="grp-rCuadrada">
             <label for="rCuadrada">Numero:</label>
             <input type="number" id="rCuadrada">
-            <p class="btn btn-primary" id="btn-rCuadrada">Calcular raíz cuadrada</button>
+            <button type="submit" id="btn-rCuadrada">Calcular raíz cuadrada</button>
         </div>
         <div class="form-group" id="grp-factorial">
             <label for="factorial">Numero:</label>
             <input type="number" id="factorial">
-            <p class="btn btn-primary" id="btn-factorial">Calcular factorial</button>
+            <button type="submit" id="btn-factorial">Calcular factorial</button>
         </div>
     </form>
 
-    <form id="form-calculosAreas">
+    <form action="#" id="form-calculosAreas">
         <select id="operacionAreas">
             <option value="default" selected disabled>Seleccione una opción</option>
             <option value="Cuadrado">Cuadrado</option>
@@ -66,37 +67,59 @@
         <div class="form-group" id="grp-cuadrado">
             <label for="aCuadrado">Tamaño de lado:</label>
             <input type="number" id="aCuadrado">
-            <p class="btn btn-primary" id="btn-aCuadrado">Calcular área cuadrado</p>
+            <button type="submit" id="btn-aCuadrado">Calcular área cuadrado</button>
         </div>
         <div class="form-group" id="grp-rectangulo">
             <label for="largoRectangulo">Largo:</label>
             <input type="number" id="largoRectangulo">
             <label for="anchoRectangulo">Ancho:</label>
             <input type="number" id="anchoRectangulo">
-            <p class="btn btn-primary" id="btn-aRectangulo">Calcular área rectángulo</p>
+            <button type="submit" id="btn-aRectangulo">Calcular área rectángulo</button>
         </div>
         <div class="form-group" id="grp-triangulo">
             <label for="baseTriangulo">Base del triángulo:</label>
             <input type="number" id="baseTriangulo">
             <label for="alturaTriangulo">Altura del triángulo:</label>
             <input type="number" id="alturaTriangulo">
-            <p class="btn btn-primary" id="btn-aTriangulo">Calcular área triángulo</p>
+            <button type="submit" id="btn-aTriangulo">Calcular área triángulo</button>
         </div>
         <div class="form-group" id="grp-circulo">
             <label for="radioCirculo">Radio de la circunferencia:</label>
             <input type="number" id="radioCirculo">
-            <p class="btn btn-primary" id="btn-aCirculo">Calcular área circulo</p>
+            <button type="submit" id="btn-aCirculo">Calcular área circulo</button>
         </div>
     </form>
 
-    <form id="form-baskara">
-        <label for="baskara-a">Valor A</label>
+    <form action="#" id="form-baskara">
+        <label for="baskara-a">Valor A: </label>
         <input type="number" id="baskara-a">
-        <label for="baskara-b">Valor B</label>
+        <label for="baskara-b">Valor B: </label>
         <input type="number" id="baskara-b">
-        <label for="baskara-c">Valor C</label>
+        <label for="baskara-c">Valor C: </label>
         <input type="number" id="baskara-c">
-        <p class="btn btn-primary" id="btn-baskara">Calcular baskara</p>
+        <button type="submit" id="btn-baskara">Calcular baskara</button>
+    </form>
+
+    <form action="#" id="form-5oro">
+        <label for="oroNum1">Número 1:</label>
+        <input type="number" id="oroNum1">
+        <label for="oroNum2">Número 2:</label>
+        <input type="number" id="oroNum2">
+        <label for="oroNum3">Número 3:</label>
+        <input type="number" id="oroNum3">
+        <label for="oroNum4">Número 4:</label>
+        <input type="number" id="oroNum4">
+        <label for="oroNum5">Número 5:</label>
+        <input type="number" id="oroNum5">
+        <div id="grp-5oro" class="form-group">
+            <h3>Multiplicador probabilidad</h3>
+            <p>Una vez elegido los números a jugar, presione la cantidad de veces que desea jugarlo.</p>
+            <button type="submit" id="btn-5oro-jugar-1">x1</button>
+            <button type="submit" id="btn-5oro-jugar-10">x10</button>
+            <button type="submit" id="btn-5oro-jugar-100">x100</button>
+            <button type="submit" id="btn-5oro-jugar-ganar">Ganar</button>
+        </div>
+        <button type="reset" id="btn-5oro-reset">Restablecer probabilidad</button>
     </form>
 
     <p id="resultado"></p>
