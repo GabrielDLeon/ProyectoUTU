@@ -10,14 +10,97 @@
 </head>
 <body>
 
-    <form>
-        <input type="number" id="val1">
-        <input type="number" id="val2">
-        <input type="number" id="val3">
-        <input type="button" id="btn1" value="Calcular">
-        <p id="resultado"></p>
+    <button id="calculosBasicos">Calculos básicos</button>
+    <button id="calculosComplejos">Calculos complejo</button>
+    <button id="baskara">Calcular baskara</button>
+    <button id="calculosAreas">Calcular áreas</button>
+
+    <form id="form-calculosBasicos">
+        <label for="num1">Numero 1:</label>
+        <input type="number" id="num1">
+        <select id="operacionBasicos">
+            <option value="sumar">+</option>
+            <option value="restar">-</option>
+            <option value="multiplicar">x</option>
+            <option value="dividir">/</option>
+        </select>
+        <label for="num2">Numero 2:</label>
+        <input type="number" id="num2">
+        <p class="btn btn-primary" id="btn-calculosBasicos">Calcular</p>
     </form>
-    
+
+    <form id="form-calculosComplejos">
+        <select id="operacionComplejos">
+            <option value="default" selected disabled>Seleccione una opción</option>
+            <option value="Potencia">Potencia</option>
+            <option value="rCuadrada">Raíz cuadrada</option>
+            <option value="Factorial">Factorial</option>
+        </select>
+        <div class="form-group" id="grp-potencia">
+            <label for="pow-base">Base:</label>
+            <input type="number" id="pow-base">
+            <label for="pow-exponente">Exponente:</label>
+            <input type="number" id="pow-exponente">
+            <p class="btn btn-primary" id="btn-potencia">Calcular potencia</button>
+        </div>
+        <div class="form-group" id="grp-rCuadrada">
+            <label for="rCuadrada">Numero:</label>
+            <input type="number" id="rCuadrada">
+            <p class="btn btn-primary" id="btn-rCuadrada">Calcular raíz cuadrada</button>
+        </div>
+        <div class="form-group" id="grp-factorial">
+            <label for="factorial">Numero:</label>
+            <input type="number" id="factorial">
+            <p class="btn btn-primary" id="btn-factorial">Calcular factorial</button>
+        </div>
+    </form>
+
+    <form id="form-calculosAreas">
+        <select id="operacionAreas">
+            <option value="default" selected disabled>Seleccione una opción</option>
+            <option value="Cuadrado">Cuadrado</option>
+            <option value="Rectangulo">Rectangulo</option>
+            <option value="Triangulo">Triangulo</option>
+            <option value="Circulo">Circulo</option>
+        </select>
+        <div class="form-group" id="grp-cuadrado">
+            <label for="aCuadrado">Tamaño de lado:</label>
+            <input type="number" id="aCuadrado">
+            <p class="btn btn-primary" id="btn-aCuadrado">Calcular área cuadrado</p>
+        </div>
+        <div class="form-group" id="grp-rectangulo">
+            <label for="largoRectangulo">Largo:</label>
+            <input type="number" id="largoRectangulo">
+            <label for="anchoRectangulo">Ancho:</label>
+            <input type="number" id="anchoRectangulo">
+            <p class="btn btn-primary" id="btn-aRectangulo">Calcular área rectángulo</p>
+        </div>
+        <div class="form-group" id="grp-triangulo">
+            <label for="baseTriangulo">Base del triángulo:</label>
+            <input type="number" id="baseTriangulo">
+            <label for="alturaTriangulo">Altura del triángulo:</label>
+            <input type="number" id="alturaTriangulo">
+            <p class="btn btn-primary" id="btn-aTriangulo">Calcular área triángulo</p>
+        </div>
+        <div class="form-group" id="grp-circulo">
+            <label for="radioCirculo">Radio de la circunferencia:</label>
+            <input type="number" id="radioCirculo">
+            <p class="btn btn-primary" id="btn-aCirculo">Calcular área circulo</p>
+        </div>
+    </form>
+
+    <form id="form-baskara">
+        <label for="baskara-a">Valor A</label>
+        <input type="number" id="baskara-a">
+        <label for="baskara-b">Valor B</label>
+        <input type="number" id="baskara-b">
+        <label for="baskara-c">Valor C</label>
+        <input type="number" id="baskara-c">
+        <p class="btn btn-primary" id="btn-baskara">Calcular baskara</p>
+    </form>
+
+    <p id="resultado"></p>
+
     <script src="../assets/js/bootstrap.js"></script>
     <script src="../assets/js/jquery-3.6.0.min.js"></script>
     <script src="../assets/js/script.js"></script>
