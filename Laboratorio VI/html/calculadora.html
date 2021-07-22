@@ -15,6 +15,7 @@
     <button type="button" id="baskara">Calcular baskara</button>
     <button type="button" id="calculosAreas">Calcular áreas</button>
     <button type="button" id="5oro">Calcular 5 de oro</button>
+    <button type="button" id="conversion">Convertir bases</button>
 
     <form action="#" action="#" id="form-calculosBasicos">
         <label for="num1">Numero 1:</label>
@@ -122,10 +123,40 @@
         <button type="reset" id="btn-5oro-reset">Restablecer probabilidad</button>
     </form>
 
+    <form id="form-conversion">
+        <select name="cbase1">
+            <option value="2">Binario</option>
+            <option value="8">Octal</option>
+            <option value="10">Decimal</option>
+            <option value="16">Hexadecimal</option>
+        </select>
+        <input type="text" name="cvalor" placeholder="ingrese un numero" required>
+        <select name="cbase2">
+            <option value="2">Binario</option>
+            <option value="8">Octal</option>
+            <option value="10">Decimal</option>
+            <option value="16">Hexadecimal</option>
+        </select>
+        <button type="button" id="btn-conversion">Enviar</button>
+    </form>
+
     <p id="resultado"></p>
 
     <script src="../assets/js/bootstrap.js"></script>
     <script src="../assets/js/jquery-3.6.0.min.js"></script>
     <script src="../assets/js/script.js"></script>
+    <script>
+        $('#btn-conversion').click(function(){
+            $.ajax({
+                url: '../assets/php/conversion.php',
+                type: 'POST',
+                data: $('#form-conversion').serialize(),
+                success: function(res){
+                    $('#resultado').text(res);
+                }
+            });
+        })
+    </script>
+
 </body>
 </html>

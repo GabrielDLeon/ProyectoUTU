@@ -8,6 +8,7 @@ $(document).ready(function(){
         $('#form-calculosAreas').hide();
         $('#form-baskara').hide();
         $('#form-5oro').hide();
+        $('#form-conversion').hide();
         hideComplejos($);
         hideAreas($);
     }
@@ -131,6 +132,12 @@ $(document).ready(function(){
             let valC = $('#baskara-c').val();
             resultado.text(baskara(valA, valB, valC));
         })
+    })
+
+    $('#conversion').click(function(){
+        hideAll($);
+        $('#form-conversion').show();
+            
     })
 
     $('#5oro').click(function(){
