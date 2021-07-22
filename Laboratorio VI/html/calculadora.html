@@ -8,139 +8,125 @@
     <link rel="stylesheet" href="../assets/css/main.css">
     <title>Calculadora</title>
 </head>
-<body>
+<body style="background-color: rgb(190, 194, 202);">
+    <div class="botones">
+        <button class="btn btn-secondary" type="button" id="calculosBasicos">Calculos básicos</button>
+        <button class="btn btn-secondary" type="button" id="calculosComplejos">Calculos complejos</button>
+        <button class="btn btn-secondary" type="button" id="baskara">Calcular baskara</button>
+        <button class="btn btn-secondary" type="button" id="calculosAreas">Calcular áreas</button>
+        <button class="btn btn-secondary" type="button" id="5oro">Calcular 5 de oro</button>
+        <button class="btn btn-secondary" type="button" id="conversion">Convertir bases</button>
+    </div>
+    <hr>
+    
+    <div class="contenedor">
+        <form action="#" id="form-calculosBasicos">
+            <input type="number" id="num1" placeholder="Ingrese número 1">
+            <select id="operacionBasicos">
+                <option value="sumar">Sumar</option>
+                <option value="restar">Restar</option>
+                <option value="multiplicar">Multiplicar</option>
+                <option value="dividir">Dividir</option>
+            </select>
+            <input type="number" id="num2" placeholder="Ingrese número 2">
+            <button type="submit" class="btn btn-success" id="btn-calculosBasicos">Calcular</button>
+        </form>
 
-    <button type="button" id="calculosBasicos">Calculos básicos</button>
-    <button type="button" id="calculosComplejos">Calculos complejo</button>
-    <button type="button" id="baskara">Calcular baskara</button>
-    <button type="button" id="calculosAreas">Calcular áreas</button>
-    <button type="button" id="5oro">Calcular 5 de oro</button>
-    <button type="button" id="conversion">Convertir bases</button>
+        <form action="#" id="form-calculosComplejos">
+            <select id="operacionComplejos">
+                <option value="default" selected disabled>Seleccione una opción</option>
+                <option value="Potencia">Potencia</option>
+                <option value="rCuadrada">Raíz cuadrada</option>
+                <option value="Factorial">Factorial</option>
+            </select>
+            <div class="form-group" id="grp-potencia">
+                <input type="number" id="pow-base" placeholder="Ingrese la base">
+                <input type="number" id="pow-exponente" placeholder="Ingrese el exponente">
+                <button class="btn btn-success" type="submit" id="btn-potencia">Calcular potencia</button>
+            </div>
+            <div class="form-group" id="grp-rCuadrada">
+                <input type="number" id="rCuadrada" placeholder="Ingrese la raíz cuadrada">
+                <button class="btn btn-success" type="submit" id="btn-rCuadrada">Calcular raíz cuadrada</button>
+            </div>
+            <div class="form-group" id="grp-factorial">
+                <input type="number" id="factorial" placeholder="Ingrese un número">
+                <button class="btn btn-success" type="submit" id="btn-factorial">Calcular factorial</button>
+            </div>
+        </form>
 
-    <form action="#" action="#" id="form-calculosBasicos">
-        <label for="num1">Numero 1:</label>
-        <input type="number" id="num1" required>
-        <select id="operacionBasicos">
-            <option value="sumar">+</option>
-            <option value="restar">-</option>
-            <option value="multiplicar">x</option>
-            <option value="dividir">/</option>
-        </select>
-        <label for="num2">Numero 2:</label>
-        <input type="number" id="num2" required>
-        <button type="submit" class="btn btn-primary" id="btn-calculosBasicos">Calcular</button>
-    </form>
-
-    <form action="#"  id="form-calculosComplejos">
-        <select id="operacionComplejos">
-            <option value="default" selected disabled>Seleccione una opción</option>
-            <option value="Potencia">Potencia</option>
-            <option value="rCuadrada">Raíz cuadrada</option>
-            <option value="Factorial">Factorial</option>
-        </select>
-        <div class="form-group" id="grp-potencia">
-            <label for="pow-base">Base:</label>
-            <input type="number" id="pow-base">
-            <label for="pow-exponente">Exponente:</label>
-            <input type="number" id="pow-exponente">
-            <button type="submit" id="btn-potencia">Calcular potencia</button>
-        </div>
-        <div class="form-group" id="grp-rCuadrada">
-            <label for="rCuadrada">Numero:</label>
-            <input type="number" id="rCuadrada">
-            <button type="submit" id="btn-rCuadrada">Calcular raíz cuadrada</button>
-        </div>
-        <div class="form-group" id="grp-factorial">
-            <label for="factorial">Numero:</label>
-            <input type="number" id="factorial">
-            <button type="submit" id="btn-factorial">Calcular factorial</button>
-        </div>
-    </form>
-
-    <form action="#" id="form-calculosAreas">
-        <select id="operacionAreas">
-            <option value="default" selected disabled>Seleccione una opción</option>
-            <option value="Cuadrado">Cuadrado</option>
-            <option value="Rectangulo">Rectangulo</option>
-            <option value="Triangulo">Triangulo</option>
-            <option value="Circulo">Circulo</option>
-        </select>
-        <div class="form-group" id="grp-cuadrado">
-            <label for="aCuadrado">Tamaño de lado:</label>
-            <input type="number" id="aCuadrado">
-            <button type="submit" id="btn-aCuadrado">Calcular área cuadrado</button>
-        </div>
-        <div class="form-group" id="grp-rectangulo">
-            <label for="largoRectangulo">Largo:</label>
-            <input type="number" id="largoRectangulo">
-            <label for="anchoRectangulo">Ancho:</label>
-            <input type="number" id="anchoRectangulo">
-            <button type="submit" id="btn-aRectangulo">Calcular área rectángulo</button>
-        </div>
-        <div class="form-group" id="grp-triangulo">
-            <label for="baseTriangulo">Base del triángulo:</label>
-            <input type="number" id="baseTriangulo">
-            <label for="alturaTriangulo">Altura del triángulo:</label>
-            <input type="number" id="alturaTriangulo">
-            <button type="submit" id="btn-aTriangulo">Calcular área triángulo</button>
-        </div>
-        <div class="form-group" id="grp-circulo">
-            <label for="radioCirculo">Radio de la circunferencia:</label>
-            <input type="number" id="radioCirculo">
-            <button type="submit" id="btn-aCirculo">Calcular área circulo</button>
-        </div>
-    </form>
-
-    <form action="#" id="form-baskara">
-        <label for="baskara-a">Valor A: </label>
-        <input type="number" id="baskara-a">
-        <label for="baskara-b">Valor B: </label>
-        <input type="number" id="baskara-b">
-        <label for="baskara-c">Valor C: </label>
-        <input type="number" id="baskara-c">
-        <button type="submit" id="btn-baskara">Calcular baskara</button>
-    </form>
-
-    <form action="#" id="form-5oro">
-        <label for="oroNum1">Número 1:</label>
-        <input type="number" id="oroNum1">
-        <label for="oroNum2">Número 2:</label>
-        <input type="number" id="oroNum2">
-        <label for="oroNum3">Número 3:</label>
-        <input type="number" id="oroNum3">
-        <label for="oroNum4">Número 4:</label>
-        <input type="number" id="oroNum4">
-        <label for="oroNum5">Número 5:</label>
-        <input type="number" id="oroNum5">
-        <div id="grp-5oro" class="form-group">
-            <h3>Multiplicador probabilidad</h3>
-            <p>Una vez elegido los números a jugar, presione la cantidad de veces que desea jugarlo.</p>
-            <button type="submit" id="btn-5oro-jugar-1">x1</button>
-            <button type="submit" id="btn-5oro-jugar-10">x10</button>
-            <button type="submit" id="btn-5oro-jugar-100">x100</button>
-            <button type="submit" id="btn-5oro-jugar-ganar">Ganar</button>
-        </div>
-        <button type="reset" id="btn-5oro-reset">Restablecer probabilidad</button>
-    </form>
-
-    <form id="form-conversion">
-        <select name="cbase1">
-            <option value="2">Binario</option>
-            <option value="8">Octal</option>
-            <option value="10">Decimal</option>
-            <option value="16">Hexadecimal</option>
-        </select>
-        <input type="text" name="cvalor" placeholder="ingrese un numero" required>
-        <select name="cbase2">
-            <option value="2">Binario</option>
-            <option value="8">Octal</option>
-            <option value="10">Decimal</option>
-            <option value="16">Hexadecimal</option>
-        </select>
-        <button type="button" id="btn-conversion">Enviar</button>
-    </form>
-
-    <p id="resultado"></p>
+        <form action="#" id="form-calculosAreas">
+            <select id="operacionAreas">
+                <option value="default" selected disabled>Seleccione una opción</option>
+                <option value="Cuadrado">Cuadrado</option>
+                <option value="Rectangulo">Rectangulo</option>
+                <option value="Triangulo">Triangulo</option>
+                <option value="Circulo">Circulo</option>
+            </select>
+            <div class="form-group" id="grp-cuadrado">
+                <input type="number" id="aCuadrado" placeholder="Medida del lado">
+                <button class="btn btn-success" type="submit" id="btn-aCuadrado">Calcular área cuadrado</button>
+            </div>
+            <div class="form-group" id="grp-rectangulo">
+                <input type="number" id="largoRectangulo" placeholder="Medida del largo">
+                <input type="number" id="anchoRectangulo" placeholder="Medida del ancho">
+                <button class="btn btn-success" type="submit" id="btn-aRectangulo">Calcular área rectángulo</button>
+            </div>
+            <div class="form-group" id="grp-triangulo">
+                <input type="number" id="baseTriangulo" placeholder="Ingrese base">
+                <input type="number" id="alturaTriangulo" placeholder="Ingrese altura">
+                <button class="btn btn-success" type="submit" id="btn-aTriangulo">Calcular área triángulo</button>
+            </div>
+            <div class="form-group" id="grp-circulo">
+                <input type="number" id="radioCirculo" placeholder="Ingrese radio">
+                <button class="btn btn-success" type="submit" id="btn-aCirculo">Calcular área circulo</button>
+            </div>
+        </form>
+    
+        <form action="#" id="form-baskara">
+            <input type="number" id="baskara-a" placeholder="Ingrese valor A">
+            <input type="number" id="baskara-b" placeholder="Ingrese valor B">
+            <input type="number" id="baskara-c" placeholder="Ingrese valor C">
+            <button class="btn btn-success" type="submit" id="btn-baskara">Calcular baskara</button>
+        </form>
+    
+        <form action="#" id="form-5oro"><h3>Ingrese los números a jugar en las casillas de abajo</h3><br>
+            <input onKeyPress="if(this.value.length==2) return false;" style="width: 32px;" type="number" id="oroNum1" class="text-center">
+            <input onKeyPress="if(this.value.length==2) return false;" style="width: 32px;" type="number" id="oroNum2" class="text-center">
+            <input onKeyPress="if(this.value.length==2) return false;" style="width: 32px;" type="number" id="oroNum3" class="text-center">
+            <input onKeyPress="if(this.value.length==2) return false;" style="width: 32px;" type="number" id="oroNum4" class="text-center">
+            <input onKeyPress="if(this.value.length==2) return false;" style="width: 32px;" type="number" id="oroNum5" class="text-center">
+            <div id="grp-5oro" class="form-group">
+                <h3>Multiplicador probabilidad</h3>
+                <p>Una vez elegido los números a jugar, presione la cantidad de veces que desea jugarlo.</p>
+                <button class="btn btn-success" type="submit" id="btn-5oro-jugar-1">x1</button>
+                <button class="btn btn-success" type="submit" id="btn-5oro-jugar-10">x10</button>
+                <button class="btn btn-success" type="submit" id="btn-5oro-jugar-100">x100</button>
+                <button class="btn btn-warning" type="submit" id="btn-5oro-jugar-ganar">Ganar</button>
+            </div>
+            <button class="btn btn-danger" type="reset" id="btn-5oro-reset">Restablecer probabilidad</button>
+        </form>
+    
+        <form id="form-conversion">
+            <select name="cbase1">
+                <option value="2">Binario</option>
+                <option value="8">Octal</option>
+                <option value="10">Decimal</option>
+                <option value="16">Hexadecimal</option>
+            </select>
+            <input type="text" name="cvalor" placeholder="Ingrese un numero" required>
+            <select name="cbase2">
+                <option value="2">Binario</option>
+                <option value="8">Octal</option>
+                <option value="10">Decimal</option>
+                <option value="16">Hexadecimal</option>
+            </select>
+            <button class="btn btn-success" type="button" id="btn-conversion">Enviar</button>
+        </form>
+    
+        <br>
+        <h4>Aquí se mostrará el resultado del cálculo solicitado:</h3> <br>
+        <p id="resultado"></p>
+    </div>
 
     <script src="../assets/js/bootstrap.js"></script>
     <script src="../assets/js/jquery-3.6.0.min.js"></script>
