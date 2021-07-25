@@ -22,7 +22,7 @@
         if ($nombre=='' || $cedula=='' || $email== '' || $localidad=='' || $direccion=='' || $telefono =='' || $ada == '' || $basedatos=='' || $web=='' || $proyecto=='' || $filosofia=='' || $formacion=='' || $ingles=='' || $matematicas=='' || $programacion=='' || $sistemas=='')  {
                 echo "<script>alert('Todos los campos son requeridos')</script>";
                 return false;
-                }
+        }
 
         echo "<h3>Ficha del alumno</h3>";
         echo "Nombre: $nombre <br>" ;
