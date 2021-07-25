@@ -29,7 +29,7 @@ $(document).ready(function(){
     $('#calculosBasicos').click(function(){
         hideAll($);
         $('#form-calculosBasicos').show();
-        $('#btn-calculosBasicos').click(function(){
+        $('#form-calculosBasicos').submit(function(e){
             let opcion = $('#operacionBasicos option:selected').val();
             let a = parseInt($('#num1').val());
             let b = parseInt($('#num2').val());
@@ -47,6 +47,7 @@ $(document).ready(function(){
                     resultado.text(dividir(a,b));
                     break;
             }
+            e.preventDefault();
         })  
     })
 

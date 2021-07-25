@@ -20,7 +20,7 @@
     <hr>
     
     <div class="contenedor">
-        <form action="#" id="form-calculosBasicos">
+        <form id="form-calculosBasicos">
             <input type="number" id="num1" placeholder="Ingrese número 1">
             <select id="operacionBasicos">
                 <option value="sumar">Sumar</option>
@@ -32,7 +32,7 @@
             <button type="submit" class="btn btn-success" id="btn-calculosBasicos">Calcular</button>
         </form>
 
-        <form action="#" id="form-calculosComplejos">
+        <form id="form-calculosComplejos">
             <select id="operacionComplejos">
                 <option value="default" selected disabled>Seleccione una opción</option>
                 <option value="Potencia">Potencia</option>
@@ -54,7 +54,7 @@
             </div>
         </form>
 
-        <form action="#" id="form-calculosAreas">
+        <form id="form-calculosAreas">
             <select id="operacionAreas">
                 <option value="default" selected disabled>Seleccione una opción</option>
                 <option value="Cuadrado">Cuadrado</option>
@@ -82,14 +82,14 @@
             </div>
         </form>
     
-        <form action="#" id="form-baskara">
+        <form id="form-baskara">
             <input type="number" id="baskara-a" placeholder="Ingrese valor A">
             <input type="number" id="baskara-b" placeholder="Ingrese valor B">
             <input type="number" id="baskara-c" placeholder="Ingrese valor C">
             <button class="btn btn-success" type="submit" id="btn-baskara">Calcular baskara</button>
         </form>
     
-        <form action="#" id="form-5oro"><h3>Ingrese los números a jugar en las casillas de abajo</h3><br>
+        <form id="form-5oro"><h3>Ingrese los números a jugar en las casillas de abajo</h3><br>
             <input onKeyPress="if(this.value.length==2) return false;" style="width: 48px;" type="number" id="oroNum1" class="form-control d-inline text-center">
             <input onKeyPress="if(this.value.length==2) return false;" style="width: 48px;" type="number" id="oroNum2" class="form-control d-inline text-center">
             <input onKeyPress="if(this.value.length==2) return false;" style="width: 48px;" type="number" id="oroNum3" class="form-control d-inline text-center">
@@ -113,14 +113,14 @@
                 <option value="10">Decimal</option>
                 <option value="16">Hexadecimal</option>
             </select>
-            <input type="text" name="cvalor" placeholder="Ingrese un numero" required>
+            <input type="text" name="cvalor" placeholder="Ingrese un numero">
             <select name="cbase2">
                 <option value="2">Binario</option>
                 <option value="8">Octal</option>
                 <option value="10">Decimal</option>
                 <option value="16">Hexadecimal</option>
             </select>
-            <button class="btn btn-success" type="button" id="btn-conversion">Enviar</button>
+            <button class="btn btn-success" type="submit" id="btn-conversion">Enviar</button>
         </form>
     
         <br>
