@@ -1,4 +1,5 @@
 <?php
+        error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
         $cedula=$_POST['cedula'];
         $nombre=$_POST['nombre'];
         $email=$_POST['email'];
@@ -17,6 +18,11 @@
         $sistemas=$_POST['nota10'];
         $suma=$ada+$basedatos+$web+$proyecto+$filosofia+$formacion+$ingles+$matematicas+$programacion+$sistemas;
         $promedio=$suma/10;
+
+        if ($nombre=='' || $cedula=='' || $email== '' || $localidad=='' || $direccion=='' || $telefono =='' || $ada == '' || $basedatos=='' || $web=='' || $proyecto=='' || $filosofia=='' || $formacion=='' || $ingles=='' || $matematicas=='' || $programacion=='' || $sistemas=='')  {
+                echo "<script>alert('Todos los campos son requeridos')</script>";
+                return false;
+                }
 
         echo "<h3>Ficha del alumno</h3>";
         echo "Nombre: $nombre <br>" ;
