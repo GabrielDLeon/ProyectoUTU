@@ -58,26 +58,29 @@ $(document).ready(function(){
             if ($(this).val()==='Potencia'){
                 hideComplejos($);
                 $('#grp-potencia').show(); 
-                $('#btn-potencia').click(function(){
+                $('#btn-potencia').click(function(e){
                     let valBase = $('#grp-potencia #pow-base').val();
                     let valExponente = $('#grp-potencia #pow-exponente').val();
                     resultado.text(potencia(valBase,valExponente));
+                    e.preventDefault();
                 })
             }
             if ($(this).val()==='rCuadrada'){
                 hideComplejos($);
                 $('#grp-rCuadrada').show();
-                $('#btn-rCuadrada').click(function(){
+                $('#btn-rCuadrada').click(function(e){
                     let valrCuadrada = $('#grp-rCuadrada #rCuadrada').val();
                     resultado.text(rCuadrada(valrCuadrada));
+                    e.preventDefault();
                 })
             }
             if ($(this).val()==='Factorial'){
                 hideComplejos($);
                 $('#grp-factorial').show();
-                $('#btn-factorial').click(function(){
+                $('#btn-factorial').click(function(e){
                     let valFactorial = $('#grp-factorial #factorial').val();
                     resultado.text(factorial(valFactorial));
+                    e.preventDefault();
                 })
             }
         })
@@ -90,35 +93,39 @@ $(document).ready(function(){
             if ($(this).val()==='Cuadrado'){
                 hideAreas($);
                 $('#grp-cuadrado').show(); 
-                $('#btn-aCuadrado').click(function(){
+                $('#btn-aCuadrado').click(function(e){
                     let ladoCuadrado = $('#grp-cuadrado #aCuadrado').val();
                     resultado.text(aCuadrado(ladoCuadrado));
+                    e.preventDefault();
                 })
             }
             if ($(this).val()==='Rectangulo'){
                 hideAreas($);
                 $('#grp-rectangulo').show(); 
-                $('#btn-aRectangulo').click(function(){
+                $('#btn-aRectangulo').click(function(e){
                     let largoRectangulo = $('#grp-rectangulo #largoRectangulo').val();
                     let anchoRectangulo = $('#grp-rectangulo #anchoRectangulo').val();
                     resultado.text(aRectangulo(largoRectangulo, anchoRectangulo))
+                    e.preventDefault();
                 })
             }
             if ($(this).val()==='Triangulo'){
                 hideAreas($);
                 $('#grp-triangulo').show(); 
-                $('#btn-aTriangulo').click(function(){
+                $('#btn-aTriangulo').click(function(e){
                     let baseTriangulo = $('#grp-triangulo #baseTriangulo').val();
                     let alturaTriangulo = $('#grp-triangulo #alturaTriangulo').val();
                     resultado.text(aTriangulo(baseTriangulo, alturaTriangulo));
+                    e.preventDefault();
                 })
             }
             if ($(this).val()==='Circulo'){
                 hideAreas($);
                 $('#grp-circulo').show(); 
-                $('#btn-aCirculo').click(function(){
+                $('#btn-aCirculo').click(function(e){
                     let radioCirculo = $('#grp-circulo #radioCirculo').val();
                     resultado.text(aCircunferencia(radioCirculo));
+                    e.preventDefault();
                 })
             }
         })
@@ -127,18 +134,18 @@ $(document).ready(function(){
     $('#baskara').click(function(){
         hideAll($);
         $('#form-baskara').show();
-        $('#btn-baskara').click(function(){
+        $('#btn-baskara').click(function(e){
             let valA = $('#baskara-a').val();
             let valB = $('#baskara-b').val();
             let valC = $('#baskara-c').val();
             resultado.text(baskara(valA, valB, valC));
+            e.preventDefault();
         })
     })
 
     $('#conversion').click(function(){
         hideAll($);
-        $('#form-conversion').show();
-            
+        $('#form-conversion').show();  
     })
 
     $('#5oro').click(function(){
@@ -146,21 +153,26 @@ $(document).ready(function(){
         $('#form-5oro').show();
         let oroJugados = 0, probabilidad = 0;
 
-        $('#btn-5oro-jugar-1').click(function(){
+        $('#btn-5oro-jugar-1').click(function(e){
             oroJugados = jugarOro(1, oroJugados, probabilidad);
+            e.preventDefault();
         })
-        $('#btn-5oro-jugar-10').click(function(){
+        $('#btn-5oro-jugar-10').click(function(e){
             oroJugados = jugarOro(10, oroJugados, probabilidad);
+            e.preventDefault();
         })
-        $('#btn-5oro-jugar-100').click(function(){
+        $('#btn-5oro-jugar-100').click(function(e){
             oroJugados = jugarOro(100, oroJugados, probabilidad);
+            e.preventDefault();
         })
-        $('#btn-5oro-jugar-ganar').click(function(){
+        $('#btn-5oro-jugar-ganar').click(function(e){
             oroJugados = jugarOro(171230400, oroJugados, probabilidad);
+            e.preventDefault();
         })
-        $('#btn-5oro-reset').click(function(){
+        $('#btn-5oro-reset').click(function(e){
             probabilidad = 0, oroJugados = 0;
             resultado.text("Veces jugado: "+0+" / Probabilidad de ganar: "+0+"%");
+            e.preventDefault();
         })
     })
 
