@@ -16,8 +16,8 @@
         $matematicas=$_POST['nota8'];
         $programacion=$_POST['nota9'];
         $sistemas=$_POST['nota10'];
-        $suma=$ada+$basedatos+$web+$proyecto+$filosofia+$formacion+$ingles+$matematicas+$programacion+$sistemas;
-        $promedio=$suma/10;
+        $suma=(int)$ada+(int)$basedatos+(int)$web+(int)$proyecto+(int)$filosofia+(int)$formacion+(int)$ingles+(int)$matematicas+(int)$programacion+(int)$sistemas;
+        $promedio=(int)$suma/10;
 
         if ($nombre=='' || $cedula=='' || $email== '' || $localidad=='' || $direccion=='' || $telefono =='' || $ada == '' || $basedatos=='' || $web=='' || $proyecto=='' || $filosofia=='' || $formacion=='' || $ingles=='' || $matematicas=='' || $programacion=='' || $sistemas=='')  {
                 echo "<script>alert('Todos los campos son requeridos')</script>";
