@@ -36,7 +36,7 @@
                 </div>
                 <div class="col-sm-4">
                     <label for="nombre" class="form-label">Cédula de identidad</label>
-                    <input id="cedula" name="cedula" type="number" class="form-control" required min="1000000" max="9999999">
+                    <input id="cedula" name="cedula" type="number" onKeyPress="if(this.value.length==7) return false;" class="form-control" required min="1000000" max="9999999">
                 </div>
                 <div class="col-md-4">
                     <label for="telefono" class="form-label">Mail</label>
@@ -52,7 +52,7 @@
                 </div>
                 <div class="col-md-4">
                     <label for="telefono" class="form-label">Teléfono</label>
-                    <input id="telefono" name="telefono" type="number" class="form-control" required>
+                    <input id="telefono" name="telefono" type="number" onKeyPress="if(this.value.length==9) return false;" class="form-control" required>
                 </div>
             </div>
             <hr class="my-4">
