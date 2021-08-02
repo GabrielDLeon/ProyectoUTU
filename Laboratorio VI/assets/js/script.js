@@ -12,12 +12,14 @@ $(document).ready(function(){
         hideComplejos($);
         hideAreas($);
     }
+
     function hideComplejos(){
         $('#grp-potencia').hide();
         $('#grp-rCuadrada').hide();
         $('#grp-factorial').hide();
         $('#resultado').text("");
     }
+    
     function hideAreas(){
         $('#grp-cuadrado').hide();
         $('#grp-rectangulo').hide();
@@ -145,7 +147,7 @@ $(document).ready(function(){
 
     $('#conversion').click(function(){
         hideAll($);
-        $('#form-conversion').show();  
+        $('#form-conversion').show();
     })
 
     $('#5oro').click(function(){
@@ -184,8 +186,6 @@ $(document).ready(function(){
         return jugadas;
     }
 })
-
-//5 de oro
 
 //Operaciones simples
 sumar = (num1, num2) => (num1+num2);

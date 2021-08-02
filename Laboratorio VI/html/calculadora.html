@@ -10,17 +10,18 @@
 </head>
 <body class="bg-light">
     <div class="botones">
-        <button class="btn btn-secondary" type="button" id="calculosBasicos">Calculos básicos</button>
-        <button class="btn btn-secondary" type="button" id="calculosComplejos">Calculos complejos</button>
-        <button class="btn btn-secondary" type="button" id="baskara">Calcular baskara</button>
-        <button class="btn btn-secondary" type="button" id="calculosAreas">Calcular áreas</button>
-        <button class="btn btn-secondary" type="button" id="5oro">Calcular 5 de oro</button>
-        <button class="btn btn-secondary" type="button" id="conversion">Convertir bases</button>
+        <button class="btn btn-primary" type="button" id="calculosBasicos">Calculos básicos</button>
+        <button class="btn btn-primary" type="button" id="calculosComplejos">Calculos complejos</button>
+        <button class="btn btn-primary" type="button" id="baskara">Calcular baskara</button>
+        <button class="btn btn-primary" type="button" id="calculosAreas">Calcular áreas</button>
+        <button class="btn btn-primary" type="button" id="5oro">Calcular 5 de oro</button>
+        <button class="btn btn-primary" type="button" id="conversion">Convertir bases</button>
     </div>
-    <hr>
     
     <div class="contenedor">
-        <form id="form-calculosBasicos">
+
+        <form id="form-calculosBasicos" action="#">
+            
             <input type="number" id="num1" placeholder="Ingrese número 1">
             <select id="operacionBasicos">
                 <option value="sumar">Sumar</option>
@@ -125,7 +126,7 @@
     
         <br>
         <h4>Aquí se mostrará el resultado del cálculo solicitado:</h3> <br>
-        <p id="resultado"></p>
+        <p class="user-select-all" id="resultado"></p>
     </div>
 
     <script src="../assets/js/bootstrap.js"></script>
