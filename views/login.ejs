@@ -1,0 +1,50 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="css/style.css">
+    
+    <title>Login</title>
+</head>
+<body>
+      <div class="login-container">
+          <div class="login-info-container">
+            <h1 class="title">Inicio de Sesión</h1>
+            <div class="social-login">
+                <div class="social-login-element">
+                    <img src="img/google.svg" alt="google-image">
+                    <a href="google.html" class="span">Google</a>
+                </div>
+
+            </div>
+            <p>¿No tienes una cuenta? <a href="/register" class="span">Registrate Aquí</a></p>
+            <form class="inputs-container" action="/login" method="POST">
+                <input class="input" type="text" id="user" name="user" placeholder="Usuario">
+                <input class="input" type="password" id="pass" name="pass" placeholder="Contraseña">
+                <p>¿Olvidaste la contraseña? <a href="password.html" class="span">Click Aquí</a></p>
+                <button class="btn" type="submit">Iniciar Sesión</button>
+               
+            </form>
+          </div>
+            <img class="image-container" src="img/login.svg" alt="">
+      </div>
+      <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+      <% if(alert) { %>
+        <script>
+            Swal.fire ({
+                title: '<%= alertTitle %>',
+                text: '<%= alertMessage %>',
+                icon: '<%= alertIcon %>',
+                showConfirmButton: <%= showConfirmButton %>,
+                timer: <%= timer %>
+            }) .then(() =>{
+                window.location = '/<%= ruta %>'
+            })
+        </script>
+        <% } %>
+
+      
+</body>
+</html>
