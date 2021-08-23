@@ -21,6 +21,81 @@ exports.register = async (req, res) => {
    }
 }
 
+exports.registerEmpresa = async (req, res) => {
+
+   try {
+   const name = req.body.name
+   const pass = req.body.pass
+   const rut = req.body.rut 
+   const mail = req.body.mail
+   const razon = req.body.razon
+   let passHash = await bcryptjs.hash(pass, 8)
+   conexion.query('INSERT INTO empresas SET ?' , {name:name, pass:passHash, rut:rut, mail:mail, razon:razon} , (error, results)=> {
+      if (error) {console.log(error)}
+      res.redirect('/')
+   })
+   
+   } catch (error) {
+      console.log(error)
+   }
+}
+
+
+exports.loginEmpresa = async (req, res) => {
+   try {
+      const mail = req.body.mail
+      const pass = req.body.pass
+
+      if(!mail || !pass) {
+         res.render('loginEmpresa', {
+            alert:true,
+            alertTitle: "Advertencia" ,
+            alertMessage: "Ingrese mail y/o contraseña" ,
+            alertIcon: 'info' ,
+            showConfirmButton: true,
+            timer: false,
+            ruta: 'loginEmpresa'
+         })
+      } else {
+         conexion.query('SELECT * from empresas WHERE mail = ?', [user], async (error, results)=>{
+            if(results.length == 0 || ! (await bcryptjs.compare(pass, results[0].pass))){
+               res.render('loginEmpresa', {
+                  alert:true,
+                  alertTitle: "Error" ,
+                  alertMessage: "Ingrese un mail y/o contraseña válidos" ,
+                  alertIcon: 'error' ,
+                  showConfirmButton: true,
+                  timer: false,
+                  ruta: 'loginEmpresa'
+               })
+            } else {
+               const id = results[0].id
+               const token = jwt.sign({id:id}, process.env.JWT_SECRETO, {
+
+               })
+
+               const cookiesOptions = {
+                  httpOnly: true
+               }
+               res.cookie('jwt' , token , cookiesOptions)
+               res.render('loginEmpresa' ,{
+                  alert:true,
+                  alertTitle: "Conexion exitosa" ,
+                  alertMessage: "¡Login correcto!" ,
+                  alertIcon: 'success' ,
+                  showConfirmButton: false,
+                  timer: 1000,
+                  ruta: ''
+               } )
+            }
+
+         })
+      }
+
+   } catch (error) {
+      console.log(error)
+   }
+}
 exports.login = async (req, res) => {
    try {
       const user = req.body.user
@@ -98,4 +173,4 @@ exports.isAuthenticated = async (req, res, next) => {
 exports.logout = (req, res) => {
    res.clearCookie('jwt')
    return res.redirect('/')
-}
+} 

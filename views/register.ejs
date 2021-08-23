@@ -6,31 +6,26 @@
     
     <link rel="stylesheet" href="css/style.css">
     
-    <title>Login</title>
+    <title>Register</title>
 </head>
 <body>
       <div class="login-container">
           <div class="login-info-container">
-            <h1 class="title">Inicio de Sesión</h1>
+            <h1 class="title">Registro de Cuenta</h1>
             <div class="social-login">
-                <div class="social-login-element">
-                    <img src="img/google.svg" alt="google-image">
-                    <a href="google.html" class="span">Google</a>
-                </div>
 
             </div>
             <p>¿Ya tienes una cuenta? <a href="/login" class="span">Ingresa Aquí</a></p>
+            <p>¿Eres una empresa? <a href="/registerEmpresa" class="span">Registrar empresa</a></p>
             <form class="inputs-container" action="/register" method="POST">
                 <input class="input" type="text" name="name" id="name" placeholder="Nombre completo">
-                <input class="input" type="text" name= "user" id="user" placeholder="Usuario">
-                <input class="input" type="password" name="pass" id="pass" placeholder="Contraseña">
-                <p>¿Olvidaste la contraseña? <a href="password.html" class="span">Click Aquí</a></p>
-                <button type="submit" class="btn">Registrarse</button>
+                <input class="input" type="text" id="user" name="user" placeholder="Usuario">
+                <input class="input" type="password" id="pass" name="pass" placeholder="Contraseña">
+                <button class="btn" type="submit">Registrarse</button>
                
             </form>
           </div>
             <img class="image-container" src="img/login.svg" alt="">
       </div>
-
 </body>
 </html>

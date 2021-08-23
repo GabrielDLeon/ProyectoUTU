@@ -3,7 +3,6 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
     <link rel="stylesheet" href="css/style.css">
     
     <title>Login</title>
@@ -14,9 +13,9 @@
             <h1 class="title">Inicio de Sesión</h1>
             <div class="social-login">
             </div>
-            <p>¿No tienes cuenta? <a href="/register" class="span">Registrate Aquí</a></p>
-            <form class="inputs-container" action="/login" method="POST">
-                <input class="input" type="text" name= "user" id="user" placeholder="Usuario">
+            <p>¿No tienes cuenta de empresa? <a href="/registerEmpresa" class="span">Registrate Aquí</a></p>
+            <form class="inputs-container" action="/loginEmpresa" method="POST">
+                <input class="input" type="email" name= "mail" id="mail" placeholder="Email">
                 <input class="input" type="password" name="pass" id="pass" placeholder="Contraseña">
                 <button type="submit" class="btn">Iniciar Sesión</button>
                
@@ -38,6 +37,5 @@
             })
         </script>
         <% } %>
-
 </body>
 </html>

@@ -16,10 +16,18 @@ router.get('/register', (req, res) => {
     res.render('register')
 })
 
+router.get('/registerEmpresa', (req, res) => {
+    res.render('registerEmpresa')
+})
 
+router.get('/loginEmpresa', (req, res) => {
+    res.render('loginEmpresa')
+})
 
 //router para metodos controller
 router.post('/register', authController.register)
+router.post('/registerEmpresa', authController.registerEmpresa)
+router.post('/loginEmpresa', authController.loginEmpresa)
 router.post('/login', authController.login)
 router.get('/logout', authController.logout)
 

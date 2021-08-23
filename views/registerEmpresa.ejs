@@ -1,0 +1,33 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    
+    <link rel="stylesheet" href="css/style.css">
+    
+    <title>RegisterEMP</title>
+</head>
+<body>
+      <div class="login-container">
+          <div class="login-info-container">
+            <h1 class="title">Registro de Empresa</h1>
+            <div class="social-login">
+            </div>
+            <p>¿Eres un Usuario? <a href="/register" class="span">Ingresa Aquí</a></p>
+            <form class="inputs-container" action="/registerEmpresa" method="POST">
+                <input class="input" type="text" name="name" id="name" placeholder="Nombre de la tienda">
+                <input class="input" type="number" name="rut" id="rut" placeholder="RUT">
+                <input class="input" type="email" name= "mail" id="mail" placeholder="E-mail">
+                <input class="input" type="password" name="pass" id="pass" placeholder="Clave">
+                <input class="input" type="text" name="razon" id="razon" placeholder="Razón social">
+                <button type="submit" class="btn">Registrarse</button>
+               
+            </form>
+          </div>
+            <img class="image-container" src="img/login.svg" alt="">
+      </div>
+
+</body>
+</html>
