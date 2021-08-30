@@ -5,21 +5,25 @@ const {promisify} = require('util')
 const { reset } = require('nodemon')
 
 exports.register = async (req, res) => {
-
    try {
    const name = req.body.name
-   const user = req.body.user
-   const pass = req.body.pass
+   const mailUsuario = req.body.mailUsuario
+   const pass = await req.body.pass
    let passHash = await bcryptjs.hash(pass, 8)
-   conexion.query('INSERT INTO users SET ?' , {user:user , name:name, pass:passHash} , (error, results)=> {
-      if (error) {console.log(error)}
-      res.redirect('/')
-   })
+   
+   conexion.query('INSERT INTO cuenta SET ? ' , {mail:mailUsuario, pass:passHash , tipo:'usuario'} , (error, results)=> {
+         if (error) {console.log(error) }
+      })
+      conexion.query('INSERT INTO users SET ?' , {mailUsuario:mailUsuario, name:name} , (error, results)=> {
+         if (error) {console.log(error)}
+         res.redirect('/')
+      })
    
    } catch (error) {
       console.log(error)
    }
 }
+
 
 exports.registerEmpresa = async (req, res) => {
 
@@ -27,119 +31,67 @@ exports.registerEmpresa = async (req, res) => {
    const name = req.body.name
    const pass = req.body.pass
    const rut = req.body.rut 
-   const mail = req.body.mail
+   const mailEmpresa = req.body.mailEmpresa
    const razon = req.body.razon
    let passHash = await bcryptjs.hash(pass, 8)
-   conexion.query('INSERT INTO empresas SET ?' , {name:name, pass:passHash, rut:rut, mail:mail, razon:razon} , (error, results)=> {
+   
+   conexion.query('INSERT INTO cuenta SET ?' , {mail:mailEmpresa, pass:passHash , tipo:'empresa'} , (error, results)=> {
+      if (error) {console.log(error)}
+   })
+   conexion.query('INSERT INTO empresas SET ?' , {name:name, rut:rut, mailEmpresa:mailEmpresa, razon:razon} , (error, results)=> {
       if (error) {console.log(error)}
       res.redirect('/')
    })
    
-   } catch (error) {
+      } catch (error) {
       console.log(error)
    }
 }
 
-
-exports.loginEmpresa = async (req, res) => {
+exports.login = async (req, res) => {
    try {
       const mail = req.body.mail
       const pass = req.body.pass
-
-      if(!mail || !pass) {
-         res.render('loginEmpresa', {
+      
+      if(!pass || !mail) {
+         res.render('login', {
             alert:true,
             alertTitle: "Advertencia" ,
             alertMessage: "Ingrese mail y/o contraseña" ,
             alertIcon: 'info' ,
             showConfirmButton: true,
             timer: false,
-            ruta: 'loginEmpresa'
+            ruta: 'login'
          })
       } else {
-         conexion.query('SELECT * from empresas WHERE mail = ?', [user], async (error, results)=>{
+         conexion.query('SELECT * from cuenta WHERE mail = ?', [mail] , async (error, results)=>{
             if(results.length == 0 || ! (await bcryptjs.compare(pass, results[0].pass))){
-               res.render('loginEmpresa', {
+               res.render('login', {
                   alert:true,
                   alertTitle: "Error" ,
                   alertMessage: "Ingrese un mail y/o contraseña válidos" ,
                   alertIcon: 'error' ,
                   showConfirmButton: true,
                   timer: false,
-                  ruta: 'loginEmpresa'
-               })
-            } else {
-               const id = results[0].id
-               const token = jwt.sign({id:id}, process.env.JWT_SECRETO, {
-
-               })
-
-               const cookiesOptions = {
-                  httpOnly: true
-               }
-               res.cookie('jwt' , token , cookiesOptions)
-               res.render('loginEmpresa' ,{
-                  alert:true,
-                  alertTitle: "Conexion exitosa" ,
-                  alertMessage: "¡Login correcto!" ,
-                  alertIcon: 'success' ,
-                  showConfirmButton: false,
-                  timer: 1000,
-                  ruta: ''
-               } )
-            }
-
-         })
-      }
-
-   } catch (error) {
-      console.log(error)
-   }
-}
-exports.login = async (req, res) => {
-   try {
-      const user = req.body.user
-      const pass = req.body.pass
-
-      if(!user || !pass) {
-         res.render('login', {
-            alert:true,
-            alertTitle: "Advertencia" ,
-            alertMessage: "Ingrese usuario y/o contraseña" ,
-            alertIcon: 'info' ,
-            showConfirmButton: true,
-            timer: false,
-            ruta: 'login'
-         })
-      } else {
-         conexion.query('SELECT * from users WHERE user = ?', [user], async (error, results)=>{
-            if(results.length == 0 || ! (await bcryptjs.compare(pass, results[0].pass))){
-               res.render('login', {
-                  alert:true,
-                  alertTitle: "Error" ,
-                  alertMessage: "Ingrese un usuario y/o contraseña válidos" ,
-                  alertIcon: 'error' ,
-                  showConfirmButton: true,
-                  timer: false,
                   ruta: 'login'
                })
             } else {
+               //inicio de sesión correcto
                const id = results[0].id
                const token = jwt.sign({id:id}, process.env.JWT_SECRETO, {
-
+                   expiresIn: process.env.JWT_TIEMPO_EXPIRA
                })
-
                const cookiesOptions = {
                   httpOnly: true
                }
                res.cookie('jwt' , token , cookiesOptions)
                res.render('login' ,{
                   alert:true,
-                  alertTitle: "Conexion exitosa" ,
-                  alertMessage: "¡Login correcto!" ,
-                  alertIcon: 'success' ,
+                  alertTitle: "" ,
+                  alertMessage: "" ,
+                  alertIcon: '' ,
                   showConfirmButton: false,
-                  timer: 1000,
+                  timer: 01,
                   ruta: ''
                } )
             }
@@ -156,8 +108,8 @@ exports.isAuthenticated = async (req, res, next) => {
    if (req.cookies.jwt) {
       try {
          const decodificada = await promisify(jwt.verify)(req.cookies.jwt, process.env,JWT_SECRETO) 
-         conexion.query('SELECT * FROM users WHERE ID = ? ' , [decodificada.id], (error, results)=> {
-            req.user = results[0]
+         conexion.query('SELECT * FROM cuenta WHERE mail = ? ' , [decodificada.id], (error, results)=> {
+            req.mail = results[0]
             return next()
          })
       } catch (error) {
