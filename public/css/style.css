@@ -14,6 +14,12 @@ body {
     background-color: #1aad5c;
 }
 
+.navbar-nav.navbar-center {
+    position: absolute;
+    left: 50%;
+    transform: translatex(-50%);
+}
+
 .login-container {
     height: 43.75em;
     width: 60em;

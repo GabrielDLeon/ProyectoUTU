@@ -3,6 +3,19 @@ const bcryptjs = require('bcryptjs')
 const conexion = require('../database/db')
 const {promisify} = require('util')
 const { reset } = require('nodemon')
+const { validationResult, check } = require('express-validator')
+
+exports.resultsValidator = (req) => {
+   const messages = []
+   if (!validationResult(req).isEmpty()) {
+     const errors = validationResult(req).array()
+     for (const i of errors) {
+       messages.push(i)
+     }
+   }
+   return messages
+ }
+ 
 
 exports.register = async (req, res) => {
    try {
@@ -107,7 +120,7 @@ exports.login = async (req, res) => {
 exports.isAuthenticated = async (req, res, next) => {
    if (req.cookies.jwt) {
       try {
-         const decodificada = await promisify(jwt.verify)(req.cookies.jwt, process.env,JWT_SECRETO) 
+         const decodificada = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRETO) 
          conexion.query('SELECT * FROM cuenta WHERE mail = ? ' , [decodificada.id], (error, results)=> {
             req.mail = results[0]
             return next()

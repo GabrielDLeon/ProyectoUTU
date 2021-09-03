@@ -10,32 +10,58 @@
 
 </head>
 <body style="background-color: #343a40;">
-  
+  <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #343a40;">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">Página principal</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        </ul>
+      </div>
+    </div>
+  </nav>
   <div class="position-absolute top-50 start-50 translate-middle">
   <div class="d-inline-flex p-2 bd-highlight">
-    <div class="card" style="width: 18rem;">
+    <div class="card mb-5" style="max-width: 700px;">
+      <div class="row g-0">
+        <div class="col-md-4" style="background-color: #dee2e6;"> <br> <br> <br> 
+          <img src="img/clothe2.svg" class="img-fluid rounded-start" alt="">
+        </div>
+        <div class="col-md-8">
     <div class="card-body">
+      <% if(typeof alert !='undefined'){ %>
+        <% alert.forEach((error)=>{ %>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          <strong><%= error.msg %></strong>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true"></span>
+          </button>
+        </div>
+        <% } ) %>
+    <% } %>
     <form method="post" action="/registerEmpresa">
         <h5>Completa los datos de tu Empresa</h5>
         <div class="mb-3"> 
           <label for="exampleInputName" class="form-label">Nombre de la empresa</label> 
-          <input type="text" class="form-control" id="name" name="name" value="<% if(typeof valores != 'undefined') { %><%= valores.name%><%}%> ">
+          <input type="text" class="form-control" id="name" name="name"> <!-- value="<% if(typeof valores != 'undefined') { %><%= valores.name%><%}%> "-->
         </div>
         <div class="mb-3">
           <label for="exampleInputEmail1" class="form-label">Email</label>
-          <input type="email" class="form-control" id="mailEmpresa" aria-describedby="emailHelp" name="mailEmpresa" value="<% if(typeof valores != 'undefined') { %><%= valores.mailEmpresa%><%}%> ">
+          <input type="email" class="form-control" id="mailEmpresa" aria-describedby="emailHelp" name="mailEmpresa">
         </div>
         <div class="mb-3">
           <label for="exampleInputPassword1" class="form-label">Clave</label>
-          <input type="password" class="form-control" id="pass" name="pass"value="<% if(typeof valores != 'undefined') { %><%= valores.pass%><%}%> ">
+          <input type="password" class="form-control" id="pass" name="pass">
         </div>
             <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Razón social</label>
-                <input type="text" class="form-control" id="razon" name="razon" value="<% if(typeof valores != 'undefined') { %><%= valores.razon%><%}%> ">
+                <input type="text" class="form-control" id="razon" name="razon">
               </div> 
               <div class="mb-3"> 
                 <label for="exampleInputRUT1" class="form-label">RUT</label> 
-                <input type="text" class="form-control" id="rut" name="rut" value="<% if(typeof valores != 'undefined') { %><%= valores.rut%><%}%> ">
+                <input type="text" class="form-control" id="rut" name="rut">
               </div>
         <div class="mb-3">
           <p>¿Ya eres Usuario? <a href="/login" class="link-info">Ingresa aquí</a></p>
