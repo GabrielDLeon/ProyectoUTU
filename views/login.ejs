@@ -1,49 +1,34 @@
 <%-include("template/header", {title:'Inicio de sesión'}) %>
 
   <body style="background-color: #343a40;">
-    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #343a40;">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="/">Página principal</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          </ul>
-        </div>
-      </div>
-    </nav>
+
+    <%- include("template/nav") %>
+    
     <div class="position-absolute top-50 start-50 translate-middle">
-      <div class="d-inline-flex p-2 bd-highlight">
-        <div class="card mb-5" style="max-width: 700px;">
-          <div class="row g-0">
-            <div class="col-md-4" style="background-color: #dee2e6;"> <br> <br> <br>
-              <img src="img/clothe2.svg" class="img-fluid rounded-start" alt="">
-            </div>
-            <div class="col-md-8">
-              <div class="card-body">
-                <form method="post" action="/login">
-                  <h5>Ingresa tus datos</h5>
-                  <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="mail" aria-describedby="emailHelp" name="mail">
-                  </div>
-                  <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label">Contraseña</label>
-                    <input type="password" class="form-control" id="pass" name="pass">
-                  </div>
-                  <div class="mb-3">
-                    ¿No tienes cuenta? <a href="/register" class="link-info">Registrate aquí</a> <br> <br>
-                  </div>
-                  <div class="d-grid gap-2">
-                    <button type="submit" class="text-uppercase btn btn-dark">Iniciar sesión</button>
-                  </div>
-                </form>
-              </div>
-            </div>
+    <div class="d-inline-flex p-2 bd-highlight">
+      <div class="card mb-5" style="max-width: 700px;">
+        <div class="row g-0">
+          <div class="col-md-4" style="background-color: #dee2e6;"> <br> <br> <br>
+            <img src="/img/loginregister.svg" class="img-fluid rounded-start" alt="">
           </div>
-        </div>
+          <div class="col-md-8">
+      <div class="card-body">
+        <form method="post" action="/login">
+          <p>¿Eres una Empresa? <a href="/registerEmpresa" class="link-info">Registrala aquí</a></p>
+          <h5>Ingresa tus datos</h5>
+           <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">E-mail</label>
+            <input type="email" class="form-control" id="mail" name="mail" aria-describedby="emailHelp">
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Contraseña</label>
+            <input type="password" class="form-control" id="pass" name="pass">
+          </div>       
+          <p>¿No tienes una cuenta? <a href="/register" class="link-info">Registrate aquí</a></p>
+            <div class="d-grid gap-2">
+              <button type="submit" class="text-uppercase btn btn-dark">Iniciar sesión</button>
+            </div>
+        </form>
       </div>
     </div>
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -60,4 +45,4 @@
       })
     </script>
   <% } %>
-<%-include("template/footer") %>
+<%- include("template/footer") %>

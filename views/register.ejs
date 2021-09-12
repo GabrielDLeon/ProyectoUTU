@@ -1,58 +1,63 @@
 <%-include("template/header", {title:'Registro de usuario'}) %>
-<body style="background-color: #343a40;">
-  <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #343a40;">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="/">Página principal</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        </ul>
-      </div>
-    </div>
-  </nav>
-  <div class="position-absolute top-50 start-50 translate-middle">
+
+  <body style="background-color: #343a40;">
+
+  <%- include("template/nav") %>
+    
+<div class="position-absolute top-50 start-50 translate-middle"><br> <br> <br> <br> <br>
   <div class="d-inline-flex p-2 bd-highlight">
     <div class="card mb-5" style="max-width: 700px;">
       <div class="row g-0">
-        <div class="col-md-4" style="background-color: #dee2e6;"> <br> <br> <br> 
-          <img src="img/clothe2.svg" class="img-fluid rounded-start" alt="">
+        <div class="col-md-4" style="background-color: #dee2e6;"> <br> <br> <br> <br> <br> <br> <br>
+          <img src="/img/loginregister.svg" class="img-fluid rounded-start" alt="">
         </div>
         <div class="col-md-8">
-    <div class="card-body">
-      <% if(typeof alert !='undefined'){ %>
-        <% alert.forEach((error)=>{ %>
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-          <strong><%= error.msg %></strong>
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true"></span>
-          </button>
-        </div>
-        <% } ) %>
-    <% } %>
-    <form action="/register" method="POST">
-        <p>¿Eres una Empresa? <a href="registerEmpresa" class="link-info">Registrala aquí</a></p>
-        <h5>Completa los campos</h5>
-        <div class="mb-3">
-          <label for="exampleInputUser1" class="form-label1">Nombre</label>
-          <input type="User" class="form-control" id="name" name="name">
-        </div>
-        <div class="mb-3">
-          <label for="exampleInputEmail1" class="form-label">Email</label>
-          <input type="text" class="form-control" id="mailUsuario" aria-describedby="emailHelp" name="mailUsuario">
-        </div>
-        <div class="mb-3">
-          <label for="exampleInputPassword1" class="form-label">Contraseña</label>
-          <input type="password" class="form-control" id="pass" name="pass">
-          <div class="col-auto">
+          <div class="card-body">
+            <% if(typeof alert !='undefined'){ %>
+              <% alert.forEach((error)=>{ %>
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                  <strong><%= error.msg %></strong>
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true"></span>
+                  </button>
+                </div>
+              <% } ) %>
+            <% } %>
+            <form method="post" action="/register">
+              <p>¿Eres una Empresa? <a href="/registerEmpresa" class="link-info">Registrala aquí</a></p>
+              <h5>Completa los campos</h5>
+              <div class="mb-3">
+                <label for="name" class="form-label1">Nombre completo</label>
+                <input type="text" class="form-control" id="name" name="name">
+              </div>
+              <div class="mb-3">
+                <label for="mailUsuario" class="form-label">E-mail</label>
+                <input type="email" class="form-control" id="mailUsuario" name="mailUsuario" aria-describedby="emailHelp" placeholder="Ejemplo@gmail.com">
+                <div id="emailHelp" class="form-text">Tu información no será compartida con nadie.</div>
+              </div>
+              <div class="mb-3">
+                <label for="pass" class="form-label">Contraseña</label>
+                <input type="password" class="form-control" id="pass" name="pass">
+              </div>
+              <div class="mb-3">
+                <label for="pass2" class="form-label">Repita su contraseña</label>
+                <input type="password" class="form-control" id="pass2" name="pass2">
+                <div class="col-auto">
+                  <span id="passwordHelpInline" class="form-text">
+                    La contraseña debe tener entre 8 y 20 carcteres.
+                  </span>
+              </div>
+              <div class="mb-3">
+                <p>¿Ya estás registrado? <a href="/login" class="link-info">Ingresa aquí</a></p>
+                <div class="d-grid gap-2">
+                  <button type="submit" class="text-uppercase btn btn-dark">Registrarse</button>
+                </div>
+              </div>
+            </form>
           </div>
-        </div>
-        <div class="mb-3">
-          <p>¿Ya estás registrado? <a href="/login" class="link-info">Ingresa aquí</a></p>
-          <div class="d-grid gap-2">
-            <button type="submit" class="text-uppercase btn btn-dark">Registrarse</button>
-          </div>
-      </form>
-      <br>
-<%-include("template/footer") %>
+        </div>      
+      </div>
+    </div>
+  </div>
+
+<%- include("template/footer") %>
