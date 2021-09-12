@@ -2,15 +2,13 @@ const express = require('express');
 const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
 const app = express();
-const {body, validationResult} = require('express-validator')
-
-
-
+const {check, validationResult} = require('express-validator')
 
 app.set('view engine' , 'ejs'); //motor de plantillas
+app.set('views', __dirname + '/views');
 
-app.use(express.static('public')) //carpeta para archivos estaticos
-app.use(express.urlencoded({ extended: true })) // procesamiento de datos enviados desde formularios
+app.use(express.static(__dirname+"/public")); //carpeta para archivos estaticos
+app.use(express.urlencoded({ extended: true })); // procesamiento de datos enviados desde formularios
 app.use(express.json()); //procesamiento de datos enviados desde formularios
 
 
