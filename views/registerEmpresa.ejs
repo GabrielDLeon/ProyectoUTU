@@ -15,21 +15,25 @@
     <form method="post" action="/registerEmpresa">
         <h5>Completa los datos de tu Empresa</h5>
         <div class="mb-3">
-          <label for="exampleInputEmail1" class="form-label">E-mail</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+          <label for="name" class="form-label">Nombre</label>
+          <input type="text" class="form-control" id="name" name="name">
+        </div>
+        <div class="mb-3">
+          <label for="mailEmpresa" class="form-label">E-mail</label>
+          <input type="email" class="form-control" id="mailEmpresa" name="mailEmpresa" aria-describedby="emailHelp">
           <div id="emailHelp" class="form-text">Tu información no será compartida con nadie.</div>
         </div>
         <div class="mb-3">
-          <label for="exampleInputPassword1" class="form-label">Clave</label>
-          <input type="password" class="form-control" id="exampleInputPassword1">
+          <label for="pass" class="form-label">Clave</label>
+          <input type="password" class="form-control" id="pass" name="pass">
         </div>
             <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Razón social</label>
-                <input type="password" class="form-control" id="exampleInputPassword1">
+                <label for="razon" class="form-label">Razón social</label>
+                <input type="text" class="form-control" id="razon" name="razon">
               </div> 
               <div class="mb-3"> 
-                <label for="exampleInputRUT1" class="form-label">RUT</label> 
-                <input type="text" class="form-control" id="exampleInputRUT1">
+                <label for="rut" class="form-label">RUT</label> 
+                <input type="number" class="form-control" id="rut" name="rut">
               </div>
         <div class="mb-3">
           <p>¿Ya tienes una cuenta? <a href="/login" class="link-info">Ingresa aquí</a></p>
