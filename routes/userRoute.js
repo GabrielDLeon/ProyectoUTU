@@ -6,11 +6,11 @@ const bodyParser = require('body-parser')
 const {check, validationResult} = require('express-validator')
 const urlEncodedParser = bodyParser.urlencoded({ extended: false });
 
-router.get('/profile', async (req, res) => {
+router.get('/', async (req, res) => {
     res.render('profile')
 })
 
-router.get('/profile/edit', async (req, res) => {
+router.get('/edit', async (req, res) => {
     res.render('edit', {name:req.name})
 })
 module.exports = router

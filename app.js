@@ -17,6 +17,7 @@ app.use(cookieParser())
 dotenv.config({path: './env/.env'}) //variables de entorno
 
 app.use('/', require('./routes/router')) //llama al router
+app.use('/profile', require('./routes/userRoute.js')) //llama al router
 
 //borra el cache luego de LOGOUT
 app.use(function(req, res, next) {
