@@ -1,63 +1,53 @@
-<%-include("template/header", {title:'Registro de usuario'}) %>
-
-  <body style="background-color: #343a40;">
-
+<%-include("template/header", {title:'Página Principal'}) %>
+<body style="background-color: #343a40;">
   <%- include("template/nav") %>
-    
-<div class="position-absolute top-50 start-50 translate-middle"><br> <br> <br> <br> <br>
-  <div class="d-inline-flex p-2 bd-highlight">
-    <div class="card mb-5" style="max-width: 700px;">
-      <div class="row g-0">
-        <div class="col-md-4" style="background-color: #dee2e6;"> <br> <br> <br> <br> <br> <br> <br>
-          <img src="/img/loginregister.svg" class="img-fluid rounded-start" alt="">
-        </div>
-        <div class="col-md-8">
-          <div class="card-body">
-            <% if(typeof alert !='undefined'){ %>
-              <% alert.forEach((error)=>{ %>
-                <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                  <strong><%= error.msg %></strong>
-                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true"></span>
-                  </button>
-                </div>
-              <% } ) %>
-            <% } %>
-            <form method="post" action="/register">
-              <p>¿Eres una Empresa? <a href="/registerEmpresa" class="link-info">Registrala aquí</a></p>
-              <h5>Completa los campos</h5>
-              <div class="mb-3">
-                <label for="name" class="form-label1">Nombre completo</label>
-                <input type="text" class="form-control" id="name" name="name">
-              </div>
-              <div class="mb-3">
-                <label for="mailUsuario" class="form-label">E-mail</label>
-                <input type="email" class="form-control" id="mailUsuario" name="mailUsuario" aria-describedby="emailHelp" placeholder="Ejemplo@gmail.com">
-                <div id="emailHelp" class="form-text">Tu información no será compartida con nadie.</div>
-              </div>
-              <div class="mb-3">
-                <label for="pass" class="form-label">Contraseña</label>
-                <input type="password" class="form-control" id="pass" name="pass">
-              </div>
-              <div class="mb-3">
-                <label for="pass2" class="form-label">Repita su contraseña</label>
-                <input type="password" class="form-control" id="pass2" name="pass2">
-                <div class="col-auto">
-                  <span id="passwordHelpInline" class="form-text">
-                    La contraseña debe tener entre 8 y 20 carcteres.
-                  </span>
-              </div>
-              <div class="mb-3">
-                <p>¿Ya estás registrado? <a href="/login" class="link-info">Ingresa aquí</a></p>
-                <div class="d-grid gap-2">
-                  <button type="submit" class="text-uppercase btn btn-dark">Registrarse</button>
-                </div>
-              </div>
-            </form>
+    <div class="position-absolute top-50 start-50 translate-middle">
+    <div class="d-inline-flex p-2 bd-highlight">
+      <div class="card mb-5" style="max-width: 700px;">
+        <div class="row g-0">
+          <div class="col-md-4" style="background-color: #dee2e6;"> <br> <br> <br> 
+            <img src="img/clothe2.svg" class="img-fluid rounded-start" alt="">
           </div>
-        </div>      
-      </div>
-    </div>
-  </div>
+          <div class="col-md-8">
+      <div class="card-body">
+        <% if(typeof alert !='undefined'){ %>
+          <% alert.forEach((error)=>{ %>
+          <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong><%= error.msg %></strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true"></span>
+            </button>
+          </div>
+          <% } ) %>
+      <% } %>
+      <form action="/register" method="POST">
+          <p>¿Eres una Empresa? <a href="registerEmpresa" class="link-info">Registrala aquí</a></p>
+          <h5>Completa los campos</h5>
+          <div class="mb-3">
+            <label for="exampleInputUser1" class="form-label1">Nombre</label>
+            <input type="User" class="form-control" id="name" name="name" value="<%= locals.name ? name:'' %>">
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Email</label>
+            <input type="email" class="form-control" id="mailUsuario" aria-describedby="emailHelp" name="mailUsuario" value="<%= locals.mailUsuario ? mailUsuario:'' %>">
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Contraseña</label>
+            <input type="password" class="form-control" id="pass" name="pass" value="<%= locals.pass ? pass:'' %>">
+            <div class="col-auto">
+            </div>
+          <div class="mb-3">
+              <label for="exampleInputUser1" class="form-label1">Repita la contraseña</label>
+              <input type="password" class="form-control" id="pass2" name="pass2" value="<%= locals.pass2 ? pass2:'' %>">
+          </div>  
+          <div class="mb-3">
+            <p>¿Ya estás registrado? <a href="/login" class="link-info">Ingresa aquí</a></p>
+            <div class="d-grid gap-2">
+              <button type="submit" class="text-uppercase btn btn-dark">Registrarse</button>
+            </div>
+        </form>
+        <br>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script> 
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+        <%- include("template/footer") %>
 
-<%- include("template/footer") %>

@@ -15,7 +15,7 @@ exports.resultsValidator = (req) => {
    }
    return messages
  }
- 
+
 
 exports.register = async (req, res) => {
    try {
@@ -24,6 +24,8 @@ exports.register = async (req, res) => {
    const pass = await req.body.pass
    let passHash = await bcryptjs.hash(pass, 8)
    
+   
+
    conexion.query('INSERT INTO cuenta SET ? ' , {mail:mailUsuario, pass:passHash , tipo:'usuario'} , (error, results)=> {
          if (error) {console.log(error) }
       })
@@ -36,6 +38,7 @@ exports.register = async (req, res) => {
       console.log(error)
    }
 }
+
 
 
 exports.registerEmpresa = async (req, res) => {
@@ -90,10 +93,11 @@ exports.login = async (req, res) => {
                })
             } else {
                //inicio de sesión correcto
-               const id = results[0].id
-               const token = jwt.sign({id:id}, process.env.JWT_SECRETO, {
+               const id = results[0].mail
+               const token = jwt.sign({mail:id}, process.env.JWT_SECRETO, {
                    expiresIn: process.env.JWT_TIEMPO_EXPIRA
                })
+               console.log("TOKEN: "+token +"para user: " + mail)
                const cookiesOptions = {
                   httpOnly: true
                }
@@ -121,7 +125,7 @@ exports.isAuthenticated = async (req, res, next) => {
    if (req.cookies.jwt) {
       try {
          const decodificada = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRETO) 
-         conexion.query('SELECT * FROM cuenta WHERE mail = ? ' , [decodificada.id], (error, results)=> {
+         conexion.query('SELECT * FROM cuenta WHERE mail = ? ' , [decodificada.mail], (error, results)=> {
             req.mail = results[0]
             return next()
          })

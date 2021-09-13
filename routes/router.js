@@ -4,12 +4,13 @@ const conexion = require('../database/db');
 const authController = require ('../controller/authController')
 const bodyParser = require('body-parser')
 const {check, validationResult} = require('express-validator')
-
-//router para vistas
 const urlEncodedParser = bodyParser.urlencoded({ extended: false });
 
-router.get('/', (req, res) => {
-    res.render('index' , {name:req.name})
+//router para vistas
+//authController.isAuthenticated
+
+router.get('/', authController.isAuthenticated ,(req, res) => {
+    res.render('index' , {mail:req.mail})
 })
 
 router.get('/login', (req, res) => {
@@ -25,66 +26,104 @@ router.get('/registerEmpresa', (req, res) => {
 })
 
 //authController.register
-//router para metodos controller
- router.post('/register' , urlEncodedParser, [
-     check ('name', 'Ingrese un nombre')
-         .exists()
-         .isLength({min:2}),
-     check ('mailUsuario', 'Ingrese un E-mail válido')
-         .exists()
-         .isEmail()
-         .normalizeEmail(),
-     check ('pass', 'Ingrese una contraseña')
-         .exists()
-         .isLength({min:1})
- ] , (req, res) =>  {
-     const errors = validationResult(req)
-     if (!errors.isEmpty()) {
-         const alert = errors.array()
-         res.render('register', {
-             alert
-         })
-     } 
- })
- //authController.register
-//  router.post('/registerEmpresa' , urlEncodedParser, [
-//      check ('name', 'Ingrese un nombre')
-//          .exists()
-//          .isLength({min:1}), 
-//      check ('mailEmpresa', 'Ingrese un E-mail válido')
-//          .exists()
-//          .isEmail(),
-//      check ('pass', 'Ingrese una contraseña de minimo 5 caracteres')
-//          .exists()
-//          .isLength({min:1}), 
-//      check ('rut', 'Ingrese un RUT')
-//          .exists()
-//          .isNumeric(),
-//      check ('razon', 'Ingrese una razon social (SRL, SA, etc)')
-//          .exists()
-//          .isLength({min:1})
-//  ], (req, res) =>  {
-//      const errors = validationResult(req);
-//      console.log("ValidationResult: "+validationResult(req));
-//      console.log("Errors: "+errors);
-//      if (!errors.isEmpty()) {
-//          console.log("Están vacios los campos")
-//          const alert = errors.array()
-//          res.render('registerEmpresa', {
-//              alert
-//          })
-//      } else {
-//          let consulta = authController.registerEmpresa;
-//          console.log(consulta);
-//          // router.post('/registerEmpresa', authController.registerEmpresa)
-//          console.log("Estan llenitos de amor")
-//          res.render('')
-//      }
-//  })
+router.post('/register' , urlEncodedParser,  [
+    check ('name', 'Ingrese un nombre')
+        .exists()
+        .isLength({min:2}),
+    check ('mailUsuario', 'Ingrese un E-mail válido')
+        .exists()
+        .isEmail()
+        .normalizeEmail(),
+    check ('pass', 'Ingrese una contraseña')
+        .exists()
+        .isLength({min:1}),
+    check ('pass2').custom((value, {req}) => {
+            if (value !== req.body.pass) {
+                throw new Error ('Las contraseñas no coinciden');
+            }
+            return true;
+        }),
+] , async (req, res) =>  {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        const alert = errors.array()
+        res.render('register', {
+            mailUsuario: req.body.mailUsuario,
+            pass: req.body.pass,
+            pass2: req.body.pass2,
+            name: req.body.name,
+            alert
+        })
+    } 
+})  
 
 
-router.post('/registerEmpresa', authController.registerEmpresa)
-
+router.post('/edit' , urlEncodedParser,  [
+    check ('name', 'Ingrese un nombre')
+        .exists()
+        .isLength({min:2}),
+    check ('mailUsuario', 'Ingrese un E-mail válido')
+        .exists()
+        .isEmail()
+        .normalizeEmail(),
+    check ('pass', 'Ingrese una contraseña')
+        .exists()
+        .isLength({min:1}),
+    check("pass2").custom((value, {req}) => {
+        if (value !== req.body.pass) {
+            throw new Error ('Las contraseñas no coinciden');
+        }
+        return true;
+    }),
+], async (req, res) =>  {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        const alert = errors.array()
+        res.render('edit', {
+            alert
+        })
+    } 
+}) 
+//authController.register
+router.post('/registerEmpresa', urlEncodedParser, [
+    check ('name', 'Ingrese un nombre')
+        .exists()
+        .isLength({min:5}), 
+    check ('mailEmpresa', 'Ingrese un E-mail válido')
+        .exists()
+        .isEmail(),
+    check ('pass', 'Ingrese una contraseña de minimo 5 caracteres')
+        .exists()
+        .isLength({min:1}), 
+    check ('rut', 'Ingrese un RUT')
+        .exists()
+        .isNumeric(),
+    check ('razon', 'Ingrese una razon social (SRL, SA, etc)')
+        .exists()
+        .isLength({min:1}),
+    check("pass2").custom((value, {req}) => {
+            if (value !== req.body.pass) {
+                throw new Error ('Las contraseñas ingresadas no coinciden');
+            }
+            return true;
+        }),
+] , (req, res) =>  {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        const alert = errors.array()
+        res.render('registerEmpresa', {
+            mailEmpresa: req.body.mailEmpresa,
+            rut: req.body.rut,
+            razon: req.body.razon,
+            pass: req.body.pass,
+            pass2: req.body.pass2,
+            name: req.body.name,
+            alert
+        })
+    } 
+})  
+//router.post('/registerEmpresa', authController.registerEmpresa)
+//router.post('/register', authController.register)
 router.post('/login', authController.login)
 router.get('/logout', authController.logout)
 

@@ -1,22 +1,23 @@
 <%-include("template/header", {title:'Página Principal'}) %>
-
-  <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #343a40;">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="/">Página principal</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/login">Ingresar</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/register">Registrate</a>
-          </li>
-      </div>
-    </div>
-  </nav>
-
-<%- include("template/footer") %>
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #000000;">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="/"><img src="/img/Klouts_light.png" width="120" height="34"></a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <% if (mail) {  %> 
+                <a class="nav-link active position-absolute top-50 end-0 translate-middle-y" aria-current="page" href="/user/profile"> <%= mail.mail %>  </a>
+                <% } %> 
+              </li>
+              <li class="nav-item">
+                <% if (mail) {  %> 
+                <a type="button" href="logout" class="nav-link active position-absolute top-0 end-50" aria-current="page">Logout</a>
+                <% } %> 
+              </li>
+          </div>
+        </div>
+      </nav>
+      <%- include("template/footer") %>

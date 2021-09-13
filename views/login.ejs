@@ -1,48 +1,46 @@
-<%-include("template/header", {title:'Inicio de sesión'}) %>
-
-  <body style="background-color: #343a40;">
-
-    <%- include("template/nav") %>
-    
-    <div class="position-absolute top-50 start-50 translate-middle">
-    <div class="d-inline-flex p-2 bd-highlight">
-      <div class="card mb-5" style="max-width: 700px;">
-        <div class="row g-0">
-          <div class="col-md-4" style="background-color: #dee2e6;"> <br> <br> <br>
-            <img src="/img/loginregister.svg" class="img-fluid rounded-start" alt="">
-          </div>
-          <div class="col-md-8">
-      <div class="card-body">
-        <form method="post" action="/login">
-          <p>¿Eres una Empresa? <a href="/registerEmpresa" class="link-info">Registrala aquí</a></p>
-          <h5>Ingresa tus datos</h5>
-           <div class="mb-3">
-            <label for="mail" class="form-label">E-mail</label>
-            <input type="email" class="form-control" id="mail" name="mail" aria-describedby="emailHelp">
-          </div>
-          <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Contraseña</label>
-            <input type="password" class="form-control" id="pass" name="pass">
-          </div>       
-          <p>¿No tienes una cuenta? <a href="/register" class="link-info">Registrate aquí</a></p>
-            <div class="d-grid gap-2">
-              <button type="submit" class="text-uppercase btn btn-dark">Iniciar sesión</button>
-            </div>
-        </form>
+<%-include("template/header", {title:'Página Principal'}) %>
+<body style="background-color: #343a40;">
+  <%- include("template/nav") %>
+  <div class="position-absolute top-50 start-50 translate-middle">
+  <div class="d-inline-flex p-2 bd-highlight">
+    <div class="card mb-5" style="max-width: 700px;">
+      <div class="row g-0">
+        <div class="col-md-4" style="background-color: #dee2e6;"> <br> <br> <br> 
+          <img src="img/clothe2.svg" class="img-fluid rounded-start" alt="">
+        </div>
+        <div class="col-md-8">
+    <div class="card-body">
+    <form method="post" action="/login">
+      <h5>Ingresa tus datos</h5>
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Email</label>
+          <input type="email" class="form-control" id="mail" aria-describedby="emailHelp" name="mail">
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label">Contraseña</label>
+          <input type="password" class="form-control" id="pass" name="pass">
+        </div>
+        <div class="mb-3">
+         ¿No tienes cuenta? <a href="/register" class="link-info">Registrate aquí</a> <br> <br>
+      </div>
+      <div class="d-grid gap-2">
+        <button type="submit" class="text-uppercase btn btn-dark">Iniciar sesión</button>
+      </div>
       </div>
     </div>
-  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <% if(alert) { %>
-    <script>
-      Swal.fire({
-        title: '<%= alertTitle %>',
-        text: '<%= alertMessage %>',
-        icon: '<%= alertIcon %>',
-        showConfirmButton: <%= showConfirmButton %>,
-        timer: <%= timer %>
-      }).then(() => {
-        window.location = '/<%= ruta %>'
-      })
-    </script>
-  <% } %>
-<%- include("template/footer") %>
+      </form>
+      <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+      <% if(alert) { %>
+        <script>
+            Swal.fire ({
+                title: '<%= alertTitle %>',
+                text: '<%= alertMessage %>',
+                icon: '<%= alertIcon %>',
+                showConfirmButton: <%= showConfirmButton %>,
+                timer: <%= timer %>
+            }) .then(() =>{
+                window.location = '/<%= ruta %>'
+            })
+        </script>
+        <% } %>
+        <%- include("template/footer") %>
