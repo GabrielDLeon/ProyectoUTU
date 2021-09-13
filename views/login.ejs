@@ -1,46 +1,45 @@
 <%-include("template/header", {title:'Página Principal'}) %>
-<body style="background-color: #343a40;">
-  <%- include("template/nav") %>
-  <div class="position-absolute top-50 start-50 translate-middle">
-  <div class="d-inline-flex p-2 bd-highlight">
-    <div class="card mb-5" style="max-width: 700px;">
-      <div class="row g-0">
-        <div class="col-md-4" style="background-color: #dee2e6;"> <br> <br> <br> 
-          <img src="img/shopping-online.svg" class="img-fluid rounded-start" alt="">
+<body class="bg-light m-0 text-dark overflow-hidden">
+    <div class="row vh-100 justify-content-center align-items-center">
+        <div class="col-md-6 bg-dark vh-100 d-none d-lg-block p-0">
+            <div class="bgImg imgA bg-image"></div>
         </div>
-        <div class="col-md-8">
-    <div class="card-body">
-    <form method="post" action="/login">
-      <h5>Ingresa tus datos</h5>
-        <div class="mb-3">
-          <label for="exampleInputEmail1" class="form-label">Email</label>
-          <input type="email" class="form-control" id="mail" aria-describedby="emailHelp" name="mail">
+        <div class="col">
+            <a href="/"><img src="/img/brand/K_dark.png" alt="Logotipo Klouts" style="width: 64px;" class="position-relative start-50 translate-middle"></a>
+            <form class="form" action="">
+                <div class="row justify-content-center">
+                    <div class="col-6">
+                        <div class="mb-3 text-center">
+                            <h1>INICIO DE SESIÓN</h1>
+                            <p class="d-none d-md-block lead text-muted">Encontrar la vestimenta que buscabas nunca fue tan fácil y rápido como ahora</p>
+                        </div>
+                        <div class="mb-3">
+                            <label for="mail" class="form-label">Email</label>
+                            <input type="email" class="form-control rounded-0" id="mail" name="mail" aria-describedby="emailHelp">
+                        </div>
+                        <div class="mb-4">
+                            <label for="pass" class="form-label">Contraseña</label>
+                            <input type="password" class="form-control rounded-0" id="pass" name="pass">
+                        </div>
+                        <div class="d-grid gap-2 mb-4">
+                            <button type="submit" class="text-uppercase rounded-0 btn btn-dark">Iniciar sesión</button>
+                        </div>
+                        <div class="mb-3">
+                            <div class="row justify-content-center">
+                                <div class="col-auto">
+                                    ¿No tienes cuenta? <a href="/register" class="link-info">Registrate aquí</a>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="form-check check-dark">
+                                        <input class="form-check-input" type="checkbox" value="" id="form2Example3" checked/>
+                                        <label class="form-check-label" for="form2Example3">Recordar ingreso</label>
+                                    </div>        
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
-        <div class="mb-3">
-          <label for="exampleInputPassword1" class="form-label">Contraseña</label>
-          <input type="password" class="form-control" id="pass" name="pass">
-        </div>
-        <div class="mb-3">
-         ¿No tienes cuenta? <a href="/register" class="link-info">Registrate aquí</a> <br> <br>
-      </div>
-      <div class="d-grid gap-2">
-        <button type="submit" class="text-uppercase btn btn-dark">Iniciar sesión</button>
-      </div>
-      </div>
     </div>
-      </form>
-      <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-      <% if(alert) { %>
-        <script>
-            Swal.fire ({
-                title: '<%= alertTitle %>',
-                text: '<%= alertMessage %>',
-                icon: '<%= alertIcon %>',
-                showConfirmButton: <%= showConfirmButton %>,
-                timer: <%= timer %>
-            }) .then(() =>{
-                window.location = '/<%= ruta %>'
-            })
-        </script>
-        <% } %>
-        <%- include("template/footer") %>
+<%- include("template/footer") %>

@@ -21,8 +21,8 @@ router.get('/register', (req, res) => {
     res.render('register')
 })
 
-router.get('/registerEmpresa', (req, res) => {
-    res.render('registerEmpresa')
+router.get('/registerCompany', (req, res) => {
+    res.render('registerCompany')
 })
 
 //authController.register
@@ -85,7 +85,7 @@ router.post('/edit' , urlEncodedParser,  [
     } 
 }) 
 //authController.register
-router.post('/registerEmpresa', urlEncodedParser, [
+router.post('/registerCompany', urlEncodedParser, [
     check ('name', 'Ingrese un nombre')
         .exists()
         .isLength({min:5}), 
@@ -111,7 +111,7 @@ router.post('/registerEmpresa', urlEncodedParser, [
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
         const alert = errors.array()
-        res.render('registerEmpresa', {
+        res.render('registerCompany', {
             mailEmpresa: req.body.mailEmpresa,
             rut: req.body.rut,
             razon: req.body.razon,
@@ -122,7 +122,7 @@ router.post('/registerEmpresa', urlEncodedParser, [
         })
     } 
 })  
-//router.post('/registerEmpresa', authController.registerEmpresa)
+//router.post('/registerCompany', authController.registerCompany)
 //router.post('/register', authController.register)
 router.post('/login', authController.login)
 router.get('/logout', authController.logout)

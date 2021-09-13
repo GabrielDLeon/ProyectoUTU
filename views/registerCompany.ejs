@@ -1,0 +1,62 @@
+<%-include("template/header", {title:'Registro de cuenta'}) %>
+<body class="bg-light m-0 text-dark overflow-hidden">
+    <div class="row vh-100 justify-content-center align-items-center">
+        <div class="col-md-6 bg-dark vh-100 d-none d-lg-block p-0">
+            <div class="bgImg imgC bg-image"></div>
+        </div>
+        <div class="col">
+            <a href="/"><img src="/img/brand/K_dark.png" alt="Logotipo Klouts" style="width: 64px;" class="position-relative start-50 translate-middle"></a>
+            <form class="form" action="">
+                <div class="row justify-content-center">
+                    <div class="col-6">
+                        <div class="mb-3 text-center">
+                            <h1 class="text-uppercase">Registro empresa</h1>
+                            <p class="d-none d-md-block lead text-muted">Encontrar la vestimenta que buscabas nunca fue tan fácil y rápido como ahora</p>
+                        </div>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Nombre de la empresa</label> 
+                            <input type="text" class="form-control" id="name" name="name" value="<%= locals.name ? name:'' %>"> 
+                        </div>
+                        <div class="mb-3">
+                            <label for="mailEmpresa" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="mailEmpresa" name="mailEmpresa" aria-describedby="emailHelp" value="<%= locals.mailEmpresa ? mailEmpresa:'' %>">
+                        </div>
+                        <div class="mb-3">
+                            <label for="pass" class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" id="pass" name="pass" value="<%=locals.pass ? pass:''%>">
+                        </div>
+                        <div class="mb-3">
+                            <label for="pass2" class="form-label">Repita su contraseña</label>
+                            <input type="password" class="form-control" id="pass2" name="pass2" value="<%=locals.pass2 ? pass2:''%>">
+                        </div>
+                        <div class="mb-4">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="razon" class="form-label">Razón social</label>
+                                    <input type="text" class="form-control" id="razon" name="razon" value="<%= locals.razon ? razon:''%>">
+                                </div>
+                                <div class="col-6">
+                                    <label for="rut" class="form-label">RUT</label> 
+                                    <input type="text" class="form-control" id="rut" name="rut" value="<%= locals.rut ? rut:''%>">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-grid gap-2 mb-4">
+                            <button type="submit" class="text-uppercase rounded-0 btn btn-dark">Registrar empresa</button>
+                        </div>
+                        <div class="mb-3">
+                            <div class="row justify-content-center">
+                                <div class="col-auto mb-1">
+                                    ¿Ya tienes cuenta? <a href="/login" class="link-info">Iniciar sesión</a>
+                                </div>
+                                <div class="col-auto">
+                                    <a href="/register" class="link-info">Registra tu cuenta personal</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+<%- include("template/footer") %>

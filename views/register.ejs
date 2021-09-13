@@ -1,53 +1,51 @@
-<%-include("template/header", {title:'Página Principal'}) %>
-<body style="background-color: #343a40;">
-  <%- include("template/nav") %>
-    <div class="position-absolute top-50 start-50 translate-middle">
-    <div class="d-inline-flex p-2 bd-highlight">
-      <div class="card mb-5" style="max-width: 700px;">
-        <div class="row g-0">
-          <div class="col-md-4" style="background-color: #dee2e6;"> <br> <br> <br> 
-            <img src="img/shopping-online.svg" class="img-fluid rounded-start" alt="">
-          </div>
-          <div class="col-md-8">
-      <div class="card-body">
-        <% if(typeof alert !='undefined'){ %>
-          <% alert.forEach((error)=>{ %>
-          <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            <strong><%= error.msg %></strong>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true"></span>
-            </button>
-          </div>
-          <% } ) %>
-      <% } %>
-      <form action="/register" method="POST">
-          <p>¿Eres una Empresa? <a href="registerEmpresa" class="link-info">Registrala aquí</a></p>
-          <h5>Completa los campos</h5>
-          <div class="mb-3">
-            <label for="exampleInputUser1" class="form-label1">Nombre</label>
-            <input type="User" class="form-control" id="name" name="name" value="<%= locals.name ? name:'' %>">
-          </div>
-          <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Email</label>
-            <input type="email" class="form-control" id="mailUsuario" aria-describedby="emailHelp" name="mailUsuario" value="<%= locals.mailUsuario ? mailUsuario:'' %>">
-          </div>
-          <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Contraseña</label>
-            <input type="password" class="form-control" id="pass" name="pass" value="<%= locals.pass ? pass:'' %>">
-            <div class="col-auto">
-            </div>
-          <div class="mb-3">
-              <label for="exampleInputUser1" class="form-label1">Repita la contraseña</label>
-              <input type="password" class="form-control" id="pass2" name="pass2" value="<%= locals.pass2 ? pass2:'' %>">
-          </div>  
-          <div class="mb-3">
-            <p>¿Ya estás registrado? <a href="/login" class="link-info">Ingresa aquí</a></p>
-            <div class="d-grid gap-2">
-              <button type="submit" class="text-uppercase btn btn-dark">Registrarse</button>
-            </div>
-        </form>
-        <br>
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script> 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
-        <%- include("template/footer") %>
-
+<%-include("template/header", {title:'Registro de cuenta'}) %>
+<body class="bg-light m-0 text-dark overflow-hidden">
+    <div class="row vh-100 justify-content-center align-items-center">
+        <div class="col-md-6 bg-dark vh-100 d-none d-lg-block p-0">
+            <div class="bgImg imgB bg-image"></div>
+        </div>
+        <div class="col">
+            <a href="/"><img src="/img/brand/K_dark.png" alt="Logotipo Klouts" style="width: 64px;" class="position-relative start-50 translate-middle"></a>
+            <form class="form" action="">
+                <div class="row justify-content-center">
+                    <div class="col-6">
+                        <div class="mb-3 text-center">
+                            <h1 class="text-uppercase">Registro de cuenta</h1>
+                            <p class="d-none d-md-block lead text-muted">Encontrar la vestimenta que buscabas nunca fue tan fácil y rápido como ahora</p>
+                        </div>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Nombre completo</label>
+                            <input type="text" class="form-control" id="name" name="name" value="<%= locals.name ? name:'' %>">
+                        </div>
+                        <!-- EMAIL DE TIPO EMAIL O DE TIPO TEXTO??? -->
+                        <div class="mb-3">
+                            <label for="mail" class="form-label">Email</label>
+                            <input type="email" class="form-control rounded-0" id="mail" name="mail" aria-describedby="emailHelp">
+                        </div>
+                        <div class="mb-3">
+                            <label for="pass" class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" id="pass" name="pass" value="<%= locals.pass ? pass:'' %>">
+                        </div>
+                        <div class="mb-4">
+                            <label for="exampleInputUser1" class="form-label1">Repita la contraseña</label>
+                            <input type="password" class="form-control" id="pass2" name="pass2" value="<%= locals.pass2 ? pass2:'' %>">
+                        </div>  
+                        <div class="d-grid gap-2 mb-4">
+                            <button type="submit" class="text-uppercase rounded-0 btn btn-dark">Crear cuenta</button>
+                        </div>
+                        <div class="mb-3">
+                            <div class="row justify-content-center">
+                                <div class="col-auto mb-1">
+                                    ¿Ya tienes cuenta? <a href="/login" class="link-info">Iniciar sesión</a>
+                                </div>
+                                <div class="col-auto">
+                                    ¿Eres una empresa? <a href="/registerCompany" class="link-info">Registra tu empresa</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+<%- include("template/footer") %>

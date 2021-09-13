@@ -41,7 +41,7 @@ exports.register = async (req, res) => {
 
 
 
-exports.registerEmpresa = async (req, res) => {
+exports.registerCompany = async (req, res) => {
 
    try {
    const name = req.body.name
