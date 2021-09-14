@@ -6,17 +6,9 @@
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <% if (mail) {  %> 
-                <a class="nav-link active position-absolute top-50 end-0 translate-middle-y" aria-current="page" href="/user/profile"> <%= mail.mail %>  </a>
-                <% } %> 
-              </li>
-              <li class="nav-item">
-                <% if (mail) {  %> 
-                <a type="button" href="logout" class="nav-link active position-absolute top-0 end-50" aria-current="page">Logout</a>
-                <% } %> 
-              </li>
+            <% if (user) { %> 
+            <%- include("template/nav2") %>
+            <% } %> 
           </div>
         </div>
       </nav>

@@ -6,7 +6,7 @@
         </div>
         <div class="col">
             <a href="/"><img src="/img/brand/K_dark.png" alt="Logotipo Klouts" style="width: 64px;" class="position-relative start-50 translate-middle"></a>
-            <form class="form" action="">
+            <form class="form" action="/login">
                 <div class="row justify-content-center">
                     <div class="col-6">
                         <div class="mb-3 text-center">
@@ -17,10 +17,11 @@
                             <label for="name" class="form-label">Nombre completo</label>
                             <input type="text" class="form-control" id="name" name="name" value="<%= locals.name ? name:'' %>">
                         </div>
-                        <!-- EMAIL DE TIPO EMAIL O DE TIPO TEXTO??? -->
+                        
+                        <!-- EMAIL DE TIPO EMAIL O DE TIPO TEXTO??? buena pregunta -->
                         <div class="mb-3">
                             <label for="mail" class="form-label">Email</label>
-                            <input type="email" class="form-control rounded-0" id="mail" name="mail" aria-describedby="emailHelp">
+                            <input type="email" class="form-control rounded-0" id="mail" name="mail" aria-describedby="emailHelp" value="<%= locals.mail ? mail:'' %>">
                         </div>
                         <div class="mb-3">
                             <label for="pass" class="form-label">Contraseña</label>

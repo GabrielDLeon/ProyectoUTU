@@ -70,29 +70,20 @@ exports.login = async (req, res) => {
       const pass = req.body.pass
       
       if(!pass || !mail) {
+         const error = true
          res.render('login', {
-            alert:true,
-            alertTitle: "Advertencia" ,
-            alertMessage: "Ingrese mail y/o contraseña" ,
-            alertIcon: 'info' ,
-            showConfirmButton: true,
-            timer: false,
-            ruta: 'login'
+            error
          })
       } else {
          conexion.query('SELECT * from cuenta WHERE mail = ?', [mail] , async (error, results)=>{
             if(results.length == 0 || ! (await bcryptjs.compare(pass, results[0].pass))){
+               const error = true
                res.render('login', {
-                  alert:true,
-                  alertTitle: "Error" ,
-                  alertMessage: "Ingrese un mail y/o contraseña válidos" ,
-                  alertIcon: 'error' ,
-                  showConfirmButton: true,
-                  timer: false,
-                  ruta: 'login'
+                 error
                })
             } else {
                //inicio de sesión correcto
+               const error = false
                const id = results[0].mail
                const token = jwt.sign({mail:id}, process.env.JWT_SECRETO, {
                    expiresIn: process.env.JWT_TIEMPO_EXPIRA
@@ -102,15 +93,7 @@ exports.login = async (req, res) => {
                   httpOnly: true
                }
                res.cookie('jwt' , token , cookiesOptions)
-               res.render('login' ,{
-                  alert:true,
-                  alertTitle: "" ,
-                  alertMessage: "" ,
-                  alertIcon: '' ,
-                  showConfirmButton: false,
-                  timer: 01,
-                  ruta: ''
-               } )
+               res.redirect('/')
             }
 
          })

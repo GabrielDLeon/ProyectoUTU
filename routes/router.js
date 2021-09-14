@@ -10,11 +10,11 @@ const urlEncodedParser = bodyParser.urlencoded({ extended: false });
 //authController.isAuthenticated
 
 router.get('/', authController.isAuthenticated ,(req, res) => {
-    res.render('index' , {mail:req.mail})
+    res.render('index' , {mail:req.mail , user:true})
 })
 
 router.get('/login', (req, res) => {
-    res.render('login', {alert: false})
+    res.render('login', {error: false, mail:req.mail})
 })
 
 router.get('/register', (req, res) => {
