@@ -1,31 +1,52 @@
-const express = require('express');
+const express = require("express");
+const path = require('path');
+const mysql = require("mysql");
 const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
+const exphbs = require('express-handlebars');
+
+dotenv.config({ path: './.env'});
+
 const app = express();
-const {check, validationResult} = require('express-validator')
 
-app.set('view engine' , 'ejs'); //motor de plantillas
-app.set('views', __dirname + '/views');
+const db = mysql.createConnection({
+  host: process.env.DATABASE_HOST,
+  user: process.env.DATABASE_USER,
+  password: process.env.DATABASE_PASSWORD,
+  database: process.env.DATABASE
+});
 
-app.use(express.static(__dirname+"/public")); //carpeta para archivos estaticos
-app.use(express.urlencoded({ extended: true })); // procesamiento de datos enviados desde formularios
-app.use(express.json()); //procesamiento de datos enviados desde formularios
+app.engine('.hbs', exphbs({
+  defaultLayout: 'main',
+  layoutsDir: path.join(app.get('views'), 'layouts'),
+  partialsDir: path.join(app.get('views'), 'partials'),
+  extname: '.hbs',
+  helpers: require('./lib/handlebars')
+}))
 
+const publicDirectory = path.join(__dirname, './public');
+app.use(express.static(publicDirectory));
 
-app.use(cookieParser())
+// Parse URL-encoded bodies (as sent by HTML forms)
+app.use(express.urlencoded({ extended: false }));
+// Parse JSON bodies (as sent by API clients)
+app.use(express.json());
+app.use(cookieParser());
 
-dotenv.config({path: './env/.env'}) //variables de entorno
+app.set('view engine', 'hbs');
 
-app.use('/', require('./routes/router')) //llama al router
-app.use('/profile', require('./routes/userRoute.js')) //llama al router
-
-//borra el cache luego de LOGOUT
-app.use(function(req, res, next) {
-    if (!req.user)
-    res.header('Cache-Control' , 'private, no-cache, no-store, must-revalidate');
-    next();
+db.connect( (error) => {
+  if(error) {
+    console.log(error)
+  } else {
+    console.log("MYSQL Connected...")
+  }
 })
 
-app.listen(3000, ()=>{
-    console.log('server ANDA')
+//Define Routes
+app.use('/', require('./routes/pages'));
+app.use('/auth', require('./routes/auth'));
+
+app.listen(3000, () => {
+  console.log("Server started on Port 3000");
 })

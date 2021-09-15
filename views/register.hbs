@@ -1,39 +1,48 @@
-<%-include("template/header", {title:'Registro de cuenta'}) %>
 <body class="bg-light m-0 text-dark overflow-hidden">
-    <div class="row vh-100 justify-content-center align-items-center">
-        <div class="col-md-6 bg-dark vh-100 d-none d-lg-block p-0">
-            <div class="bgImg imgB bg-image"></div>
-        </div>
-        <div class="col">
-            <a href="/"><img src="/img/brand/K_dark.png" alt="Logotipo Klouts" style="width: 64px;" class="position-relative start-50 translate-middle"></a>
-            <form class="form" action="/login">
-                <div class="row justify-content-center">
+  <div class="row vh-100 justify-content-center align-items-center">
+  <div class="col-md-6 bg-dark vh-100 d-none d-lg-block p-0">
+  <div class="bgImg imgB bg-image"></div>
+  </div>
+  <div class="col">
+  <a href="/"><img src="/img/brand/K_dark.png" alt="Logotipo Klouts" style="width: 64px;" class="position-relative start-50 translate-middle"></a>
+  <div class="container mt-4">
+    <form action="/auth/register" method="POST">
+          <div class="row justify-content-center">
                     <div class="col-6">
                         <div class="mb-3 text-center">
                             <h1 class="text-uppercase">Registro de cuenta</h1>
                             <p class="d-none d-md-block lead text-muted">Encontrar la vestimenta que buscabas nunca fue tan fácil y rápido como ahora</p>
                         </div>
+
                         <div class="mb-3">
                             <label for="name" class="form-label">Nombre completo</label>
-                            <input type="text" class="form-control" id="name" name="name" value="<%= locals.name ? name:'' %>">
+                            <input type="text" class="form-control" id="name" name="name" value="{{name}}">
                         </div>
-                        
-                        <!-- EMAIL DE TIPO EMAIL O DE TIPO TEXTO??? buena pregunta -->
+
                         <div class="mb-3">
                             <label for="mail" class="form-label">Email</label>
-                            <input type="email" class="form-control rounded-0" id="mail" name="mail" aria-describedby="emailHelp" value="<%= locals.mail ? mail:'' %>">
+                            <input type="email" class="form-control rounded-0" id="mail" name="mail" aria-describedby="emailHelp" value="{{mailUsuario}}">
                         </div>
+
                         <div class="mb-3">
                             <label for="pass" class="form-label">Contraseña</label>
-                            <input type="password" class="form-control" id="pass" name="pass" value="<%= locals.pass ? pass:'' %>">
+                            <input type="password" class="form-control" id="pass" name="pass" value="{{pass}}">
                         </div>
+
                         <div class="mb-4">
-                            <label for="exampleInputUser1" class="form-label1">Repita la contraseña</label>
-                            <input type="password" class="form-control" id="pass2" name="pass2" value="<%= locals.pass2 ? pass2:'' %>">
+                            <label for="pass2" class="form-label1">Repita la contraseña</label>
+                            <input type="password" class="form-control" id="pass2" name="pass2" value="{{pass2}}">
                         </div>  
+
                         <div class="d-grid gap-2 mb-4">
                             <button type="submit" class="text-uppercase rounded-0 btn btn-dark">Crear cuenta</button>
                         </div>
+                        {{#if error }}
+                        <p id="password-fail-msg" class="text-danger text-center" style="display: block;">Los datos ingresados no son correctos</p>
+                        {{/if}}
+                        {{#if message }}
+                        <h4 class="alert alert-danger mt-4">{{message}}</h4>
+                        {{/if}}
                         <div class="mb-3">
                             <div class="row justify-content-center">
                                 <div class="col-auto mb-1">
@@ -46,7 +55,6 @@
                         </div>
                     </div>
                 </div>
-            </form>
-        </div>
-    </div>
-<%- include("template/footer") %>
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+</body>
+</html>
