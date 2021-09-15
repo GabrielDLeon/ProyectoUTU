@@ -9,12 +9,16 @@ router.get('/', authController.isLoggedIn, (req, res) => {
   });
 });
 
-router.get('/register', (req, res) => {
-  res.render('register');
+router.get('/signup', (req, res) => {
+  res.render('./auth/signup');
+});
+
+router.get('/signupCompany', (req, res) => {
+  res.render('./auth/signupCompany');
 });
 
 router.get('/login', (req, res) => {
-  res.render('login');
+  res.render('./auth/login');
 });
 
 router.get('/editProfile', (req, res) => {

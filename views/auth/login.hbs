@@ -1,0 +1,47 @@
+<body class="bg-light m-0 text-dark overflow-hidden">
+    <div class="row vh-100 justify-content-center align-items-center">
+        <div class="col-md-6 bg-dark vh-100 d-none d-lg-block p-0">
+            <div class="bgImg imgA bg-image"></div>
+        </div>
+        <div class="col">
+            <a href="/"><img src="/img/brand/K_dark.png" alt="Logotipo Klouts" style="width: 64px;" class="position-relative start-50 translate-middle"></a>
+            <form action="/login" method="POST">
+                <div class="row justify-content-center">
+                    <div class="col-6">
+                        <div class="mb-3 text-center">
+                            <h1 class="text-uppercase">Inicio de sesión</h1>
+                            <p class="d-none d-md-block lead text-muted">Encontrar la vestimenta que buscabas nunca fue tan fácil y rápido como ahora</p>
+                        </div>
+                        <div class="mb-3 form-floating">
+                            <input type="mail" class="form-control rounded-0" id="mail" name="mail" placeholder="name@example.com" value="{{mail}}">
+                            <label for="mail">E-mail</label>
+                        </div>
+                        <div class="mb-3 form-floating">
+                            <input type="password" class="form-control rounded-0" id="pass" name="pass" placeholder="Password" value="{{pass}}">
+                            <label for="pass">Contraseña</label>
+                        </div>
+                        <div class="mb-4 d-grid gap-2">
+                            <button type="submit" class="text-uppercase rounded-0 btn btn-dark">Iniciar sesión</button>
+                        </div>
+                        <div class="mb-3">
+                            <div class="row justify-content-center">
+                                <div class="col-auto">
+                                    ¿No tienes cuenta? <a href="/signup" class="link-info">Registrate aquí</a>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="form-check check-dark">
+                                        <input class="form-check-input" type="checkbox" value="" id="form2Example3" checked/>
+                                        <label class="form-check-label" for="form2Example3">Recordar ingreso</label>
+                                    </div>        
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    {{#if message }}
+      <h4 class="alert alert-danger mt-4">{{message}}</h4>
+    {{/if}}
+</body>
