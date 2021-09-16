@@ -64,7 +64,7 @@ exports.register = (req, res) => {
       console.log(error);
     }
     if(!pass || !mailUsuario || !name || !passwordConfirm  ) {
-      return res.render('./auth/signup', {
+      return res.render('./auth/register', {
          mailUsuario: req.body.mailUsuario,
             pass: req.body.pass,
             pass2: req.body.passwordConfirm,
@@ -73,14 +73,14 @@ exports.register = (req, res) => {
       })
    }
     if( results.length > 0 ) {
-      return res.render('./auth/signup', {
+      return res.render('./auth/register', {
             pass: req.body.pass,
             pass2: req.body.passwordConfirm,
             name: req.body.name,
             message: 'Mail ya en uso'
       })
     } else if( pass !== passwordConfirm ) {
-      return res.render('./auth/signup', {
+      return res.render('./auth/register', {
         mailUsuario: req.body.mailUsuario,
             name: req.body.name,
             message: 'Las contraseñas no coinciden'
@@ -98,7 +98,7 @@ exports.register = (req, res) => {
         if (error) {console.log(error)
         } else {
           console.log(results);
-          return res.render('./auth/signup', {
+          return res.render('./auth/register', {
             registroCompleto: 'Usuario registrado, puede ingresar'
           });
         }
@@ -208,9 +208,9 @@ exports.isLoggedIn = async (req, res, next) => {
   if(req.cookies.jwt) {
     try {
       //1) verify the token
-      const decoded = await promisify(jwt.verify)(req.cookies.jwt,
-      process.env.JWT_SECRET
-      );
+      
+      const decoded = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRET);
+      
 
       console.log(decoded);
 
@@ -238,11 +238,16 @@ exports.isLoggedIn = async (req, res, next) => {
   
 }
 
-exports.logout = async (req, res) => {
+exports.logout = (req, res) => {
+  res.clearCookie('jwt')
+  return res.redirect('/')
+}
+/*exports.logout = async (req, res) => {
   res.cookie('jwt', 'logout', {
     expires: new Date(Date.now() + 2*1000),
     httpOnly: true
   });
 
   res.status(200).redirect('/');
-}
+}*/
+

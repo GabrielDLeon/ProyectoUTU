@@ -9,8 +9,8 @@ router.get('/', authController.isLoggedIn, (req, res) => {
   });
 });
 
-router.get('/signup', (req, res) => {
-  res.render('./auth/signup');
+router.get('/register', (req, res) => {
+  res.render('./auth/register');
 });
 
 router.get('/signupCompany', (req, res) => {
