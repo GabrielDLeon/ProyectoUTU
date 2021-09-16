@@ -1,0 +1,24 @@
+<div class="container">
+<form action="/user/profile/edit" method="POST">
+        <div class="mb-3">
+          <label for="exampleInputUser1" class="form-label1">Nombre</label>
+          <input type="User" class="form-control" id="name" name="name" value="<%= name %>">
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Email</label>
+          <input type="text" class="form-control" id="mailUsuario" aria-describedby="emailHelp" name="mailUsuario">
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label">Antigua contraseña</label>
+          <input type="password" class="form-control" id="pass" name="pass">
+          <label for="exampleInputPassword1" class="form-label">Nueva contraseña</label>
+          <input type="password" class="form-control" id="pass2" name="pass2">
+          <div class="col-auto">
+          </div>
+        </div>
+        <div class="mb-3">
+          <div class="d-grid gap-2">
+            <button type="submit" class="text-uppercase btn btn-dark">Editar datos</button>
+          </div>
+      </form>
+</div>

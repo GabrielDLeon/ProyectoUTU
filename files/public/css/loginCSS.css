@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+
+.navbar-nav.navbar-brand {
+    position: absolute;
+    left: 50%;
+    transform: translatex(-50%);
+}
+
+
+
+
+
+
+
+

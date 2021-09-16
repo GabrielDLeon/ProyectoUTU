@@ -9,22 +9,36 @@ router.get('/', authController.isLoggedIn, (req, res) => {
   });
 });
 
-router.get('/register', (req, res) => {
-  res.render('register');
+router.get('/signup', (req, res) => {
+  res.render('./auth/signup');
+});
+
+router.get('/signupCompany', (req, res) => {
+  res.render('./auth/signupCompany');
 });
 
 router.get('/login', (req, res) => {
-  res.render('login');
+  res.render('./auth/login');
 });
 
-router.get('/editProfile', (req, res) => {
-  res.render('editProfile');
-});
+
 
 router.get('/profile', authController.isLoggedIn, (req, res) => {
   console.log(req.user );
   if( req.user ) {
     res.render('profile', {
+      user: req.user
+    });
+  } else {
+    res.redirect('/login');
+  }
+  
+})
+
+router.get('/editProfile', authController.editProfile, (req, res) => {
+  console.log(req.user );
+  if( req.user ) {
+    res.render('editProfile', {
       user: req.user
     });
   } else {

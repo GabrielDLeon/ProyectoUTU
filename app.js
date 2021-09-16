@@ -39,13 +39,13 @@ db.connect( (error) => {
   if(error) {
     console.log(error)
   } else {
-    console.log("MYSQL Connected...")
+    console.log("MYSQL Connected")
   }
 })
 
 //Define Routes
 app.use('/', require('./routes/pages'));
-app.use('/auth', require('./routes/auth'));
+app.use('/', require('./routes/auth'));
 
 app.listen(3000, () => {
   console.log("Server started on Port 3000");
