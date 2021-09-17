@@ -16,7 +16,9 @@ exports.login = async (req, res) => {
 
     if( !mail || !pass ) {
       return res.status(400).render('./auth/login', {
-        message: 'Ingrese mail y contraseña'
+        pass: req.body.pass,
+        mail: req.body.mail,
+        message: 'Ingrese mail y/o contraseña'
       })
     }
 
@@ -58,6 +60,8 @@ exports.register = (req, res) => {
   console.log(req.body);
 
   const { name, mailUsuario, pass, passwordConfirm } = req.body;
+  const expReg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const esValido = expReg.test(mailUsuario);
   
   db.query('SELECT mailUsuario FROM users WHERE mailUsuario = ?', [mailUsuario], async (error, results) => {
     if(error) {
@@ -72,7 +76,15 @@ exports.register = (req, res) => {
             message: 'Complete todos los campos'
       })
    }
-    if( results.length > 0 ) {
+   if (esValido == false) {  
+      return res.render('./auth/register', {
+            pass: req.body.pass,
+            pass2: req.body.passwordConfirm,
+            name: req.body.name,
+            message: 'El correo ingresado es inválido, ingrese su correo original.'
+          })
+        }
+    if(results.length > 0 ) {
       return res.render('./auth/register', {
             pass: req.body.pass,
             pass2: req.body.passwordConfirm,
@@ -114,11 +126,14 @@ exports.signupCompany = (req, res) => {
   console.log(req.body);
 
   const { name, mailEmpresa, pass, passwordConfirm, razon, rut } = req.body;
-  
+  const expReg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const esValido = expReg.test(mailEmpresa);
+
   db.query('SELECT mailEmpresa FROM empresas WHERE mailEmpresa = ?', [mailEmpresa], async (error, results) => {
     if(error) {
       console.log(error);
     }
+  
     if(!pass || !mailEmpresa || !name || !rut || !razon ) {
       return res.render('./auth/signupCompany', {
          mailEmpresa: req.body.mailEmpresa,
@@ -130,6 +145,16 @@ exports.signupCompany = (req, res) => {
             message: 'Complete todos los campos'
       })
    }
+   if (esValido == false) {  
+    return res.render('./auth/signupCompany', {
+          pass: req.body.pass,
+          pass2: req.body.passwordConfirm,
+          name: req.body.name,
+          rut: req.body.rut,
+            razon: req.body.razon,
+          message: 'El correo ingresado es inválido, ingrese su correo original.'
+        })
+      }
     if( results.length > 0 ) {
       return res.render('./auth/signupCompany', {
             pass: req.body.pass,
@@ -167,33 +192,36 @@ exports.signupCompany = (req, res) => {
 
 
   });
-
+  
 }
 
 exports.editProfile= async (req, res, next) => {
-  // console.log(req.cookies);
-  if( req.cookies.jwt) {
+  const { pass , passwordConfirm , mailUsuario, name} = req.body;
+  const expReg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const esValido = expReg.test(mailUsuario)
+
+  if(req.cookies.jwt) {
     try {
       //1) verify the token
       const decoded = await promisify(jwt.verify)(req.cookies.jwt,
       process.env.JWT_SECRET
       );
-
+      
       console.log(decoded);
 
       //2) Check if the user still exists
       db.query('SELECT * FROM users WHERE mailUsuario = ?', [decoded.id], (error, result) => {
         console.log(result);
-
+  
         if(!result) {
           return next();
-        }
+        } 
         req.user = result[0];
         console.log("user is")
         console.log(req.user);
         return next();
       });
-      
+    
     } catch (error) {
       console.log(error);
       return next();
@@ -201,10 +229,67 @@ exports.editProfile= async (req, res, next) => {
   } else {
     next();
   }
+  db.query('SELECT mailUsuario FROM users WHERE mailUsuario = ?', [mailUsuario], async (error, results) => {
+    if(error) {
+      console.log(error);
+    }
+   /* if(!pass || !mailUsuario || !name || !passwordConfirm  ) {
+      res.render('editProfile', {
+            mail: req.body.mailUsuario,
+            pass: req.body.pass,
+            pass2: req.body.passwordConfirm,
+            name: req.body.name,
+            message: 'Complete todos los campos'
+      })
+   }
+}*/})
 }
-
+ /* if(!pass || !mailUsuario || !name || !passwordConfirm ) {
+          return res.render('editProfile', {
+             mail: req.body.mailUsuario,
+                pass: req.body.pass,
+                pass2: req.body.passwordConfirm,
+                name: req.body.name,
+                message: 'Complete todos los campos'
+          })
+       }
+       if (esValido == false) {  
+        return res.render('editProfile', {
+              pass: req.body.pass,
+              pass2: req.body.passwordConfirm,
+              name: req.body.name,
+              message: 'El correo ingresado es inválido, ingrese su correo original.'
+            })
+          }
+          
+        /*
+        if(result.length == 0 || !(await bcrypt.compare(pass, result[0].pass)) ) {
+          return res.status(401).render('editProfile', {
+            mail: req.body.mailUsuario,
+            pass2: req.body.passwordConfirm,
+            message: 'Contraseña incorrecta'
+          })
+        } else {
+          const id = result[0].mailUsuario;
+  
+          const token = jwt.sign({ id }, process.env.JWT_SECRET, {
+            expiresIn: process.env.JWT_EXPIRES_IN
+          });
+  
+          console.log("The token is: " + token);
+  
+          const cookieOptions = {
+            expires: new Date(
+              Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
+            ),
+            httpOnly: true
+          }
+  
+          res.cookie('jwt', token, cookieOptions );
+          res.status(200).redirect("/");
+        }
+      }); */
 exports.isLoggedIn = async (req, res, next) => {
-  // console.log(req.cookies);
   if(req.cookies.jwt) {
     try {
       //1) verify the token

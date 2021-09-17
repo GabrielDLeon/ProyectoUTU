@@ -10,9 +10,9 @@
         </div>
         <div class="mb-3">
           <label for="exampleInputPassword1" class="form-label">Antigua contraseña</label>
-          <input type="password" class="form-control" id="pass" name="pass">
+          <input type="password" class="form-control" id="pass" name="pass" value="{{pass}}">
           <label for="exampleInputPassword1" class="form-label">Nueva contraseña</label>
-          <input type="password" class="form-control" id="pass2" name="passwordConfirm">
+          <input type="password" class="form-control" id="pass2" name="passwordConfirm" value="{{pass2}}">
           <div class="col-auto">
           </div>
         </div>
@@ -23,8 +23,8 @@
           {{#if message }}
            <p class="text-danger text-center mt-1">{{message}}</p>
           {{/if}}
-          {{#if registroCompleto }}
-          <p class="text-success text-center mt-1">{{registroCompleto}}</p>
+          {{#if editCompleto }}
+          <p class="text-success text-center mt-1">{{editCompleto}}</p>
           {{/if}}
       </form>
 </div>
