@@ -13,8 +13,8 @@ router.get('/register', (req, res) => {
   res.render('./auth/register');
 });
 
-router.get('/signupCompany', (req, res) => {
-  res.render('./auth/signupCompany');
+router.get('/registerCompany', (req, res) => {
+  res.render('./auth/registerCompany');
 });
 
 router.get('/login', (req, res) => {

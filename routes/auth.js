@@ -7,7 +7,7 @@ router.post('/profile/edit/:mail', authController.editUser);
 
 router.post('/register', authController.register);
 
-router.post('/signupCompany', authController.signupCompany);
+router.post('/registerCompany', authController.registerCompany);
 
 router.post('/login', authController.login);
 

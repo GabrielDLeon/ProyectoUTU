@@ -210,7 +210,7 @@ exports.register = (req, res) => {
 
 }
 
-exports.signupCompany = (req, res) => {
+exports.registerCompany = (req, res) => {
   console.log(req.body);
 
   const { name, mailEmpresa, pass, passwordConfirm, razon, rut } = req.body;
@@ -223,7 +223,7 @@ exports.signupCompany = (req, res) => {
     }
   
     if(!pass || !mailEmpresa || !name || !rut || !razon ) {
-      return res.render('./auth/signupCompany', {
+      return res.render('./auth/registerCompany', {
          mailEmpresa: req.body.mailEmpresa,
             rut: req.body.rut,
             razon: req.body.razon,
@@ -234,7 +234,7 @@ exports.signupCompany = (req, res) => {
       })
    }
    if (esValido == false) {  
-    return res.render('./auth/signupCompany', {
+    return res.render('./auth/registerCompany', {
           pass: req.body.pass,
           pass2: req.body.passwordConfirm,
           name: req.body.name,
@@ -244,14 +244,14 @@ exports.signupCompany = (req, res) => {
         })
       }
     if( results.length > 0 ) {
-      return res.render('./auth/signupCompany', {
+      return res.render('./auth/registerCompany', {
             pass: req.body.pass,
             pass2: req.body.passwordConfirm,
             name: req.body.name,
             message: 'Mail ya en uso'
       })
     } else if( pass !== passwordConfirm ) {
-      return res.render('./auth/signupCompany', {
+      return res.render('./auth/registerCompany', {
         mailEmpresa: req.body.mailEmpresa,
             name: req.body.name,
             rut: req.body.rut,
@@ -263,7 +263,7 @@ exports.signupCompany = (req, res) => {
     let hashedPassword = await bcrypt.hash(pass, 8);
     console.log(hashedPassword);
 
-    db.query('INSERT INTO cuenta SET ?', {mail: mailEmpresa, pass: hashedPassword , tipo: 'empresa', nombre:name}, (error, results) => {
+    db.query('INSERT INTO cuenta SET ?', {mail: mailEmpresa, pass: hashedPassword , tipo: 'empresa'}, (error, results) => {
       if(error) {
         console.log(error);
       } 
@@ -271,16 +271,13 @@ exports.signupCompany = (req, res) => {
         if (error) {console.log(error)
         } else {
           console.log(results);
-          return res.render('./auth/signupCompany', {
+          return res.render('./auth/registerCompany', {
             registroCompleto: 'Empresa registrada, puede ingresar'
           });
         }
      })
     })
-
-
   });
-  
 }
 
 exports.editProfile= async (req, res, next) => {
