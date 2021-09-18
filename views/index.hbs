@@ -5,7 +5,7 @@
       {{#if user }}
         <li><a href="/profile">Profile</a></li>
         <li><a href="/logout">Logout</a></li>
-        <li><a href="/editProfile">Editar perfil</a></li>
+        <li><a href="/profile/edit/{{user.mail}}">Editar perfil</a></li>
       {{else}}
         <li><a href="/login">Login</a></li>
         <li><a href="/register">Register</a></li>

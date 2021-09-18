@@ -10,7 +10,95 @@ const db = mysql.createConnection({
   database: process.env.DATABASE
 });
 
-exports.login = async (req, res) => {
+exports.deleteUser = async (req, res, next) => {
+
+  if(req.cookies.jwt) {
+    try {
+      //1) verify the token
+      const decoded = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRET);
+
+      console.log(decoded);
+      //2) Check if the user still exists
+      db.query('SELECT * FROM cuenta WHERE mail = ?', [decoded.id], (error, result) => {
+        console.log(result);
+
+        if(!result) {
+          return next();
+        }
+
+        req.user = result[0];
+        console.log("user is")
+        console.log(req.user);
+        return next();
+
+      });
+    } catch (error) {
+      console.log(error);
+      return next();
+    }
+  } if (req.cookies.jwt) {
+    try {
+        const { mail } = req.params
+        db.query('DELETE FROM cuenta WHERE mail = ?',[mail]);
+    } catch (error) {
+    }
+  }
+}
+
+exports.editUser = async (req, res, next) => {
+  const { nombre , mail2 , pass, passwordConfirm } = req.body;
+  if(req.cookies.jwt) {
+    try {
+      //1) verify the token
+      const decoded = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRET);
+
+      console.log(decoded);
+      //2) Check if the user still exists
+      db.query('SELECT * FROM cuenta WHERE mail = ?', [decoded.id], (error, result) => {
+        console.log(result);
+
+        if(!result) {
+          return next();
+        }
+
+        req.user = result[0];
+        console.log("user is")
+        console.log(req.user);
+        return next();
+
+      });
+    } catch (error) {
+      console.log(error);
+      return next();
+    }
+  } if (req.cookies.jwt) {
+    try {
+      const { mail } = req.params
+      const newData = { 
+        nombre,
+        mail,
+      }
+      console.log("Los datos son:");
+      console.log(newData);
+      let hashedPassword = await bcrypt.hash(passwordConfirm, 8);
+      console.log(hashedPassword);
+      db.query('SELECT * FROM cuenta WHERE mail = ?', [mail], async (error, results) => {
+        if( results.length == 0 || !(await bcrypt.compare(pass, results[0].pass)) ) {
+          res.status(401).render('/profile/edit/:mail', {
+            mail: req.body.mail,
+            message: 'Contraseña incorrecta'
+          })
+        } else {
+          db.query('UPDATE cuenta set ? WHERE mail = ?',[{mail: mail2, pass: hashedPassword , nombre:nombre} , mail]);
+        }
+      });
+      
+    } catch (error) {
+    }
+  }
+}
+
+exports.login = async (req, res) => { 
   try {
     const { mail , pass } = req.body;
 
@@ -102,7 +190,7 @@ exports.register = (req, res) => {
     let hashedPassword = await bcrypt.hash(pass, 8);
     console.log(hashedPassword);
 
-    db.query('INSERT INTO cuenta SET ?', {mail: mailUsuario, pass: hashedPassword , tipo: 'usuario'}, (error, results) => {
+    db.query('INSERT INTO cuenta SET ?', {mail: mailUsuario, pass: hashedPassword , tipo: 'usuario', nombre:name}, (error, results) => {
       if(error) {
         console.log(error);
       } 
@@ -175,7 +263,7 @@ exports.signupCompany = (req, res) => {
     let hashedPassword = await bcrypt.hash(pass, 8);
     console.log(hashedPassword);
 
-    db.query('INSERT INTO cuenta SET ?', {mail: mailEmpresa, pass: hashedPassword , tipo: 'empresa'}, (error, results) => {
+    db.query('INSERT INTO cuenta SET ?', {mail: mailEmpresa, pass: hashedPassword , tipo: 'empresa', nombre:name}, (error, results) => {
       if(error) {
         console.log(error);
       } 

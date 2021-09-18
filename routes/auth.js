@@ -2,16 +2,15 @@ const express = require('express');
 const authController = require('../controllers/auth');
 
 const router = express.Router();
-          
-router.post('/register', authController.register );
 
-router.post('/signupCompany', authController.signupCompany );
+router.post('/profile/edit/:mail', authController.editUser);
 
-router.post('/editProfile', authController.editProfile );
+router.post('/register', authController.register);
 
-router.post('/login', authController.login );
+router.post('/signupCompany', authController.signupCompany);
 
-router.get('/logout', authController.logout );
+router.post('/login', authController.login);
 
+router.get('/logout', authController.logout);
 
 module.exports = router;

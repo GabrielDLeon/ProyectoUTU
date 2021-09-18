@@ -22,29 +22,4 @@ router.get('/login', (req, res) => {
 });
 
 
-
-router.get('/profile', authController.isLoggedIn, (req, res) => {
-  console.log(req.user );
-  if( req.user ) {
-    res.render('profile', {
-      user: req.user
-    });
-  } else {
-    res.redirect('/login');
-  }
-  
-})
-
-router.get('/editProfile', authController.editProfile, (req, res) => {
-  console.log(req.user );
-  if( req.user ) {
-    res.render('editProfile', {
-      user: req.user
-    });
-  } else {
-    res.redirect('/login');
-  }
-  
-})
-
 module.exports = router;
