@@ -1,0 +1,39 @@
+{{>navigation}}
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-4">
+        <div class="card">
+          <div class="avatar-ctn">
+            <img src="/avatar.png" class="avatar" alt="user profile picture"/>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">{{user.mail}}</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <a href="#" class="btn btn-primary">{{user.mail}}</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-8">
+        <div class="card text-center">
+          <div class="card-header">
+            Profile Page
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">Hey {{user.name}} welcome back</h5>
+            <p class="card-text">This is your profile page where you can add all the information about yourself</p>
+            <a href="#" class="btn btn-primary">Go Somewhere</a>
+          </div>
+          <div class="card-footer text-muted">
+            Node MySQL - Project
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+</body>

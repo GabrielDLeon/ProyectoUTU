@@ -1,17 +1,96 @@
+{{>navigation}}
 <body>
-  <nav>
-    <ul>
-      <li><a href="/">Home</a></li>
-      {{#if user }}
-        <li><a href="/profile">Profile</a></li>
-        <li><a href="/logout">Logout</a></li>
-        <li><a href="/profile/edit/{{user.mail}}">Editar perfil</a></li>
-      {{else}}
-        <li><a href="/login">Login</a></li>
-        <li><a href="/register">Register</a></li>
-      {{/if}}
-    </ul>
-  </nav>
-  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <div class="container mt-5">
+        <div class="row row-cols-lg-4 row-cols-sm-2 g-4">
+
+            <div class="col">
+                <a href="/publication" class="link-unstyled">
+                    <div class="card rounded-0">
+                        <div class="imgbox">
+                            <img src="/img/testing/item3.jpg" class="card-img-top">
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title mb-1">Nombre de la publicación</h5>
+                            <h6><a href="#vendedor" class="text-muted link-unstyled">Nombre del vendedor</a></h6>
+            
+                            <div class="d-flex">
+                                <h4>$250</h4>
+                                <h6 class="text-muted ms-1"><s>$500</s></h6>
+                            </div>
+            
+                            {{!-- CUANDO NO HAY PRECIO ASIGNADO APARECE ESTE BOTON --}}
+                            {{!-- <div class="mb-3 d-grid gap-2">
+                                <button class="btn btn-dark">Consultar precio</button>
+                            </div> --}}
+            
+                            {{!-- DESCRIPCION (no es necesario) --}}
+                            {{!-- <p class="card-text">
+                                This is a longer card with supporting text below as a natural lead-in to
+                                additional content. This content is a little bit longer.
+                            </p> --}}
+            
+                        </div>
+                    </div>
+                </a>
+            </div>
+            
+            <div class="col">
+                <a href="#publicacion" class="link-unstyled">
+                    <div class="card rounded-0">
+                        <div class="imgbox">
+                            <img src="/img/testing/item1.jpg" class="card-img-top">
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title mb-1">Nombre de la publicación</h5>
+                            <h6><a href="#vendedor" class="text-muted link-unstyled">Nombre del vendedor</a></h6>
+            
+                            <div class="d-flex">
+                                <h4>$250</h4>
+                                <h6 class="text-muted ms-1"><s>$500</s></h6>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col">
+                <a href="#publicacion" class="link-unstyled">
+                    <div class="card rounded-0">
+                        <div class="imgbox">
+                            <img src="/img/testing/item4.jpg" class="card-img-top">
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title mb-1">Nombre de la publicación</h5>
+                            <h6><a href="#vendedor" class="text-muted link-unstyled">Nombre del vendedor</a></h6>
+            
+                            <div class="d-flex">
+                                <h4>$250</h4>
+                                <h6 class="text-muted ms-1"><s>$500</s></h6>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col">
+                <a href="#publicacion" class="link-unstyled">
+                    <div class="card rounded-0">
+                        <div class="imgbox">
+                            <img src="/img/testing/item1.jpg" class="card-img-top">
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title mb-1">Nombre de la publicación</h5>
+                            <h6><a href="#vendedor" class="text-muted link-unstyled">Nombre del vendedor</a></h6>
+            
+                            <div class="d-flex">
+                                <h4>$250</h4>
+                                <h6 class="text-muted ms-1"><s>$500</s></h6>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+        </div>
+    </div>
 </body>
-</html>

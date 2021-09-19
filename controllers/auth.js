@@ -46,7 +46,7 @@ exports.deleteUser = async (req, res, next) => {
 }
 
 exports.editUser = async (req, res, next) => {
-  const { nombre , mail2 , pass, passwordConfirm } = req.body;
+  const { nombre , mail2 , pass2 } = req.body;
   if(req.cookies.jwt) {
     try {
       //1) verify the token
@@ -54,18 +54,18 @@ exports.editUser = async (req, res, next) => {
 
       console.log(decoded);
       //2) Check if the user still exists
-      db.query('SELECT * FROM cuenta WHERE mail = ?', [decoded.id], (error, result) => {
+      db.query('SELECT cuenta.mail, cuenta.pass, users.name FROM cuenta INNER JOIN users ON cuenta.mail = users.mailUsuario WHERE mail = ?', [decoded.id], (error, result) => {
+        console.log("resultado de consulta");
         console.log(result);
 
         if(!result) {
           return next();
         }
-
         req.user = result[0];
         console.log("user is")
         console.log(req.user);
         return next();
-
+        
       });
     } catch (error) {
       console.log(error);
@@ -80,16 +80,26 @@ exports.editUser = async (req, res, next) => {
       }
       console.log("Los datos son:");
       console.log(newData);
-      let hashedPassword = await bcrypt.hash(passwordConfirm, 8);
+      let hashedPassword = await bcrypt.hash(pass2, 8);
       console.log(hashedPassword);
-      db.query('SELECT * FROM cuenta WHERE mail = ?', [mail], async (error, results) => {
-        if( results.length == 0 || !(await bcrypt.compare(pass, results[0].pass)) ) {
+      
+      if(!pass2 || !mail2 || !nombre ) {
+        return res.render('editProfile', {
+              mail: req.body.mailUsuario,
+              pass2: req.body.pass2,
+              nombre: req.body.nombre,
+              message: 'Complete todos los campos'
+        })
+     }
+      db.query('SELECT cuenta.mail, cuenta.pass, users.name FROM cuenta INNER JOIN users ON cuenta.mail = users.mailUsuario WHERE mail = ?', [mail], async (error, results) => {
+        if( results.length == 0) {
           res.status(401).render('/profile/edit/:mail', {
             mail: req.body.mail,
             message: 'Contraseña incorrecta'
           })
         } else {
-          db.query('UPDATE cuenta set ? WHERE mail = ?',[{mail: mail2, pass: hashedPassword , nombre:nombre} , mail]);
+          db.query('UPDATE cuenta set ? WHERE mail = ?',[{mail: mail2, pass: hashedPassword} , mail]);
+          db.query('UPDATE users set ? WHERE mailUsuario = ?',[{name:nombre} , mail]);
         }
       });
       
@@ -190,7 +200,7 @@ exports.register = (req, res) => {
     let hashedPassword = await bcrypt.hash(pass, 8);
     console.log(hashedPassword);
 
-    db.query('INSERT INTO cuenta SET ?', {mail: mailUsuario, pass: hashedPassword , tipo: 'usuario', nombre:name}, (error, results) => {
+    db.query('INSERT INTO cuenta SET ?', {mail: mailUsuario, pass: hashedPassword , tipo: 'usuario'}, (error, results) => {
       if(error) {
         console.log(error);
       } 
@@ -210,7 +220,7 @@ exports.register = (req, res) => {
 
 }
 
-exports.signupCompany = (req, res) => {
+exports.registerCompany = (req, res) => {
   console.log(req.body);
 
   const { name, mailEmpresa, pass, passwordConfirm, razon, rut } = req.body;
@@ -223,7 +233,7 @@ exports.signupCompany = (req, res) => {
     }
   
     if(!pass || !mailEmpresa || !name || !rut || !razon ) {
-      return res.render('./auth/signupCompany', {
+      return res.render('./auth/registerCompany', {
          mailEmpresa: req.body.mailEmpresa,
             rut: req.body.rut,
             razon: req.body.razon,
@@ -234,7 +244,7 @@ exports.signupCompany = (req, res) => {
       })
    }
    if (esValido == false) {  
-    return res.render('./auth/signupCompany', {
+    return res.render('./auth/registerCompany', {
           pass: req.body.pass,
           pass2: req.body.passwordConfirm,
           name: req.body.name,
@@ -244,14 +254,14 @@ exports.signupCompany = (req, res) => {
         })
       }
     if( results.length > 0 ) {
-      return res.render('./auth/signupCompany', {
+      return res.render('./auth/registerCompany', {
             pass: req.body.pass,
             pass2: req.body.passwordConfirm,
             name: req.body.name,
             message: 'Mail ya en uso'
       })
     } else if( pass !== passwordConfirm ) {
-      return res.render('./auth/signupCompany', {
+      return res.render('./auth/registerCompany', {
         mailEmpresa: req.body.mailEmpresa,
             name: req.body.name,
             rut: req.body.rut,
@@ -263,7 +273,7 @@ exports.signupCompany = (req, res) => {
     let hashedPassword = await bcrypt.hash(pass, 8);
     console.log(hashedPassword);
 
-    db.query('INSERT INTO cuenta SET ?', {mail: mailEmpresa, pass: hashedPassword , tipo: 'empresa', nombre:name}, (error, results) => {
+    db.query('INSERT INTO cuenta SET ?', {mail: mailEmpresa, pass: hashedPassword , tipo: 'empresa'}, (error, results) => {
       if(error) {
         console.log(error);
       } 
@@ -271,112 +281,14 @@ exports.signupCompany = (req, res) => {
         if (error) {console.log(error)
         } else {
           console.log(results);
-          return res.render('./auth/signupCompany', {
+          return res.render('./auth/registerCompany', {
             registroCompleto: 'Empresa registrada, puede ingresar'
           });
         }
      })
     })
-
-
   });
-  
 }
-
-exports.editProfile= async (req, res, next) => {
-  const { pass , passwordConfirm , mailUsuario, name} = req.body;
-  const expReg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  const esValido = expReg.test(mailUsuario)
-
-  if(req.cookies.jwt) {
-    try {
-      //1) verify the token
-      const decoded = await promisify(jwt.verify)(req.cookies.jwt,
-      process.env.JWT_SECRET
-      );
-      
-      console.log(decoded);
-
-      //2) Check if the user still exists
-      db.query('SELECT * FROM users WHERE mailUsuario = ?', [decoded.id], (error, result) => {
-        console.log(result);
-  
-        if(!result) {
-          return next();
-        } 
-        req.user = result[0];
-        console.log("user is")
-        console.log(req.user);
-        return next();
-      });
-    
-    } catch (error) {
-      console.log(error);
-      return next();
-    }
-  } else {
-    next();
-  }
-  db.query('SELECT mailUsuario FROM users WHERE mailUsuario = ?', [mailUsuario], async (error, results) => {
-    if(error) {
-      console.log(error);
-    }
-   /* if(!pass || !mailUsuario || !name || !passwordConfirm  ) {
-      res.render('editProfile', {
-            mail: req.body.mailUsuario,
-            pass: req.body.pass,
-            pass2: req.body.passwordConfirm,
-            name: req.body.name,
-            message: 'Complete todos los campos'
-      })
-   }
-}*/})
-}
- /* if(!pass || !mailUsuario || !name || !passwordConfirm ) {
-          return res.render('editProfile', {
-             mail: req.body.mailUsuario,
-                pass: req.body.pass,
-                pass2: req.body.passwordConfirm,
-                name: req.body.name,
-                message: 'Complete todos los campos'
-          })
-       }
-       if (esValido == false) {  
-        return res.render('editProfile', {
-              pass: req.body.pass,
-              pass2: req.body.passwordConfirm,
-              name: req.body.name,
-              message: 'El correo ingresado es inválido, ingrese su correo original.'
-            })
-          }
-          
-        /*
-        if(result.length == 0 || !(await bcrypt.compare(pass, result[0].pass)) ) {
-          return res.status(401).render('editProfile', {
-            mail: req.body.mailUsuario,
-            pass2: req.body.passwordConfirm,
-            message: 'Contraseña incorrecta'
-          })
-        } else {
-          const id = result[0].mailUsuario;
-  
-          const token = jwt.sign({ id }, process.env.JWT_SECRET, {
-            expiresIn: process.env.JWT_EXPIRES_IN
-          });
-  
-          console.log("The token is: " + token);
-  
-          const cookieOptions = {
-            expires: new Date(
-              Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
-            ),
-            httpOnly: true
-          }
-  
-          res.cookie('jwt', token, cookieOptions );
-          res.status(200).redirect("/");
-        }
-      }); */
 exports.isLoggedIn = async (req, res, next) => {
   if(req.cookies.jwt) {
     try {
@@ -406,7 +318,7 @@ exports.isLoggedIn = async (req, res, next) => {
       return next();
     }
   } else {
-    next();
+    return next();
   }
   
 }

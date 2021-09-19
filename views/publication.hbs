@@ -1,0 +1,102 @@
+{{>navigation}}
+
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6 mb-5 jumbotron d-flex align-items-center">
+                <img src="/img/testing/item1.jpg" class="img-fluid" alt="">
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="p-4">
+                    <h2>Nombre del producto</h1>
+                    <div class="mb-3">
+                        {{!-- Etiquetas --}}
+                        {{!-- <a href=""><span class="mr-1">Category 2</span></a>
+                        <a href=""><span class="mr-1">New</span></a>
+                        <a href=""><span class="mr-1">Bestseller</span></a> --}}
+                    </div>
+                    <p class="lead">
+                        <span class="mr-1">
+                            <del>$200</del>
+                        </span>
+                        <span>$100</span>
+                    </p>
+                    <p class="lead font-weight-bold">Descripción del producto</p>
+                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores velit placeat id dolore molestias suscipit unde? Atque accusantium temporibus porro, sapiente non praesentium recusandae delectus officia, nisi blanditiis, aliquid ducimus.
+                    Corporis maiores cumque eius, ex deserunt officiis vero, praesentium eveniet repellat quas at? Temporibus, earum sunt, obcaecati autem dolores pariatur corrupti tempora mollitia omnis expedita quae, quam perspiciatis cupiditate inventore!
+                    Mollitia nam odit quis earum corporis explicabo distinctio asperiores nemo, non facilis molestias maiores ut, veniam cum neque dolorem ullam rem, tempore corrupti. Laudantium, sunt perspiciatis. Doloremque ipsum tenetur magnam.
+                    Rem nam nemo quia non! Fugiat, voluptate excepturi beatae, veniam vel cupiditate animi, corrupti iste odio in iure qui tempora consequuntur placeat alias asperiores? Exercitationem mollitia inventore aspernatur a ut?</p>
+                    <div class="container">
+                        <table class="table">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Material</th>
+                                    <th>Marca</th>
+                                    <th>Color</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>ID_Material</td>
+                                    <td>ID_Marca</td>
+                                    <td>ID_Color</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <h3>Preguntas y respuestas</h3>
+        <div class="mb-3">
+            <form>
+                <label for="question">Preguntale a la tienda</label>
+                <textarea class="form-control" name="question" id="question" placeholder="Ingrese su pregunta"></textarea>
+            </form>
+        </div>
+        <div>
+            <h5 class="text-muted">Preguntas realizadas</h5>
+
+            
+            <div> {{!-- Pregunta y respuesta --}}
+                {{!-- Este parrafo es la pregunta de un usuario --}}
+                <p class="mb-1 fs-5">¿Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias illum quidem ducimus ut voluptatibus ipsam, eum obcaecati dicta nostrum adipisci illo ratione aut nihil voluptatem minus provident ab nulla ex?</p>
+                <div class="ms-4 text-muted d-flex">
+                    {{!-- Este parrafo es la respuesta de la tienda a dicha pregunta --}}
+                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Deserunt vitae doloribus excepturi, quaerat ducimus quod tenetur repellat deleniti totam a harum! Expedita temporibus ad dolorum culpa. Ipsam aliquam fugit facilis.</p>
+                    <p class="ms-3">19/09/2021</p>
+                </div>
+            </div>
+
+            <div> {{!-- Pregunta y respuesta --}}
+                {{!-- Este parrafo es la pregunta de un usuario --}}
+                <p class="mb-1 fs-5">Buenas tardes: en talle 14 tenés stock? Podes enviar por agencia Turil que está en 3xxx?</p>
+            </div>
+
+            <div> {{!-- Pregunta y respuesta --}}
+                {{!-- Este parrafo es la pregunta de un usuario --}}
+                <p class="mb-1 fs-5">Hola. Una pregunta me podrías pasar medidas de talle 12, y otra pregunta de Uruguay tenés también? Si tenés, quisiera saber el precio de una de Uruguay talle 12 con el número y nombre de Suárez. Y la de Peñarol con el nombre del niño. Gracias</p>
+                <div class="ms-4 text-muted d-flex">
+                    {{!-- Este parrafo es la respuesta de la tienda a dicha pregunta --}}
+                    <p>Talle 12 ancho 42cm largo total 60 cm, de uru también tengo te paso la publicación https://articulo.mercadolibre.com.uy/MLU-476391497-camiseta-uruguay-nino-personalizada-_JM</p>
+                    <p class="ms-3">09/09/2021</p>
+                </div>
+            </div>
+
+            <div> {{!-- Pregunta y respuesta --}}
+                {{!-- Este parrafo es la pregunta de un usuario --}}
+                <p class="mb-1 fs-5">El modelo de la camiseta adelante es como la de tus demás publicaciones? Ya que tiene solo foto de la parte de atrás. Gracias!</p>
+                <div class="ms-4 text-muted d-flex">
+                    {{!-- Este parrafo es la respuesta de la tienda a dicha pregunta --}}
+                    <p>Buenas tardes, te comparto la publicación para que veas el frente https://articulo.mercadolibre.com.uy/MLU-475707954-camiseta-penarol-nino-_JM</p>
+                    <p class="ms-3">07/09/2021</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+{{>footer}}

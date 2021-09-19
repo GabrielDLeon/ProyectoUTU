@@ -13,6 +13,30 @@
     color: #dae0e5 !important;
 } */
 
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+.imgbox { /* now a container for the image */
+    display: inline-block; /* shrink wrap to image */
+    overflow: hidden; /* hide the excess */
+}
+.imgbox img {
+    display: block; /* no whitespace */
+    transition: .5s ease-in-out;
+}
+.imgbox:hover img {
+    transform: scale(1.1);
+}
+
+/* * {
+    border-radius: 0 !important;
+    border: 0px;
+} */
+
+.link-unstyled {
+    text-decoration: none;
+    color: inherit;
+}
+
 .imgA {
     background: url("../img/bgImg.jpg") no-repeat;
 }

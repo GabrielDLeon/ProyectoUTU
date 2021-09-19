@@ -22,9 +22,10 @@ router.get('/', authController.isLoggedIn, (req, res) => {
     
   })
 
-  router.post('/profile/edit/:mail', authController.editUser);
+  
 
-  router.get('/edit/:mail', authController.editUser, async (req, res) => {
+
+router.get('/edit/:mail', authController.editUser, async (req, res) => {
     if( req.user ) {
       res.render('editProfile', {
         user: req.user
@@ -34,7 +35,7 @@ router.get('/', authController.isLoggedIn, (req, res) => {
     }
   })
 
-  
+
 
   router.get('/delete/:mail' , authController.deleteUser, async (req, res) => {
     res.redirect('/login')
