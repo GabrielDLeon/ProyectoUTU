@@ -1,40 +1,64 @@
 {{>navigation}}
-<body>
-  <div class="container mt-4">
-    <div class="row">
-      <div class="col-4">
-        <div class="card">
-          <div class="avatar-ctn">
-            <img src="/avatar.png" class="avatar" alt="user profile picture"/>
+<body class="bg-light m-0 text-dark">
+<div class="text-white d-flex flex-row mb-5" style="background-color: darksalmon;">
+    <div class="shopBanner container mt-5 mb-5">
+      <div class="row">
+          <div class="col-sm-12 col-md-4 col-lg-3 d-flex flex-column mb-4">
+              <img src="https://mdbootstrap.com/img/Photos/new-templates/bootstrap-profiles/avatar-1.jpg" alt="Generic placeholder image" class="img-fluid rounded-circle img-thumbnail" style="width: max-content; z-index: 1">
           </div>
-          <div class="card-body">
-            <h5 class="card-title">{{user.mail}}</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="btn btn-primary">{{user.mail}}</a>
+          <div class="col">
+              <h3 class="text-center">Nombre de la tienda</h5>
+              <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Reiciendis animi dolores atque earum similique totam voluptate maxime non culpa, odio molestiae neque, at vitae officiis minima temporibus beatae! Architecto, impedit.</p>
+              <p class="mb-1"><i class="fas fa-map-marker-alt"></i> Dirección</p>
+              <p class="mb-2"><i class="fas fa-phone-alt"></i> 4567 2297</p>
+              <div class="row">
+                <div class="col">
+                  <a class="btn btn-primary " style="background-color: #ac2bac; border: 0px;" href="#!" role="button"><i class="fab fa-instagram"></i> Instagram</a>
+                </div>
+                <div class="col">
+                  <a class="btn btn-primary " style="background-color: #3b5998; border: 0px;" href="#!" role="button"><i class="fab fa-facebook-f"></i> Facebook</a>
+                </div>
+                <div class="col">
+                  <a class="btn btn-primary" style="background-color: #25d366; border: 0px;" href="#!" role="button"><i class="fab fa-whatsapp"></i> Whatsapp</a>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <button type="button" class="rounded-0 btn btn-dark mt-3" data-mdb-ripple-color="dark" style="z-index: 1;">Edit profile</button>
+                </div>
+              </div>
           </div>
-        </div>
       </div>
-
-      <div class="col-8">
-        <div class="card text-center">
-          <div class="card-header">
-            Profile Page
-          </div>
-          <div class="card-body">
-            <h5 class="card-title">Hey {{user.name}} welcome back</h5>
-            <p class="card-text">This is your profile page where you can add all the information about yourself</p>
-            <a href="#" class="btn btn-primary">Go Somewhere</a>
-          </div>
-          <div class="card-footer text-muted">
-            Node MySQL - Project
-          </div>
-        </div>
-      </div>
-    </div>
-    
-
   </div>
-
-  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+</div>
+<div class="container">
+  <div class="mb-5">
+              <p class="lead fw-normal mb-1">About</p>
+              <div class="p-4" style="background-color: #f8f9fa;">
+                <p class="font-italic mb-1">Web Developer</p>
+                <p class="font-italic mb-1">Lives in New York</p>
+                <p class="font-italic mb-0">Photographer</p>
+              </div>
+            </div>
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <p class="lead fw-normal mb-0">Recent photos</p>
+              <p class="mb-0"><a href="#!" class="text-muted">Show all</a></p>
+            </div>
+            <div class="row g-2">
+              <div class="col mb-2">
+                <img src="https://mdbootstrap.com/img/Photos/Lightbox/Original/img%20(112).jpg" alt="image 1" class="w-100 rounded-3">
+              </div>
+              <div class="col mb-2">
+                <img src="https://mdbootstrap.com/img/Photos/Lightbox/Original/img%20(107).jpg" alt="image 1" class="w-100 rounded-3">
+              </div>
+            </div>
+            <div class="row g-2">
+              <div class="col">
+                <img src="https://mdbootstrap.com/img/Photos/Lightbox/Original/img%20(108).jpg" alt="image 1" class="w-100 rounded-3">
+              </div>
+              <div class="col">
+                <img src="https://mdbootstrap.com/img/Photos/Lightbox/Original/img%20(114).jpg" alt="image 1" class="w-100 rounded-3">
+              </div>
+            </div>
+</div>
 </body>
-</html>
