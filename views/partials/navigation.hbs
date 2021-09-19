@@ -1,25 +1,22 @@
 {{#if user }}
-<nav class="navbar navbar-expand-md navbar-dark bg-primary">
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
 {{else}}
 <nav class="navbar navbar-expand-md navbar-light bg-light">
 {{/if}}
     <div class="container-fluid">
         <a class="navbar-brand" href="/">
             {{#if user }}
-                <img src="/img/brand/Klouts_light.png" width="120" height="34"></a>
+                <img src="/img/brand/Klouts_light.png" width="120"></a>
             {{else}}
-                <img src="/img/brand/Klouts_dark.png" width="120" height="34">
+                <img src="/img/brand/Klouts_dark.png" width="120">
             {{/if}}
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar">
             <i class="fas fa-bars"></i>
         </button>
         <div class="collapse navbar-collapse" id="navbar">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <ul class="navbar-nav ms-auto mb-lg-0">
 
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/">Home</a>
-                </li>
                 {{#if user }}
                     <li class="nav-item"><a class="nav-link" href="/profile">Profile</a></li>
                     <li class="nav-item"><a class="nav-link" href="/profile/edit/{{user.mail}}">Editar perfil</a></li>
