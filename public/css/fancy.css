@@ -27,10 +27,10 @@
     transform: scale(1.1);
 }
 
-* {
+/* * {
     border-radius: 0 !important;
     border: 0px;
-}
+} */
 
 .link-unstyled {
     text-decoration: none;

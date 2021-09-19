@@ -9,6 +9,12 @@ router.get('/', authController.isLoggedIn, (req, res) => {
   });
 });
 
+router.get('/publication', authController.isLoggedIn, (req, res) => {
+  res.render('publication', {
+    user: req.user
+  });
+});
+
 router.get('/register', (req, res) => {
   res.render('./auth/register');
 });
