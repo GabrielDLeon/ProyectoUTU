@@ -15,6 +15,10 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
 
+.text-area {
+    resize: none;
+ }
+
 .imgbox { /* now a container for the image */
     display: inline-block; /* shrink wrap to image */
     overflow: hidden; /* hide the excess */
@@ -35,6 +39,20 @@
 .link-unstyled {
     text-decoration: none;
     color: inherit;
+}
+.link-unstyled:hover {
+    text-decoration: none;
+    color: inherit;
+}
+
+.btn-circle {
+    border-radius: 50% !important;
+    text-align: center;
+    font-size: 12px;
+}
+
+.product-color.color-yellow{
+    background-color: rgb(245, 245, 0);
 }
 
 .imgA {

@@ -15,6 +15,10 @@ router.get('/publication', authController.isLoggedIn, (req, res) => {
   });
 });
 
+router.get('/profile', (req, res) => {
+  res.render('profile');
+});
+
 router.get('/register', (req, res) => {
   res.render('./auth/register');
 });
