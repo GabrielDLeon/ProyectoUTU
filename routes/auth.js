@@ -3,7 +3,7 @@ const authController = require('../controllers/auth');
 
 const router = express.Router();
 
-router.post('/profile/edit/emaquieira30@gmail.com', authController.editUser);
+router.post('/profile/edit/:mail', authController.editUser);
 
 router.post('/register', authController.register);
 

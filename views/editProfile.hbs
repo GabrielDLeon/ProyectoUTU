@@ -5,16 +5,19 @@
           <label for="name" class="form-label1">Nombre</label>
           <input type="User" class="form-control" id="name" name="nombre" value="{{user.name}}">
         </div>
-        <div class="mb-3">
+        <div class="mb-3"> 
           <label for="mailUsuario" class="form-label">Email</label>
           <input type="text" class="form-control" id="mailUsuario" aria-describedby="emailHelp" name="mail2" value="{{user.mail}}">
         </div>
-        <div class="mb-3">
-          <label for="pass2" class="form-label">Nueva contraseña</label>
-          <input type="password" class="form-control" id="pass2" name="pass2" value="{{pass2}}">
+          <div class="mb-3"> 
+         <label for="pass2" class="form-label">Nueva contraseña</label> 
+          <input type="password" class="form-control" id="pass2" name="pass2" value="{{pass2}}"> 
           <div class="col-auto">
-          </div>
+          </div> 
         </div>
+        {{!--
+        <input type="checkbox" name="change_password" id="change_password" value="1" onclick="setPasswordForm(this.checked)" title="Cambiar contraseña" class="checkbox no-bg validation-passed">
+        <label for="change_password">Cambiar contraseña</label> --}}
         <div class="mb-3">
           <div class="d-grid gap-2">
             <br>

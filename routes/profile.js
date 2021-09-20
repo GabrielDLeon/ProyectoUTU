@@ -23,7 +23,7 @@ router.get('/', authController.isLoggedIn, (req, res) => {
   })
 
   
-
+router.post('/edit/:mail', authController.editUser);
 
 router.get('/edit/:mail', authController.editUser, async (req, res) => {
     if( req.user ) {

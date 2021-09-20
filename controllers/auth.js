@@ -65,7 +65,7 @@ exports.editUser = async (req, res, next) => {
         console.log("user is")
         console.log(req.user);
         return next();
-        
+      
       });
     } catch (error) {
       console.log(error);
@@ -83,14 +83,6 @@ exports.editUser = async (req, res, next) => {
       let hashedPassword = await bcrypt.hash(pass2, 8);
       console.log(hashedPassword);
       
-      if(!pass2 || !mail2 || !nombre ) {
-        return res.render('editProfile', {
-              mail: req.body.mailUsuario,
-              pass2: req.body.pass2,
-              nombre: req.body.nombre,
-              message: 'Complete todos los campos'
-        })
-     }
       db.query('SELECT cuenta.mail, cuenta.pass, users.name FROM cuenta INNER JOIN users ON cuenta.mail = users.mailUsuario WHERE mail = ?', [mail], async (error, results) => {
         if( results.length == 0) {
           res.status(401).render('/profile/edit/:mail', {
