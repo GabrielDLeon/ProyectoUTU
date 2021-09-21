@@ -6,7 +6,6 @@ const { promisify } = require('util');
 const db = mysql.createConnection({
   host: process.env.DATABASE_HOST,
   user: process.env.DATABASE_USER,
-  user1: process.env.DATABASE_USER,
   password: process.env.DATABASE_PASSWORD,
   database: process.env.DATABASE
 });
@@ -20,7 +19,7 @@ exports.deleteUser = async (req, res, next) => {
 
       console.log(decoded);
       //2) Check if the user still exists
-      db.query('SELECT * FROM cuenta WHERE mail = ?', [decoded.id], (error, result) => {
+      db.query('SELECT * FROM cuentas WHERE email = ?', [decoded.id], (error, result) => {
         console.log(result);
 
         if(!result) {
@@ -40,7 +39,7 @@ exports.deleteUser = async (req, res, next) => {
   } if (req.cookies.jwt) {
     try {
         const { mail } = req.params
-        db.query('DELETE FROM cuenta WHERE mail = ?',[mail]);
+        db.query('DELETE FROM cuentas WHERE email = ?',[mail]);
     } catch (error) {
     }
   }
@@ -55,7 +54,7 @@ exports.editUser = async (req, res, next) => {
 
       console.log(decoded);
       //2) Check if the user still exists
-      db.query('SELECT cuenta.mail, cuenta.pass, users.name FROM cuenta INNER JOIN users ON cuenta.mail = users.mailUsuario WHERE mail = ?', [decoded.id], (error, result) => {
+      db.query('SELECT cuentas.email, cuentas.password, cuenta_personal.nombre FROM cuentas INNER JOIN cuenta_personal ON cuentas.email = cuenta_personal.email WHERE email = ?', [decoded.id], (error, result) => {
         console.log("resultado de consulta");
         console.log(result);
 
@@ -84,15 +83,15 @@ exports.editUser = async (req, res, next) => {
       let hashedPassword = await bcrypt.hash(pass2, 8);
       console.log(hashedPassword);
       
-      db.query('SELECT cuenta.mail, cuenta.pass, users.name FROM cuenta INNER JOIN users ON cuenta.mail = users.mailUsuario WHERE mail = ?', [mail], async (error, results) => {
+      db.query('SELECT cuentas.email, cuentas.password, cuenta_personal.nombre FROM cuentas INNER JOIN cuenta_personal ON cuentas.email = cuenta_personal.email WHERE email = ?', [mail], async (error, results) => {
         if( results.length == 0) {
           res.status(401).render('/profile/edit/:mail', {
             mail: req.body.mail,
             message: 'Contraseña incorrecta'
           })
         } else {
-          db.query('UPDATE cuenta set ? WHERE mail = ?',[{mail: mail2, pass: hashedPassword} , mail]);
-          db.query('UPDATE users set ? WHERE mailUsuario = ?',[{name:nombre} , mail]);
+          db.query('UPDATE cuentas set ? WHERE email = ?',[{mail: mail2, pass: hashedPassword} , mail]);
+          db.query('UPDATE cuenta_personal set ? WHERE email = ?',[{name:nombre} , mail]);
         }
       });
       
@@ -110,16 +109,16 @@ exports.editCompany = async (req, res, next) => {
 
       console.log(decoded);
       //2) Check if the user still exists
-      db.query('SELECT cuenta.mail, cuenta.pass, empresas.name, empresas.razon FROM cuenta INNER JOIN empresas ON cuenta.mail = empresas.mailEmpresa WHERE mail = ?', [decoded.id], (error, result) => {
+      db.query('SELECT cuentas.email, cuentas.password, cuenta_empresa.nombre, cuenta_empresa.razonSocial FROM cuentas INNER JOIN cuenta_empresa ON cuentas.email = cuenta_empresa.email WHERE email = ?', [decoded.id], (error, result) => {
         console.log("resultado de consulta");
         console.log(result);
 
         if(!result) {
           return next();
         }
-        req.user1 = result[0];
-        console.log("user1 is")
-        console.log(req.user1);
+        req.user = result[0];
+        console.log("user is")
+        console.log(req.user);
         return next();
       
       });
@@ -138,15 +137,15 @@ exports.editCompany = async (req, res, next) => {
       let hashedPassword = await bcrypt.hash(pass2, 8);
       console.log(hashedPassword);
       
-      db.query('SELECT cuenta.mail, cuenta.pass, empresas.name, empresas.razon FROM cuenta INNER JOIN empresas ON cuenta.mail = empresas.mailEmpresa WHERE mail = ?', [mail], async (error, results) => {
+      db.query('SELECT cuentas.email, cuentas.password, cuenta_empresa.nombre, cuenta_empresa.razonSocial FROM cuentas INNER JOIN cuenta_empresa ON cuentas.email = cuenta_empresa.email WHERE email = ?', [mail], async (error, results) => {
         if( results.length == 0) {
           res.status(401).render('/profile/edit/:mail', {
             mail: req.body.mail,
             message: 'Contraseña incorrecta'
           })
         } else {
-          db.query('UPDATE cuenta set ? WHERE mail = ?',[{mail: mail2, pass: hashedPassword} , mail]);
-          db.query('UPDATE empresas set ? WHERE mailEmpresa = ?',[{name:nombre, razon:razon} , mail]);
+          db.query('UPDATE cuentas set ? WHERE email = ?',[{mail: mail2, pass: hashedPassword} , mail]);
+          db.query('UPDATE cuenta_empresa set ? WHERE email = ?',[{name:nombre, razon:razon} , mail]);
         }
       });
       
@@ -167,15 +166,15 @@ exports.login = async (req, res) => {
       })
     }
 
-    db.query('SELECT * FROM cuenta WHERE mail = ?', [mail], async (error, results) => {
+    db.query('SELECT * FROM cuentas WHERE email = ?', [mail], async (error, results) => {
       console.log(results);
-      if( results.length == 0 || !(await bcrypt.compare(pass, results[0].pass)) ) {
+      if( results.length == 0 || !(await bcrypt.compare(pass, results[0].password)) ) {
         res.status(401).render('./auth/login', {
           mail: req.body.mail,
           message: 'Email o contraseña incorrectos'
         })
       } else {
-        const id = results[0].mail;
+        const id = results[0].email;
 
         const token = jwt.sign({ id }, process.env.JWT_SECRET, {
           expiresIn: process.env.JWT_EXPIRES_IN
@@ -208,7 +207,7 @@ exports.register = (req, res) => {
   const expReg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   const esValido = expReg.test(mailUsuario);
   
-  db.query('SELECT mailUsuario FROM users WHERE mailUsuario = ?', [mailUsuario], async (error, results) => {
+  db.query('SELECT email FROM cuenta_personal WHERE email = ?', [mailUsuario], async (error, results) => {
     if(error) {
       console.log(error);
     }
@@ -247,11 +246,11 @@ exports.register = (req, res) => {
     let hashedPassword = await bcrypt.hash(pass, 8);
     console.log(hashedPassword);
 
-    db.query('INSERT INTO cuenta SET ?', {mail: mailUsuario, pass: hashedPassword , tipo: 'usuario'}, (error, results) => {
+    db.query('INSERT INTO cuentas SET ?', {email: mailUsuario, password: hashedPassword , tipo: 'usuario'}, (error, results) => {
       if(error) {
         console.log(error);
       } 
-    db.query('INSERT INTO users SET ?' , {mailUsuario:mailUsuario, name:name} , (error, results)=> {
+    db.query('INSERT INTO cuenta_personal SET ?' , {email:mailUsuario, nombre:name} , (error, results)=> {
         if (error) {console.log(error)
         } else {
           console.log(results);
@@ -274,7 +273,7 @@ exports.registerCompany = (req, res) => {
   const expReg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   const esValido = expReg.test(mailEmpresa);
 
-  db.query('SELECT mailEmpresa FROM empresas WHERE mailEmpresa = ?', [mailEmpresa], async (error, results) => {
+  db.query('SELECT email FROM cuenta_empresa WHERE email = ?', [mailEmpresa], async (error, results) => {
     if(error) {
       console.log(error);
     }
@@ -320,11 +319,11 @@ exports.registerCompany = (req, res) => {
     let hashedPassword = await bcrypt.hash(pass, 8);
     console.log(hashedPassword);
 
-    db.query('INSERT INTO cuenta SET ?', {mail: mailEmpresa, pass: hashedPassword , tipo: 'empresa'}, (error, results) => {
+    db.query('INSERT INTO cuentas SET ?', {email: mailEmpresa, password: hashedPassword , tipo: 'empresa'}, (error, results) => {
       if(error) {
         console.log(error);
       } 
-    db.query('INSERT INTO empresas SET ?' , {mailEmpresa:mailEmpresa, name:name, rut:rut, razon:razon} , (error, results)=> {
+    db.query('INSERT INTO cuenta_empresa SET ?' , {email:mailEmpresa, nombre:name, RUT:rut, razonSocial:razon} , (error, results)=> {
         if (error) {console.log(error)
         } else {
           console.log(results);
@@ -347,7 +346,7 @@ exports.isLoggedIn = async (req, res, next) => {
       console.log(decoded);
 
       //2) Check if the user still exists
-      db.query('SELECT * FROM cuenta WHERE mail = ?', [decoded.id], (error, result) => {
+      db.query('SELECT * FROM cuentas WHERE email = ?', [decoded.id], (error, result) => {
         console.log(result);
 
         if(!result) {
