@@ -2,6 +2,7 @@ const express = require("express");
 const path = require('path');
 const mysql = require("mysql");
 const dotenv = require('dotenv');
+const handlebars = require('handlebars');
 const cookieParser = require('cookie-parser');
 const exphbs = require('express-handlebars');
 
@@ -51,3 +52,4 @@ app.use('/profile', require('./routes/profile'));
 app.listen(3000, () => {
   console.log("Server started on Port 3000");
 })
+

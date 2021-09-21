@@ -5,30 +5,35 @@ const router = express.Router();
 
 router.get('/', authController.isLoggedIn, (req, res) => {
   res.render('index', {
-    user: req.user
+    user: req.user,
+    title: "Klouts"
   });
 });
 
 router.get('/publication', authController.isLoggedIn, (req, res) => {
   res.render('publication', {
-    user: req.user
+    user: req.user,
+    title: "Klouts"
   });
 });
 
-router.get('/profile', (req, res) => {
-  res.render('profile');
-});
-
 router.get('/register', (req, res) => {
-  res.render('./auth/register');
+  res.render('./auth/register', {
+    title: "Registro"
+  });
 });
 
 router.get('/registerCompany', (req, res) => {
-  res.render('./auth/registerCompany');
+  res.render('./auth/registerCompany', {
+    title: "Registro de empresa"
+  });
+  
 });
 
 router.get('/login', (req, res) => {
-  res.render('./auth/login');
+  res.render('./auth/login', {
+    title: "Inicio de sesión"
+  });
 });
 
 

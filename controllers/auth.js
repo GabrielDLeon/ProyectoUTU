@@ -6,6 +6,7 @@ const { promisify } = require('util');
 const db = mysql.createConnection({
   host: process.env.DATABASE_HOST,
   user: process.env.DATABASE_USER,
+  user1: process.env.DATABASE_USER,
   password: process.env.DATABASE_PASSWORD,
   database: process.env.DATABASE
 });
@@ -92,6 +93,60 @@ exports.editUser = async (req, res, next) => {
         } else {
           db.query('UPDATE cuenta set ? WHERE mail = ?',[{mail: mail2, pass: hashedPassword} , mail]);
           db.query('UPDATE users set ? WHERE mailUsuario = ?',[{name:nombre} , mail]);
+        }
+      });
+      
+    } catch (error) {
+    }
+  }
+}
+
+exports.editCompany = async (req, res, next) => {
+  const { nombre , mail2 , pass2, razon } = req.body;
+  if(req.cookies.jwt) {
+    try {
+      //1) verify the token
+      const decoded = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRET);
+
+      console.log(decoded);
+      //2) Check if the user still exists
+      db.query('SELECT cuenta.mail, cuenta.pass, empresas.name, empresas.razon FROM cuenta INNER JOIN empresas ON cuenta.mail = empresas.mailEmpresa WHERE mail = ?', [decoded.id], (error, result) => {
+        console.log("resultado de consulta");
+        console.log(result);
+
+        if(!result) {
+          return next();
+        }
+        req.user1 = result[0];
+        console.log("user1 is")
+        console.log(req.user1);
+        return next();
+      
+      });
+    } catch (error) {
+      console.log(error);
+      return next();
+    }
+  } if (req.cookies.jwt) {
+    try {
+      const { mail } = req.params
+      const newData = { 
+        nombre,
+      }
+      console.log("Los datos son:");
+      console.log(newData);
+      let hashedPassword = await bcrypt.hash(pass2, 8);
+      console.log(hashedPassword);
+      
+      db.query('SELECT cuenta.mail, cuenta.pass, empresas.name, empresas.razon FROM cuenta INNER JOIN empresas ON cuenta.mail = empresas.mailEmpresa WHERE mail = ?', [mail], async (error, results) => {
+        if( results.length == 0) {
+          res.status(401).render('/profile/edit/:mail', {
+            mail: req.body.mail,
+            message: 'Contraseña incorrecta'
+          })
+        } else {
+          db.query('UPDATE cuenta set ? WHERE mail = ?',[{mail: mail2, pass: hashedPassword} , mail]);
+          db.query('UPDATE empresas set ? WHERE mailEmpresa = ?',[{name:nombre, razon:razon} , mail]);
         }
       });
       
