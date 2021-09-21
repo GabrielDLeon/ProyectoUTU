@@ -14,6 +14,56 @@
 } */
 
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Carattere&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Ovo&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lora&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=PT+Serif&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
+
+.montserrat{
+    font-family: 'Montserrat', sans-serif !important;
+}
+
+h1,h2,h3,h4,h5,h6 {
+    font-family: 'Montserrat', sans-serif !important;
+    text-transform: uppercase;
+}
+
+* {
+    border-radius: 0% !important;
+}
+
+.btn.custom {
+    width: 78px !important;
+}
+
+.carattere {
+    font-family: 'Carattere', cursive !important;
+    font-size: 150%;
+}
+
+p {
+    font-family: 'Raleway', sans-serif;
+    letter-spacing: .5px; 
+}
+
+.f-space-1{
+    letter-spacing: 1px; 
+}
+.f-space-2{
+    letter-spacing: 2px; 
+}
+.f-space-3{
+    letter-spacing: 3px; 
+}
+.f-space-4{
+    letter-spacing: 4px; 
+}
+.f-space-5{
+    letter-spacing: 5px; 
+}
 
 .text-area {
     resize: none;
@@ -85,4 +135,24 @@ box-shadow:
 *:focus:not(.focus-visible) {
     outline: 0 !important;
     box-shadow: none !important;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555; 
 }
