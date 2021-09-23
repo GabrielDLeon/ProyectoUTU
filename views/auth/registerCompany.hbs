@@ -32,14 +32,22 @@
                             <div class="row">
                                 <div class="col-6">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control rounded-0" id="razon" name="razon" placeholder="Razón social" value="{{razon}}">
-                                        <label for="razon">Razón social</label>
+                                        <input type="text" class="form-control rounded-0" id="rut" name="rut" placeholder="RUT" value="{{rut}}">
+                                        <label for="rut">RUT</label>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control rounded-0" id="rut" name="rut" placeholder="RUT" value="{{rut}}">
-                                        <label for="rut">RUT</label>
+                                        <select class="form-select text-center" aria-label="Default select example" name="razon" id="razon">
+                                            <option selected>Razón social</option>
+                                            <option value="SA">Sociedad Anónima</option>
+                                            <option value="SL">Sociedad Limitada</option>
+                                            <option value="SC">Sociedad Cooperativa</option>
+                                            <option value="SLNE">Sociedad Limitada Nueva Empresa</option>
+                                            <option value="SLL">Sociedad Limitada Laboral</option>
+                                            <option value="SAL">Sociedad Anónima Laboral</option>
+                                            <option value="SCS">Sociedad Comanditaria Simple</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>

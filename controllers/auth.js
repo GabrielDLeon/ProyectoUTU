@@ -2,6 +2,7 @@ const mysql = require("mysql");
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { promisify } = require('util');
+const jquery = require('jquery')
 
 const db = mysql.createConnection({
   host: process.env.DATABASE_HOST,
@@ -9,6 +10,8 @@ const db = mysql.createConnection({
   password: process.env.DATABASE_PASSWORD,
   database: process.env.DATABASE
 });
+
+
 
 exports.deleteUser = async (req, res, next) => {
 
@@ -90,7 +93,7 @@ exports.editUser = async (req, res, next) => {
             message: 'Contraseña incorrecta'
           })
         } else {
-          db.query('UPDATE cuentas set ? WHERE email = ?',[{mail: mail2, pass: hashedPassword} , mail]);
+          db.query('UPDATE cuentas set ? WHERE email = ?',[{email: mail2, password: hashedPassword} , mail]);
           db.query('UPDATE cuenta_personal set ? WHERE email = ?',[{name:nombre} , mail]);
         }
       });
@@ -144,8 +147,8 @@ exports.editCompany = async (req, res, next) => {
             message: 'Contraseña incorrecta'
           })
         } else {
-          db.query('UPDATE cuentas set ? WHERE email = ?',[{mail: mail2, pass: hashedPassword} , mail]);
-          db.query('UPDATE cuenta_empresa set ? WHERE email = ?',[{name:nombre, razon:razon} , mail]);
+          db.query('UPDATE cuentas set ? WHERE email = ?',[{email: mail2, password: hashedPassword} , mail]);
+          db.query('UPDATE cuenta_empresa set ? WHERE email = ?',[{nombre:nombre, razonSocial:razon} , mail]);
         }
       });
       
@@ -207,7 +210,7 @@ exports.register = (req, res) => {
   const expReg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   const esValido = expReg.test(mailUsuario);
   
-  db.query('SELECT email FROM cuenta_personal WHERE email = ?', [mailUsuario], async (error, results) => {
+  db.query('SELECT email FROM cuentas WHERE email = ?', [mailUsuario], async (error, results) => {
     if(error) {
       console.log(error);
     }
@@ -266,6 +269,7 @@ exports.register = (req, res) => {
 
 }
 
+
 exports.registerCompany = (req, res) => {
   console.log(req.body);
 
@@ -273,11 +277,11 @@ exports.registerCompany = (req, res) => {
   const expReg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   const esValido = expReg.test(mailEmpresa);
 
-  db.query('SELECT email FROM cuenta_empresa WHERE email = ?', [mailEmpresa], async (error, results) => {
+  db.query('SELECT email FROM cuentas WHERE email = ?', [mailEmpresa], async (error, results) => {
     if(error) {
       console.log(error);
     }
-  
+    
     if(!pass || !mailEmpresa || !name || !rut || !razon ) {
       return res.render('./auth/registerCompany', {
          mailEmpresa: req.body.mailEmpresa,
@@ -295,7 +299,7 @@ exports.registerCompany = (req, res) => {
           pass2: req.body.passwordConfirm,
           name: req.body.name,
           rut: req.body.rut,
-            razon: req.body.razon,
+          razon: req.body.razon,
           message: 'El correo ingresado es inválido, ingrese su correo original.'
         })
       }
@@ -315,6 +319,8 @@ exports.registerCompany = (req, res) => {
             message: 'Las contraseñas no coinciden'
       });
     }
+
+    
 
     let hashedPassword = await bcrypt.hash(pass, 8);
     console.log(hashedPassword);
