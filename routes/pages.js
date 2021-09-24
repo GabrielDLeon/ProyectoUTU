@@ -11,9 +11,16 @@ router.get('/', authController.isLoggedIn, (req, res) => {
 });
 
 router.get('/publication', authController.isLoggedIn, (req, res) => {
-  res.render('publication', {
+  res.render('publication/publication', {
     user: req.user,
     title: "Klouts"
+  });
+});
+
+router.get('/newPublication', authController.isLoggedIn, (req, res) => {
+  res.render('publication/createPublication', {
+    user: req.user,
+    title: "Nueva publicación"
   });
 });
 

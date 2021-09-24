@@ -6,7 +6,7 @@ const mysql = require("mysql");
 router.get('/', authController.isLoggedIn, (req, res) => {
     console.log(req.user );
     if( req.user ) {
-      res.render('profile', {
+      res.render('profile/profile', {
         user: req.user,
         title: "Perfil"
       });
@@ -16,22 +16,9 @@ router.get('/', authController.isLoggedIn, (req, res) => {
     
   })
 
-router.post('/edit/:mail', authController.editCompany);
-router.post('/edit/:mail', authController.editUser);
-
-router.get('/editC/:mail', authController.editCompany, async (req, res) => {
-  if( req.user1 ) {
-    res.render('editProfileC', {
-      user: req.user1
-    });
-  } else {
-    res.redirect('/edit/:mail');
-  }
-})
-
-router.get('/edit/:mail', authController.editUser, async (req, res) => {
+  router.get('/edit/:mail', authController.editUser, async (req, res) => {
     if( req.user ) {
-      res.render('editProfile', {
+      res.render('profile/editProfile', {
         user: req.user,
         title: "Editar perfil"
       });
@@ -39,6 +26,11 @@ router.get('/edit/:mail', authController.editUser, async (req, res) => {
       res.redirect('/edit/:mail');
     }
   })
+
+
+router.post('/edit/:mail', authController.editCompany);
+router.post('/edit/:mail', authController.editUser);
+
 
   router.get('/delete/:mail' , authController.deleteUser, async (req, res) => {
     res.redirect('/login')
