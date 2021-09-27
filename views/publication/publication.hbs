@@ -46,21 +46,22 @@
                                 <a href="#busqueda" class="link-unstyled">Primary</a>
                             </span>
                         </div> --}}
-                        <h3 class="fw-bold">Nombre del producto</h3>
+                        <h3 class="fw-bold">{{publication.titulo}}</h3>
                         <a href="/profile" class="link-unstyled">
-                            <h6 class="text-muted d-inline f-space-2">Promocionado por <span>Nombre de la tienda</span></h6>
+                            <h6 class="text-muted d-inline f-space-2">Promocionado por <span>{{publication.vendedor}}</span></h6>
                         </a>
                     </header>
                     <div class="my-3">
                         <div>
                             <h6>Descripción del producto</h6>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, adipisci dignissimos veritatis quaerat cumque ratione animi dolorum nisi suscipit consequuntur nesciunt ex. Pariatur, ducimus facere. Modi nam, expedita alias soluta sapiente maiores repellat, impedit repudiandae quibusdam a, mollitia quo totam et. Ea non impedit tempore quibusdam enim fugiat, delectus, inventore qui at tenetur obcaecati quo quis consequuntur nisi explicabo! Delectus quidem molestias corporis aliquid!</p>
+                            {{!-- <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, adipisci dignissimos veritatis quaerat cumque ratione animi dolorum nisi suscipit consequuntur nesciunt ex. Pariatur, ducimus facere. Modi nam, expedita alias soluta sapiente maiores repellat, impedit repudiandae quibusdam a, mollitia quo totam et. Ea non impedit tempore quibusdam enim fugiat, delectus, inventore qui at tenetur obcaecati quo quis consequuntur nisi explicabo! Delectus quidem molestias corporis aliquid!</p> --}}
+                            <p> {{publication.descripcion}} </p>
                         </div>
                         <div>
                             <h6>Precio del producto</h6>
                             <p>
-                                <span class="mr-1"><del>$200</del></span>
-                                <span>$100</span>
+                                {{!-- <span class="mr-1"><del>$200</del></span> --}} {{!-- Descuento --}}
+                                <span>${{publication.precio}}</span>
                             </p>
                         </div>
                         <div class="my-3">
