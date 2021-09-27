@@ -4,7 +4,7 @@ const router = express.Router();
 const mysql = require("mysql");
 
 router.get('/', authController.isLoggedIn, (req, res) => {
-    console.log(req.user );
+    console.log(req.user);
     if( req.user ) {
       res.render('profile/profile', {
         user: req.user,
@@ -16,7 +16,19 @@ router.get('/', authController.isLoggedIn, (req, res) => {
     
   })
 
-  router.get('/edit/:mail', authController.editUser, async (req, res) => {
+router.get('/:nombre', authController.verTienda ,(req, res) => {
+  if( req.tienda ) {
+    res.render('profile/profile', {
+      tienda: req.tienda,
+      title: ""
+    });
+  } else {
+    res.render('profile/profile');
+  }
+    })
+  
+
+router.get('/edit/:mail', authController.editUser, async (req, res) => {
     if( req.user ) {
       res.render('profile/editProfile', {
         user: req.user,

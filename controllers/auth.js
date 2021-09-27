@@ -195,7 +195,7 @@ exports.login = async (req, res) => {
       return res.status(400).render('./auth/login', {
         pass: req.body.pass,
         mail: req.body.mail,
-        message: 'Ingrese mail y/o contraseña'
+        message: 'Ingrese mail y contraseña'
       })
     }
 
@@ -371,30 +371,44 @@ exports.registerCompany = (req, res) => {
     })
   });
 }
+
 exports.isLoggedIn = async (req, res, next) => {
   if(req.cookies.jwt) {
     try {
       //1) verify the token
-      
-      const decoded = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRET);
-      
 
+      const decoded = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRET);
       console.log(decoded);
 
-      //2) Check if the user still exists
-      db.query('SELECT * FROM cuentas WHERE email = ?', [decoded.id], (error, result) => {
-        console.log(result);
-
-        if(!result) {
-          return next();
+      db.query('SELECT * from cuentas WHERE cuentas.email = ?', [decoded.id], (error, result) => {
+        const tipo = (result[0].tipo);
+        //comprobacion de q el usuario exista
+        if (tipo == 'usuario') {
+          db.query('SELECT cuentas.email , cuentas.password, cuentas.tipo, cuenta_personal.nombre FROM (cuentas INNER JOIN cuenta_personal ON cuentas.email = cuenta_personal.email) WHERE cuentas.email = ?', [decoded.id], (error, result2) => {
+            if(!result2) {
+              return next();
+            }
+    
+            req.user = result2[0];
+            console.log("user es")
+            console.log(req.user);
+            return next();
+    
+          })
+        } if(tipo == 'empresa') {
+          db.query('SELECT cuentas.email , cuentas.password, cuentas.tipo, cuenta_empresa.nombre FROM (cuentas INNER JOIN cuenta_empresa ON cuentas.email = cuenta_empresa.email) WHERE cuentas.email = ?', [decoded.id], (error, result) => {
+            if(!result) {
+              return next();
+            }
+    
+            req.user = result[0];
+            console.log("tienda es")
+            console.log(req.user);
+            return next();
+    
+          })
         }
-
-        req.user = result[0];
-        console.log("user is")
-        console.log(req.user);
-        return next();
-
-      });
+      })
     } catch (error) {
       console.log(error);
       return next();
@@ -402,7 +416,19 @@ exports.isLoggedIn = async (req, res, next) => {
   } else {
     return next();
   }
-  
+}
+
+exports.verTienda = async (req, res, next) => {
+  try {
+    db.query('SELECT nombre FROM cuenta_empresa', (error, result) => {
+      console.log(result)
+      req.tienda = result[0];
+      console.log("datos de tiendas")
+      console.log(req.tienda)
+    })
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 exports.logout = (req, res) => {
