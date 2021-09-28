@@ -138,11 +138,14 @@
                 </div>
 
                 <div>
+                    {{#if question}}
                     <h5 class="text-muted">Preguntas realizadas</h5>
                     {{!-- Plantilla de una pregunta --}}
+                    
                     <div class="my-2">
                         <div> {{!-- Pregunta del comprador --}}
-                            <p>¿Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias illum quidem ducimus ut voluptatibus ipsam, eum obcaecati dicta nostrum adipisci illo ratione aut nihil voluptatem minus provident ab nulla ex?</p>
+                            
+                            <p>{{question.mensaje}}</p>
                         </div>
                         <div class="ms-4 text-muted"> {{!-- Respuesta del vendedor --}}
                             <a href="/profile" class="link-unstyled">
@@ -156,17 +159,17 @@
                             </div>
                         </div>
                     </div>
-
                     {{!-- Cuando la publicación no tiene preguntas --}}
                     <div class="my-2"> 
                         <div class="mt-2 ms-4 text-muted">
                             <p>Aún nadie ha realizado una pregunta sobre este producto, ¡se el primero en hacerlo!</p>
                         </div>
                     </div>
-
                 </div>
+                
             </div>
         </div>
+        {{/if}}
     </section>
     <section class="container mb-5">
         <div class="mb-3 d-flex justify-content-center">

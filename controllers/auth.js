@@ -10,35 +10,6 @@ const db = mysql.createConnection({
   user: process.env.DATABASE_USER,
   password: process.env.DATABASE_PASSWORD,
   database: process.env.DATABASE,
-  helpers: {
-    ifCond: ('ifCond', function (v1, operator, v2, options) {
-
-      switch (operator) {
-          case '==':
-              return (v1 == v2) ? options.fn(this) : options.inverse(this);
-          case '===':
-              return (v1 === v2) ? options.fn(this) : options.inverse(this);
-          case '!=':
-              return (v1 != v2) ? options.fn(this) : options.inverse(this);
-          case '!==':
-              return (v1 !== v2) ? options.fn(this) : options.inverse(this);
-          case '<':
-              return (v1 < v2) ? options.fn(this) : options.inverse(this);
-          case '<=':
-              return (v1 <= v2) ? options.fn(this) : options.inverse(this);
-          case '>':
-              return (v1 > v2) ? options.fn(this) : options.inverse(this);
-          case '>=':
-              return (v1 >= v2) ? options.fn(this) : options.inverse(this);
-          case '&&':
-              return (v1 && v2) ? options.fn(this) : options.inverse(this);
-          case '||':
-              return (v1 || v2) ? options.fn(this) : options.inverse(this);
-          default:
-              return options.inverse(this);
-      }
-  })
-  }
 });
 
 
@@ -359,6 +330,10 @@ exports.registerCompany = (req, res) => {
       if(error) {
         console.log(error);
       } 
+    db.query('INSERT INTO perfil SET ?', {email: mailEmpresa, nombre:name}, (error, results) => {
+        if(error) {
+          console.log(error);
+        } 
     db.query('INSERT INTO cuenta_empresa SET ?' , {email:mailEmpresa, nombre:name, RUT:rut, razonSocial:razon} , (error, results)=> {
         if (error) {console.log(error)
         } else {
@@ -369,6 +344,7 @@ exports.registerCompany = (req, res) => {
         }
      })
     })
+  })
   });
 }
 
