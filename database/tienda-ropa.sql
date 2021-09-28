@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 28-09-2021 a las 00:52:28
+-- Tiempo de generación: 28-09-2021 a las 06:19:52
 -- Versión del servidor: 10.4.20-MariaDB
--- Versión de PHP: 8.0.8
+-- Versión de PHP: 7.3.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -247,10 +247,18 @@ INSERT INTO `materiales` (`material`) VALUES
 
 CREATE TABLE `perfil` (
   `email` varchar(255) NOT NULL,
+  `nombre` varchar(255) NOT NULL,
   `descripcion` varchar(255) NOT NULL,
   `direccion` varchar(255) NOT NULL,
   `telefono` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `perfil`
+--
+
+INSERT INTO `perfil` (`email`, `nombre`, `descripcion`, `direccion`, `telefono`) VALUES
+('mitienda@gmail.com', 'Zapatería de zapatos', 'Una descripcion cortita y al pie', 'Manuel Stirling', '45672222');
 
 -- --------------------------------------------------------
 
@@ -320,7 +328,8 @@ CREATE TABLE `publicacion` (
 --
 
 INSERT INTO `publicacion` (`nroPublicacion`, `precio`, `titulo`, `descripcion`, `producto`, `vendedor`) VALUES
-(1, 1400, 'Championes de cuero', 'Estos championes de cuero son lo mejor del mundo, compralos 50 porciento de descuento', 2, 'mitienda@gmail.com');
+(1, 1400, 'Championes de cuero', 'Estos championes de cuero son lo mejor del mundo, compralos 50 porciento de descuento', 2, 'mitienda@gmail.com'),
+(4, 1500, 'Remera Nike', 'Una remera nike buenarda! como dice coscu', 3, 'mitienda@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -500,7 +509,7 @@ ALTER TABLE `producto`
 -- AUTO_INCREMENT de la tabla `publicacion`
 --
 ALTER TABLE `publicacion`
-  MODIFY `nroPublicacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `nroPublicacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Restricciones para tablas volcadas
@@ -536,7 +545,7 @@ ALTER TABLE `enlaces`
 -- Filtros para la tabla `perfil`
 --
 ALTER TABLE `perfil`
-  ADD CONSTRAINT `perfil_ibfk_1` FOREIGN KEY (`email`) REFERENCES `cuenta_empresa` (`email`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `perfil_ibfk_1` FOREIGN KEY (`email`) REFERENCES `cuentas` (`email`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `preguntas`
