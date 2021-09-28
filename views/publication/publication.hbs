@@ -105,11 +105,11 @@
         <div>
             <h3 class="fw-bold">Preguntas y respuestas</h3>
             <div class="mb-3">
-                <form action="question/1" method="POST">
+                <form action="/publication/question/{{publication.nroPublicacion}}" method="POST">
                     <div class="row">
                         <label for="question">Preguntale a la tienda</label>
                         <div class="col">
-                            <textarea class="form-control text-area rounded-0" name="pregunta" id="pregunta" placeholder="Ingrese su pregunta"></textarea>
+                            <textarea class="form-control text-area rounded-0" name="mensaje" id="mensaje" placeholder="Ingrese su pregunta"></textarea>
                         </div>
                         <div class="col-auto">
                             {{!-- <div class="mb-3 d-grid gap-2"> --}}
@@ -161,7 +161,7 @@
                                         </div>
                                     </a>
                                     <div class="d-flex">
-                                        <p>{{respuesta}}<span class="ms-3">{{fechaPregunta}}</span></p>
+                                        <p>{{respuesta}}<span class="ms-3">{{timeago fechaPregunta}}</span></p>
                                     </div>
                                 </div>
                                 {{/if}}
