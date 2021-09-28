@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-09-2021 a las 04:45:34
+-- Tiempo de generación: 28-09-2021 a las 00:52:28
 -- Versión del servidor: 10.4.20-MariaDB
--- Versión de PHP: 7.3.29
+-- Versión de PHP: 8.0.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -160,14 +160,6 @@ CREATE TABLE `enlaces` (
   `propietario` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Volcado de datos para la tabla `enlaces`
---
-
-INSERT INTO `enlaces` (`tipo`, `URL`, `propietario`) VALUES
-('Facebook', 'Facebook.com', 'mitienda@gmail.com'),
-('Instagram', '', 'mitienda@gmail.com');
-
 -- --------------------------------------------------------
 
 --
@@ -250,6 +242,19 @@ INSERT INTO `materiales` (`material`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `perfil`
+--
+
+CREATE TABLE `perfil` (
+  `email` varchar(255) NOT NULL,
+  `descripcion` varchar(255) NOT NULL,
+  `direccion` varchar(255) NOT NULL,
+  `telefono` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `preguntas`
 --
 
@@ -259,16 +264,17 @@ CREATE TABLE `preguntas` (
   `fechaPregunta` date NOT NULL,
   `horaPregunta` time NOT NULL,
   `remitente` varchar(255) NOT NULL,
-  `publicacion` int(11) NOT NULL
+  `publicacion` int(11) NOT NULL,
+  `respuesta` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `preguntas`
 --
 
-INSERT INTO `preguntas` (`idPregunta`, `mensaje`, `fechaPregunta`, `horaPregunta`, `remitente`, `publicacion`) VALUES
-(1, 'Hola quería realizar una consulta sobre este producto, gracias.', '2021-09-05', '09:30:00', 'alan@gmail.com', 1),
-(2, 'No me respondieron la duda que tenía. Mal servicio, muy malo!', '2021-09-07', '19:00:00', 'alan@gmail.com', 1);
+INSERT INTO `preguntas` (`idPregunta`, `mensaje`, `fechaPregunta`, `horaPregunta`, `remitente`, `publicacion`, `respuesta`) VALUES
+(1, 'Hola quería realizar una consulta sobre este producto, gracias.', '2021-09-05', '09:30:00', 'alan@gmail.com', 1, 'No'),
+(2, 'No me respondieron la duda que tenía. Mal servicio, muy malo!', '2021-09-07', '19:00:00', 'alan@gmail.com', 1, '');
 
 -- --------------------------------------------------------
 
@@ -430,6 +436,12 @@ ALTER TABLE `materiales`
   ADD PRIMARY KEY (`material`);
 
 --
+-- Indices de la tabla `perfil`
+--
+ALTER TABLE `perfil`
+  ADD PRIMARY KEY (`email`);
+
+--
 -- Indices de la tabla `preguntas`
 --
 ALTER TABLE `preguntas`
@@ -517,8 +529,14 @@ ALTER TABLE `curvas`
 -- Filtros para la tabla `enlaces`
 --
 ALTER TABLE `enlaces`
-  ADD CONSTRAINT `enlaces_ibfk_1` FOREIGN KEY (`propietario`) REFERENCES `cuenta_empresa` (`email`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `enlaces_ibfk_2` FOREIGN KEY (`tipo`) REFERENCES `enlaces_tipos` (`plataforma`);
+  ADD CONSTRAINT `enlaces_ibfk_2` FOREIGN KEY (`tipo`) REFERENCES `enlaces_tipos` (`plataforma`),
+  ADD CONSTRAINT `enlaces_ibfk_3` FOREIGN KEY (`propietario`) REFERENCES `perfil` (`email`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `perfil`
+--
+ALTER TABLE `perfil`
+  ADD CONSTRAINT `perfil_ibfk_1` FOREIGN KEY (`email`) REFERENCES `cuenta_empresa` (`email`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `preguntas`

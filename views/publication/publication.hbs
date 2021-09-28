@@ -58,11 +58,15 @@
                             <p> {{publication.descripcion}} </p>
                         </div>
                         <div>
-                            <h6>Precio del producto</h6>
-                            <p>
-                                {{!-- <span class="mr-1"><del>$200</del></span> --}} {{!-- Descuento --}}
-                                <span>${{publication.precio}}</span>
-                            </p>
+                            <div class="row d-flex">
+                                <div class="col-auto h1">
+                                    <span>${{publication.precio}}</span>
+                                </div>
+                                {{!-- <div class="col">
+                                    <p class="mb-0">25% descuento</p>
+                                    <span class="mr-1"><del>$200</del></span>
+                                </div> --}}
+                            </div>
                         </div>
                         <div class="my-3">
                             <h6>Colores disponibles</h6>
@@ -101,11 +105,11 @@
         <div>
             <h3 class="fw-bold">Preguntas y respuestas</h3>
             <div class="mb-3">
-                <form>
+                <form action="question/1" method="POST">
                     <div class="row">
                         <label for="question">Preguntale a la tienda</label>
                         <div class="col">
-                            <textarea class="form-control text-area rounded-0" name="question" id="question" placeholder="Ingrese su pregunta"></textarea>
+                            <textarea class="form-control text-area rounded-0" name="pregunta" id="pregunta" placeholder="Ingrese su pregunta"></textarea>
                         </div>
                         <div class="col-auto">
                             {{!-- <div class="mb-3 d-grid gap-2"> --}}
@@ -117,16 +121,17 @@
             </div>
             <div>
 
-                <div> {{!-- Esta seccion aparece si existen preguntas realizadas por el propio usuario --}}
+                {{!-- Esta seccion aparece si existen preguntas realizadas por el propio usuario --}}
+                {{!-- <div> 
                     <h5 class="text-muted">Tus preguntas</h5>
                     <div class="my-2">
                         <div>
-                            <p>¿Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias illum quidem ducimus ut voluptatibus ipsam, eum obcaecati dicta nostrum adipisci illo ratione aut nihil voluptatem minus provident ab nulla ex?</p>
+                            <p class="mb-2">¿Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias illum quidem ducimus ut voluptatibus ipsam, eum obcaecati dicta nostrum adipisci illo ratione aut nihil voluptatem minus provident ab nulla ex?</p>
                         </div>
                         <div class="ms-4 text-muted">
                             <a href="/profile" class="link-unstyled">
-                                <div class="montserrat">
-                                    <span class="d-inline fw-bold">Nombre de la tienda</span>
+                                <div class="montserrat d-inline">
+                                    <span class="fw-bold">Nombre de la tienda</span>
                                     <span class="badge rounded-pill bg-secondary ms-1">Respuesta del vendedor</span>
                                 </div>
                             </a>
@@ -135,41 +140,45 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
 
                 <div>
-                    {{#if question}}
                     <h5 class="text-muted">Preguntas realizadas</h5>
                     {{!-- Plantilla de una pregunta --}}
-                    
-                    <div class="my-2">
-                        <div> {{!-- Pregunta del comprador --}}
-                            
-                            <p>{{question.mensaje}}</p>
-                        </div>
-                        <div class="ms-4 text-muted"> {{!-- Respuesta del vendedor --}}
-                            <a href="/profile" class="link-unstyled">
-                                <div class="montserrat">
-                                    <span class="d-inline fw-bold">Nombre de la tienda</span>
-                                    <span class="badge rounded-pill bg-secondary ms-1">Respuesta del vendedor</span>
+
+                    {{#if questions}}
+                        {{#each questions}}
+                            <div class="my-2">
+                                <div> {{!-- Pregunta del comprador --}}
+                                    <p class="mb-2">{{mensaje}}</p>
                                 </div>
-                            </a>
-                            <div class="d-flex">
-                                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Deserunt vitae doloribus excepturi, quaerat ducimus quod tenetur repellat deleniti totam a harum! Expedita temporibus ad dolorum culpa. Ipsam aliquam fugit facilis.<span class="ms-3">19/09/2021</span></p>
+                                {{#if respuesta}}
+                                <div class="ms-4 text-muted"> {{!-- Respuesta del vendedor --}}
+                                    <a href="/profile" class="link-unstyled">
+                                        <div class="montserrat d-inline">
+                                            <span class="fw-bold">{{vendedor}}</span>
+                                            <span class="badge rounded-pill bg-secondary ms-1">Respuesta del vendedor</span>
+                                        </div>
+                                    </a>
+                                    <div class="d-flex">
+                                        <p>{{respuesta}}<span class="ms-3">{{fechaPregunta}}</span></p>
+                                    </div>
+                                </div>
+                                {{/if}}
+                            </div>
+                        {{/each}}
+                    {{else}}
+                        {{!-- Cuando la publicación no tiene preguntas --}}
+                        <div class="my-2"> 
+                            <div class="mt-2 ms-4 text-muted">
+                                <p>Aún nadie ha realizado una pregunta sobre este producto, ¡se el primero en hacerlo!</p>
                             </div>
                         </div>
-                    </div>
-                    {{!-- Cuando la publicación no tiene preguntas --}}
-                    <div class="my-2"> 
-                        <div class="mt-2 ms-4 text-muted">
-                            <p>Aún nadie ha realizado una pregunta sobre este producto, ¡se el primero en hacerlo!</p>
-                        </div>
-                    </div>
+                    {{/if}}
+
                 </div>
-                
             </div>
         </div>
-        {{/if}}
     </section>
     <section class="container mb-5">
         <div class="mb-3 d-flex justify-content-center">

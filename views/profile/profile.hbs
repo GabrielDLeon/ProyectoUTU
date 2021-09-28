@@ -8,8 +8,8 @@
             <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Generic placeholder image" class="img-fluid rounded-circle img-thumbnail" style="width: max-content; z-index: 1">
           </div>
           <div class="col">
-              <h2 class="text-center text-uppercase">{{data.nombre}}</h2>
-              <p style="font-size: 1rem;">{{profile.descripcion}}</p>
+              <h2 class="text-center text-uppercase">{{user.nombre}}</h2>
+              <p style="font-size: 1rem;">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Reiciendis animi dolores atque earum similique totam voluptate maxime non culpa, odio molestiae neque, at vitae officiis minima temporibus beatae! Architecto, impedit.</p>
               <hr>
               <div class="row">
                 <div class="col-auto">
@@ -17,7 +17,7 @@
                 </div>
                 <div class="col-auto mb-1">
                   <p class="m-0"><strong>Dirección</strong></p>  
-                  <p>{{profile.direccion}}</p>
+                  <p>25 de agosto</p>
                 </div>
               </div>
               <div class="row">
@@ -26,7 +26,7 @@
                 </div>
                 <div class="col-auto mb-1">
                   <p class="m-0"><strong>Teléfono</strong></p>  
-                  <p>{{profile.telefono}}</p>
+                  <p>4567 2297</p>
                 </div>
               </div>
               <div class="row">
@@ -45,27 +45,86 @@
   </div>
 </div>
 
-
-
 <div class="container mb-5">
   <div class="row row-cols-lg-3 row-cols-sm-1 g-4">
-    {{#if publicacion}}
-    {{#each publicacion}}
+
     <div class="col">
-      <a href="/publication/{{nroPublicacion}}" class="link-unstyled">
       <div class="card rounded-0">
-        <img src="/img/testing/item1.jpg" class="card-img-top" >
+        <img src="/img/testing/item1.jpg" class="card-img-top">
         <div class="card-body">
-          <h5 class="card-title">{{titulo}}</h5>  
+          <h5 class="card-title">Card title</h5>  
           <p class="card-text">
-            {{descripcion}}
+            This is a longer card with supporting text below as a natural lead-in to
+            additional content. This content is a little bit longer.
           </p>
         </div>
       </div>
-      </a>
     </div>
-    {{/each}}
-    {{/if}}
+
+    <div class="col">
+      <div class="card rounded-0">
+        <img src="/img/testing/item2.jpg" class="card-img-top">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>  
+          <p class="card-text">
+            This is a longer card with supporting text below as a natural lead-in to
+            additional content. This content is a little bit longer.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="card rounded-0">
+        <img src="/img/testing/item3.jpg" class="card-img-top">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>  
+          <p class="card-text">
+            This is a longer card with supporting text below as a natural lead-in to
+            additional content. This content is a little bit longer.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="card rounded-0">
+        <img src="/img/testing/item4.jpg" class="card-img-top">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>  
+          <p class="card-text">
+            This is a longer card with supporting text below as a natural lead-in to
+            additional content. This content is a little bit longer.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="card rounded-0">
+        <img src="/img/testing/item3.jpg" class="card-img-top">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>  
+          <p class="card-text">
+            This is a longer card with supporting text below as a natural lead-in to
+            additional content. This content is a little bit longer.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="card rounded-0">
+        <img src="/img/testing/item1.jpg" class="card-img-top">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>  
+          <p class="card-text">
+            This is a longer card with supporting text below as a natural lead-in to
+            additional content. This content is a little bit longer.
+          </p>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
