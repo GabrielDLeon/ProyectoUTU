@@ -47,7 +47,7 @@
                             </span>
                         </div> --}}
                         <h3 class="fw-bold">{{publication.titulo}}</h3>
-                        <a href="/profile" class="link-unstyled">
+                        <a href="/profile/{{publication.vendedor}}" class="link-unstyled">
                             <h6 class="text-muted d-inline f-space-2">Promocionado por <span>{{publication.vendedor}}</span></h6>
                         </a>
                     </header>
@@ -193,7 +193,7 @@
                             <p class="card-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Reiciendis animi dolores atque earum similique totam voluptate maxime non culpa, odio molestiae neque, at vitae officiis minima temporibus beatae! Architecto, impedit.</p>
                             <div class="d-flex">
                                 <a href="/profile" class="link-unstyled ms-auto">
-                                    <span class="card-subtitle d-inline text-muted carattere me-3">Nombre de la empresa</span>
+                                    <span class="card-subtitle d-inline text-muted carattere me-3">{{publication.vendedor}}</span>
                                 </a>
                             </div>
                         </div>

@@ -362,6 +362,8 @@ exports.isLoggedIn = async (req, res, next) => {
             }
     
             req.user = result2[0];
+            console.log("email es")
+            console.log(req.user.email);
             console.log("user es")
             console.log(req.user);
             return next();

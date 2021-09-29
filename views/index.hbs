@@ -2,20 +2,21 @@
 <body>
     <div class="container mt-5">
         <div class="row row-cols-lg-4 row-cols-sm-2 g-4">
-
+            {{#if publicacion}}
+            {{#each publicacion}}
             <div class="col">
-                <a href="/publication/1" class="link-unstyled">
+                <a href="/publication/{{nroPublicacion}}" class="link-unstyled">
                     <div class="card rounded-0">
                         <div class="imgbox">
                             <img src="/img/testing/item3.jpg" class="card-img-top">
                         </div>
                         <div class="card-body">
-                            <h5 class="card-title mb-1">Nombre de la publicación</h5>
-                            <h6><a href="#vendedor" class="text-muted link-unstyled">Nombre del vendedor</a></h6>
+                            <h5 class="card-title mb-1">{{titulo}}</h5>
+                            <h6><a href="/profile/{{vendedor}}" class="text-muted link-unstyled">{{vendedor}}</a></h6>
             
                             <div class="d-flex">
-                                <h4>$250</h4>
-                                <h6 class="text-muted ms-1"><s>$500</s></h6>
+                                <h4>${{precio}}</h4>
+                                <h6 class="text-muted ms-1"><s>$2000</s></h6>
                             </div>
             
                             {{!-- CUANDO NO HAY PRECIO ASIGNADO APARECE ESTE BOTON --}}
@@ -33,64 +34,8 @@
                     </div>
                 </a>
             </div>
-            
-            <div class="col">
-                <a href="#publicacion" class="link-unstyled">
-                    <div class="card rounded-0">
-                        <div class="imgbox">
-                            <img src="/img/testing/item1.jpg" class="card-img-top">
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title mb-1">Nombre de la publicación</h5>
-                            <h6><a href="#vendedor" class="text-muted link-unstyled">Nombre del vendedor</a></h6>
-            
-                            <div class="d-flex">
-                                <h4>$250</h4>
-                                <h6 class="text-muted ms-1"><s>$500</s></h6>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-
-            <div class="col">
-                <a href="#publicacion" class="link-unstyled">
-                    <div class="card rounded-0">
-                        <div class="imgbox">
-                            <img src="/img/testing/item4.jpg" class="card-img-top">
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title mb-1">Nombre de la publicación</h5>
-                            <h6><a href="#vendedor" class="text-muted link-unstyled">Nombre del vendedor</a></h6>
-            
-                            <div class="d-flex">
-                                <h4>$250</h4>
-                                <h6 class="text-muted ms-1"><s>$500</s></h6>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-
-            <div class="col">
-                <a href="#publicacion" class="link-unstyled">
-                    <div class="card rounded-0">
-                        <div class="imgbox">
-                            <img src="/img/testing/item1.jpg" class="card-img-top">
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title mb-1">Nombre de la publicación</h5>
-                            <h6><a href="#vendedor" class="text-muted link-unstyled">Nombre del vendedor</a></h6>
-            
-                            <div class="d-flex">
-                                <h4>$250</h4>
-                                <h6 class="text-muted ms-1"><s>$500</s></h6>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-
+            {{/each}}
+            {{/if}}
         </div>
     </div>
 </body>

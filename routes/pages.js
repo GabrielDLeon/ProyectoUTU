@@ -1,13 +1,28 @@
 const express = require('express');
 const authController = require('../controllers/auth');
-
 const router = express.Router();
+const mysql = require("mysql");
+const db = mysql.createConnection({
+  host: process.env.DATABASE_HOST,
+  user: process.env.DATABASE_USER,
+  password: process.env.DATABASE_PASSWORD,
+  database: process.env.DATABASE,
+});
 
-router.get('/', authController.isLoggedIn, (req, res) => {
-  res.render('index', {
-    user: req.user,
-    title: "Klouts"
-  });
+router.get('/', authController.isLoggedIn, async (req, res) => {
+                db.query('SELECT direccion, descripcion, telefono, nombre FROM perfil', (error, result) => {
+                db.query('SELECT nroPublicacion, precio, titulo, descripcion, producto, cuenta_empresa.nombre AS vendedor FROM (publicacion INNER JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email)', (error, publicacion) => {
+                console.log(result);
+                console.log("resultado de perfil")
+                console.log(publicacion);
+                res.render('index', {
+                publicacion,
+                data : result[0],
+                user: req.user,
+                title: "Klouts"
+                })
+              });
+        });
 });
 
 router.get('/newPublication', authController.isLoggedIn, (req, res) => {

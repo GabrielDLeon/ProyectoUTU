@@ -25,13 +25,18 @@ router.post('/question/:id', authController.isLoggedIn, async (req, res) =>{
         mensaje,
         fechaPregunta: '2021-09-05',
         horaPregunta: '09:30:00',
-        remitente: "alan@gmail.com",
+        remitente: req.user.email,
         publicacion: id
     };
-    await db.query('INSERT INTO `preguntas` (`mensaje`, `remitente`, `publicacion`) VALUES (?, ?, ?)', [newQuestion.mensaje, newQuestion.remitente, newQuestion.publicacion]);
-    console.log('Pregunta enviada correctamente');
-    const path = '/publication/'+id;
-    res.redirect(path);
+    if (!mensaje) {
+        const path = '/publication/'+id;
+        return res.redirect(path);
+    }
+    await db.query('INSERT INTO `preguntas` (`mensaje`, `remitente`, `publicacion`) VALUES (?, ?, ?)', [newQuestion.mensaje, newQuestion.remitente, newQuestion.publicacion], (error, result) => {
+        console.log('Pregunta enviada correctamente');
+        const path = '/publication/'+id;
+        res.redirect(path);
+    });
 })
 
 router.get('/:id', authController.isLoggedIn, async (req, res) => {
