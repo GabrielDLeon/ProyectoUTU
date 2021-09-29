@@ -78,8 +78,6 @@ exports.editUser = async (req, res, next) => {
         nombre,
         mail,
       }
-      console.log("Los datos son:");
-      console.log(newData);
       let hashedPassword = await bcrypt.hash(pass2, 8);
       console.log(hashedPassword);
       
@@ -356,14 +354,12 @@ exports.isLoggedIn = async (req, res, next) => {
         const tipo = (result[0].tipo);
         //comprobacion de q el usuario exista
         if (tipo == 'usuario') {
-          db.query('SELECT cuentas.email , cuentas.password, cuentas.tipo, cuenta_personal.nombre FROM (cuentas INNER JOIN cuenta_personal ON cuentas.email = cuenta_personal.email) WHERE cuentas.email = ?', [decoded.id], (error, result2) => {
+          db.query('SELECT cuentas.email , cuentas.password, cuentas.tipo, cuenta_personal.nombre, cuenta_personal.id FROM (cuentas INNER JOIN cuenta_personal ON cuentas.email = cuenta_personal.email) WHERE cuentas.email = ?', [decoded.id], (error, result2) => {
             if(!result2) {
               return next();
             }
     
             req.user = result2[0];
-            console.log("email es")
-            console.log(req.user.email);
             console.log("user es")
             console.log(req.user);
             return next();

@@ -46,16 +46,19 @@ router.get('/:id', authController.isLoggedIn, async (req, res) => {
         //console.log(result);
         if (result.length>0){
             await db.query('SELECT idPregunta, mensaje, fechaPregunta, cuenta_empresa.nombre AS vendedor, cuenta_personal.nombre AS remitente, respuesta FROM (publicacion INNER JOIN preguntas ON publicacion.nroPublicacion = preguntas.publicacion INNER JOIN cuenta_personal ON cuenta_personal.email = preguntas.remitente INNER JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email) WHERE nroPublicacion = ? ORDER BY fechaPregunta DESC',[id], async (error, questions) => {
+                console.log("result:")
+                console.log(result)
                 console.log("questions:")
                 console.log(questions);
                 const vendedor = result[0].vendedorEmail;
-                await db.query('SELECT nroPublicacion, precio, titulo FROM `publicacion` WHERE vendedor = ?',[vendedor], (error, products) => {
+                const nroPublicacion = result[0].nroPublicacion;
+                await db.query('SELECT nroPublicacion, precio, titulo FROM `publicacion` WHERE vendedor = ? AND nroPublicacion != ?',[vendedor , nroPublicacion], (error, products) => {
                     res.render('publication/publication', {
                         user: req.user,
                         products,
                         questions,
                         publication: result[0],
-                        title: "Producto"
+                        title: result[0].titulo
                     });
                 })
             })

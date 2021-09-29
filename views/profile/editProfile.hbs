@@ -1,20 +1,27 @@
 {{>navigation}}
 <div class="container mt-5">
-<form action="/profile/edit/{{user.mail}}" method="POST"> 
+<form action="/profile/edit/{{user.id}}" method="POST"> 
         <div class="mb-3"> 
           <label for="name" class="form-label1">Nombre</label>
-          <input type="User" class="form-control" id="name" name="nombre" value="{{user.name}}">
-        </div>
-        <div class="mb-3"> 
-          <label for="mailUsuario" class="form-label">Email</label>
-          <input type="text" class="form-control" id="mailUsuario" aria-describedby="emailHelp" name="mail2" value="{{user.mail}}">
+          <input type="User" class="form-control" id="name" name="nombre" value="{{user.nombre}}{{name}}">
         </div>
           <div class="mb-3"> 
-         <label for="pass2" class="form-label">Nueva contraseña</label> 
-          <input type="password" class="form-control" id="pass2" name="pass2" value="{{pass2}}"> 
+         <label for="pass2" class="form-label">Contraseña actual</label> 
+          <input type="password" class="form-control" id="pass" name="pass" value="{{pass}}"> 
           <div class="col-auto">
           </div> 
         </div>
+        <div class="mb-3"> 
+         <label for="pass2" class="form-label">Nueva contraseña</label> 
+          <input type="password" class="form-control" id="pass" name="newPass" value="{{newPass}}"> 
+          <div class="col-auto">
+        </div> 
+        <br>
+        <div class="mb-3"> 
+         <label for="pass2" class="form-label">Confirmación de la nueva contraseña</label> 
+          <input type="password" class="form-control" id="pass" name="newPassConfirm" value="{{newPassConfirm}}"> 
+          <div class="col-auto">
+        </div> 
         {{!--
         <input type="checkbox" name="change_password" id="change_password" value="1" onclick="setPasswordForm(this.checked)" title="Cambiar contraseña" class="checkbox no-bg validation-passed">
         <label for="change_password">Cambiar contraseña</label> --}}
