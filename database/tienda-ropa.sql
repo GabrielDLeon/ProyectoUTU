@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 28-09-2021 a las 06:19:52
+-- Tiempo de generación: 30-09-2021 a las 01:48:42
 -- Versión del servidor: 10.4.20-MariaDB
--- Versión de PHP: 7.3.29
+-- Versión de PHP: 8.0.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -80,6 +80,8 @@ CREATE TABLE `cuentas` (
 
 INSERT INTO `cuentas` (`email`, `password`, `tipo`) VALUES
 ('alan@gmail.com', '321', 'personal'),
+('ema@gmail.com', '$2a$08$4WfXOKfCuinCG4JKzQ5wOO.r/WLv5YMjuTvjXFMtN5u71AAUIYGei', 'usuario'),
+('emaa@gmail.com', '$2a$08$X/aqknr6fiTSdT/YVtsPfeboCNyWgJCeQCVr6746mEl7J5usH2dky', 'usuario'),
 ('mitienda@gmail.com', '12345', 'empresa'),
 ('nombreempresa@gmail.com', '$2a$08$3RD65FZ2Aww8Cm/MAeJuF.k5C7Qg05ZX06ThOZLSdm4J3zn1NT16O', 'empresa'),
 ('otratienda@gmail.com', '54618', 'empresa'),
@@ -116,6 +118,7 @@ INSERT INTO `cuenta_empresa` (`email`, `RUT`, `nombre`, `direccion`, `telefono`,
 --
 
 CREATE TABLE `cuenta_personal` (
+  `id` int(11) NOT NULL,
   `email` varchar(255) NOT NULL,
   `nombre` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -124,8 +127,10 @@ CREATE TABLE `cuenta_personal` (
 -- Volcado de datos para la tabla `cuenta_personal`
 --
 
-INSERT INTO `cuenta_personal` (`email`, `nombre`) VALUES
-('alan@gmail.com', 'Alan');
+INSERT INTO `cuenta_personal` (`id`, `email`, `nombre`) VALUES
+(1, 'alan@gmail.com', 'Alan'),
+(2, 'ema@gmail.com', 'emanuel'),
+(3, 'emaa@gmail.com', 'emnuel');
 
 -- --------------------------------------------------------
 
@@ -282,7 +287,20 @@ CREATE TABLE `preguntas` (
 
 INSERT INTO `preguntas` (`idPregunta`, `mensaje`, `fechaPregunta`, `horaPregunta`, `remitente`, `publicacion`, `respuesta`) VALUES
 (1, 'Hola quería realizar una consulta sobre este producto, gracias.', '2021-09-05', '09:30:00', 'alan@gmail.com', 1, 'No'),
-(2, 'No me respondieron la duda que tenía. Mal servicio, muy malo!', '2021-09-07', '19:00:00', 'alan@gmail.com', 1, '');
+(2, 'No me respondieron la duda que tenía. Mal servicio, muy malo!', '2021-09-07', '19:00:00', 'alan@gmail.com', 1, ''),
+(7, 'Hola una consulta, aceptan cuotas?', '0000-00-00', '00:00:00', 'ema@gmail.com', 1, ''),
+(8, '', '0000-00-00', '00:00:00', 'ema@gmail.com', 1, ''),
+(9, 'hola iuna consulta', '0000-00-00', '00:00:00', 'ema@gmail.com', 1, ''),
+(10, 'otra consulta', '0000-00-00', '00:00:00', 'ema@gmail.com', 1, ''),
+(11, 'asdasdasdasd', '0000-00-00', '00:00:00', 'ema@gmail.com', 1, ''),
+(12, '', '0000-00-00', '00:00:00', 'ema@gmail.com', 1, ''),
+(13, '', '0000-00-00', '00:00:00', 'ema@gmail.com', 1, ''),
+(14, '', '0000-00-00', '00:00:00', 'ema@gmail.com', 1, ''),
+(15, '', '0000-00-00', '00:00:00', 'ema@gmail.com', 1, ''),
+(16, 'asdasdas', '0000-00-00', '00:00:00', 'ema@gmail.com', 5, ''),
+(18, 'nuiniojmikoljmiokjmn', '0000-00-00', '00:00:00', 'ema@gmail.com', 5, ''),
+(19, 'asdsadasdsa', '0000-00-00', '00:00:00', 'emaa@gmail.com', 5, ''),
+(20, 'qwfrqw3fqwfqwfqwfwqfwf', '0000-00-00', '00:00:00', 'emaa@gmail.com', 5, '');
 
 -- --------------------------------------------------------
 
@@ -329,7 +347,8 @@ CREATE TABLE `publicacion` (
 
 INSERT INTO `publicacion` (`nroPublicacion`, `precio`, `titulo`, `descripcion`, `producto`, `vendedor`) VALUES
 (1, 1400, 'Championes de cuero', 'Estos championes de cuero son lo mejor del mundo, compralos 50 porciento de descuento', 2, 'mitienda@gmail.com'),
-(4, 1500, 'Remera Nike', 'Una remera nike buenarda! como dice coscu', 3, 'mitienda@gmail.com');
+(4, 1500, 'Remera Nike', 'Una remera nike buenarda! como dice coscu', 3, 'mitienda@gmail.com'),
+(5, 1100, 'Mochila Jansport', 'Una mochila con garantia  de  por vida si no te gusta te deevolemos la gita asi jasoidhn', 5, 'nombreempresa@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -404,6 +423,7 @@ ALTER TABLE `cuenta_empresa`
 -- Indices de la tabla `cuenta_personal`
 --
 ALTER TABLE `cuenta_personal`
+  ADD PRIMARY KEY (`id`),
   ADD KEY `cuenta_personal_ibfk_1` (`email`);
 
 --
@@ -494,10 +514,16 @@ ALTER TABLE `talles`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `cuenta_personal`
+--
+ALTER TABLE `cuenta_personal`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT de la tabla `preguntas`
 --
 ALTER TABLE `preguntas`
-  MODIFY `idPregunta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `idPregunta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT de la tabla `producto`
@@ -509,7 +535,7 @@ ALTER TABLE `producto`
 -- AUTO_INCREMENT de la tabla `publicacion`
 --
 ALTER TABLE `publicacion`
-  MODIFY `nroPublicacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `nroPublicacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Restricciones para tablas volcadas
