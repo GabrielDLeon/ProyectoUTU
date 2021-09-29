@@ -17,14 +17,14 @@ router.get('/', (req, res) => {
     });
 });
 
+
+// Enviar formulario de pregunta
 router.post('/question/:id', authController.isLoggedIn, async (req, res) =>{
     const {id} = req.params;
     const {mensaje} = req.body;
     const newQuestion = {
-        idPregunta: null,
         mensaje,
         fechaPregunta: '2021-09-05',
-        horaPregunta: '09:30:00',
         remitente: req.user.email,
         publicacion: id
     };
@@ -39,19 +39,23 @@ router.post('/question/:id', authController.isLoggedIn, async (req, res) =>{
     });
 })
 
+// Entrar a una publicacion desde URL con el ID
 router.get('/:id', authController.isLoggedIn, async (req, res) => {
     const {id} = req.params;
-    await db.query('SELECT nroPublicacion, precio, titulo, descripcion, producto, cuenta_empresa.nombre AS vendedor FROM (publicacion INNER JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email) WHERE nroPublicacion = ?',[id], (error, result) => {
+    await db.query('SELECT nroPublicacion, precio, titulo, descripcion, producto, cuenta_empresa.email AS vendedorEmail, cuenta_empresa.nombre AS vendedor FROM (publicacion INNER JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email) WHERE nroPublicacion = ?',[id], async (error, result) => {
+        //console.log(result);
         if (result.length>0){
-            db.query('SELECT idPregunta, mensaje, fechaPregunta, cuenta_empresa.nombre AS vendedor, cuenta_personal.nombre AS remitente, respuesta FROM (publicacion INNER JOIN preguntas ON publicacion.nroPublicacion = preguntas.publicacion INNER JOIN cuenta_personal ON cuenta_personal.email = preguntas.remitente INNER JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email) WHERE nroPublicacion = ? ORDER BY fechaPregunta DESC',[id], (error, questions) => {
-                // console.log(questions)
-                // console.log(result);
-                res.render('publication/publication', {
-                    user: req.user,
-                    questions,
-                    publication: result[0],
-                    title: "Producto"
-                });
+            await db.query('SELECT idPregunta, mensaje, fechaPregunta, cuenta_empresa.nombre AS vendedor, cuenta_personal.nombre AS remitente, respuesta FROM (publicacion INNER JOIN preguntas ON publicacion.nroPublicacion = preguntas.publicacion INNER JOIN cuenta_personal ON cuenta_personal.email = preguntas.remitente INNER JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email) WHERE nroPublicacion = ? ORDER BY fechaPregunta DESC',[id], async (error, questions) => {
+                console.log(questions);
+                await db.query('SELECT nroPublicacion, precio, titulo FROM `publicacion` WHERE vendedor = ?',[vendedor], (error, products) => {
+                    res.render('publication/publication', {
+                        user: req.user,
+                        products,
+                        questions,
+                        publication: result[0],
+                        title: "Producto"
+                    });
+                })
             })
         } else {
             res.redirect('/');

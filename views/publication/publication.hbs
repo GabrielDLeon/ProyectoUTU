@@ -101,7 +101,7 @@
             </div>
         </div>
     </section>
-    <section class="container mb-3">
+    <section class="container mb-3" id="seccion-preguntas">
         <div>
             <h3 class="fw-bold">Preguntas y respuestas</h3>
             <div class="mb-3">
@@ -205,46 +205,36 @@
             <h4 class="fw-bold mb-3">Otras publicaciones del vendedor</h4>
             <div>
                 <div class="row row-cols-lg-4 row-cols-sm-2 g-4">
-                    <div class="col position-relative">
-                        <div class="card">
-                            <a href="/publication" class="link-unstyled">
-                                <div class="imgbox">
-                                    <img src="/img/testing/item3.jpg" class="card-img-top">
-                                </div>
-                            </a>
-                            <div class="position-absolute p-1 mb-2">
-                                <span class="badge rounded-pill bg-dark">NEW</span>
-                                <span class="badge rounded-pill bg-dark">SALE</span>
-                            </div>
-                            <div class="container my-2 text-center">
-                                <div>
-                                    <a href="/publication" class="link-unstyled">
-                                        <h6 class="card-title mb-1">Nombre de la publicación</h6>
-                                    </a>
-                                    <p><a href="/profile" class="f-space-1 text-muted link-unstyled">Nombre del vendedor</a></p>
-                                    {{!-- DESCRIPCION (no es necesario) --}}
-                                    {{!-- <p class="card-text">
-                                        This is a longer card with supporting text below as a natural lead-in to
-                                        additional content. This content is a little bit longer.
-                                    </p> --}}
-                                </div>
-                                <div>
-                
-                                    {{!-- Cuando hay precio asignado aparece esto --}}
-                                    <div class="d-flex">
-                                        <h4>$250</h4>
-                                        <h6 class="text-muted ms-1"><s>$500</s></h6>
+
+                    {{#each products}}
+                        <div class="col position-relative">
+                            <div class="card">
+                                <a href="/publication/{{nroPublicacion}}" class="link-unstyled">
+                                    <div class="imgbox">
+                                        <img src="/img/testing/item3.jpg" class="card-img-top">
                                     </div>
-                
-                                    {{!-- Cuando no hay precio asignado aparece esto --}}
-                                    {{!-- <div class="mb-3 d-grid gap-2">
-                                        <button class="btn btn-dark">Consultar precio</button>
-                                    </div> --}}
-                
+                                </a>
+                                <div class="position-absolute p-1 mb-2">
+                                    <span class="badge rounded-pill bg-dark">NEW</span>
+                                    <span class="badge rounded-pill bg-dark">SALE</span>
                                 </div>
-                            </div>
-                        </div>                    
-                    </div>
+                                <div class="container my-2 text-center">
+                                    <div>
+                                        <a href="/publication/{{nroPublicacion}}" class="link-unstyled">
+                                            <h6 class="card-title mb-1">{{titulo}}</h6>
+                                        </a>
+                                    </div>
+                                    <div>
+                                        <div class="d-flex">
+                                            <h4>${{precio}}</h4>
+                                            {{!-- <h6 class="text-muted ms-1"><s>$500</s></h6> --}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                    
+                        </div>
+                    {{/each}}
+                    
                 </div>
             </div>
         </div>
