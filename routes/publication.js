@@ -22,19 +22,38 @@ router.get('/', (req, res) => {
 router.post('/question/:id', authController.isLoggedIn, async (req, res) =>{
     const {id} = req.params;
     const {mensaje} = req.body;
+    const fechaPregunta = new Date();
     const newQuestion = {
         mensaje,
-        fechaPregunta: '2021-09-05',
+        fechaPregunta: new Date(),
+        horaPregunta: fechaPregunta.getHours() + ":" + fechaPregunta.getMinutes() + ":" + fechaPregunta.getSeconds(),
         remitente: req.user.email,
         publicacion: id
     };
     if (!mensaje) {
-        const path = '/publication/'+id;
+        const path = '/publication/'+id+'/#seccion-preguntas';
         return res.redirect(path);
     }
-    await db.query('INSERT INTO `preguntas` (`mensaje`, `remitente`, `publicacion`) VALUES (?, ?, ?)', [newQuestion.mensaje, newQuestion.remitente, newQuestion.publicacion], (error, result) => {
+    await db.query('INSERT INTO `preguntas` (`mensaje`, `remitente`, `publicacion`, `fechaPregunta`, `horaPregunta`) VALUES (?, ?, ?, ?, ?)', [newQuestion.mensaje, newQuestion.remitente, newQuestion.publicacion, newQuestion.fechaPregunta, newQuestion.horaPregunta], (error, result) => {
         console.log('Pregunta enviada correctamente');
-        const path = '/publication/'+id;
+        const path = '/publication/'+id+'/#seccion-preguntas';
+        res.redirect(path);
+    });
+})
+
+router.post('/respuesta/:id', authController.isLoggedIn, async (req, res) =>{
+    const {id} = req.params;
+    const {respuesta} = req.body;
+    const newRespuesta = {
+        respuesta
+    };
+    if (!respuesta) {
+        const path = '/publication/'+id+'/#seccion-preguntas';
+        return res.redirect(path);
+    }
+    await db.query('INSERT INTO `preguntas` (`resupuesta`) VALUES (?)', [newRespuesta.respuesta], (error, result) => {
+        console.log('Respuesta enviada correctamente');
+        const path = '/publication/'+id+'/#seccion-preguntas';
         res.redirect(path);
     });
 })
@@ -50,6 +69,8 @@ router.get('/:id', authController.isLoggedIn, async (req, res) => {
                 console.log(result)
                 console.log("questions:")
                 console.log(questions);
+                console.log("EL REQ.USER ES:")
+                console.log(req.user);
                 const vendedor = result[0].vendedorEmail;
                 const nroPublicacion = result[0].nroPublicacion;
                 await db.query('SELECT nroPublicacion, precio, titulo FROM `publicacion` WHERE vendedor = ? AND nroPublicacion != ?',[vendedor , nroPublicacion], (error, products) => {
