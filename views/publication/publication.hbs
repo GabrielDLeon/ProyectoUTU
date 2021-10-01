@@ -62,10 +62,12 @@
                                 <div class="col-auto h1">
                                     <span>${{publication.precio}}</span>
                                 </div>
-                                {{!-- <div class="col">
-                                    <p class="mb-0">25% descuento</p>
-                                    <span class="mr-1"><del>$200</del></span>
-                                </div> --}}
+                                {{#if (descuento)}}
+                                    <div class="col">
+                                        <p class="mb-0">{{porcentaje}}% descuento</p>
+                                        <span class="mr-1"><del>$200</del></span>
+                                    </div>
+                                {{/if}}
                             </div>
                         </div>
                         <div class="my-3">
@@ -150,7 +152,7 @@
                         {{#each questions}}
                             <div class="my-2">
                                 <div> {{!-- Pregunta del comprador --}}
-                                    <p class="mb-2">{{mensaje}}<span class="ms-3">{{timeago horaPregunta}}</span></p>
+                                    <p class="mb-2">{{mensaje}}<span class="ms-3">{{timeago fechaPregunta}}</span></p>
                                 </div>
                                 {{#if respuesta}}
                                     <div class="ms-4 text-muted"> {{!-- Respuesta del vendedor --}}
@@ -161,7 +163,8 @@
                                             </div>
                                         </a>
                                         <div class="d-flex">
-                                            <p>{{respuesta}}<span class="ms-3">{{timeago fechaPregunta}}</span></p>
+                                            {{!-- El comentario contiene la fecha de la respuesta --}}
+                                            <p>{{respuesta}} {{!-- <span class="ms-3">{{timeago fechaRespuesta}}</span> --}}</p>
                                         </div>
                                     </div>
                                 {{/if}}
@@ -218,13 +221,13 @@
                 </div>
             </div>
         </div>
-        {{#if products}}
+        {{#if moreProducts}}
         <div class="mb-3">
             <h4 class="fw-bold mb-3">Otras publicaciones del vendedor</h4>
             <div>
                 <div class="row row-cols-lg-4 row-cols-sm-2 g-4">
 
-                    {{#each products}}
+                    {{#each moreProducts}}
                         <div class="col position-relative">
                             <div class="card">
                                 <a href="/publication/{{nroPublicacion}}" class="link-unstyled">
