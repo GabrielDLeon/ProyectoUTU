@@ -153,34 +153,34 @@
                                     <p class="mb-2">{{mensaje}}<span class="ms-3">{{timeago horaPregunta}}</span></p>
                                 </div>
                                 {{#if respuesta}}
-                                <div class="ms-4 text-muted"> {{!-- Respuesta del vendedor --}}
-                                    <a href="/profile" class="link-unstyled">
-                                        <div class="montserrat d-inline">
-                                            <span class="fw-bold">{{vendedor}}</span>
-                                            <span class="badge rounded-pill bg-secondary ms-1">Respuesta</span>
+                                    <div class="ms-4 text-muted"> {{!-- Respuesta del vendedor --}}
+                                        <a href="/profile" class="link-unstyled">
+                                            <div class="montserrat d-inline">
+                                                <span class="fw-bold">{{vendedor}}</span>
+                                                <span class="badge rounded-pill bg-secondary ms-1">Respuesta</span>
+                                            </div>
+                                        </a>
+                                        <div class="d-flex">
+                                            <p>{{respuesta}}<span class="ms-3">{{timeago fechaPregunta}}</span></p>
                                         </div>
-                                    </a>
-                                    <div class="d-flex">
-                                        <p>{{respuesta}}<span class="ms-3">{{timeago fechaPregunta}}</span></p>
                                     </div>
-                                </div>
                                 {{/if}}
                                 {{#unless respuesta}}
-                                {{#ifCond req.user.nombre '==' vendedor}}
-                                <div class="mb-3">
-                                    <form action="/publication/respuesta/{{publication.nroPublicacion}}" method="POST">
-                                        <div class="row">
-                                            <label for="respuesta">Responder</label>
-                                            <div class="col">
-                                                <textarea class="form-control text-area rounded-0" name="respuesta" id="respuesta" placeholder="Ingrese su respuesta"></textarea>
-                                            </div>
-                                            <div class="col-auto">
-                                                <button type="submit" class="text-uppercase rounded-0 btn btn-dark" style="height: 100%; width: 100%;"><i class="fab fa-facebook-messenger"></i></button>     
-                                            </div>
+                                    {{#ifCond req.user.nombre '==' vendedor}}
+                                        <div class="mb-3">
+                                            <form action="/publication/respuesta/{{idPregunta}}" method="POST">
+                                                <div class="row">
+                                                    <label for="respuesta">Responder</label>
+                                                    <div class="col">
+                                                        <textarea class="form-control text-area rounded-0" name="respuesta" id="respuesta" placeholder="Ingrese su respuesta"></textarea>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <button type="submit" class="text-uppercase rounded-0 btn btn-dark" style="height: 100%; width: 100%;"><i class="fab fa-facebook-messenger"></i></button>     
+                                                    </div>
+                                                </div>
+                                            </form>
                                         </div>
-                                    </form>
-                                </div>
-                                {{/ifCond}}
+                                    {{/ifCond}}
                                 {{/unless}}
                             </div>
                         {{/each}}
