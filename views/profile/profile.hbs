@@ -29,17 +29,21 @@
                   <p>{{profile.telefono}}</p>
                 </div>
               </div>
+              
               <div class="row">
+                {{#each redes}}
                 <div class="col">
-                  <a class="btn btn-primary" style="background-color: #ac2bac; border: 0px;" href="#!" role="button"><i class="fab fa-instagram"></i></a>
+                  <a class="btn btn-primary" {{#ifCond tipo '==' 'Instagram'}} style="background-color: #ac2bac ; border: 0px;" {{/ifCond}} {{#ifCond tipo '==' 'Facebook'}} style="background-color: #3b5998 ; border: 0px;" {{/ifCond}}{{#ifCond tipo '==' 'Whatsapp'}} style="background-color: #25d366 ; border: 0px;" {{/ifCond}} href="{{URL}}" role="button" target="_blank">{{#ifCond tipo '==' 'Whatsapp'}}<i class="fab fa-whatsapp"></i>{{/ifCond}}{{#ifCond tipo '==' 'Facebook'}}<i class="fab fa-facebook-f"></i>{{/ifCond}}{{#ifCond tipo '==' 'Instagram'}}<i class="fab fa-instagram"></i>{{/ifCond}}</a>
                 </div>
-                <div class="col">
-                  <a class="btn btn-primary" style="background-color: #3b5998; border: 0px;" href="#!" role="button"><i class="fab fa-facebook-f"></i></a>
-                </div>
-                <div class="col">
-                  <a class="btn btn-primary" style="background-color: #25d366; border: 0px;" href="#!" role="button"><i class="fab fa-whatsapp"></i></a>
-                </div>
+                 {{/each}}
               </div>
+             <br>
+              {{#if user}}
+              <a class="btn btn-success" href="/profile/newEnlace/{{user.id}}"> 
+              Nueva red
+              </a>
+              {{/if}}
+
           </div>
       </div>
   </div>

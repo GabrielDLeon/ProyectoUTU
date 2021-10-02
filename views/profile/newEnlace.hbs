@@ -1,0 +1,34 @@
+{{>navigation}}
+<div class="container mt-5">
+<form action="/profile/newEnlace/{{user.id}}" method="POST"> 
+         <select class="form-select" name="tipo" id="tipo">
+        <option value="0">Selecciona una red social</option>
+        {{#each tipo}}
+        <option value="{{plataforma}}">{{plataforma}}</option>
+        {{/each}}
+        {{#each tipoEnlace}}
+        <option value="{{plataforma}}">{{plataforma}}</option>
+        {{/each}}
+        </select>
+        <br>
+        <div class="mb-3"> 
+            <label for="link" class="form-label">Link de la red social:</label> 
+                <input type="text" class="form-control" id="link" name="link" value="{{link}}"> 
+            <div class="col-auto">
+        </div> 
+        {{!--
+        <input type="checkbox" name="change_password" id="change_password" value="1" onclick="setPasswordForm(this.checked)" title="Cambiar contraseña" class="checkbox no-bg validation-passed">
+        <label for="change_password">Cambiar contraseña</label> --}}
+        <div class="mb-3">
+          <div class="d-grid gap-2">
+            <br>
+            <button type="submit" class="text-uppercase btn btn-dark">Agregar</button>
+          </div>
+          {{#if message }}
+           <p class="text-danger text-center mt-1">{{message}}</p>
+          {{/if}}
+          {{#if linkAgregado }}
+          <p class="text-success text-center mt-1">{{linkAgregado}}</p>
+          {{/if}}
+</form>
+</div>

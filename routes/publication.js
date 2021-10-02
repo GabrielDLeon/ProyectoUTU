@@ -21,6 +21,9 @@ router.get('/', (req, res) => {
 // Enviar formulario de pregunta
 router.post('/question/:id', authController.isLoggedIn, async (req, res) => {
     const { id } = req.params;
+    user = req.user;
+    console.log("user es en post de question:")
+    console.log(user)
     const { mensaje } = req.body;
     const currentDate = new Date();
     const newQuestion = {

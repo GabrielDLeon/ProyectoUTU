@@ -107,19 +107,23 @@
         <div>
             <h3 class="fw-bold">Preguntas y respuestas</h3>
             <div class="mb-3">
-                <form action="/publication/question/{{publication.nroPublicacion}}" method="POST">
-                    <div class="row">
-                        <label for="question">Preguntale a la tienda</label>
-                        <div class="col">
-                            <textarea class="form-control text-area rounded-0" name="mensaje" id="mensaje" placeholder="Ingrese su pregunta"></textarea>
+                {{#if user}}
+                    <form action="/publication/question/{{publication.nroPublicacion}}" method="POST">
+                        <div class="row">
+                            <label for="question">Preguntale a la tienda</label>
+                            <div class="col">
+                                <textarea class="form-control text-area rounded-0" name="mensaje" id="mensaje" placeholder="Ingrese su pregunta"></textarea>
+                            </div>
+                            <div class="col-auto">
+                                {{!-- <div class="mb-3 d-grid gap-2"> --}}
+                                    <button type="submit" class="text-uppercase rounded-0 btn btn-dark" style="height: 100%; width: 100%;"><i class="fab fa-facebook-messenger"></i></button>
+                                {{!-- </div> --}}
+                            </div>
                         </div>
-                        <div class="col-auto">
-                            {{!-- <div class="mb-3 d-grid gap-2"> --}}
-                                <button type="submit" class="text-uppercase rounded-0 btn btn-dark" style="height: 100%; width: 100%;"><i class="fab fa-facebook-messenger"></i></button>
-                            {{!-- </div> --}}
-                        </div>
-                    </div>
-                </form>
+                    </form>
+                    {{else}}
+                    <p>Necesitas estar logueado para poder realizar una pregunta</p>
+                {{/if}}
             </div>
             <div>
 

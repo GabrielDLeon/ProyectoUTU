@@ -366,7 +366,7 @@ exports.isLoggedIn = async (req, res, next) => {
     
           })
         } if(tipo == 'empresa') {
-          db.query('SELECT cuentas.email , cuentas.password, cuentas.tipo, cuenta_empresa.nombre FROM (cuentas INNER JOIN cuenta_empresa ON cuentas.email = cuenta_empresa.email) WHERE cuentas.email = ?', [decoded.id], (error, result) => {
+          db.query('SELECT cuentas.email , cuentas.password, cuentas.tipo, cuenta_empresa.nombre, cuenta_empresa.id FROM (cuentas INNER JOIN cuenta_empresa ON cuentas.email = cuenta_empresa.email) WHERE cuentas.email = ?', [decoded.id], (error, result) => {
             if(!result) {
               return next();
             }
