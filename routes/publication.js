@@ -65,6 +65,10 @@ router.post('/respuesta/:id', authController.isLoggedIn, async (req, res) => {
     })
 });
         
+function saleCalculator (price, sale){
+    const result = price - ((price * sale) / 100);
+    return result;
+}
 
 // Entrar a una publicacion desde URL con el ID
 router.get('/:id', authController.isLoggedIn, async (req, res) => {
@@ -72,23 +76,38 @@ router.get('/:id', authController.isLoggedIn, async (req, res) => {
     await db.query('SELECT nroPublicacion, precio, titulo, descripcion, producto, cuenta_empresa.email AS vendedorEmail, cuenta_empresa.nombre AS vendedor FROM (publicacion INNER JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email) WHERE nroPublicacion = ?',[id], async (error, result) => { 
         // console.log(result);
         if (result.length>0){
-            const vendedor = result[0].vendedorEmail;
-            await db.query('SELECT idPregunta, mensaje, fechaPregunta, fechaRespuesta, cuenta_empresa.nombre AS vendedor, cuenta_personal.nombre AS remitente, respuesta, cuentas.tipo FROM (publicacion INNER JOIN preguntas ON publicacion.nroPublicacion = preguntas.publicacion INNER JOIN cuenta_personal ON cuenta_personal.email = preguntas.remitente INNER JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email INNER JOIN cuentas ON cuentas.email = cuenta_empresa.email) WHERE nroPublicacion = ? ORDER BY fechaPregunta DESC',[id], async (error, questions) => {
-                // console.log("result:")
-                // console.log(result)
-                // console.log("questions:")
-                // console.log(questions);
-                // console.log("EL REQ.USER ES:")
-                // console.log(req.user);
-                
-                await db.query('SELECT nroPublicacion, precio, titulo FROM `publicacion` WHERE vendedor = ? AND nroPublicacion != ?',[vendedor , id], (error, products) => {
-                    res.render('publication/publication', {
-                        user: req.user,
-                        products,
-                        questions,
-                        publication: result[0],
-                        title: result[0].titulo
-                    });
+            await db.query('SELECT porcentaje AS descuento FROM (descuento INNER JOIN publicacion ON descuento.publication = publicacion.nroPublicacion) WHERE publicacion.nroPublicacion = ?', [id], async (error, sale) => {
+                if (sale.length>0){
+                    var valor = {
+                        descuento: sale[0].descuento,
+                        final: saleCalculator(result[0].precio, sale[0].descuento)
+                    }
+                } else {
+                    var valor = {
+                        descuento: '',
+                        final: result[0].precio,
+                    }
+                }
+                // console.log(valor)
+                const vendedor = result[0].vendedorEmail;
+                await db.query('SELECT idPregunta, mensaje, fechaPregunta, fechaRespuesta, cuenta_empresa.nombre AS vendedor, cuenta_personal.nombre AS remitente, respuesta, cuentas.tipo FROM (publicacion INNER JOIN preguntas ON publicacion.nroPublicacion = preguntas.publicacion INNER JOIN cuenta_personal ON cuenta_personal.email = preguntas.remitente INNER JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email INNER JOIN cuentas ON cuentas.email = cuenta_empresa.email) WHERE nroPublicacion = ? ORDER BY fechaPregunta DESC', [id], async (error, questions) => {
+                    // console.log("result:")
+                    // console.log(result)
+                    // console.log("questions:")
+                    // console.log(questions);
+                    // console.log("EL REQ.USER ES:")
+                    // console.log(req.user);
+
+                    await db.query('SELECT nroPublicacion, precio, titulo FROM `publicacion` WHERE vendedor = ? AND nroPublicacion != ?', [vendedor, id], (error, products) => {
+                        res.render('publication/publication', {
+                            user: req.user,
+                            title: result[0].titulo,
+                            publication: result[0],
+                            valor,
+                            questions,
+                            products
+                        });
+                    })
                 })
             })
         } else {
