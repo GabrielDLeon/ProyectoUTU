@@ -80,23 +80,21 @@
                                 <button type="button" class="btn btn-default btn-circle product-color color-yellow"><i class="fas fa-brush"></i></button>
                             </div>
                         </div>
-                        <div>
-                            <h6>Talles disponibles</h6>
-                            <div class="mb-2">
-                                <a href="/profile" class="text-reset">
-                                    <p class="d-inline">Guia de talles</p>
-                                </a>
+                        {{#if talles}}
+                            <div>   
+                                <h6>Talles disponibles</h6>
+                                <div>
+                                    {{#each talles}}
+                                        <button type="button" class="btn btn-outline-dark btn-lg custom">{{talle}}</button>
+                                    {{/each}}
+                                </div>
+                                <div class="my-2">
+                                    <a href="/publication/{{publication.nroPublicacion}}/#guiaTalles" class="text-reset">
+                                        <p class="d-inline">Guia de talles</p>
+                                    </a>
+                                </div>
                             </div>
-                            <div>
-                                <button type="button" class="btn btn-outline-dark btn-lg custom">XXS</button>
-                                <button type="button" class="btn btn-outline-dark btn-lg custom">XS</button>
-                                <button type="button" class="btn btn-outline-dark btn-lg custom">S</button>
-                                <button type="button" class="btn btn-outline-dark btn-lg custom">M</button>
-                                <button type="button" class="btn btn-outline-dark btn-lg custom">L</button>
-                                <button type="button" class="btn btn-outline-dark btn-lg custom">XL</button>
-                                <button type="button" class="btn btn-outline-dark btn-lg custom">XLL</button>
-                            </div>
-                        </div>
+                        {{/if}}
                     </div>
                     <hr class="d-md-block d-lg-none">
                 </div>
