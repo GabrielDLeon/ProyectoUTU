@@ -1,7 +1,6 @@
 {{>navigation}}
 
 <body>
-    
     <section class="container my-4">
         <div class="row">
             <div class="col-sm-12 col-lg-6">
@@ -35,21 +34,20 @@
             <div class="col-lg-6 my-3">
                 <div class="p-3">
                     <header>
-                        {{!-- <div class="mb-2">
-                            <span class="badge bg-dark">
-                                <a href="#busqueda" class="link-unstyled">Primary</a>
-                            </span>
-                            <span class="badge bg-dark">
-                                <a href="#busqueda" class="link-unstyled">Primary</a>
-                            </span>
-                            <span class="badge bg-dark">
-                                <a href="#busqueda" class="link-unstyled">Primary</a>
-                            </span>
-                        </div> --}}
-                        <h3 class="fw-bold">{{publication.titulo}}</h3>
-                        <a href="/profile/{{publication.vendedor}}" class="link-unstyled">
-                            <h6 class="text-muted d-inline f-space-2">Promocionado por <span>{{publication.vendedor}}</span></h6>
-                        </a>
+                        <div class="mb-1 text-capitalize">
+                            <a href=""><span class="badge rounded-pill bg-dark">{{product.categoria}}</span></a>
+                            <a href=""><span class="badge rounded-pill bg-dark">{{product.genero}}</span></a>
+                            <a href=""><span class="badge rounded-pill bg-dark">{{product.marca}}</span></a>
+                            {{#if valor.descuento}}
+                                <a href="/#sales"><span class="badge rounded-pill bg-danger">sale</span></a>
+                            {{/if}}
+                        </div>
+                        <div>
+                            <h3 class="fw-bold">{{publication.titulo}}</h3>
+                            <a href="/profile/{{publication.vendedor}}" class="link-unstyled">
+                                <h6 class="text-muted d-inline f-space-2">Promocionado por <span>{{publication.vendedor}}</span></h6>
+                            </a>
+                        </div>
                     </header>
                     <div class="my-3">
                         <div>
@@ -80,11 +78,11 @@
                                 <button type="button" class="btn btn-default btn-circle product-color color-yellow"><i class="fas fa-brush"></i></button>
                             </div>
                         </div>
-                        {{#if talles}}
+                        {{#if sizes}}
                             <div>   
                                 <h6>Talles disponibles</h6>
                                 <div>
-                                    {{#each talles}}
+                                    {{#each sizes}}
                                         <button type="button" class="btn btn-outline-dark btn-lg custom">{{talle}}</button>
                                     {{/each}}
                                 </div>
@@ -119,8 +117,12 @@
                             </div>
                         </div>
                     </form>
-                    {{else}}
-                    <p>Necesitas estar logueado para poder realizar una pregunta</p>
+                {{else}}
+                    <div class="my-2"> 
+                        <div class="mt-2 ms-4 text-muted">
+                            <p>Necesitas estar logueado para poder realizar una pregunta</p>
+                        </div>
+                    </div>
                 {{/if}}
             </div>
             <div>
@@ -223,13 +225,13 @@
                 </div>
             </div>
         </div>
-        {{#if moreProducts}}
+        {{#if recommendations}}
         <div class="mb-3">
             <h4 class="fw-bold mb-3">Otras publicaciones del vendedor</h4>
             <div>
                 <div class="row row-cols-lg-4 row-cols-sm-2 g-4">
 
-                    {{#each moreProducts}}
+                    {{#each recommendations}}
                         <div class="col position-relative">
                             <div class="card">
                                 <a href="/publication/{{nroPublicacion}}" class="link-unstyled">
