@@ -68,7 +68,6 @@ router.get('/newEnlace/:id', authController.isLoggedIn, async (req, res) => {
     db.query('SELECT cuenta_empresa.email , cuenta_empresa.id FROM cuenta_empresa WHERE cuenta_empresa.email = ?', [email], async (error, result) => {
       db.query('SELECT * FROM enlaces_tipos', async (error, tipo) => {
         console.log(tipo)
-        console.log("REDES de tienda")
         if (result[0].id == id) {
           res.render('profile/newEnlace', {
             user: req.user,
@@ -90,12 +89,11 @@ router.post('/newEnlace/:id', authController.isLoggedIn, async (req, res) => {
   await db.query('SELECT cuentas.email, cuentas.password, cuenta_empresa.nombre, cuenta_empresa.id FROM cuentas INNER JOIN cuenta_empresa ON cuentas.email = cuenta_empresa.email WHERE cuenta_empresa.email = ?', [email], async (error, result) => {
     console.log("result de consulta en post")
     console.log(result);
-    const { id } = req.params;
     const email = result[0].email
     const { tipo } = req.body;
     const { link } = req.body;
     await db.query('SELECT * FROM enlaces_tipos', async (error, tipoEnlace) => {
-      await db.query('SELECT tipo FROM enlaces WHERE tipo = ?', [tipo], async (error, enlaces) => {
+      await db.query('SELECT tipo from enlaces WHERE tipo = ? AND propietario = ?', [tipo,email], async (error, enlaces) => {
         if (enlaces.length > 0) {
           return res.render('profile/newEnlace', {
             name: req.body.name,
@@ -123,7 +121,6 @@ router.post('/newEnlace/:id', authController.isLoggedIn, async (req, res) => {
               linkAgregado: 'Link agregado',
               enlaces,
               tipoEnlace
-
             });
           }
         })

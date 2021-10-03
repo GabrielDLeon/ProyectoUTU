@@ -3,9 +3,9 @@
     <form method="POST" action="/create">
         <div class="mb-3">
             <h2>Datos de la publicación</h2>
-            <input class="form-control" name="titulo" id="titulo" type="text" placeholder="Titulo">
+            <input class="form-control" name="titulo" id="titulo" type="text" placeholder="Titulo" value="{{titulo}}">
             <textarea class="form-control" name="descripcion" id="descripcion" placeholder="Descripción"></textarea>
-            <input class="form-control" name="precio" id="precio" type="text" placeholder="Precio">
+            <input class="form-control" name="precio" id="precio" type="text" placeholder="Precio" value="{{precio}}">
             
             {{!-- <input class="form-control" value="" name="" id="" type="text" placeholder=""> --}}
         </div>
@@ -39,6 +39,9 @@
         <div class="">
             <button type="submit" class="btn btn-success">ENVIAR</button>
         </div>
+        {{#if message }}
+           <p class="text-danger text-center mt-1">{{message}}</p>
+        {{/if}}
     </form>
 </section>
 {{>footer}}

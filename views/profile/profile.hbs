@@ -38,11 +38,12 @@
                  {{/each}}
               </div>
              <br>
-              {{#if user}}
+              {{#ifCond user.email '==' data.email}}
               <a class="btn btn-success" href="/profile/newEnlace/{{user.id}}"> 
               Nueva red
               </a>
-              {{/if}}
+              {{/ifCond}}
+
 
           </div>
       </div>
