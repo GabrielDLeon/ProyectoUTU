@@ -77,6 +77,7 @@ app.use('/', require('./routes/pages'));
 app.use('/', require('./routes/auth'));
 app.use('/profile', require('./routes/profile'));
 app.use('/publication', require('./routes/publication'));
+app.use('/create', require('./routes/createPublication'));
 
 app.listen(3000, () => {
   console.log("Server started on Port 3000");

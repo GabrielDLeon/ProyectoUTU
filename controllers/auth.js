@@ -372,8 +372,8 @@ exports.isLoggedIn = async (req, res, next) => {
             }
     
             req.user = result[0];
-            console.log("tienda es")
-            console.log(req.user);
+            // console.log("tienda es")
+            // console.log(req.user);
             return next();
     
           })

@@ -25,13 +25,6 @@ router.get('/', authController.isLoggedIn, async (req, res) => {
         });
 });
 
-router.get('/newPublication', authController.isLoggedIn, (req, res) => {
-  res.render('publication/createPublication', {
-    user: req.user,
-    title: "Nueva publicación"
-  });
-});
-
 router.get('/register', (req, res) => {
   res.render('./auth/register', {
     title: "Registro"
