@@ -16,19 +16,22 @@
         </button>
         <div class="collapse navbar-collapse" id="navbar">
             <ul class="navbar-nav ms-auto mb-lg-0">
-
                 {{#if user }}
-                    <li class="nav-item"><a class="nav-link" href="/profile">Profile</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/profile/edit/{{user.id}}">Editar perfil</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><span class="me-1">{{user.nombre}}</span></a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li class="nav-item"><a class="dropdown-item" href="/profile">Perfil</a></li>
+                            <li class="nav-item"><a class="dropdown-item" href="/profile/edit/{{user.id}}">Editar perfil</a></li>
+                            <li class="nav-item"><a class="dropdown-item" href="/logout">Cerrar sesión</a></li>
+                        </ul>
+                    </li>
                 {{else}}
                     <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
                     <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
                 {{/if}}
                 {{#ifCond user.tipo '==' 'empresa'}}
-                <li class="nav-item"><a class="nav-link" href="/create">Hacer publicacion</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/create">Hacer publicacion</a></li>
                 {{/ifCond}}
-
             </ul>
 
             {{!-- <form class="d-flex input-group w-auto">
