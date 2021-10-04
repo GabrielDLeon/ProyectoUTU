@@ -4,8 +4,10 @@
         <div class="mb-3">
             <h2>Datos de la publicación</h2>
             <input class="form-control" name="titulo" id="titulo" type="text" placeholder="Titulo" value="{{titulo}}">
-            <textarea class="form-control" name="descripcion" id="descripcion" placeholder="Descripción"></textarea>
-            <input class="form-control" name="precio" id="precio" type="text" placeholder="Precio" value="{{precio}}">
+            <textarea class="form-control" name="descripcion" id="descripcion" placeholder="Descripción" maxlength="155"></textarea>
+            <input class="form-control input-number" name="precio" id="precio" type="number" placeholder="Precio" value="{{precio}}">
+            <input type="checkbox" name="confirm-descuento" id="confirm-descuento">
+            <input class="form-control input-number" name="descuento" id="descuento" type="number" placeholder="Descuento">
             
             {{!-- <input class="form-control" value="" name="" id="" type="text" placeholder=""> --}}
         </div>

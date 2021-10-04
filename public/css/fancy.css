@@ -17,6 +17,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Carattere&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
 
+/* SACAR FLECHAS EN INPUT NUMBER */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+/* SACAR FLECHAS EN INPUT NUMBER */
+
 .montserrat{
     font-family: 'Montserrat', sans-serif !important;
 }
