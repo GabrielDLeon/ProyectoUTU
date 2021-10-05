@@ -1,27 +1,24 @@
 {{>navigation}}
 <body style="overflow-x: hidden;">
     <div class="row">
+        {{!-- SIDEBAR --}}
         <div class="col-md-12 col-lg-5 align-middle" id="sidebar" style="background-color: #fafafa;">
             <div class="sticky-top p-lg-2 p-xl-4">
                 <div class="p-5">
-                    <header>
-                        <div class="mb-1 text-capitalize">
-                            <a href=""><span class="badge rounded-pill bg-dark">{{product.categoria}}</span></a>
-                            <a href=""><span class="badge rounded-pill bg-dark">{{product.genero}}</span></a>
-                            <a href=""><span class="badge rounded-pill bg-dark">{{product.marca}}</span></a>
-                            {{#if valor.descuento}}
+                    <div class="mb-1 text-capitalize">
+                        <a href=""><span class="badge rounded-pill bg-dark">{{product.categoria}}</span></a>
+                        <a href=""><span class="badge rounded-pill bg-dark">{{product.genero}}</span></a>
+                        <a href=""><span class="badge rounded-pill bg-dark">{{product.marca}}</span></a>
+                        {{#if valor.descuento}}
                             <a href="/#sales"><span class="badge rounded-pill bg-danger">sale</span></a>
-                            {{/if}}
-                        </div>
-                        <div>
-                            <h3 class="fw-bold">{{publication.titulo}}</h3>
-                            <a href="/profile/{{publication.vendedor}}" class="link-unstyled">
-                                <h6 class="text-muted d-inline f-space-2">Promocionado por
-                                    <span>{{publication.vendedor}}</span>
-                                </h6>
-                            </a>
-                        </div>
-                    </header>
+                        {{/if}}
+                    </div>
+                    <div>
+                        <h3 class="fw-bold">{{publication.titulo}}</h3>
+                        <a href="/profile/{{publication.vendedor}}" class="link-unstyled">
+                            <h6 class="text-muted d-inline f-space-2">Promocionado por <span>{{publication.vendedor}}</span></h6>
+                        </a>
+                    </div>
                     <div class="my-3">
                         <div>
                             <h6>Descripción del producto</h6>
@@ -33,10 +30,10 @@
                                     <span>${{valor.final}}</span>
                                 </div>
                                 {{#if valor.descuento}}
-                                <div class="col">
-                                    <p class="mb-0">{{valor.descuento}}% descuento</p>
-                                    <span class="mr-1"><del>${{publication.precio}}</del></span>
-                                </div>
+                                    <div class="col">
+                                        <p class="mb-0">{{valor.descuento}}% descuento</p>
+                                        <span class="mr-1"><del>${{publication.precio}}</del></span>
+                                    </div>
                                 {{/if}}
                             </div>
                         </div>
@@ -51,27 +48,31 @@
                             </div>
                         {{/if}}
                         {{#if sizes}}
-                        <div>
-                            <h6>Talles disponibles</h6>
                             <div>
-                                {{#each sizes}}
-                                <button type="button" class="btn btn-outline-dark btn-lg custom">{{talle}}</button>
-                                {{/each}}
+                                <h6>Talles disponibles</h6>
+                                <div>
+                                    {{#each sizes}}
+                                    <button type="button" class="btn btn-outline-dark btn-lg custom">{{talle}}</button>
+                                    {{/each}}
+                                </div>
+                                <div class="my-2">
+                                    <a href="/publication/{{publication.nroPublicacion}}/#guiaTalles" class="text-reset">
+                                        <p class="d-inline">Guia de talles</p>
+                                    </a>
+                                </div>
                             </div>
-                            <div class="my-2">
-                                <a href="/publication/{{publication.nroPublicacion}}/#guiaTalles" class="text-reset">
-                                    <p class="d-inline">Guia de talles</p>
-                                </a>
-                            </div>
-                        </div>
                         {{/if}}
                     </div>
                 </div>
             </div>
         </div>
+
+        {{!-- CONTENIDO --}}
         <div class="col-md-12 col-lg-6 col-xl-5 me-auto ms-auto" id="content">
-            <div class="col-md-10 ms-auto me-auto">
-                <section class="mx-3 mx-lg-1 my-4" id="seccion-imagen">
+
+            {{!-- CAROUSEL DE IMAGENS --}}
+            <section class="mx-3 mx-lg-1 my-4" id="seccion-imagen">
+                <div class="col-md-10 ms-auto me-auto">
                     <div id="carousel" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-indicators">
                             <button type="button" data-bs-target="#carousel" data-bs-slide-to="0" class="active" aria-current="true"
@@ -99,144 +100,133 @@
                             <span class="visually-hidden">Next</span>
                         </button>
                     </div>
-                </section>
-            </div>
-            
+                </div>
+            </section>
+
+            {{!-- SECCION DE PREGUNTAS --}}
             <section class="mx-4 mx-lg-1 mb-3" id="seccion-preguntas">
-                <div>
-                    <h3 class="fw-bold">Preguntas y respuestas</h3>
-                    <div class="mb-3">
-                        {{#if user}}
+                <h3 class="fw-bold">Preguntas y respuestas</h3>
+                <div class="mb-3">
+                    {{#if user}}
                         <form action="/publication/question/{{publication.nroPublicacion}}" method="POST">
                             <div class="row">
                                 <label for="question">Preguntale a la tienda</label>
                                 <div class="col">
-                                    <textarea class="form-control text-area rounded-0" name="mensaje" id="mensaje"
-                                        placeholder="Ingrese su pregunta"></textarea>
+                                    <textarea class="form-control text-area rounded-0" name="mensaje" id="mensaje" placeholder="Ingrese su pregunta"></textarea>
                                 </div>
                                 <div class="col-auto">
-                                    {{!-- <div class="mb-3 d-grid gap-2"> --}}
-                                        <button type="submit" class="text-uppercase rounded-0 btn btn-dark"
-                                            style="height: 100%; width: 100%;"><i class="fab fa-facebook-messenger"></i></button>
-                                        {{!--
-                                    </div> --}}
+                                    <button type="submit" class="text-uppercase rounded-0 btn btn-dark" style="height: 100%; width: 100%;"><i class="fab fa-facebook-messenger"></i></button>
                                 </div>
                             </div>
                         </form>
-                        {{else}}
+                    {{else}}
                         <div class="my-2">
                             <div class="mt-2 ms-4 text-muted">
                                 <p>Necesitas estar logueado para poder realizar una pregunta</p>
                             </div>
                         </div>
-                        {{/if}}
-                    </div>
+                    {{/if}}
+                </div>
+                <div>
+        
+                    {{!-- Esta seccion aparece si existen preguntas realizadas por el propio usuario --}}
+                    {{!-- <div>
+                        <h5 class="text-muted">Tus preguntas</h5>
+                        <div class="my-2">
+                            <div>
+                                <p class="mb-2">¿Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias illum quidem
+                                    ducimus ut voluptatibus ipsam, eum obcaecati dicta nostrum adipisci illo ratione aut
+                                    nihil voluptatem minus provident ab nulla ex?</p>
+                            </div>
+                            <div class="ms-4 text-muted">
+                                <a href="/profile" class="link-unstyled">
+                                    <div class="montserrat d-inline">
+                                        <span class="fw-bold">Nombre de la tienda</span>
+                                        <span class="badge rounded-pill bg-secondary ms-1">Respuesta del vendedor</span>
+                                    </div>
+                                </a>
+                                <div class="d-flex">
+                                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Deserunt vitae doloribus
+                                        excepturi, quaerat ducimus quod tenetur repellat deleniti totam a harum! Expedita
+                                        temporibus ad dolorum culpa. Ipsam aliquam fugit facilis.<span
+                                            class="ms-3">19/09/2021</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div> --}}
+        
                     <div>
-            
-                        {{!-- Esta seccion aparece si existen preguntas realizadas por el propio usuario --}}
-                        {{!-- <div>
-                            <h5 class="text-muted">Tus preguntas</h5>
-                            <div class="my-2">
-                                <div>
-                                    <p class="mb-2">¿Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias illum quidem
-                                        ducimus ut voluptatibus ipsam, eum obcaecati dicta nostrum adipisci illo ratione aut
-                                        nihil voluptatem minus provident ab nulla ex?</p>
-                                </div>
-                                <div class="ms-4 text-muted">
-                                    <a href="/profile" class="link-unstyled">
-                                        <div class="montserrat d-inline">
-                                            <span class="fw-bold">Nombre de la tienda</span>
-                                            <span class="badge rounded-pill bg-secondary ms-1">Respuesta del vendedor</span>
-                                        </div>
-                                    </a>
-                                    <div class="d-flex">
-                                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Deserunt vitae doloribus
-                                            excepturi, quaerat ducimus quod tenetur repellat deleniti totam a harum! Expedita
-                                            temporibus ad dolorum culpa. Ipsam aliquam fugit facilis.<span
-                                                class="ms-3">19/09/2021</span></p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> --}}
-            
-                        <div>
-                            <h5 class="text-muted">Preguntas realizadas</h5>
-                            {{!-- Plantilla de una pregunta --}}
-            
-                            {{#if questions}}
+                        <h5 class="text-muted">Preguntas realizadas</h5>
+        
+                        {{#if questions}}
                             {{#each questions}}
-                            <div class="my-2">
-                                <div> {{!-- Pregunta del comprador --}}
-                                    <p class="mb-2">{{mensaje}}<span class="ms-3">{{timeago fechaPregunta}}</span></p>
-                                </div>
-                                {{#if respuesta}}
-                                <div class="ms-4 text-muted"> {{!-- Respuesta del vendedor --}}
-                                    <a href="/profile" class="link-unstyled">
-                                        <div class="montserrat d-inline">
-                                            <span class="fw-bold">{{vendedor}}</span>
-                                            <span class="badge rounded-pill bg-secondary ms-1">Respuesta</span>
-                                        </div>
-                                    </a>
-                                    <div class="d-flex">
-                                        {{!-- El comentario contiene la fecha de la respuesta --}}
-                                        <p>{{respuesta}} {{!-- <span class="ms-3">{{timeago fechaRespuesta}}</span> --}}</p>
+                                <div class="my-2">
+                                    <div>
+                                        <p class="mb-2">{{mensaje}}<span class="ms-3 text-muted">{{timeago fechaPregunta}}</span></p>
                                     </div>
-                                </div>
-                                {{/if}}
-                                {{#unless respuesta}}
-                                {{#ifCond req.user.nombre '==' vendedor}}
-                                <div class="mb-3">
-                                    <form action="/publication/respuesta/{{idPregunta}}" method="POST">
-                                        <div class="row">
-                                            <label for="respuesta">Responder</label>
-                                            <div class="col">
-                                                <textarea class="form-control text-area rounded-0" name="respuesta" id="respuesta"
-                                                    placeholder="Ingrese su respuesta"></textarea>
-                                            </div>
-                                            <div class="col-auto">
-                                                <button type="submit" class="text-uppercase rounded-0 btn btn-dark"
-                                                    style="height: 100%; width: 100%;"><i
-                                                        class="fab fa-facebook-messenger"></i></button>
+                                    {{#if respuesta}}
+                                        <div class="ms-4 text-muted">
+                                            <a href="/profile" class="link-unstyled">
+                                                <div class="montserrat d-inline">
+                                                    <span class="fw-bold">{{vendedor}}</span>
+                                                    <span class="badge rounded-pill bg-secondary ms-1">Respuesta</span>
+                                                </div>
+                                            </a>
+                                            <div class="d-flex">
+                                                {{!-- El comentario contiene la fecha de la respuesta --}}
+                                                <p>{{respuesta}} {{!-- <span class="ms-3">{{timeago fechaRespuesta}}</span> --}}</p>
                                             </div>
                                         </div>
-                                    </form>
+                                    {{/if}}
+                                    {{#unless respuesta}}
+                                        {{#ifCond req.user.nombre '==' vendedor}}
+                                            <div class="mb-3">
+                                                <form action="/publication/respuesta/{{idPregunta}}" method="POST">
+                                                    <div class="row">
+                                                        <label for="respuesta">Responder</label>
+                                                        <div class="col">
+                                                            <textarea class="form-control text-area rounded-0" name="respuesta" id="respuesta" placeholder="Ingrese su respuesta"></textarea>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <button type="submit" class="text-uppercase rounded-0 btn btn-dark" style="height: 100%; width: 100%;"><i class="fab fa-facebook-messenger"></i></button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        {{/ifCond}}
+                                    {{/unless}}
                                 </div>
-                                {{/ifCond}}
-                                {{/unless}}
-                            </div>
                             {{/each}}
-                            {{else}}
+                        {{else}}
                             {{!-- Cuando la publicación no tiene preguntas --}}
                             <div class="my-2">
                                 <div class="mt-2 ms-4 text-muted">
                                     <p>Aún nadie ha realizado una pregunta sobre este producto, ¡se el primero en hacerlo!</p>
                                 </div>
                             </div>
-                            {{/if}}
-            
-                        </div>
+                        {{/if}}
+        
                     </div>
                 </div>
             </section>
+
+            {{!-- SECCION DE TIENDA Y RECOMENDACIONES --}}
             <section class="mx-4 mx-lg-1 mb-5" id="seccion-tienda">
+
+                {{!-- SOBRE NOSOTROS --}}
                 <div class="mb-3 d-flex justify-content-center">
                     <div class="card mb-3 col-md-10 col-sm-9">
                         <div class="row my-3 justify-content-center">
                             <div class="col-sm-12 col-md-3 jumbotron d-flex align-items-center justify-content-center">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg"
-                                    alt="Generic placeholder image" class="img-fluid rounded-circle img-thumbnail"
-                                    style="width: 75%; z-index: 1">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Generic placeholder image" class="img-fluid rounded-circle img-thumbnail" style="width: 75%; z-index: 1">
                             </div>
                             <div class="col-md-9">
                                 <div class="card-body">
                                     <h3 class="card-title text-center f-space-3">Sobre nosotros</h3>
-                                    <p class="card-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Reiciendis
-                                        animi dolores atque earum similique totam voluptate maxime non culpa, odio molestiae
-                                        neque, at vitae officiis minima temporibus beatae! Architecto, impedit.</p>
+                                    <p class="card-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Reiciendis animi dolores atque earum similique totam voluptate maxime non culpa, odio molestiae neque, at vitae officiis minima temporibus beatae! Architecto, impedit.</p>
                                     <div class="d-flex">
                                         <a href="/profile" class="link-unstyled ms-auto">
-                                            <span
-                                                class="card-subtitle d-inline text-muted carattere me-3">{{publication.vendedor}}</span>
+                                            <span class="card-subtitle d-inline text-muted carattere me-3">{{publication.vendedor}}</span>
                                         </a>
                                     </div>
                                 </div>
@@ -244,45 +234,45 @@
                         </div>
                     </div>
                 </div>
+
+                {{!-- RECOMENDACIONES --}}
                 {{#if recommendations}}
-                <div class="mb-3">
-                    <h4 class="fw-bold mb-3">Otras publicaciones del vendedor</h4>
-                    <div>
+                    <div class="mb-3">
+                        <h4 class="fw-bold mb-3">Otras publicaciones del vendedor</h4>
                         <div class="row row-cols-lg-4 row-cols-sm-2 g-4">
-            
                             {{#each recommendations}}
-                            <div class="col position-relative">
-                                <div class="card">
-                                    <a href="/publication/{{nroPublicacion}}" class="link-unstyled">
-                                        <div class="imgbox">
-                                            <img src="/img/testing/item3.jpg" class="card-img-top">
+                                <div class="col position-relative">
+                                    <div class="card">
+                                        <a href="/publication/{{nroPublicacion}}" class="link-unstyled">
+                                            <div class="imgbox">
+                                                <img src="/img/testing/item3.jpg" class="card-img-top">
+                                            </div>
+                                        </a>
+                                        <div class="position-absolute p-1 mb-2">
+                                            <span class="badge rounded-pill bg-dark">NEW</span>
+                                            <span class="badge rounded-pill bg-dark">SALE</span>
                                         </div>
-                                    </a>
-                                    <div class="position-absolute p-1 mb-2">
-                                        <span class="badge rounded-pill bg-dark">NEW</span>
-                                        <span class="badge rounded-pill bg-dark">SALE</span>
-                                    </div>
-                                    <div class="container my-2 text-center">
-                                        <div>
-                                            <a href="/publication/{{nroPublicacion}}" class="link-unstyled">
-                                                <h6 class="card-title mb-1">{{titulo}}</h6>
-                                            </a>
-                                        </div>
-                                        <div>
-                                            <div class="d-flex">
-                                                <h4>${{precio}}</h4>
-                                                {{!-- <h6 class="text-muted ms-1"><s>$500</s></h6> --}}
+                                        <div class="container my-2 text-center">
+                                            <div>
+                                                <a href="/publication/{{nroPublicacion}}" class="link-unstyled">
+                                                    <h6 class="card-title mb-1">{{titulo}}</h6>
+                                                </a>
+                                            </div>
+                                            <div>
+                                                <div class="d-flex">
+                                                    <h4>${{precio}}</h4>
+                                                    {{!-- <h6 class="text-muted ms-1"><s>$500</s></h6> --}}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
                             {{/each}}
                         </div>
                     </div>
-                </div>
                 {{/if}}
             </section>
+            
         </div>
     </div>
 </body>
