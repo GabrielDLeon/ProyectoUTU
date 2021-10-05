@@ -10,8 +10,8 @@ const db = mysql.createConnection({
     database: process.env.DATABASE,
   });
 
-router.get('/', (req, res) => {
-    res.render('publication/publicaciones', {
+router.get('/', authController.isLoggedIn, (req, res) => {
+    res.render('publication/list', {
         user: req.user,
         title: "Klouts"
     });

@@ -15,7 +15,7 @@ router.get('/', authController.isLoggedIn, (req, res) => {
     db.query('SELECT categoria FROM categorias', (error, categorias) => {
         db.query('SELECT material FROM materiales', (error, materiales) => {
             db.query('SELECT marca FROM marcas', (error, marcas) => {
-                res.render('publication/createPublication', {
+                res.render('publication/create', {
                     categorias,
                     materiales,
                     marcas,
@@ -48,7 +48,7 @@ router.post('/', authController.isLoggedIn, async (req, res) => {
                 }
 
                 if (!genero || !titulo || !descripcion || !precio || !material || !marca || !categoria) {
-                    return res.render('publication/createPublication', {
+                    return res.render('publication/create', {
                         categorias,
                         materiales,
                         marcas,

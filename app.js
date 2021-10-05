@@ -75,6 +75,7 @@ db.connect( (error) => {
 //Define Routes
 app.use('/', require('./routes/pages'));
 app.use('/', require('./routes/auth'));
+app.use('/listar', require('./routes/publicaciones'))
 app.use('/profile', require('./routes/profile'));
 app.use('/publication', require('./routes/publication'));
 app.use('/create', require('./routes/createPublication'));
