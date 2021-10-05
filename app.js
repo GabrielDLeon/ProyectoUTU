@@ -77,6 +77,7 @@ app.use('/', require('./routes/pages'));
 app.use('/', require('./routes/auth'));
 app.use('/profile', require('./routes/profile'));
 app.use('/publication', require('./routes/publication'));
+app.use('/publicaciones', require('./routes/publicaciones'));
 app.use('/create', require('./routes/createPublication'));
 
 app.listen(3000, () => {

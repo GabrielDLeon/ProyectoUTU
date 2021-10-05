@@ -17,7 +17,6 @@ router.get('/', (req, res) => {
     });
 });
 
-
 // Enviar formulario de pregunta
 router.post('/question/:id', authController.isLoggedIn, async (req, res) => {
     const { id } = req.params;
@@ -84,6 +83,7 @@ router.get('/:id', authController.isLoggedIn, async (req, res) => {
 
                     // })
                     await db.query('SELECT porcentaje AS descuento FROM (descuento INNER JOIN publicacion ON descuento.publication = publicacion.nroPublicacion) WHERE publicacion.nroPublicacion = ?', [id], async (error, sale) => {
+                        console.log(sale);
                         if (sale.length > 0) {
                             var valor = {
                                 descuento: sale[0].descuento,

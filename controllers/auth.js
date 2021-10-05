@@ -267,8 +267,37 @@ exports.register = (req, res) => {
 
 exports.registerCompany = (req, res) => {
   console.log(req.body);
+  const {name, mailEmpresa, pass, passwordConfirm, razon, rut} = req.body;
+  function validate_isRUT(rut) {
+    if (rut.length != 12) {
+      return false;
+    }
+    if (!/^([0-9])*$/.test(rut)) {
+      return false;
+    }
+    var dc = rut.substr(11, 1);
+    var rut = rut.substr(0, 11);
+    var total = 0;
+    var factor = 2;
 
-  const { name, mailEmpresa, pass, passwordConfirm, razon, rut } = req.body;
+    for (i = 10; i >= 0; i--) {
+      total += (factor * rut.substr(i, 1));
+      factor = (factor == 9) ? 2 : ++factor;
+    }
+
+    var dv = 11 - (total % 11);
+
+    if (dv == 11) {
+      dv = 0;
+    } else if (dv == 10) {
+      dv = 1;
+    }
+    if (dv == dc) {
+      return true;
+    }
+    return false;
+  }
+  console.log()
   const expReg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   const esValido = expReg.test(mailEmpresa);
 
@@ -285,9 +314,21 @@ exports.registerCompany = (req, res) => {
             pass: req.body.pass,
             pass2: req.body.passwordConfirm,
             name: req.body.name,
+            title: 'Registro de empresa',
             message: 'Complete todos los campos'
       })
    }
+  //  if (validate_isRUT(rut) == false) {
+  //   return res.render('./auth/registerCompany', {
+  //     mailEmpresa: req.body.mailEmpresa,
+  //        razon: req.body.razon,
+  //        pass: req.body.pass,
+  //        pass2: req.body.passwordConfirm,
+  //        name: req.body.name,
+  //        title: 'Registro de empresa',
+  //        message: 'RUT inválido'
+  //  })
+  //  }
    if (esValido == false) {  
     return res.render('./auth/registerCompany', {
           pass: req.body.pass,
