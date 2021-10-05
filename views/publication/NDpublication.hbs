@@ -25,8 +25,7 @@
                     <div class="my-3">
                         <div>
                             <h6>Descripción del producto</h6>
-                            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sunt harum minus maiores molestiae, aperiam hic tempora impedit mollitia debitis explicabo minima ut, quam possimus distinctio repellendus molestias perspiciatis. Modi, asperiores.</p>
-                            {{!-- <p> {{publication.descripcion}} </p> --}}
+                            <p> {{publication.descripcion}} </p>
                         </div>
                         <div>
                             <div class="row d-flex">
@@ -41,21 +40,16 @@
                                 {{/if}}
                             </div>
                         </div>
-                        <div class="my-3">
-                            <h6>Colores disponibles</h6>
-                            <div>
-                                <button type="button" class="btn btn-default btn-circle product-color color-yellow"><i
-                                        class="fas fa-brush"></i></button>
-                                <button type="button" class="btn btn-default btn-circle product-color color-yellow"><i
-                                        class="fas fa-brush"></i></button>
-                                <button type="button" class="btn btn-default btn-circle product-color color-yellow"><i
-                                        class="fas fa-brush"></i></button>
-                                <button type="button" class="btn btn-default btn-circle product-color color-yellow"><i
-                                        class="fas fa-brush"></i></button>
-                                <button type="button" class="btn btn-default btn-circle product-color color-yellow"><i
-                                        class="fas fa-brush"></i></button>
+                        {{#if colors}}
+                            <div class="my-3">
+                                <h6>Colores disponibles</h6>
+                                <div>
+                                    {{#each colors}}
+                                        <button type="button" class="btn btn-default btn-circle product-color color-{{color}}"><i class="fas fa-brush"></i></button>
+                                    {{/each}}
+                                </div>
                             </div>
-                        </div>
+                        {{/if}}
                         {{#if sizes}}
                         <div>
                             <h6>Talles disponibles</h6>
@@ -292,4 +286,3 @@
         </div>
     </div>
 </body>
-{{>footer}}

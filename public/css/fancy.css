@@ -110,8 +110,18 @@ p {
     font-size: 12px;
 }
 
-.product-color.color-yellow{
-    background-color: rgb(245, 245, 0);
+.product-color.color-azul{
+    background-color: rgb(65, 44, 255);
+}
+
+.product-color.color-blanco{
+    background-color: rgb(235, 235, 235);
+}
+.product-color.color-negro{
+    background-color: rgb(20, 20, 20);
+}
+.product-color.color-rojo{
+    background-color: rgb(231, 31, 31);
 }
 
 .imgA {
