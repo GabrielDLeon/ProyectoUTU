@@ -15,12 +15,15 @@ router.get('/', authController.isLoggedIn, (req, res) => {
     db.query('SELECT categoria FROM categorias', (error, categorias) => {
         db.query('SELECT material FROM materiales', (error, materiales) => {
             db.query('SELECT marca FROM marcas', (error, marcas) => {
-                res.render('publication/create', {
-                    categorias,
-                    materiales,
-                    marcas,
-                    user: req.user,
-                    title: "Nueva publicación"
+                db.query('SELECT color FROM colores', (error, colores) => {
+                    res.render('publication/create', {
+                        categorias,
+                        materiales,
+                        marcas,
+                        colores,
+                        user: req.user,
+                        title: "Nueva publicación"
+                    });
                 });
             });
         });
@@ -31,7 +34,7 @@ router.post('/', authController.isLoggedIn, async (req, res) => {
     db.query('SELECT categoria FROM categorias', (error, categorias) => {
         db.query('SELECT material FROM materiales', (error, materiales) => {
             db.query('SELECT marca FROM marcas', (error, marcas) => {
-                console.log(req.body);
+                // console.log(req.body);
                 user = req.user;
                 const { titulo, descripcion, precio, categoria, genero, material, marca } = req.body;
                 const newProduct = {
@@ -39,11 +42,12 @@ router.post('/', authController.isLoggedIn, async (req, res) => {
                     genero,
                     material,
                     marca
-                }
+                };
                 const newPublication = {
                     titulo,
                     descripcion,
                     precio,
+                    descuento,
                     vendedor: req.user.email
                 }
 
@@ -56,6 +60,7 @@ router.post('/', authController.isLoggedIn, async (req, res) => {
                         titulo: req.body.titulo,
                         descripcion: req.body.descripcion,
                         precio: req.body.precio,
+                        descuento: req.body.descuento,
                         message: "Ingrese todos los campos antes de guardar",
                         title: "Nueva publicación"
                     })
@@ -68,6 +73,7 @@ router.post('/', authController.isLoggedIn, async (req, res) => {
                             const idProducto = result.insertId;
                             db.query("INSERT INTO publicacion (precio, titulo, descripcion, producto, vendedor) VALUES (?, ?, ?, ?, ?)", [newPublication.precio, newPublication.titulo, newPublication.descripcion, idProducto, newPublication.vendedor], async (error, result) => {
                                 const idPublicacion = result.insertId;
+                                db.query("INSERT INTO descuento VALUES (?, ?);", [idPublicacion, newPublication.descuento]);
                                 const path = '/publication/' + idPublicacion;
                                 res.redirect(path);
                             });

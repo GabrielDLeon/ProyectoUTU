@@ -7,7 +7,8 @@
             <textarea class="form-control" name="descripcion" id="descripcion" placeholder="Descripción" maxlength="155"></textarea>
             <input class="form-control input-number" name="precio" id="precio" type="number" placeholder="Precio" value="{{precio}}">
             <input type="checkbox" name="confirm-descuento" id="confirm-descuento">
-            <input class="form-control input-number" name="descuento" id="descuento" type="number" placeholder="Descuento">
+            <label for="confirm-descuento">Añadir descuento</label>
+            <input class="form-control input-number" name="descuento" id="descuento" type="number" placeholder="Descuento" onKeyPress="if(this.value.length==2) return false;">
             
             {{!-- <input class="form-control" value="" name="" id="" type="text" placeholder=""> --}}
         </div>
@@ -16,7 +17,7 @@
             <select class="form-select" name="categoria" id="categoria">
                 <option value="">Seleccione una categoría</option>
                 {{#each categorias}}
-                    <option value="{{categoria}}">{{categoria}}</option>
+                    <option class="text-capitalize" value="{{categoria}}">{{categoria}}</option>
                 {{/each}}
             </select>
             <select class="form-select" name="genero" id="genero">
@@ -37,6 +38,16 @@
                     <option value="{{marca}}">{{marca}}</option>
                 {{/each}}
             </select>
+            <div>
+                <select class="form-select" name="colores" id="colores">
+                    <option value="0">Seleccione un color</option>
+                    {{#each colores}}
+                        <option value="{{color}}">{{color}}</option>
+                    {{/each}}
+                </select>
+                <button type="button" class="btn btn-success" name="addColor" id="addColor">Agregar color</button>
+                <p id="textColores">Aquí apareceran los colores</p>
+            </div>
         </div>
         <div class="">
             <button type="submit" class="btn btn-success">ENVIAR</button>
