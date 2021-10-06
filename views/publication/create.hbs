@@ -1,10 +1,11 @@
 {{>navigation}}
 <section class="container my-5">
-    <form method="POST" action="/create">
+    <form method="POST" action="/create" enctype="multipart/form-data">
         <div class="mb-3">
             <h2>Datos de la publicación</h2>
             <input class="form-control" name="titulo" id="titulo" type="text" placeholder="Titulo" value="{{titulo}}">
             <textarea class="form-control" name="descripcion" id="descripcion" placeholder="Descripción" maxlength="155"></textarea>
+            <input class="form-control" type="file" id="formFile" name="imagen" multiple>
             <input class="form-control input-number" name="precio" id="precio" type="number" placeholder="Precio" value="{{precio}}">
             <input type="checkbox" name="confirm-descuento" id="confirm-descuento">
             <label for="confirm-descuento">Añadir descuento</label>

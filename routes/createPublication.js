@@ -2,6 +2,9 @@ const express = require('express');
 const authController = require('../controllers/auth');
 const mysql = require("mysql");
 const router = express.Router();
+const multer = require('multer');
+
+const upload = multer({storage:multer.memoryStorage()});
 
 const db = mysql.createConnection({
     host: process.env.DATABASE_HOST,
@@ -35,13 +38,22 @@ router.get('/', authController.isLoggedIn, (req, res) => {
 });
 
 
-router.post('/', authController.isLoggedIn, async (req, res) => {
+router.post('/', upload.array("imagen", 12) , authController.isLoggedIn , async (req, res) => {
     db.query('SELECT categoria FROM categorias', (error, categorias) => {
         db.query('SELECT material FROM materiales', (error, materiales) => {
             db.query('SELECT marca FROM marcas', (error, marcas) => {
                 // console.log(req.body);
                 user = req.user;
                 const { titulo, descripcion, precio, descuento, categoria, genero, material, marca } = req.body;
+                imagenes= req.files
+                let conjunto = []
+                console.log(imagenes)
+                imagenes.forEach((imagen) => {
+                    
+                    imagen = req.files.buffer.toString('base64');
+                })
+                console.log("la imagen es");
+                console.log(imagen);
                 const newProduct = {
                     categoria,
                     genero,
@@ -79,6 +91,7 @@ router.post('/', authController.isLoggedIn, async (req, res) => {
                             db.query("INSERT INTO publicacion (precio, titulo, descripcion, producto, vendedor) VALUES (?, ?, ?, ?, ?)", [newPublication.precio, newPublication.titulo, newPublication.descripcion, idProducto, newPublication.vendedor], async (error, result) => {
                                 const idPublicacion = result.insertId;
                                 db.query("INSERT INTO descuento VALUES (?, ?);", [idPublicacion, newPublication.descuento]);
+                                db.query("INSERT INTO fotos VALUES (?, ?);", [idPublicacion, imagen]);
                                 const path = '/publication/' + idPublicacion;
                                 res.redirect(path);
                             });

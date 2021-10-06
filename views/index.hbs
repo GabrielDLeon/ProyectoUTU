@@ -9,7 +9,11 @@
                 <a href="/publication/{{nroPublicacion}}" class="link-unstyled">
                     <div class="card rounded-0">
                         <div class="imgbox">
+                            {{#if imagen}}
+                            <img alt="Embedded Image" src="data:imagen/png;base64, {{imagen}}" class="card-img-top">
+                            {{else}}
                             <img src="/img/testing/item3.jpg" class="card-img-top">
+                            {{/if}}
                         </div>
                         <div class="card-body">
                             <h5 class="card-title mb-1">{{titulo}}</h5>

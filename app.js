@@ -4,6 +4,7 @@ const mysql = require("mysql");
 const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
 const exphbs = require('express-handlebars');
+const multer = require('multer');
 
 dotenv.config({ path: './.env'});
 

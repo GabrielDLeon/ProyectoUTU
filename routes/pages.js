@@ -11,7 +11,10 @@ const db = mysql.createConnection({
 
 router.get('/', authController.isLoggedIn, async (req, res) => {
                 db.query('SELECT direccion, descripcion, telefono, nombre FROM perfil', (error, result) => {
-                db.query('SELECT nroPublicacion, precio, titulo, descripcion, producto, cuenta_empresa.nombre AS vendedor FROM (publicacion INNER JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email)', (error, publicacion) => {
+                db.query('SELECT nroPublicacion, precio, titulo, descripcion, producto, fotos.imagen , cuenta_empresa.nombre AS vendedor FROM (publicacion LEFT JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email LEFT JOIN fotos ON fotos.publicacion = publicacion.nroPublicacion)', (error, publicacion) => {
+                console.log(result);
+                console.log("resultado de perfil")
+                console.log(publicacion);
                 res.render('index', {
                 publicacion,
                 data : result[0],
