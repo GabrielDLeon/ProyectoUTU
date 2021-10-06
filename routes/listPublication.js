@@ -27,7 +27,7 @@ router.get('/', authController.isLoggedIn, (req, res) => {
 
 router.post('/delete/:nroPublicacion', authController.isLoggedIn, async (req, res) => {
     const nroPublicacion = req.params.nroPublicacion
-    db.query('DELETE FROM publicacion WHERE nroPublicacion = ?', [nroPublicacion], (error, results) => {
+    await db.query('DELETE FROM publicacion WHERE nroPublicacion = ?', [nroPublicacion], (error, results) => {
         if (error) {
             console.log(error)
         } else {
@@ -39,7 +39,7 @@ router.post('/delete/:nroPublicacion', authController.isLoggedIn, async (req, re
 router.get('/edit/:id', authController.isLoggedIn, async (req, res) => {
     const {id} = req.params;
     const {email} = req.user;
-    db.query('SELECT vendedor FROM publicacion WHERE nroPublicacion = ?',[id], (error, result) => {
+    await db.query('SELECT vendedor FROM publicacion WHERE nroPublicacion = ?',[id], (error, result) => {
         if (result.length>0){
             if (email === result[0].vendedor){
                 db.query('SELECT nroPublicacion AS id, precio, titulo, descripcion, porcentaje AS descuento FROM (publicacion INNER JOIN descuento ON publicacion.nroPublicacion = descuento.publication) WHERE publicacion.nroPublicacion = ?',[id], (error, result) => {

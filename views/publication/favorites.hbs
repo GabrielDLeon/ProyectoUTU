@@ -1,0 +1,36 @@
+{{>navigation}}
+<div class="container">
+    <div class="table-responsive table-lg mt-3">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Publicacion</th>
+                    <th>Precio</th>
+                    <th class="max-width">Descripcion</th>
+                    <th>Vendedor</th>
+                    <th>Accion</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#if result}}
+                    {{#each result}}
+                    <tr>
+                        <td class="text-nowrap align-middle"><span>{{titulo}}</span></td>
+                        <td class="text-nowrap align-middle"><span>{{precio}}</span></td>
+                        <td class="text-center align-middle"><span>{{descripcion}}</span></td>
+                        <td class="text-center align-middle"><span>{{vendedor}}</span></td>
+                        <td class="text-center align-middle">
+                            <div class="btn-group align-top">
+                                <form action="/favorites/delete/{{nroPublicacion}}" method="POST">
+                                    <button class="btn btn-danger">Quitar favorito</button>
+                                </form>
+                                <a href="/publication/{{nroPublicacion}}" class="btn btn-secondary link-unstyled">Ver</a>
+                            </div>
+                        </td>
+                    </tr>
+                    {{/each}}
+                {{/if}}
+            </tbody>
+        </table>
+    </div>
+</div>
