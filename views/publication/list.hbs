@@ -19,12 +19,13 @@
                         <td class="text-center align-middle"><span>{{descripcion}}</span></td>
                         <td class="text-center align-middle">
                             <div class="btn-group align-top">
-                                <form action="">
-                                    <button class="btn btn-primary" value="Editar">Editar</button>
+                                <form action="/list/edit/{{nroPublicacion}}" method="GET">
+                                    <button class="btn btn-primary">Editar</button>
                                 </form>
-                                <form action="/list/delete/{{nroPublicacion}}" method="post">
-                                    <button class="btn btn-danger" value="Eliminar">Eliminar</button>
+                                <form action="/list/delete/{{nroPublicacion}}" method="POST">
+                                    <button class="btn btn-danger">Eliminar</button>
                                 </form>
+                                <a href="/publication/{{nroPublicacion}}" class="btn btn-secondary link-unstyled">Ver</a>
                             </div>
                         </td>
                     </tr>

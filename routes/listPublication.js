@@ -14,8 +14,6 @@ router.get('/', authController.isLoggedIn, (req, res) => {
     if (req.user) {
         const mail = req.user.email
         db.query('SELECT nroPublicacion, precio, titulo, descripcion, producto, cuenta_empresa.nombre AS vendedor FROM (publicacion INNER JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email) WHERE vendedor = ?', [mail], (error, publicacion) => {
-            console.log("resultado de perfil")
-            console.log(publicacion);
             res.render('publication/list', {
                 publicacion,
                 user: req.user,
@@ -29,16 +27,59 @@ router.get('/', authController.isLoggedIn, (req, res) => {
 
 router.post('/delete/:nroPublicacion', authController.isLoggedIn, async (req, res) => {
     const nroPublicacion = req.params.nroPublicacion
-    console.log(nroPublicacion)
     db.query('DELETE FROM publicacion WHERE nroPublicacion = ?', [nroPublicacion], (error, results) => {
         if (error) {
             console.log(error)
         } else {
-            console.log(results);
             return res.redirect('/list')
         }
     })
 });
 
+router.get('/edit/:id', authController.isLoggedIn, async (req, res) => {
+    const {id} = req.params;
+    const {email} = req.user;
+    db.query('SELECT vendedor FROM publicacion WHERE nroPublicacion = ?',[id], (error, result) => {
+        if (result.length>0){
+            if (email === result[0].vendedor){
+                db.query('SELECT nroPublicacion AS id, precio, titulo, descripcion, porcentaje AS descuento FROM (publicacion INNER JOIN descuento ON publicacion.nroPublicacion = descuento.publication) WHERE publicacion.nroPublicacion = ?',[id], (error, result) => {
+                    db.query('SELECT categoria, genero, material, marca FROM (producto INNER JOIN publicacion ON producto.idProducto = publicacion.producto) WHERE nroPublicacion = ?',[id], (error, product) => {
+                        const {categoria, genero, material, marca} = product[0];
+                        db.query('SELECT categoria FROM categorias WHERE categoria != ?',[categoria], (error, categorias) => {
+                            db.query('SELECT material FROM materiales WHERE material != ?',[material], (error, materiales) => {
+                                db.query('SELECT marca FROM marcas WHERE marca != ?',[marca], (error, marcas) => {
+                                    res.render('publication/edit', {
+                                        user: req.user,
+                                        categorias,
+                                        materiales,
+                                        marcas,
+                                        genero,
+                                        product: product[0],
+                                        publication: result[0]
+                                    })
+                                })
+                            })
+                        })
+                    })
+                })
+            } else {
+                console.log("No se pudieron actualizar los datos de la publicación, esto debido a que la cuenta activa no corresponde al usuario vendedor de la publicación")
+                res.redirect('/');
+            }
+        } else {
+            console.log("No se encontró ninguna publicación");
+            res.redirect('/');
+        }
+    })
+})
+
+router.post('/edit/:id', authController.isLoggedIn, async (req, res) => {
+    const {id} = req.params;
+    const {titulo, descripcion, precio} = req.body;
+    await db.query('UPDATE publicacion SET titulo = ?, descripcion = ?, precio = ? WHERE nroPublicacion = ?',[titulo, descripcion, precio ,id], (error, result) => {
+        console.log("Se actualizó correctamente la publicación "+id);
+        res.redirect('/list');
+    })
+})
 
 module.exports = router;

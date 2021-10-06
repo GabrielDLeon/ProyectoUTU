@@ -1,0 +1,58 @@
+{{>navigation}}
+<section class="container my-5">
+    <form method="POST" action="/list/edit/{{publication.id}}">
+        <div class="mb-3">
+            <h2>Editar datos de la publicación</h2>
+            <input class="form-control" name="titulo" id="titulo" type="text" placeholder="Titulo" value="{{publication.titulo}}">
+            <textarea class="form-control" name="descripcion" id="descripcion" placeholder="Descripción" maxlength="155">{{publication.descripcion}}</textarea>
+            <input class="form-control input-number" name="precio" id="precio" type="number" placeholder="Precio" value="{{publication.precio}}">
+            {{#if publication.descuento}}
+                <input class="form-control input-number" name="descuento" id="descuento" type="number" placeholder="Descuento" onKeyPress="if(this.value.length==2) return false;" value="{{publication.descuento}}">
+            {{/if}}
+            
+            {{!-- <input class="form-control" value="" name="" id="" type="text" placeholder=""> --}}
+        </div>
+        <div class="mb-3">
+            <select class="form-select" name="categoria" id="categoria">
+                <option value="{{product.categoria}}">{{product.categoria}}</option>
+                {{#each categorias}}
+                    <option class="text-capitalize" value="{{categoria}}">{{categoria}}</option>
+                {{/each}}
+            </select>
+            <select class="form-select" name="genero" id="genero">
+                <option value="0">Seleccione un género</option>
+                <option value="Hombre">Hombre</option>
+                <option value="Mujer">Mujer</option>
+                <option value="Unisex">Unisex</option>
+            </select>
+            <select class="form-select" name="material" id="material">
+                <option value="{{product.material}}">{{product.material}}</option>
+                {{#each materiales}}
+                    <option value="{{material}}">{{material}}</option>
+                {{/each}}
+            </select>
+            <select class="form-select" name="marca" id="marca">
+                <option value="{{product.marca}}">{{product.marca}}</option>
+                {{#each marcas}}
+                    <option value="{{marca}}">{{marca}}</option>
+                {{/each}}
+            </select>
+            {{!-- <div>
+                <select class="form-select" name="colores" id="colores">
+                    <option value="0">Seleccione un color</option>
+                    {{#each colores}}
+                        <option value="{{color}}">{{color}}</option>
+                    {{/each}}
+                </select>
+                <button type="button" class="btn btn-success" name="addColor" id="addColor">Agregar color</button>
+                <p id="textColores">Aquí apareceran los colores</p>
+            </div> --}}
+        </div>
+        <div class="">
+            <button type="submit" class="btn btn-success">GUARDAR</button>
+        </div>
+        {{#if message }}
+           <p class="text-danger text-center mt-1">{{message}}</p>
+        {{/if}}
+    </form>
+</section>
