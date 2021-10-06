@@ -5,19 +5,14 @@ document.querySelector(".input-number").addEventListener("keypress", function (e
     }
 });
 
-$(form).submit(function () {
-    sendContactForm();
-    return false;
-});
-
 const a = document.getElementById('confirm-descuento');
 const b = document.getElementById('descuento');
-b.style.display = "none";
+b.disabled = true;
 
 a.addEventListener("click", function(){
     if (a.checked == true){
-        b.style.display = "block";
+        b.disabled = false;
     } else {
-        b.style.display = "none";
+        b.disabled = true;
     }
 })

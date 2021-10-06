@@ -30,6 +30,7 @@
                     <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
                 {{/if}}
                 {{#ifCond user.tipo '==' 'empresa'}}
+                    <li class="nav-item"><a class="nav-link" href="/list">Mis publicaciones</a></li>
                     <li class="nav-item"><a class="nav-link" href="/create">Hacer publicacion</a></li>
                 {{/ifCond}}
             </ul>
