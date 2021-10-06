@@ -14,27 +14,29 @@
                 <table class="table table-bordered">
                   <thead>
                     <tr>
-                      <th>Photo</th>
-                      <th class="max-width">Name</th>
-                      <th class="sortable">Date</th>
-                      <th>Actions</th>
+                      <th>Publicacion</th>
+                      <th>Precio</th>
+                      <th class="max-width">Descripcion</th>
+                      <th>Accion</th>
                     </tr>
                   </thead>
                   <tbody>
-                     {{#if publicacion}}
-                     {{#each publicacion}}
+                    {{#if publicacion}}
+                    {{#each publicacion}}
                     <tr>
-                      <td class="text-nowrap align-middle">{{nombre}}</td>
+                      <td class="text-nowrap align-middle"><span>{{titulo}}</span></td>
                       <td class="text-nowrap align-middle"><span>{{precio}}</span></td>
-                      <td class="text-center align-middle"><i class="fa fa-fw text-secondary cursor-pointer fa-toggle-off"></i></td>
+                      <td class="text-center align-middle"><span>{{descripcion}}</span><i
                       <td class="text-center align-middle">
-                        <div class="btn-group align-top">
-                            <button class="btn btn-sm btn-outline-secondary badge" type="button" data-toggle="modal" data-target="#user-form-modal">Edit</button>
-                            <button class="btn btn-sm btn-outline-secondary badge" type="button"><i class="fa fa-trash"></i></button>
-                        </div>
+                        <form action="/listar/eliminar/{{nroPublicacion}}" method="post">
+                          <div class="btn-group align-top">
+                            <button class="btn btn-danger" value="Eliminar">Eliminar</button>
+                        </form>
+                             <input class="btn btn-primary" type="button" value="Editar"></button>
+                           </div>  
                       </td>
                     </tr>
-                  {{/each}}
+                    {{/each}}
                     {{/if}}
                   </tbody>
                 </table>
@@ -43,7 +45,7 @@
           </div>
         </div>
       </div>
-
+    
     </div>
 
     <!-- User Form Modal -->

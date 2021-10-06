@@ -14,7 +14,7 @@ const db = mysql.createConnection({
 });
 
 router.get('/', authController.isLoggedIn, async (req, res) => {
-  if (req.user) {
+  if (req.user.tipo == 'empresa') {
   const {nombre} = req.user
   await db.query('SELECT * FROM cuenta_empresa WHERE nombre = ?',[nombre], (error, result) => {
     if (result.length>0){

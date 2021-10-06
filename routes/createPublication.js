@@ -12,6 +12,7 @@ const db = mysql.createConnection({
 
 // Crear una nueva publicacion
 router.get('/', authController.isLoggedIn, (req, res) => {
+    if (req.user.tipo == 'empresa') {
     db.query('SELECT categoria FROM categorias', (error, categorias) => {
         db.query('SELECT material FROM materiales', (error, materiales) => {
             db.query('SELECT marca FROM marcas', (error, marcas) => {
@@ -28,7 +29,11 @@ router.get('/', authController.isLoggedIn, (req, res) => {
             });
         });
     });
+    } else { 
+        res.redirect('/login')
+    }
 });
+
 
 router.post('/', authController.isLoggedIn, async (req, res) => {
     db.query('SELECT categoria FROM categorias', (error, categorias) => {
@@ -36,7 +41,7 @@ router.post('/', authController.isLoggedIn, async (req, res) => {
             db.query('SELECT marca FROM marcas', (error, marcas) => {
                 // console.log(req.body);
                 user = req.user;
-                const { titulo, descripcion, precio, categoria, genero, material, marca } = req.body;
+                const { titulo, descripcion, precio, descuento, categoria, genero, material, marca } = req.body;
                 const newProduct = {
                     categoria,
                     genero,
@@ -84,4 +89,5 @@ router.post('/', authController.isLoggedIn, async (req, res) => {
         });
     });
 });
+
 module.exports = router;

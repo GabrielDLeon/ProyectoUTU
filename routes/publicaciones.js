@@ -11,10 +11,34 @@ const db = mysql.createConnection({
   });
 
 router.get('/', authController.isLoggedIn, (req, res) => {
-    res.render('publication/list', {
-        user: req.user,
-        title: "Klouts"
-    });
+    if (req.user) {
+        const mail = req.user.email
+        db.query('SELECT nroPublicacion, precio, titulo, descripcion, producto, cuenta_empresa.nombre AS vendedor FROM (publicacion INNER JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email) WHERE vendedor = ?', [mail], (error, publicacion) => {
+            console.log("resultado de perfil")
+            console.log(publicacion);
+            res.render('publication/list', {
+                publicacion,
+                user: req.user,
+                title: "Mis publicaciones"
+            })
+        });
+    } else {
+        res.redirect('/login')
+    }
 });
+
+router.post('/eliminar/:nroPublicacion', authController.isLoggedIn, async (req, res) => {
+    const nroPublicacion = req.params.nroPublicacion
+    console.log(nroPublicacion)
+    db.query('DELETE FROM publicacion WHERE nroPublicacion = ?', [nroPublicacion], (error, results) => {
+        if (error) {
+            console.log(error)
+        } else {
+            console.log(results);
+            return res.redirect('/listar')
+        }
+    })
+});
+
 
 module.exports = router;

@@ -4,10 +4,20 @@ document.querySelector(".input-number").addEventListener("keypress", function (e
         evt.preventDefault();
     }
 });
-document.getElementById('descuento').disabled = true;
+
 $(form).submit(function () {
     sendContactForm();
     return false;
 });
 
-document.getElementById()
+const a = document.getElementById('confirm-descuento');
+const b = document.getElementById('descuento');
+b.style.display = "none";
+
+a.addEventListener("click", function(){
+    if (a.checked == true){
+        b.style.display = "block";
+    } else {
+        b.style.display = "none";
+    }
+})
