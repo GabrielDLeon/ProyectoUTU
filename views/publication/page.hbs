@@ -81,11 +81,15 @@
                             <button type="button" data-bs-target="#carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
                         </div>
                         <div class="carousel-inner">
-                            {{#each imagen}}
-                            <div class="carousel-item active">
-                                <img alt="Embedded Image" src="data:imagen/png;base64, {{imagen}}" class="d-block w-100" alt="...">
-                            </div>
-                            {{/each}}
+                            {{#if imagen}}
+                                {{#each imagen}}
+                                <div class="carousel-item active">
+                                    <img alt="Embedded Image" src="data:imagen/png;base64, {{imagen}}" class="d-block w-100" alt="...">
+                                </div>
+                                {{/each}}
+                            {{else}}
+                                    <img alt="Embedded Image" src="/img/testing/item3.jpg" class="d-block w-100" alt="...">
+                            {{/if}}
                         </div>
                         <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>

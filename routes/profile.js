@@ -15,40 +15,33 @@ const db = mysql.createConnection({
 
 router.get('/', authController.isLoggedIn, async (req, res) => {
   if (req.user.tipo == 'empresa') {
-  const {nombre} = req.user
-  await db.query('SELECT * FROM cuenta_empresa WHERE nombre = ?',[nombre], (error, result) => {
-    if (result.length>0){
-      console.log("REQ .USER ES")
-      console.log(req.user);
-      const email = req.user.email;
-      db.query('SELECT tipo, URL, propietario FROM enlaces WHERE propietario = ?',[email], async (error, redes) => {
-            db.query('SELECT direccion, descripcion, telefono, nombre FROM perfil WHERE nombre = ?', [nombre], (error, result1) => {
-              db.query('SELECT nroPublicacion, precio, titulo, descripcion, producto, cuenta_empresa.nombre AS vendedor FROM (publicacion INNER JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email) WHERE cuenta_empresa.nombre = ?', [nombre], (error, publicacion) => {
-                console.log(result);
-                console.log("resultado de perfil")
-                console.log(result1);
-                console.log(publicacion);
-                console.log(redes)
-                res.render('profile/profile', {
+    const { nombre } = req.user
+    await db.query('SELECT * FROM cuenta_empresa WHERE nombre = ?', [nombre], (error, result) => {
+      if (result.length > 0) {
+        const email = req.user.email;
+        db.query('SELECT tipo, URL, propietario FROM enlaces WHERE propietario = ?', [email], async (error, redes) => {
+          db.query('SELECT direccion, descripcion, telefono, nombre FROM perfil WHERE nombre = ?', [nombre], (error, result1) => {
+            db.query('SELECT nroPublicacion, precio, titulo, descripcion, producto, cuenta_empresa.nombre AS vendedor FROM (publicacion INNER JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email) WHERE cuenta_empresa.nombre = ?', [nombre], (error, publicacion) => {
+              res.render('profile/profile', {
                 publicacion,
-                profile : result1[0],
-                data : result[0],
+                profile: result1[0],
+                data: result[0],
                 user: req.user,
                 title: result[0].nombre,
                 redes
-                })
-              });
-              
-        });
-      })
-    } else {
+              })
+            });
+
+          });
+        })
+      } else {
         res.redirect('/');
-    }
-    
-})
-} else {
-  res.redirect('/login')
-}
+      }
+
+    })
+  } else {
+    res.redirect('/login')
+  }
 });
 
 router.get('/newEnlace/:id', authController.isLoggedIn, async (req, res) => {
@@ -58,13 +51,8 @@ router.get('/newEnlace/:id', authController.isLoggedIn, async (req, res) => {
       console.log(error)
     }
     req.user = result2[0];
-    console.log("user de enlace ES")
-    console.log(req.user);
-
     const { email } = req.user;
     const { id } = req.params;
-    console.log("email: es")
-    console.log(email);
     db.query('SELECT cuenta_empresa.email , cuenta_empresa.id FROM cuenta_empresa WHERE cuenta_empresa.email = ?', [email], async (error, result) => {
       db.query('SELECT * FROM enlaces_tipos', async (error, tipo) => {
         console.log(tipo)
@@ -84,11 +72,7 @@ router.get('/newEnlace/:id', authController.isLoggedIn, async (req, res) => {
 
 router.post('/newEnlace/:id', authController.isLoggedIn, async (req, res) => {
   const email = req.user.email;
-  console.log("email de req.user es: ")
-  console.log(email);
   await db.query('SELECT cuentas.email, cuentas.password, cuenta_empresa.nombre, cuenta_empresa.id FROM cuentas INNER JOIN cuenta_empresa ON cuentas.email = cuenta_empresa.email WHERE cuenta_empresa.email = ?', [email], async (error, result) => {
-    console.log("result de consulta en post")
-    console.log(result);
     const email = result[0].email
     const { tipo } = req.body;
     const { link } = req.body;
@@ -133,15 +117,10 @@ router.get('/:nombre', authController.isLoggedIn, async (req, res) => {
   const { nombre } = req.params;
   await db.query('SELECT * FROM cuenta_empresa WHERE nombre = ?', [nombre], (error, result) => {
     if (result.length > 0) {
-      console.log(nombre);
       db.query('SELECT direccion, descripcion, telefono, nombre, email FROM perfil WHERE nombre = ?', [nombre], (error, result1) => {
         const email = result1[0].email;
         db.query('SELECT tipo, URL, propietario FROM enlaces WHERE propietario = ?', [email], async (error, redes) => {
           db.query('SELECT nroPublicacion, precio, titulo, descripcion, producto, cuenta_empresa.nombre AS vendedor FROM (publicacion INNER JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email) WHERE cuenta_empresa.nombre = ?', [nombre], (error, publicacion) => {
-            console.log(result);
-            console.log("resultado de perfil")
-            console.log(result1);
-            console.log(publicacion);
             res.render('profile/profile', {
               publicacion,
               profile: result1[0],
@@ -168,10 +147,7 @@ router.get('/edit/:id', authController.isLoggedIn, async (req, res) => {
     if(!result2) {
       console.log(error)
     }
-
     req.user = result2[0];
-    console.log("user de EDIT ES")
-    console.log(req.user);
 
     const {email} = req.user;
     const {id} = req.params;
@@ -194,15 +170,9 @@ router.get('/edit/:id', authController.isLoggedIn, async (req, res) => {
 
 router.post('/edit/:id', authController.isLoggedIn, async (req, res) => {
   const email = req.user.email;
-  console.log("email de req.user es: ")
-  console.log(email);
   await db.query('SELECT cuentas.email, cuentas.password, cuenta_personal.nombre, cuenta_personal.id FROM cuentas INNER JOIN cuenta_personal ON cuentas.email = cuenta_personal.email WHERE cuenta_personal.email = ?',[email], async (error, result) => {
-  console.log("result de consulta en post")
-  console.log(result);
   const {id} = req.params;
-  const email = result[0].email
-  console.log("email")
-  console.log(email)
+  const email = result[0].email;
   const {nombre, pass , newPass, newPassConfirm} = req.body;
   const newData  = {
     nombre,

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.0
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 04-10-2021 a las 22:05:45
--- Versión del servidor: 10.4.18-MariaDB
--- Versión de PHP: 8.0.3
+-- Tiempo de generación: 07-10-2021 a las 00:20:16
+-- Versión del servidor: 10.4.20-MariaDB
+-- Versión de PHP: 8.0.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -81,9 +81,11 @@ CREATE TABLE `cuentas` (
 INSERT INTO `cuentas` (`email`, `password`, `tipo`) VALUES
 ('alan@gmail.com', '$2a$08$vrxtUI4SNLdrwh7YhYbGXeYsFN/aT/4pJ46OoE5qJ.YxUfc1iZJcG', 'usuario'),
 ('alma@gmail.com', '$2a$08$Y.xRVZSnbkuodm8GqWL8LuvLBghFoJqgtpL9CPz6ba4m6rRKkDlLS', 'empresa'),
-('ema@gmail.com', '$2a$08$15krDl7X0yNKv5gfEDo2v.YInduPFfBy.02urBGX0NywyaZVHCo3u', 'usuario'),
+('ema@gmail.com', '$2a$08$JhFcviTRTEfzgkvnHVOx3OsOEj0fOYBvd3IKNp0viXq1NAaZIN6dy', 'usuario'),
 ('macri@gmail.com', '$2a$08$WItZSXoV8mSY49DLyjmH4elaFVT5rm/1faJ4cJdqX8l7xjLdnnvba', 'empresa'),
+('mana@gmail.com', '$2a$08$XQ8s00W9LzEbhiQ5xAKEQOxMYAN1O/aA0DvBN57pTLzi/AfrrUoS6', 'empresa'),
 ('penelope@gmail.com', '$2a$08$6Gl95UT9lWJjC0xfwsiite7zvxHHU0vPReieRsSXve8dBo1C8Nuj2', 'empresa'),
+('rut@gmail.com', '$2a$08$Wb0PIuEjpYrpQDcNf2PJd.il16fSbWy4ezZGqGaNW/Rw0f3TbJUP.', 'empresa'),
 ('santiago@gmail.com', '$2a$08$XCdbNkoweA.T0htRhMFGHOViaxdwTKghudzthNtZOGLFFB8J8EYme', 'empresa'),
 ('tienda@gmail.com', '$2a$08$H.a4hPGqN3j8hJxNybntC.gp34UC6DucdfjS8gHeJ0XRP7SXL63pa', 'empresa');
 
@@ -110,7 +112,9 @@ INSERT INTO `cuenta_empresa` (`id`, `email`, `RUT`, `nombre`, `razonSocial`) VAL
 (2, 'alma@gmail.com', 2002, 'Alma', 'SLNE'),
 (3, 'tienda@gmail.com', 8888, 'Tienda', 'SA'),
 (4, 'macri@gmail.com', 54654, 'Macri', 'SA'),
-(5, 'santiago@gmail.com', 2007, 'Santiago', 'SLNE');
+(5, 'santiago@gmail.com', 2007, 'Santiago', 'SLNE'),
+(8, 'mana@gmail.com', 2147483647, ' Carniceria mana', 'SL'),
+(9, 'rut@gmail.com', 2147483647, 'adsasdasd', 'SL');
 
 -- --------------------------------------------------------
 
@@ -130,7 +134,7 @@ CREATE TABLE `cuenta_personal` (
 
 INSERT INTO `cuenta_personal` (`id`, `email`, `nombre`) VALUES
 (4, 'alan@gmail.com', 'Alan Texeira'),
-(5, 'ema@gmail.com', 'Emanuel Maquieira');
+(5, 'ema@gmail.com', 'Emanuel ');
 
 -- --------------------------------------------------------
 
@@ -149,11 +153,8 @@ CREATE TABLE `curvas` (
 
 INSERT INTO `curvas` (`talle`, `publicacion`) VALUES
 ('35', 1),
-('35', 3),
 ('36', 1),
 ('37', 1),
-('38', 2),
-('39', 2),
 ('40', 4);
 
 -- --------------------------------------------------------
@@ -173,8 +174,8 @@ CREATE TABLE `descuento` (
 
 INSERT INTO `descuento` (`publication`, `porcentaje`) VALUES
 (1, 40),
-(2, 80),
-(4, 50);
+(4, 50),
+(11, NULL);
 
 -- --------------------------------------------------------
 
@@ -214,6 +215,36 @@ INSERT INTO `enlaces_tipos` (`plataforma`) VALUES
 ('Facebook'),
 ('Instagram'),
 ('Whatsapp');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `favoritos`
+--
+
+CREATE TABLE `favoritos` (
+  `usuario` varchar(255) NOT NULL,
+  `publicacion` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `favoritos`
+--
+
+INSERT INTO `favoritos` (`usuario`, `publicacion`) VALUES
+('alan@gmail.com', 4),
+('ema@gmail.com', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `fotos`
+--
+
+CREATE TABLE `fotos` (
+  `imagen` longtext NOT NULL,
+  `publicacion` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -279,7 +310,9 @@ CREATE TABLE `perfil` (
 INSERT INTO `perfil` (`email`, `nombre`, `descripcion`, `direccion`, `telefono`) VALUES
 ('alma@gmail.com', 'Alma', '', '', ''),
 ('macri@gmail.com', 'Macri', '', '', ''),
+('mana@gmail.com', ' Carniceria mana', '', '', ''),
 ('penelope@gmail.com', 'Penelope', '', '', ''),
+('rut@gmail.com', 'adsasdasd', '', '', ''),
 ('santiago@gmail.com', 'Santiago', '', '', ''),
 ('tienda@gmail.com', 'Tienda', '', '', '');
 
@@ -312,10 +345,8 @@ INSERT INTO `preguntas` (`idPregunta`, `mensaje`, `fechaPregunta`, `remitente`, 
 (46, 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sunt harum minus maiores molestiae, aperiam hic tempora impedit mollitia debitis explicabo minima ut', '2021-10-04 15:53:19', 'alan@gmail.com', 1, 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sunt harum minus maiores molestiae, aperiam hic tempora impedit mollitia debitis explicabo minima ut', '0000-00-00 00:00:00'),
 (47, 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sunt harum minus maiores molestiae, aperiam hic tempora impedit mollitia debitis explicabo minima ut', '2021-10-04 15:53:21', 'alan@gmail.com', 1, 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sunt harum minus maiores molestiae, aperiam hic tempora impedit mollitia debitis explicabo minima ut', '0000-00-00 00:00:00'),
 (48, 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sunt harum minus maiores molestiae, aperiam hic tempora impedit mollitia debitis explicabo minima ut', '2021-10-04 15:53:23', 'alan@gmail.com', 1, 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sunt harum minus maiores molestiae, aperiam hic tempora impedit mollitia debitis explicabo minima ut', '0000-00-00 00:00:00'),
-(50, 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sunt harum minus maiores molestiae, aperiam hic tempora impedit mollitia debitis explicabo minima ut, quam possimus distinctio repellendus molestias perspiciatis. Modi, asperiores.', '2021-10-04 15:58:35', 'alan@gmail.com', 2, 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sunt harum minus maiores molestiae, aperiam hic tempora impedit mollitia debitis explicabo minima ut', '0000-00-00 00:00:00'),
-(51, 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sunt harum minus maiores molestiae, aperiam hic tempora impedit mollitia debitis explicabo minima ut, quam possimus distinctio repellendus molestias perspiciatis. Modi, asperiores.', '2021-10-04 15:58:37', 'alan@gmail.com', 2, 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sunt harum minus maiores molestiae, aperiam hic tempora impedit mollitia debitis explicabo minima ut', '0000-00-00 00:00:00'),
-(52, 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sunt harum minus maiores molestiae, aperiam hic tempora impedit mollitia debitis explicabo minima ut, quam possimus distinctio repellendus molestias perspiciatis. Modi, asperiores.', '2021-10-04 15:58:39', 'alan@gmail.com', 2, 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sunt harum minus maiores molestiae, aperiam hic tempora impedit mollitia debitis explicabo minima ut', '0000-00-00 00:00:00'),
-(53, 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sunt harum minus maiores molestiae, aperiam hic tempora impedit mollitia debitis explicabo minima ut', '2021-10-04 15:58:45', 'alan@gmail.com', 2, '', '0000-00-00 00:00:00');
+(54, 'una consultita', '2021-10-04 18:41:04', 'ema@gmail.com', 1, '', '0000-00-00 00:00:00'),
+(55, 'asdasdsa', '2021-10-05 19:09:33', 'ema@gmail.com', 4, '', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -347,7 +378,9 @@ INSERT INTO `producto` (`idProducto`, `categoria`, `genero`, `material`, `marca`
 (10, 'calzado', 'Hombre', 'Algodón', 'Chanel'),
 (11, 'accesorio', 'Hombre', 'Cuero', 'Nike'),
 (12, 'accesorio', 'Hombre', 'Pieles', 'Genérica'),
-(14, 'accesorio', 'Mujer', 'Poliéster', 'Gucci');
+(14, 'accesorio', 'Mujer', 'Poliéster', 'Gucci'),
+(15, 'accesorio', 'Mujer', 'Algodón', 'Chanel'),
+(16, 'accesorio', 'Hombre', 'Algodón', 'Chanel');
 
 -- --------------------------------------------------------
 
@@ -370,14 +403,11 @@ CREATE TABLE `publicacion` (
 
 INSERT INTO `publicacion` (`nroPublicacion`, `precio`, `titulo`, `descripcion`, `producto`, `vendedor`) VALUES
 (1, 1000, 'Zapatillos', 'Buenos zapatos para empezar a caminar', 2, 'macri@gmail.com'),
-(2, 400, 'Remera azul', 'Una remera simple de color azul', 3, 'alma@gmail.com'),
-(3, 800, 'Remera roja', 'Una sencilla remera de color roja pero elegante ke lo ke', 4, 'alma@gmail.com'),
 (4, 5000, 'Collar de diamantes', 'Sale un huevo y medio, pero están chetas', 5, 'penelope@gmail.com'),
-(5, 333, 'Buena remera', 'Remera facherita', 9, 'alma@gmail.com'),
-(6, 4444, 'fasafsafsafs', 'djdfdfjdfj', 10, 'alma@gmail.com'),
 (7, 2147483647, 'gei', 'gei', 11, 'santiago@gmail.com'),
 (8, 850, 'Sombrero de guerra', 'Un sombrero es una prenda de vestir que se utiliza específicamente para cubrir la cabeza, ya sea del sol, el frío o incluso marcar el estatus social del portador. El término sombrero se ha modificado, convirtiéndolo en un término específico para designar ', 12, 'penelope@gmail.com'),
-(9, 2147483647, 'asfasfasffas', 'asfasfsfafas', 14, 'penelope@gmail.com');
+(9, 2147483647, 'asfasfasffas', 'asfasfsfafas', 14, 'penelope@gmail.com'),
+(11, 123, 'asdasd', 'asdasda', 16, 'alma@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -475,6 +505,19 @@ ALTER TABLE `enlaces_tipos`
   ADD PRIMARY KEY (`plataforma`);
 
 --
+-- Indices de la tabla `favoritos`
+--
+ALTER TABLE `favoritos`
+  ADD PRIMARY KEY (`usuario`,`publicacion`),
+  ADD KEY `publicacion` (`publicacion`);
+
+--
+-- Indices de la tabla `fotos`
+--
+ALTER TABLE `fotos`
+  ADD KEY `publicacion` (`publicacion`);
+
+--
 -- Indices de la tabla `marcas`
 --
 ALTER TABLE `marcas`
@@ -539,7 +582,7 @@ ALTER TABLE `talles`
 -- AUTO_INCREMENT de la tabla `cuenta_empresa`
 --
 ALTER TABLE `cuenta_empresa`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `cuenta_personal`
@@ -551,19 +594,19 @@ ALTER TABLE `cuenta_personal`
 -- AUTO_INCREMENT de la tabla `preguntas`
 --
 ALTER TABLE `preguntas`
-  MODIFY `idPregunta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `idPregunta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT de la tabla `producto`
 --
 ALTER TABLE `producto`
-  MODIFY `idProducto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `idProducto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `publicacion`
 --
 ALTER TABLE `publicacion`
-  MODIFY `nroPublicacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `nroPublicacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Restricciones para tablas volcadas
@@ -600,6 +643,19 @@ ALTER TABLE `descuento`
 ALTER TABLE `enlaces`
   ADD CONSTRAINT `enlaces_ibfk_2` FOREIGN KEY (`tipo`) REFERENCES `enlaces_tipos` (`plataforma`),
   ADD CONSTRAINT `enlaces_ibfk_3` FOREIGN KEY (`propietario`) REFERENCES `perfil` (`email`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `favoritos`
+--
+ALTER TABLE `favoritos`
+  ADD CONSTRAINT `favoritos_ibfk_1` FOREIGN KEY (`publicacion`) REFERENCES `publicacion` (`nroPublicacion`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `favoritos_ibfk_2` FOREIGN KEY (`usuario`) REFERENCES `cuenta_personal` (`email`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `fotos`
+--
+ALTER TABLE `fotos`
+  ADD CONSTRAINT `fotos_ibfk_1` FOREIGN KEY (`publicacion`) REFERENCES `publicacion` (`nroPublicacion`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `perfil`
