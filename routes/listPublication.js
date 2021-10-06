@@ -27,7 +27,7 @@ router.get('/', authController.isLoggedIn, (req, res) => {
     }
 });
 
-router.post('/eliminar/:nroPublicacion', authController.isLoggedIn, async (req, res) => {
+router.post('/delete/:nroPublicacion', authController.isLoggedIn, async (req, res) => {
     const nroPublicacion = req.params.nroPublicacion
     console.log(nroPublicacion)
     db.query('DELETE FROM publicacion WHERE nroPublicacion = ?', [nroPublicacion], (error, results) => {
@@ -35,7 +35,7 @@ router.post('/eliminar/:nroPublicacion', authController.isLoggedIn, async (req, 
             console.log(error)
         } else {
             console.log(results);
-            return res.redirect('/listar')
+            return res.redirect('/list')
         }
     })
 });
