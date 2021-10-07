@@ -3,6 +3,19 @@ const authController = require('../controllers/auth');
 const mysql = require("mysql");
 const router = express.Router();
 const multer = require('multer');
+var _ = require('lodash');
+// Load the core build.
+var _ = require('lodash/core');
+// Load the FP build for immutable auto-curried iteratee-first data-last methods.
+var fp = require('lodash/fp');
+ 
+// Load method categories.
+var array = require('lodash/array');
+var object = require('lodash/fp/object');
+ 
+// Cherry-pick methods for smaller browserify/rollup/webpack bundles.
+var at = require('lodash/at');
+var curryN = require('lodash/fp/curryN');
 
 const upload = multer({storage:multer.memoryStorage()});
 
@@ -46,14 +59,18 @@ router.post('/', upload.array("imagen", 12) , authController.isLoggedIn , async 
                 user = req.user;
                 const { titulo, descripcion, precio, descuento, categoria, genero, material, marca } = req.body;
                 imagenes= req.files
-                let conjunto = []
-                console.log(imagenes)
-                imagenes.forEach((imagen) => {
+                //let result = imagenes.map(({ buffer }) => buffer)
+                //var result = _.map(imagenes, _.property('buffer'));
+                var result = imagenes.map((element)=>{ return _.pick(element, ['buffer'])})
+             
+                //const imagen = result.toString('base64');
+                //console.log(imagen)
+                result.forEach((imagen) => {
+                    resultado = imagen.buffer.toString('base64');
+                    console.log("resultado")
+                    console.log(resultado)
                     
-                    imagen = req.files.buffer.toString('base64');
-                })
-                console.log("la imagen es");
-                console.log(imagen);
+                }) 
                 const newProduct = {
                     categoria,
                     genero,
@@ -91,7 +108,7 @@ router.post('/', upload.array("imagen", 12) , authController.isLoggedIn , async 
                             db.query("INSERT INTO publicacion (precio, titulo, descripcion, producto, vendedor) VALUES (?, ?, ?, ?, ?)", [newPublication.precio, newPublication.titulo, newPublication.descripcion, idProducto, newPublication.vendedor], async (error, result) => {
                                 const idPublicacion = result.insertId;
                                 db.query("INSERT INTO descuento VALUES (?, ?);", [idPublicacion, newPublication.descuento]);
-                                db.query("INSERT INTO fotos VALUES (?, ?);", [idPublicacion, imagen]);
+                                db.query("INSERT INTO fotos VALUES (?, ?);", [idPublicacion, resultado]);
                                 const path = '/publication/' + idPublicacion;
                                 res.redirect(path);
                             });
