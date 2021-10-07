@@ -81,8 +81,8 @@ router.get('/:id', authController.isLoggedIn, async (req, res) => {
             await db.query('SELECT idProducto, categoria, genero, material, marca FROM (publicacion INNER JOIN producto ON publicacion.producto = producto.idProducto) WHERE publicacion.nroPublicacion = ?',[id], async (error, product) => {
                 await db.query('SELECT talle FROM (publicacion INNER JOIN curvas ON publicacion.nroPublicacion = curvas.publicacion) WHERE nroPublicacion = ?', [id], async (error, sizes) => {
                     await db.query('SELECT color FROM (publicacion_color INNER JOIN publicacion ON publicacion_color.publicacion = publicacion.nroPublicacion) WHERE publicacion.nroPublicacion = ?', [id], async (error, colors) => {
-                        console.log(colors);
-                        await db.query('SELECT porcentaje AS descuento FROM (descuento INNER JOIN publicacion ON descuento.publication = publicacion.nroPublicacion) WHERE publicacion.nroPublicacion = ?', [id], async (error, sale) => {
+                        await db.query('SELECT publicacion, imagen FROM fotos WHERE publicacion = ?', [id], async (error, imagen) => {
+                            await db.query('SELECT porcentaje AS descuento FROM (descuento INNER JOIN publicacion ON descuento.publication = publicacion.nroPublicacion) WHERE publicacion.nroPublicacion = ?', [id], async (error, sale) => {
                             if (sale.length > 0) {
                                 var valor = {
                                     descuento: sale[0].descuento,
@@ -105,11 +105,13 @@ router.get('/:id', authController.isLoggedIn, async (req, res) => {
                                         colors,
                                         sizes,
                                         valor,
+                                        imagen,
                                         questions,
                                         recommendations
                                     });
                                 });
-                            });
+                                });
+                            })
                         });
                     });
                 });

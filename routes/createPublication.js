@@ -58,19 +58,7 @@ router.post('/', upload.array("imagen", 12) , authController.isLoggedIn , async 
                 // console.log(req.body);
                 user = req.user;
                 const { titulo, descripcion, precio, descuento, categoria, genero, material, marca } = req.body;
-                imagenes= req.files
-                //let result = imagenes.map(({ buffer }) => buffer)
-                //var result = _.map(imagenes, _.property('buffer'));
-                var result = imagenes.map((element)=>{ return _.pick(element, ['buffer'])})
-             
-                //const imagen = result.toString('base64');
-                //console.log(imagen)
-                result.forEach((imagen) => {
-                    resultado = imagen.buffer.toString('base64');
-                    console.log("resultado")
-                    console.log(resultado)
-                    
-                }) 
+                
                 const newProduct = {
                     categoria,
                     genero,
@@ -108,7 +96,12 @@ router.post('/', upload.array("imagen", 12) , authController.isLoggedIn , async 
                             db.query("INSERT INTO publicacion (precio, titulo, descripcion, producto, vendedor) VALUES (?, ?, ?, ?, ?)", [newPublication.precio, newPublication.titulo, newPublication.descripcion, idProducto, newPublication.vendedor], async (error, result) => {
                                 const idPublicacion = result.insertId;
                                 db.query("INSERT INTO descuento VALUES (?, ?);", [idPublicacion, newPublication.descuento]);
-                                db.query("INSERT INTO fotos VALUES (?, ?);", [idPublicacion, resultado]);
+                                imagenes= req.files
+                                var buffer = imagenes.map((element)=>{ return _.pick(element, ['buffer'])})
+                                buffer.forEach((imagen) => {
+                                    resultado = imagen.buffer.toString('base64');
+                                    db.query("INSERT INTO fotos VALUES (?, ?);", [idPublicacion, resultado]);
+                                }) 
                                 const path = '/publication/' + idPublicacion;
                                 res.redirect(path);
                             });
