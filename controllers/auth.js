@@ -399,12 +399,8 @@ exports.isLoggedIn = async (req, res, next) => {
             if(!result2) {
               return next();
             }
-    
             req.user = result2[0];
-            console.log("user es")
-            console.log(req.user);
             return next();
-    
           })
         } if(tipo == 'empresa') {
           db.query('SELECT cuentas.email , cuentas.password, cuentas.tipo, cuenta_empresa.nombre, cuenta_empresa.id FROM (cuentas INNER JOIN cuenta_empresa ON cuentas.email = cuenta_empresa.email) WHERE cuentas.email = ?', [decoded.id], (error, result) => {
