@@ -83,35 +83,35 @@ router.get('/:id', authController.isLoggedIn, async (req, res) => {
                     await db.query('SELECT color FROM (publicacion_color INNER JOIN publicacion ON publicacion_color.publicacion = publicacion.nroPublicacion) WHERE publicacion.nroPublicacion = ?', [id], async (error, colors) => {
                         await db.query('SELECT publicacion, imagen FROM fotos WHERE publicacion = ?', [id], async (error, imagen) => {
                             await db.query('SELECT porcentaje AS descuento FROM (descuento INNER JOIN publicacion ON descuento.publication = publicacion.nroPublicacion) WHERE publicacion.nroPublicacion = ?', [id], async (error, sale) => {
-                            if (sale.length > 0) {
-                                var valor = {
-                                    descuento: sale[0].descuento,
-                                    final: saleCalculator(result[0].precio, sale[0].descuento)
+                                if (sale.length > 0) {
+                                    var valor = {
+                                        descuento: sale[0].descuento,
+                                        final: saleCalculator(result[0].precio, sale[0].descuento)
+                                    }
+                                } else {
+                                    var valor = {
+                                        descuento: '',
+                                        final: result[0].precio,
+                                    }
                                 }
-                            } else {
-                                var valor = {
-                                    descuento: '',
-                                    final: result[0].precio,
-                                }
-                            }
-                            const vendedor = result[0].vendedorEmail;
-                            await db.query('SELECT idPregunta, mensaje, fechaPregunta, fechaRespuesta, cuenta_empresa.nombre AS vendedor, cuenta_personal.nombre AS remitente, respuesta, cuentas.tipo FROM (publicacion INNER JOIN preguntas ON publicacion.nroPublicacion = preguntas.publicacion INNER JOIN cuenta_personal ON cuenta_personal.email = preguntas.remitente INNER JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email INNER JOIN cuentas ON cuentas.email = cuenta_empresa.email) WHERE nroPublicacion = ? ORDER BY fechaPregunta DESC', [id], async (error, questions) => {
-                                await db.query('SELECT nroPublicacion, precio, titulo FROM `publicacion` WHERE vendedor = ? AND nroPublicacion != ?', [vendedor, id], (error, recommendations) => {
-                                    res.render('publication/page', {
-                                        user: req.user,
-                                        title: result[0].titulo,
-                                        publication: result[0],
-                                        product: product[0],
-                                        colors,
-                                        sizes,
-                                        valor,
-                                        imagen,
-                                        questions,
-                                        recommendations
+                                const vendedor = result[0].vendedorEmail;
+                                await db.query('SELECT idPregunta, mensaje, fechaPregunta, fechaRespuesta, cuenta_empresa.nombre AS vendedor, cuenta_personal.nombre AS remitente, respuesta, cuentas.tipo FROM (publicacion INNER JOIN preguntas ON publicacion.nroPublicacion = preguntas.publicacion INNER JOIN cuenta_personal ON cuenta_personal.email = preguntas.remitente INNER JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email INNER JOIN cuentas ON cuentas.email = cuenta_empresa.email) WHERE nroPublicacion = ? ORDER BY fechaPregunta DESC', [id], async (error, questions) => {
+                                    await db.query('SELECT nroPublicacion, precio, titulo FROM `publicacion` WHERE vendedor = ? AND nroPublicacion != ?', [vendedor, id], (error, recommendations) => {
+                                        res.render('publication/page', {
+                                            user: req.user,
+                                            title: result[0].titulo,
+                                            publication: result[0],
+                                            product: product[0],
+                                            colors,
+                                            sizes,
+                                            valor,
+                                            imagen,
+                                            questions,
+                                            recommendations
+                                        });
                                     });
                                 });
-                                });
-                            })
+                            });
                         });
                     });
                 });
