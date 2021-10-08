@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.0
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 07-10-2021 a las 22:15:28
--- Versión del servidor: 10.4.18-MariaDB
--- Versión de PHP: 8.0.3
+-- Tiempo de generación: 08-10-2021 a las 07:59:36
+-- Versión del servidor: 10.4.20-MariaDB
+-- Versión de PHP: 7.3.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -82,7 +82,7 @@ INSERT INTO `cuentas` (`email`, `password`, `tipo`) VALUES
 ('alan@gmail.com', '$2a$08$vrxtUI4SNLdrwh7YhYbGXeYsFN/aT/4pJ46OoE5qJ.YxUfc1iZJcG', 'usuario'),
 ('alma@gmail.com', '$2a$08$Y.xRVZSnbkuodm8GqWL8LuvLBghFoJqgtpL9CPz6ba4m6rRKkDlLS', 'empresa'),
 ('ema@gmail.com', '$2a$08$15krDl7X0yNKv5gfEDo2v.YInduPFfBy.02urBGX0NywyaZVHCo3u', 'usuario'),
-('macri@gmail.com', '$2a$08$WItZSXoV8mSY49DLyjmH4elaFVT5rm/1faJ4cJdqX8l7xjLdnnvba', 'empresa'),
+('macri@gmail.com', '$2a$08$tRpkyqYi.rxvqcDzlsNNC.GGiR.L505MNIrz6wF8WktfKgc69P3p.', 'empresa'),
 ('penelope@gmail.com', '$2a$08$6Gl95UT9lWJjC0xfwsiite7zvxHHU0vPReieRsSXve8dBo1C8Nuj2', 'empresa'),
 ('santiago@gmail.com', '$2a$08$XCdbNkoweA.T0htRhMFGHOViaxdwTKghudzthNtZOGLFFB8J8EYme', 'empresa'),
 ('tienda@gmail.com', '$2a$08$H.a4hPGqN3j8hJxNybntC.gp34UC6DucdfjS8gHeJ0XRP7SXL63pa', 'empresa');
@@ -98,7 +98,7 @@ CREATE TABLE `cuenta_empresa` (
   `email` varchar(255) NOT NULL,
   `RUT` int(12) NOT NULL,
   `nombre` varchar(255) NOT NULL,
-  `razonSocial` varchar(11) NOT NULL
+  `razonSocial` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -195,6 +195,7 @@ CREATE TABLE `enlaces` (
 
 INSERT INTO `enlaces` (`tipo`, `URL`, `propietario`) VALUES
 ('Facebook', 'facebook.com/user/penelope', 'penelope@gmail.com'),
+('Instagram', 'https://instagram.com', 'macri@gmail.com'),
 ('Instagram', 'instagram.com/penelope', 'penelope@gmail.com');
 
 -- --------------------------------------------------------
@@ -329,7 +330,7 @@ INSERT INTO `materiales` (`material`) VALUES
 CREATE TABLE `perfil` (
   `email` varchar(255) NOT NULL,
   `nombre` varchar(255) NOT NULL,
-  `descripcion` varchar(255) NOT NULL,
+  `descripcion` text NOT NULL,
   `direccion` varchar(255) NOT NULL,
   `telefono` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -340,7 +341,7 @@ CREATE TABLE `perfil` (
 
 INSERT INTO `perfil` (`email`, `nombre`, `descripcion`, `direccion`, `telefono`) VALUES
 ('alma@gmail.com', 'Alma', '', '', ''),
-('macri@gmail.com', 'Macri', '', '', ''),
+('macri@gmail.com', 'Macri', 'Somos macri somos familia Somos macri somos familia  Somos macri somos familia asdasddasdsadsaasd', '18 de julio', '45672222'),
 ('penelope@gmail.com', 'Penelope', '', '', ''),
 ('santiago@gmail.com', 'Santiago', '', '', ''),
 ('tienda@gmail.com', 'Tienda', '', '', '');

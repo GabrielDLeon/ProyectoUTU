@@ -13,7 +13,7 @@
                         <div class="col">
                             <div class="row">
                                 <h2 class="text-center text-uppercase">{{data.nombre}}</h2>
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima perspiciatis officia nihil impedit voluptatum accusantium tempore reiciendis architecto explicabo! Laborum aliquam nulla, et reprehenderit distinctio amet porro velit fuga dolorem!</p>
+                                <p>{{profile.descripcion}}</p>
                                 {{!-- <p style="font-size: 1rem;">{{profile.descripcion}}</p> --}}
                             </div>
                             <div class="row">
@@ -22,7 +22,7 @@
                                 </div>
                                 <div class="col-auto mb-1">
                                     <p class="m-0"><strong>Dirección</strong></p>
-                                    <p class="text-muted">25 de agosto</p>
+                                    <p class="text-muted">{{profile.direccion}}</p>
                                     {{!-- <p>{{profile.direccion}}</p> --}}
                                 </div>
                             </div>
@@ -32,25 +32,36 @@
                                 </div>
                                 <div class="col-auto mb-1">
                                     <p class="m-0"><strong>Teléfono</strong></p>
-                                    <p class="text-muted">098 688 456</p>
-                                    <p>{{profile.telefono}}</p>
+                                    <p class="text-muted">{{profile.telefono}}</p>
                                 </div>
                             </div>
+                            
                             <div class="row">
                                 <h6 class="text-center">Nuestras redes sociales</h6>
+                                {{#each redes}}
+                                {{#ifCond tipo '==' 'Instagram'}}
                                 <div class="col-12 my-2 text-muted d-flex justify-content-center">
-                                    <a class="link-unstyled" href="{{URL}}" target="_blank"><i class="fab fa-instagram"></i> {{data.nombre}} en {{RRSS.nombre}} Instagram</a>
+                                    <a class="link-unstyled" href="{{URL}}" target="_blank"><i class="fab fa-instagram"></i> {{nombre}} en Instagram</a>
                                 </div>
+                                {{/ifCond}}
+                                {{#ifCond tipo '==' 'Facebook'}}
                                 <div class="col-12 my-2 text-muted d-flex justify-content-center">
-                                    <a class="link-unstyled" href="{{URL}}" target="_blank"><i class="fab fa-facebook"></i> {{data.nombre}} en {{RRSS.nombre}} Facebook</a>
+                                    <a class="link-unstyled" href="{{URL}}" target="_blank"><i class="fab fa-facebook"></i> {{nombre}} en Facebook</a>
                                 </div>
+                                {{/ifCond}}
+                                {{#ifCond tipo '==' 'Whatsapp'}}
                                 <div class="col-12 my-2 text-muted d-flex justify-content-center">
-                                    <a class="link-unstyled" href="{{URL}}" target="_blank"><i class="fab fa-whatsapp"></i> {{data.nombre}} en {{RRSS.nombre}} Whatsapp</a>
+                                    <a class="link-unstyled" href="{{URL}}" target="_blank"><i class="fab fa-whatsapp"></i> {{nombre}} en Whatsapp</a>
                                 </div>
+                                {{/ifCond}}
                                 {{!-- <a class="btn btn-primary" href="{{URL}}" role="button" style="background-color: #ac2bac ; border: 0px;" target="_blank"><i class="fab fa-instagram"></i></a>
                                 <a class="btn btn-primary" href="{{URL}}" role="button" style="background-color: #3b5998 ; border: 0px;" target="_blank"><i class="fab fa-facebook-f"></i></a>
                                 <a class="btn btn-primary" href="{{URL}}" role="button" style="background-color: #25d366 ; border: 0px;" target="_blank"><i class="fab fa-whatsapp"></i></a> --}}
+                                {{/each}}
                             </div>
+                            <a href="/profile/edit/{{user.id}}">
+                            <button type='submit' class="btn btn-primary">Editar perfil</button>
+                            </a>
                         </div>
                     </div>
                 </div>
