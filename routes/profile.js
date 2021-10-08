@@ -55,7 +55,6 @@ router.get('/newEnlace/:id', authController.isLoggedIn, async (req, res) => {
     const { id } = req.params;
     db.query('SELECT cuenta_empresa.email , cuenta_empresa.id FROM cuenta_empresa WHERE cuenta_empresa.email = ?', [email], async (error, result) => {
       db.query('SELECT * FROM enlaces_tipos', async (error, tipo) => {
-        console.log(tipo)
         if (result[0].id == id) {
           res.render('profile/newEnlace', {
             user: req.user,
@@ -99,7 +98,6 @@ router.post('/newEnlace/:id', authController.isLoggedIn, async (req, res) => {
           if (error) {
             console.log(error)
           } else {
-            console.log(results);
             return res.render('profile/newEnlace', {
               user: req.user,
               linkAgregado: 'Link agregado',
@@ -151,13 +149,8 @@ router.get('/edit/:id', authController.isLoggedIn, async (req, res) => {
 
     const {email} = req.user;
     const {id} = req.params;
-    console.log("email: es")
-    console.log(email);
      db.query('SELECT cuentas.email, cuentas.password, cuenta_personal.nombre, cuenta_personal.id FROM cuentas INNER JOIN cuenta_personal ON cuentas.email = cuenta_personal.email WHERE cuenta_personal.email = ?',[email], async (error, result) => {
-     console.log(result[0].id)
       if (result[0].id == id) {
-        console.log("edit:")
-        console.log(result); 
         res.render('profile/editProfile', {
         user: req.user
         })
@@ -180,8 +173,6 @@ router.post('/edit/:id', authController.isLoggedIn, async (req, res) => {
     pass,
     newPassConfirm
   };
-  console.log("password");
-  console.log(result[0].password);
           if( result.length == 0 || !(await bcrypt.compare(pass, result[0].password))) {
               return res.status(401).render('profile/editProfile', {
                 nombre: req.body.name,

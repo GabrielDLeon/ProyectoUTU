@@ -70,7 +70,7 @@ function saleCalculator (price, sale){
 // Entrar a una publicacion desde URL con el ID
 router.get('/:id', authController.isLoggedIn, async (req, res) => {
     const {id} = req.params;
-    const {email} = req.user;
+    if (req.user){var {email} = req.user}
     await db.query('SELECT nroPublicacion, precio, titulo, descripcion, producto, cuenta_empresa.email AS vendedorEmail, cuenta_empresa.nombre AS vendedor FROM (publicacion INNER JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email) WHERE nroPublicacion = ?',[id], async (error, result) => { 
         if (result.length>0){
             await db.query('SELECT idProducto, categoria, genero, material, marca FROM (publicacion INNER JOIN producto ON publicacion.producto = producto.idProducto) WHERE publicacion.nroPublicacion = ?',[id], async (error, product) => {
@@ -121,21 +121,24 @@ router.get('/:id', authController.isLoggedIn, async (req, res) => {
 });
 
 router.post('/addFavorite/:id', authController.isLoggedIn, async (req, res) => {
-    const {id} = req.params;
-    const {email} = req.user;
-    const path = '/publication/'+id;
-    await db.query('SELECT * FROM favoritos WHERE usuario = ? AND publicacion = ?', [email, id], async (error, result) => {
-        console.log(result);
-        if (result.length>0){
-            db.query('DELETE FROM favoritos WHERE usuario = ? AND publicacion = ?', [email, id])
-            console.log("Se eliminó la publicación de favoritos")
-            res.redirect(path)
-        } else {
-            await db.query('INSERT INTO favoritos VALUES (?, ?)', [email, id])
-            console.log("Se guardó la publicación como favoritos")
-            res.redirect(path)
-        }
-    })
+    if (req.user){
+        const { id } = req.params;
+        const { email } = req.user;
+        const path = '/publication/' + id;
+        await db.query('SELECT * FROM favoritos WHERE usuario = ? AND publicacion = ?', [email, id], async (error, result) => {
+            if (result.length > 0) {
+                db.query('DELETE FROM favoritos WHERE usuario = ? AND publicacion = ?', [email, id])
+                console.log("Se eliminó la publicación de favoritos")
+                res.redirect(path)
+            } else {
+                await db.query('INSERT INTO favoritos VALUES (?, ?)', [email, id])
+                console.log("Se guardó la publicación como favoritos")
+                res.redirect(path)
+            }
+        })
+    } else {
+        res.redirect('/login')
+    }
 })
 
 module.exports = router;
