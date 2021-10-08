@@ -5,6 +5,22 @@ const mysql = require("mysql");
 const bcrypt = require('bcryptjs');
 const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
+const multer = require('multer');
+var _ = require('lodash');
+// Load the core build.
+var _ = require('lodash/core');
+// Load the FP build for immutable auto-curried iteratee-first data-last methods.
+var fp = require('lodash/fp');
+ 
+// Load method categories.
+var array = require('lodash/array');
+var object = require('lodash/fp/object');
+ 
+// Cherry-pick methods for smaller browserify/rollup/webpack bundles.
+var at = require('lodash/at');
+var curryN = require('lodash/fp/curryN');
+
+const upload = multer({storage:multer.memoryStorage()});
 
 const db = mysql.createConnection({
   host: process.env.DATABASE_HOST,
@@ -20,7 +36,7 @@ router.get('/', authController.isLoggedIn, async (req, res) => {
       if (result.length > 0) {
         const email = req.user.email;
         db.query('SELECT tipo, URL, propietario, nombre FROM enlaces INNER JOIN perfil ON enlaces.propietario = perfil.email WHERE propietario = ?', [email], async (error, redes) => {
-          db.query('SELECT direccion, descripcion, telefono, nombre FROM perfil WHERE nombre = ?', [nombre], (error, result1) => {
+          db.query('SELECT direccion, descripcion, telefono, fotoPerfil, nombre FROM perfil WHERE nombre = ?', [nombre], (error, result1) => {
             db.query('SELECT nroPublicacion, precio, titulo, descripcion, producto, cuenta_empresa.nombre AS vendedor FROM (publicacion INNER JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email) WHERE cuenta_empresa.nombre = ?', [nombre], (error, publicacion) => {
               res.render('profile/profile', {
                 publicacion,
@@ -161,16 +177,15 @@ router.get('/edit/:id', authController.isLoggedIn, async (req, res) => {
     })
   })
   } if (req.user.tipo == 'empresa') {
-    await db.query('SELECT cuentas.email , cuentas.password, cuentas.tipo, cuenta_empresa.nombre, cuenta_empresa.id FROM (cuentas INNER JOIN cuenta_empresa ON cuentas.email = cuenta_empresa.email INNER JOIN perfil ON perfil.email = cuenta_empresa.email) WHERE cuentas.email = ?', [decoded.id], (error, result2) => {
+    await db.query('SELECT cuentas.email , cuentas.password , cuentas.tipo, cuenta_empresa.nombre, cuenta_empresa.id FROM (cuentas INNER JOIN cuenta_empresa ON cuentas.email = cuenta_empresa.email INNER JOIN perfil ON perfil.email = cuenta_empresa.email) WHERE cuentas.email = ?', [decoded.id], (error, result2) => {
       if(!result2) {
         console.log(error)
       }
       req.user = result2[0];
       const {email} = req.user;
       const {id} = req.params;
-       db.query('SELECT cuentas.email , cuentas.password, cuentas.tipo, cuenta_empresa.nombre, cuenta_empresa.id, razonSocial, descripcion, direccion, telefono FROM (cuentas INNER JOIN cuenta_empresa ON cuentas.email = cuenta_empresa.email INNER JOIN perfil ON perfil.email = cuenta_empresa.email) WHERE cuentas.email = ?',[email], async (error, result) => {
+       db.query('SELECT cuentas.email , cuentas.password, perfil.fotoPerfil, cuentas.tipo, cuenta_empresa.nombre, cuenta_empresa.id, razonSocial, descripcion, direccion, telefono FROM (cuentas INNER JOIN cuenta_empresa ON cuentas.email = cuenta_empresa.email INNER JOIN perfil ON perfil.email = cuenta_empresa.email) WHERE cuentas.email = ?',[email], async (error, result) => {
         if (result[0].id == id) {
-          console.log(result[0])
           res.render('profile/editEmpresa', {
           data: result[0],
           user: req.user,
@@ -183,7 +198,7 @@ router.get('/edit/:id', authController.isLoggedIn, async (req, res) => {
   }
 })
 
-router.post('/edit/:id', authController.isLoggedIn, async (req, res) => {
+router.post('/edit/:id', upload.single("imagen"), authController.isLoggedIn, async (req, res) => {
   const email = req.user.email;
   if (req.user.tipo == 'usuario') {
   await db.query('SELECT cuentas.email, cuentas.password, cuenta_personal.nombre, cuenta_personal.id FROM cuentas INNER JOIN cuenta_personal ON cuentas.email = cuenta_personal.email WHERE cuenta_personal.email = ?',[email], async (error, result) => {
@@ -228,7 +243,7 @@ router.post('/edit/:id', authController.isLoggedIn, async (req, res) => {
               })
             })
           } else if (req.user.tipo == 'empresa') {
-            await db.query('SELECT cuentas.email , cuentas.password, cuentas.tipo, cuenta_empresa.nombre, cuenta_empresa.id, razonSocial, descripcion, direccion, telefono FROM (cuentas INNER JOIN cuenta_empresa ON cuentas.email = cuenta_empresa.email INNER JOIN perfil ON perfil.email = cuenta_empresa.email) WHERE cuentas.email = ?',[email], async (error, result) => {
+            await db.query('SELECT cuentas.email , cuentas.password, perfil.fotoPerfil, cuentas.tipo, cuenta_empresa.nombre, cuenta_empresa.id, razonSocial, descripcion, direccion, telefono FROM (cuentas INNER JOIN cuenta_empresa ON cuentas.email = cuenta_empresa.email INNER JOIN perfil ON perfil.email = cuenta_empresa.email) WHERE cuentas.email = ?',[email], async (error, result) => {
               const {id} = req.params;
               const email = result[0].email;
               const {nombre, pass , newPass, newPassConfirm, descripcion, direccion, telefono, razon} = req.body;
@@ -261,9 +276,10 @@ router.post('/edit/:id', authController.isLoggedIn, async (req, res) => {
                           })
                         } 
                           let hashedPassword = await bcrypt.hash(newPass, 8);
+                          imagen = req.file.buffer.toString('base64');
                           db.query('UPDATE cuentas set ? WHERE email = ?',[{password: hashedPassword} , email]);
                           db.query('UPDATE cuenta_empresa set ? WHERE id = ?',[{nombre:nombre, razonSocial:razon}, id]);
-                          db.query('UPDATE perfil set ? WHERE email = ?',[{descripcion:descripcion , direccion:direccion , telefono:telefono}, email]);
+                          db.query('UPDATE perfil set ? WHERE email = ?',[{descripcion:descripcion , direccion:direccion , telefono:telefono, fotoPerfil:imagen}, email]);
                           return res.render('profile/editEmpresa', {
                             name: req.body.name,
                             data: result[0],

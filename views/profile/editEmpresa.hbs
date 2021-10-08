@@ -1,6 +1,6 @@
 {{>navigation}}
 <div class="container mt-5">
-<form action="/profile/edit/{{user.id}}" method="POST"> 
+<form action="/profile/edit/{{user.id}}" method="POST" enctype="multipart/form-data"> 
  <h3>Datos de cuenta</h3>
         <div class="mb-3"> 
           <label for="name" class="form-label1">Nombre</label>
@@ -58,6 +58,15 @@
             </article>
             <div class="mb-3">
               <h3>Datos de perfil</h3>
+            </div>
+            <div class="row justify-content-center">
+              <div class="col-6 mb-4">
+                  <img src="data:imagen/png;base64, {{data.fotoPerfil}}" alt="foto de perfil" class="img-fluid rounded-circle" style="width: 300px; z-index: 1">
+                 </div>
+              </div>
+            <div class="mb-3">
+            <label for="formFile" class="form-label">Cambiar foto de perfil</label>
+            <input class="form-control" type="file" id="formFile" name="imagen">
             </div>
             <div class="mb-3">
             <label for="descripcion" class="form-label">Descripcion del perfil</label> 

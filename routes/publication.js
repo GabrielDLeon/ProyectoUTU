@@ -93,6 +93,7 @@ router.get('/:id', authController.isLoggedIn, async (req, res) => {
                                     const vendedor = result[0].vendedorEmail;
                                     await db.query('SELECT idPregunta, mensaje, fechaPregunta, fechaRespuesta, cuenta_empresa.nombre AS vendedor, cuenta_personal.nombre AS remitente, respuesta, cuentas.tipo FROM (publicacion INNER JOIN preguntas ON publicacion.nroPublicacion = preguntas.publicacion INNER JOIN cuenta_personal ON cuenta_personal.email = preguntas.remitente INNER JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email INNER JOIN cuentas ON cuentas.email = cuenta_empresa.email) WHERE nroPublicacion = ? ORDER BY fechaPregunta DESC', [id], async (error, questions) => {
                                         await db.query('SELECT nroPublicacion, precio, titulo FROM `publicacion` WHERE vendedor = ? AND nroPublicacion != ?', [vendedor, id], (error, recommendations) => {
+                                          db.query('SELECT * from perfil WHERE email = ?', [vendedor], (error, perfil) => {
                                             res.render('publication/page', {
                                                 user: req.user,
                                                 title: result[0].titulo,
@@ -104,12 +105,14 @@ router.get('/:id', authController.isLoggedIn, async (req, res) => {
                                                 valor,
                                                 imagen,
                                                 questions,
-                                                recommendations
+                                                recommendations,
+                                                perfil: perfil[0]
                                             });
+                                        });
                                         });
                                     });
                                 });
-                            });
+                            })
                         });
                     });
                 })

@@ -141,7 +141,7 @@
                                     <textarea class="form-control text-area rounded-0" name="mensaje" id="mensaje" placeholder="Ingrese su pregunta"></textarea>
                                 </div>
                                 <div class="col-auto">
-                                    <button type="submit" class="text-uppercase rounded-0 btn btn-dark" style="height: 100%; width: 100%;"><i class="fab fa-facebook-messenger"></i></button>
+                                    <button type="submit" class="text-uppercase rounded-0 btn btn-dark" style="height: 100%; width: 100%;"><i class="fas fa-angle-right"></i></button>
                                 </div>
                             </div>
                         </form>
@@ -244,12 +244,12 @@
                     <div class="card mb-3 col-md-10 col-sm-9">
                         <div class="row my-3 justify-content-center">
                             <div class="col-sm-12 col-md-3 jumbotron d-flex align-items-center justify-content-center">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Generic placeholder image" class="img-fluid rounded-circle img-thumbnail" style="width: 75%; z-index: 1">
+                                <img src="data:imagen/png;base64, {{perfil.fotoPerfil}}" alt="Generic placeholder image" class="img-fluid rounded-circle img-thumbnail" style="width: 75%; z-index: 1">
                             </div>
                             <div class="col-md-9">
                                 <div class="card-body">
                                     <h3 class="card-title text-center f-space-3">Sobre nosotros</h3>
-                                    <p class="card-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Reiciendis animi dolores atque earum similique totam voluptate maxime non culpa, odio molestiae neque, at vitae officiis minima temporibus beatae! Architecto, impedit.</p>
+                                    <p class="card-text">{{perfil.descripcion}}</p>
                                     <div class="d-flex">
                                         <a href="/profile" class="link-unstyled ms-auto">
                                             <span class="card-subtitle d-inline text-muted carattere me-3">{{publication.vendedor}}</span>

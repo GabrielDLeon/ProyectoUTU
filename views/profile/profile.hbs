@@ -6,7 +6,7 @@
                 <div class="p-5">
                     <div class="row justify-content-center">
                         <div class="col-6 mb-4">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Generic placeholder image" class="img-fluid rounded-circle" style="width: max-content; z-index: 1">
+                            <img src="data:imagen/png;base64, {{profile.fotoPerfil}}" alt="Generic placeholder image" class="img-fluid rounded-circle" style="width: max-content; z-index: 1" id="imagen">
                         </div>
                     </div>
                     <div class="row">
@@ -58,10 +58,12 @@
                                 <a class="btn btn-primary" href="{{URL}}" role="button" style="background-color: #3b5998 ; border: 0px;" target="_blank"><i class="fab fa-facebook-f"></i></a>
                                 <a class="btn btn-primary" href="{{URL}}" role="button" style="background-color: #25d366 ; border: 0px;" target="_blank"><i class="fab fa-whatsapp"></i></a> --}}
                                 {{/each}}
+                                <div class="col-12 my-2 text-muted d-flex justify-content-center">
+                                <a href="/profile/edit/{{user.id}}">
+                                <button type='submit' class="btn btn-primary">Editar perfil</button>
+                                </a>
+                                </div>
                             </div>
-                            <a href="/profile/edit/{{user.id}}">
-                            <button type='submit' class="btn btn-primary">Editar perfil</button>
-                            </a>
                         </div>
                     </div>
                 </div>
