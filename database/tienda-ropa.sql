@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 08-10-2021 a las 07:59:36
--- Versión del servidor: 10.4.20-MariaDB
--- Versión de PHP: 7.3.29
+-- Tiempo de generación: 09-10-2021 a las 02:41:01
+-- Versión del servidor: 10.4.18-MariaDB
+-- Versión de PHP: 8.0.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -235,7 +235,6 @@ CREATE TABLE `favoritos` (
 INSERT INTO `favoritos` (`usuario`, `publicacion`) VALUES
 ('alan@gmail.com', 2),
 ('alan@gmail.com', 5),
-('alan@gmail.com', 8732685),
 ('alan@gmail.com', 8732686),
 ('ema@gmail.com', 3);
 
@@ -328,6 +327,7 @@ INSERT INTO `materiales` (`material`) VALUES
 --
 
 CREATE TABLE `perfil` (
+  `fotoPerfil` longtext NOT NULL,
   `email` varchar(255) NOT NULL,
   `nombre` varchar(255) NOT NULL,
   `descripcion` text NOT NULL,
@@ -339,12 +339,12 @@ CREATE TABLE `perfil` (
 -- Volcado de datos para la tabla `perfil`
 --
 
-INSERT INTO `perfil` (`email`, `nombre`, `descripcion`, `direccion`, `telefono`) VALUES
-('alma@gmail.com', 'Alma', '', '', ''),
-('macri@gmail.com', 'Macri', 'Somos macri somos familia Somos macri somos familia  Somos macri somos familia asdasddasdsadsaasd', '18 de julio', '45672222'),
-('penelope@gmail.com', 'Penelope', '', '', ''),
-('santiago@gmail.com', 'Santiago', '', '', ''),
-('tienda@gmail.com', 'Tienda', '', '', '');
+INSERT INTO `perfil` (`fotoPerfil`, `email`, `nombre`, `descripcion`, `direccion`, `telefono`) VALUES
+('', 'alma@gmail.com', 'Alma', '', '', ''),
+('', 'macri@gmail.com', 'Macri', 'Somos macri somos familia Somos macri somos familia  Somos macri somos familia asdasddasdsadsaasd', '18 de julio', '45672222'),
+('', 'penelope@gmail.com', 'Penelope', '', '', ''),
+('', 'santiago@gmail.com', 'Santiago', '', '', ''),
+('', 'tienda@gmail.com', 'Tienda', '', '', '');
 
 -- --------------------------------------------------------
 

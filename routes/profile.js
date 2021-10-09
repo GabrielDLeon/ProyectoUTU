@@ -31,7 +31,7 @@ const db = mysql.createConnection({
 
 router.get('/', authController.isLoggedIn, async (req, res) => {
   if (req.user.tipo == 'empresa') {
-    const { nombre } = req.user
+    const { nombre } = req.user;
     await db.query('SELECT * FROM cuenta_empresa WHERE nombre = ?', [nombre], (error, result) => {
       if (result.length > 0) {
         const email = req.user.email;
@@ -146,14 +146,9 @@ router.get('/:nombre', authController.isLoggedIn, async (req, res) => {
           })
         })
       });
-
-    } else {
-      res.redirect('/');
-    }
-
+    } else { res.redirect('/'); }
   });
 });
-  
 
 router.get('/edit/:id', authController.isLoggedIn, async (req, res) => {
     const decoded = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRET);

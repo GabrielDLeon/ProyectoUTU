@@ -2,7 +2,7 @@
 <body style="overflow-x: hidden;">
     <div class="row">
         {{!-- SIDEBAR --}}
-        <div class="col-md-12 col-lg-5 align-middle" id="sidebar" style="background-color: #fafafa;">
+        <div class="col-md-12 col-lg-5 align-middle position-relative" id="sidebar" style="background-color: #fafafa;">
             <div class="sticky-top p-lg-2 p-xl-4">
                 <div class="p-5">
                     <div class="mb-1 text-capitalize">
@@ -48,7 +48,7 @@
                             </div>
                         {{/if}}
                         {{#if sizes}}
-                            <div>
+                            <div class="my-3">
                                 <h6>Talles disponibles</h6>
                                 <div>
                                     {{#each sizes}}
@@ -66,9 +66,9 @@
                             <div>
                                 <form action="/publication/addFavorite/{{publication.nroPublicacion}}" method="POST">
                                     {{#if favorite}}
-                                        <button class="btn btn-default"><i class="fas fa-heart" style="font-size: xx-large;"></i></button>
+                                        <button class="btn btn-default position-absolute top-0 end-0 p-5"><i class="fas fa-heart" style="font-size: xx-large;"></i></button>
                                     {{else}}
-                                        <button class="btn btn-default"><i class="far fa-heart" style="font-size: xx-large;"></i></button>
+                                        <button class="btn btn-default position-absolute top-0 end-0 p-5"><i class="far fa-heart" style="font-size: xx-large;"></i></button>
                                     {{/if}}
                                 </form>
                             </div>
@@ -244,7 +244,11 @@
                     <div class="card mb-3 col-md-10 col-sm-9">
                         <div class="row my-3 justify-content-center">
                             <div class="col-sm-12 col-md-3 jumbotron d-flex align-items-center justify-content-center">
-                                <img src="data:imagen/png;base64, {{perfil.fotoPerfil}}" alt="Generic placeholder image" class="img-fluid rounded-circle img-thumbnail" style="width: 75%; z-index: 1">
+                                {{#if profile.fotoPerfil}}
+                                    <img src="data:imagen/png;base64, {{perfil.fotoPerfil}}" alt="Generic placeholder image" class="img-fluid rounded-circle img-thumbnail" style="width: 75%; z-index: 1">
+                                {{else}}
+                                    <img src="/img/avatar.png" alt="Generic placeholder image" class="img-fluid rounded-circle" style="width: max-content; z-index: 1" id="imagen">
+                                {{/if}}
                             </div>
                             <div class="col-md-9">
                                 <div class="card-body">

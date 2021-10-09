@@ -1,98 +1,108 @@
 {{>navigation}}
 <div class="container mt-5">
-<form action="/profile/edit/{{user.id}}" method="POST" enctype="multipart/form-data"> 
- <h3>Datos de cuenta</h3>
-        <div class="mb-3"> 
-          <label for="name" class="form-label1">Nombre</label>
-          <input type="text" class="form-control" id="name" name="nombre" value="{{user.nombre}}{{name}}">
+  <form action="/profile/edit/{{user.id}}" method="POST" enctype="multipart/form-data">
+    <h3>Datos de cuenta</h3>
+    <div class="mb-3">
+      <label for="name" class="form-label1">Nombre</label>
+      <input type="text" class="form-control" id="name" name="nombre" value="{{user.nombre}}{{name}}">
+    </div>
+    <div class="mb-3">
+      <label for="razon">Razón social</label>
+      <select class="form-select" name="razon" id="razon">
+        <option value="{{data.razonSocial}}">{{data.razonSocial}}</option>
+        {{#ifCond data.razonSocial '!=' 'SA'}}
+        <option value="SA">Sociedad Anónima</option>
+        {{/ifCond}}
+        {{#ifCond data.razonSocial '!=' 'SL'}}
+        <option value="SL">Sociedad Limitada</option>
+        {{/ifCond}}
+        {{#ifCond data.razonSocial '!=' 'SC'}}
+        <option value="SC">Sociedad Cooperativa</option>
+        {{/ifCond}}
+        {{#ifCond data.razonSocial '!=' 'SLNE'}}
+        <option value="SLNE">Sociedad Limitada Nueva Empresa</option>
+        {{/ifCond}}
+        {{#ifCond data.razonSocial '!=' 'SLL'}}
+        <option value="SLL">Sociedad Limitada Laboral</option>
+        {{/ifCond}}
+        {{#ifCond data.razonSocial '!=' 'SAL'}}
+        <option value="SAL">Sociedad Anónima Laboral</option>
+        {{/ifCond}}
+        {{#ifCond data.razonSocial '!=' 'SCS'}}
+        <option value="SCS">Sociedad Comanditaria Simple</option>
+        {{/ifCond}}
+      </select>
+    </div>
+    <div class="mb-3">
+      <input type="checkbox" name="cambiar-contraseña" id="cambiar-contraseña">
+      <label for="cambiar-contraseña">Cambiar contraseña</label>
+    </div>
+    <article name="contraseña" id="contraseña">
+      <div class="mb-3">
+        <label for="pass2" class="form-label">Contraseña actual</label>
+        <input type="password" class="form-control" id="pass" name="pass" value="{{pass}}">
+        <div class="col-auto">
         </div>
-        <div class="mb-3"> 
-        <label for="razon">Razón social</label>
-        <select class="form-select" name="razon" id="razon">
-                <option value="{{data.razonSocial}}">{{data.razonSocial}}</option>
-                {{#ifCond data.razonSocial '!=' 'SA'}}
-                <option value="SA">Sociedad Anónima</option>
-                {{/ifCond}}
-                {{#ifCond data.razonSocial '!=' 'SL'}}
-                <option value="SL">Sociedad Limitada</option>
-                {{/ifCond}}
-                {{#ifCond data.razonSocial '!=' 'SC'}}
-                <option value="SC">Sociedad Cooperativa</option>
-                {{/ifCond}}
-                {{#ifCond data.razonSocial '!=' 'SLNE'}}
-                <option value="SLNE">Sociedad Limitada Nueva Empresa</option>
-                {{/ifCond}}
-                {{#ifCond data.razonSocial '!=' 'SLL'}}
-                <option value="SLL">Sociedad Limitada Laboral</option>
-                {{/ifCond}}
-                {{#ifCond data.razonSocial '!=' 'SAL'}}
-                <option value="SAL">Sociedad Anónima Laboral</option>
-                {{/ifCond}}
-                {{#ifCond data.razonSocial '!=' 'SCS'}}
-                <option value="SCS">Sociedad Comanditaria Simple</option>
-                {{/ifCond}}
-            </select>
-          </div>
-          <div class="mb-3"> 
-          <input type="checkbox" name="cambiar-contraseña" id="cambiar-contraseña">
-          <label for="cambiar-contraseña">Cambiar contraseña</label>
-          </div>
-            <article name="contraseña" id="contraseña">
-                  <div class="mb-3"> 
-                <label for="pass2" class="form-label">Contraseña actual</label> 
-                  <input type="password" class="form-control" id="pass" name="pass" value="{{pass}}"> 
-                  <div class="col-auto">
-                  </div> 
-                </div>
-                <div class="mb-3"> 
-                <label for="pass2" class="form-label">Nueva contraseña</label> 
-                  <input type="password" class="form-control" id="pass" name="newPass" value="{{newPass}}"> 
-                  <div class="col-auto">
-                </div> 
-                <br>
-                <div class="mb-3"> 
-                <label for="pass2" class="form-label">Confirmación de la nueva contraseña</label> 
-                  <input type="password" class="form-control" id="pass" name="newPassConfirm" value="{{newPassConfirm}}"> 
-                  <div class="col-auto">
-                </div> 
-            </article>
-            <div class="mb-3">
-              <h3>Datos de perfil</h3>
-            </div>
-            <div class="row justify-content-center">
-              <div class="col-6 mb-4">
-                  <img src="data:imagen/png;base64, {{data.fotoPerfil}}" alt="foto de perfil" class="img-fluid rounded-circle" style="width: 300px; z-index: 1">
-                 </div>
-              </div>
-            <div class="mb-3">
-            <label for="formFile" class="form-label">Cambiar foto de perfil</label>
-            <input class="form-control" type="file" id="formFile" name="imagen">
-            </div>
-            <div class="mb-3">
-            <label for="descripcion" class="form-label">Descripcion del perfil</label> 
-            <textarea class="form-control" name="descripcion" id="descripcion" placeholder="Descripción de perfil" maxlength="155">{{data.descripcion}}</textarea>
-            </div>
-            <div class="mb-3">
-            <label for="telefono" class="form-label">Telefono</label> 
-            <input type="number" class="form-control" id="telefono" name="telefono" value="{{data.telefono}}">
-            </div>
-            <div class="mb-3">
-            <label for="direccion" class="form-label">Direccion</label> 
-            <input type="text" class="form-control" id="direccion" name="direccion" value="{{data.direccion}}">
-            </div>
-        {{!--
-        <input type="checkbox" name="change_password" id="change_password" value="1" onclick="setPasswordForm(this.checked)" title="Cambiar contraseña" class="checkbox no-bg validation-passed">
-        <label for="change_password">Cambiar contraseña</label> --}}
+      </div>
+      <div class="mb-3">
+        <label for="pass2" class="form-label">Nueva contraseña</label>
+        <input type="password" class="form-control" id="pass" name="newPass" value="{{newPass}}">
+        <div class="col-auto">
+        </div>
+        <br>
         <div class="mb-3">
-          <div class="d-grid gap-2">
-            <br>
-            <button type="submit" class="text-uppercase btn btn-dark">Editar datos</button>
+          <label for="pass2" class="form-label">Confirmación de la nueva contraseña</label>
+          <input type="password" class="form-control" id="pass" name="newPassConfirm" value="{{newPassConfirm}}">
+          <div class="col-auto">
           </div>
-          {{#if message }}
-           <p class="text-danger text-center mt-1">{{message}}</p>
-          {{/if}}
-          {{#if editCompleto }}
-          <p class="text-success text-center mt-1">{{editCompleto}}</p>
-          {{/if}}
-      </form>
+    </article>
+    <div class="mb-3">
+      <h3>Datos de perfil</h3>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-4 mb-4">
+        {{#if profile.fotoPerfil}}
+          <img src="data:imagen/png;base64, {{data.fotoPerfil}}" alt="Foto de perfil de {{user.nombre}}" class="img-fluid rounded-circle" style="z-index: 1;">
+        {{else}}
+          <img src="/img/avatar.png" alt="Foto de perfil genérica" class="img-fluid rounded-circle" style="width: max-content; z-index: 1" id="imagen">
+        {{/if}}
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="formFile" class="form-label">Cambiar foto de perfil</label>
+      <input class="form-control" type="file" id="formFile" name="imagen">
+    </div>
+    <div class="mb-3">
+      <label for="descripcion" class="form-label">Descripcion del perfil</label>
+      <textarea class="form-control" name="descripcion" id="descripcion" placeholder="Descripción de perfil"
+        maxlength="155">{{data.descripcion}}</textarea>
+    </div>
+    <div class="mb-3">
+      <label for="telefono" class="form-label">Telefono</label>
+      <input type="number" class="form-control" id="telefono" name="telefono" value="{{data.telefono}}">
+    </div>
+    <div class="mb-3">
+      <label for="direccion" class="form-label">Direccion</label>
+      <input type="text" class="form-control" id="direccion" name="direccion" value="{{data.direccion}}">
+    </div>
+    {{!--
+    <input type="checkbox" name="change_password" id="change_password" value="1" onclick="setPasswordForm(this.checked)"
+      title="Cambiar contraseña" class="checkbox no-bg validation-passed">
+    <label for="change_password">Cambiar contraseña</label> --}}
+    <div class="mb-3">
+      <div>
+        <a class="btn btn-success" href="/profile/newEnlace/{{user.id}}">Nueva red</a>
+      </div>
+      <div class="d-grid gap-2">
+        <br>
+        <button type="submit" class="text-uppercase btn btn-dark">Editar datos</button>
+      </div>
+      {{#if message }}
+        <p class="text-danger text-center mt-1">{{message}}</p>
+      {{/if}}
+      {{#if editCompleto }}
+        <p class="text-success text-center mt-1">{{editCompleto}}</p>
+      {{/if}}
+    </div>
+  </form>
 </div>

@@ -6,7 +6,11 @@
                 <div class="p-5">
                     <div class="row justify-content-center">
                         <div class="col-6 mb-4">
-                            <img src="data:imagen/png;base64, {{profile.fotoPerfil}}" alt="Generic placeholder image" class="img-fluid rounded-circle" style="width: max-content; z-index: 1" id="imagen">
+                            {{#if profile.fotoPerfil}}
+                                <img src="data:imagen/png;base64, {{profile.fotoPerfil}}" alt="Generic placeholder image" class="img-fluid rounded-circle" style="width: max-content; z-index: 1" id="imagen">
+                            {{else}}
+                                <img src="/img/avatar.png" alt="Generic placeholder image" class="img-fluid rounded-circle" style="width: max-content; z-index: 1" id="imagen">
+                            {{/if}}
                         </div>
                     </div>
                     <div class="row">
@@ -22,8 +26,13 @@
                                 </div>
                                 <div class="col-auto mb-1">
                                     <p class="m-0"><strong>Dirección</strong></p>
-                                    <p class="text-muted">{{profile.direccion}}</p>
-                                    {{!-- <p>{{profile.direccion}}</p> --}}
+                                    <span class="text-muted">
+                                        {{#if profile.direccion}}
+                                            {{profile.direccion}}
+                                        {{else}}
+                                            <p>No se ha proporcionado dirección</p>
+                                        {{/if}}
+                                    </span>
                                 </div>
                             </div>
                             <div class="row">
@@ -32,38 +41,53 @@
                                 </div>
                                 <div class="col-auto mb-1">
                                     <p class="m-0"><strong>Teléfono</strong></p>
-                                    <p class="text-muted">{{profile.telefono}}</p>
+                                    <span class="text-muted">
+                                        {{#if profile.telefono}}
+                                            {{profile.telefono}}
+                                        {{else}}
+                                            <p>No se ha proporcionado teléfono</p>
+                                        {{/if}}
+                                    </span>
+                                    <p class="text-muted"></p>
                                 </div>
                             </div>
                             
-                            <div class="row">
-                                <h6 class="text-center">Nuestras redes sociales</h6>
-                                {{#each redes}}
-                                {{#ifCond tipo '==' 'Instagram'}}
-                                <div class="col-12 my-2 text-muted d-flex justify-content-center">
-                                    <a class="link-unstyled" href="{{URL}}" target="_blank"><i class="fab fa-instagram"></i> {{nombre}} en Instagram</a>
+                            {{#if redes}}
+                                <div class="row">
+                                    <h6 class="text-center">Nuestras redes sociales</h6>
+                                    {{#each redes}}
+                                        {{#ifCond tipo '==' 'Instagram'}}
+                                            <div class="col-12 my-2 text-muted d-flex justify-content-center">
+                                                <a class="link-unstyled" href="{{URL}}" target="_blank"><i class="fab fa-instagram"></i> {{nombre}} en Instagram</a>
+                                            </div>
+                                        {{/ifCond}}
+                                        {{#ifCond tipo '==' 'Facebook'}}
+                                            <div class="col-12 my-2 text-muted d-flex justify-content-center">
+                                                <a class="link-unstyled" href="{{URL}}" target="_blank"><i class="fab fa-facebook"></i> {{nombre}} en Facebook</a>
+                                            </div>
+                                        {{/ifCond}}
+                                        {{#ifCond tipo '==' 'Whatsapp'}}
+                                            <div class="col-12 my-2 text-muted d-flex justify-content-center">
+                                                <a class="link-unstyled" href="{{URL}}" target="_blank"><i class="fab fa-whatsapp"></i> {{nombre}} en Whatsapp</a>
+                                            </div>
+                                        {{/ifCond}}
+                                    {{/each}}
                                 </div>
-                                {{/ifCond}}
-                                {{#ifCond tipo '==' 'Facebook'}}
+                            {{/if}}
+                            {{#ifCond data.email '==' user.email}}
                                 <div class="col-12 my-2 text-muted d-flex justify-content-center">
-                                    <a class="link-unstyled" href="{{URL}}" target="_blank"><i class="fab fa-facebook"></i> {{nombre}} en Facebook</a>
+                                    <a href="/profile/edit/{{user.id}}">
+                                        <button type='submit' class="btn btn-primary">Editar perfil</button>
+                                    </a>
                                 </div>
-                                {{/ifCond}}
-                                {{#ifCond tipo '==' 'Whatsapp'}}
+                            {{/ifCond}}
+                            {{#ifCond user.tipo '==' 'usuario'}}
                                 <div class="col-12 my-2 text-muted d-flex justify-content-center">
-                                    <a class="link-unstyled" href="{{URL}}" target="_blank"><i class="fab fa-whatsapp"></i> {{nombre}} en Whatsapp</a>
+                                    <a href="/">
+                                        <button type='submit' class="btn btn-success">Seguir cuenta</button>
+                                    </a>
                                 </div>
-                                {{/ifCond}}
-                                {{!-- <a class="btn btn-primary" href="{{URL}}" role="button" style="background-color: #ac2bac ; border: 0px;" target="_blank"><i class="fab fa-instagram"></i></a>
-                                <a class="btn btn-primary" href="{{URL}}" role="button" style="background-color: #3b5998 ; border: 0px;" target="_blank"><i class="fab fa-facebook-f"></i></a>
-                                <a class="btn btn-primary" href="{{URL}}" role="button" style="background-color: #25d366 ; border: 0px;" target="_blank"><i class="fab fa-whatsapp"></i></a> --}}
-                                {{/each}}
-                                <div class="col-12 my-2 text-muted d-flex justify-content-center">
-                                <a href="/profile/edit/{{user.id}}">
-                                <button type='submit' class="btn btn-primary">Editar perfil</button>
-                                </a>
-                                </div>
-                            </div>
+                            {{/ifCond}}
                         </div>
                     </div>
                 </div>
@@ -71,56 +95,7 @@
         </div>
         
         <div class="col-md-12 col-lg-6 col-xl-5 me-auto ms-auto" id="content">
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis quasi eum voluptas? Blanditiis explicabo dolor sequi laboriosam ea libero molestias inventore cum error rem, nesciunt, in eum. Dolores, illum fuga.
-            Quisquam sit exercitationem earum temporibus mollitia a aut laboriosam tenetur quo doloribus. Saepe soluta, a fuga animi veritatis sapiente ex iusto, quo aliquam earum sit, corrupti nulla aliquid quos eaque.
-            Cumque nihil corporis debitis molestiae dolor ea, repudiandae id esse in quia! Suscipit possimus fuga, saepe itaque voluptatibus odio dolorum nostrum et deleniti doloremque optio perspiciatis quasi, exercitationem, quae soluta.
-            Asperiores quos, sapiente numquam non delectus quo saepe molestiae, id provident cum molestias ducimus porro minima fugit vel dolorum exercitationem? Culpa debitis pariatur est alias tempora consectetur quod ipsum ab.
-            Eius incidunt veniam est illum omnis quo rerum, dolores labore dolorem ipsum tempora doloribus accusamus eaque eos numquam id amet a vitae beatae neque debitis tempore. Ducimus eius error delectus.
-            Quo, qui, totam voluptatem magni obcaecati modi velit illum facilis architecto voluptate excepturi? Voluptate dolor libero debitis consequatur. Non perspiciatis obcaecati quis aperiam reprehenderit cumque dicta beatae impedit pariatur tempora!
-            Accusantium odit dolores, odio magni voluptate quis. Dolorem libero debitis corrupti nesciunt necessitatibus, cumque quo est quam dicta consectetur! Enim cupiditate esse quo ducimus laboriosam natus! Fuga quia molestias amet.
-            Quae incidunt explicabo harum labore repudiandae voluptatibus vitae iste dignissimos consequatur! Optio ducimus blanditiis impedit, asperiores laudantium laboriosam, maiores natus necessitatibus, soluta similique reprehenderit eum voluptate quibusdam id omnis atque.
-            Aperiam dolorem inventore suscipit praesentium voluptas commodi nemo, odio soluta laudantium accusantium optio modi error, aliquam repellat necessitatibus? Eligendi debitis necessitatibus deleniti? Voluptatem, omnis a unde quia provident quasi alias.
-            Reprehenderit facilis deserunt officia eveniet. Adipisci vel tempora temporibus dolorem odio id doloribus ea, soluta aliquid voluptas eius, natus unde voluptate debitis commodi et quo delectus voluptatibus quia ratione quas!
-            Pariatur id consequuntur soluta maxime perspiciatis aliquam? Suscipit natus voluptatem, tempore nostrum veritatis ipsa voluptate doloremque minima ad non esse sapiente ratione qui aperiam commodi sequi odio numquam! Magnam, impedit.
-            Provident, cumque nihil aliquam ipsam illo id. Veniam iure laboriosam eaque cupiditate aliquid. Ipsam debitis cupiditate officia tempora nobis deleniti at neque minima nam exercitationem voluptate molestias facilis, rerum asperiores.
-            Vel aut ducimus eius autem necessitatibus repellendus nemo dolor laudantium sapiente architecto, est, excepturi ratione? Iste sit nam beatae officiis modi architecto delectus facere, debitis aperiam, illum quia, voluptas dolorem.
-            Atque ad vitae culpa reiciendis similique porro beatae maxime pariatur voluptate suscipit asperiores placeat, odio nesciunt voluptatibus possimus nam rerum autem consectetur ducimus inventore sint molestias ullam, soluta laborum? Repudiandae.
-            Ullam odio sunt numquam, asperiores mollitia natus autem, accusantium laudantium quisquam nulla, quo atque vitae est magnam id doloremque officiis obcaecati! Cupiditate unde harum maiores aliquid repudiandae tempora adipisci illo.
-            Impedit, quisquam. Et deleniti neque accusamus eveniet molestiae nulla alias ad omnis ut! Nemo maxime impedit laboriosam eveniet tempora facere rem sequi natus voluptatem! Aliquam veniam quos praesentium est saepe.
-            Corrupti beatae, minus laboriosam deleniti assumenda inventore atque neque aliquid quos alias modi sequi cum iure quia vel similique consequatur officia tempore quam. Qui aperiam iste, praesentium enim eius neque.
-            Amet illum eligendi, alias est animi ipsa neque odio. Veritatis, velit itaque ad, tempore, debitis eveniet mollitia neque optio assumenda at corrupti dolores nulla non eos a ipsa nihil! Sapiente!
-            Possimus, corporis nobis. Iste iure suscipit nisi similique beatae, quidem qui aperiam non perferendis maiores pariatur saepe animi exercitationem voluptatibus ipsam? Ex sint totam impedit ratione ipsam natus neque perspiciatis?
-            Molestiae sunt nisi reiciendis cumque ullam explicabo omnis, aspernatur itaque necessitatibus reprehenderit magni maiores assumenda saepe atque animi deleniti nobis. Ut eos delectus rem hic eum libero doloremque illo maxime?
-            Dolorum delectus, assumenda, totam culpa possimus itaque excepturi rerum maiores nisi pariatur sapiente voluptatibus velit earum in nam, cum atque. Accusantium ea suscipit, excepturi omnis placeat iure modi sapiente assumenda?
-            Officiis temporibus alias laborum architecto atque hic? Iure quasi nobis, obcaecati neque non consectetur illum esse voluptate, sint vitae velit. Earum nesciunt consequuntur fuga aspernatur laborum ea dolore eaque pariatur.
-            Harum accusamus, quaerat quia quibusdam beatae natus fuga rerum exercitationem quisquam eaque animi libero nesciunt magni fugit aliquid possimus expedita iusto, numquam quam commodi adipisci repellendus eius. Amet, deleniti error.
-            Corporis similique, eum perferendis ut enim excepturi amet voluptatum odit modi dignissimos aut voluptatibus accusamus vitae consequatur illum soluta, cupiditate nihil minima animi. Ducimus asperiores laborum obcaecati dolor deserunt. Accusantium!
-            Voluptatum tenetur necessitatibus molestias. Quas nam fugiat quibusdam minima natus sequi omnis numquam nihil laudantium tempore? Dicta perferendis non aliquid odio repellendus quidem, fugit culpa ad corporis, mollitia veniam officiis!
-            Doloremque sunt ipsa optio ex in dolores magnam aliquam asperiores similique soluta iusto enim eum illum quia nemo fuga nam iste accusantium nostrum blanditiis, odio voluptas temporibus ut unde! At.
-            Corrupti quaerat earum ex hic, error ipsam ipsa! Omnis necessitatibus hic autem facilis, modi dolores nisi cum, beatae impedit, nemo eligendi deserunt sint error sequi. Assumenda voluptatem molestiae sint eius.
-            Error distinctio a adipisci sint et laborum assumenda dolores officia iusto blanditiis veritatis iste, voluptate labore doloremque odio sed impedit accusantium repudiandae porro ducimus pariatur quod in? Blanditiis, voluptates laborum!
-            Velit quasi ducimus nostrum totam consequatur corporis quaerat rem accusantium. Ut repellendus magnam deserunt perferendis architecto voluptas sit tenetur itaque totam, numquam nobis dicta voluptate molestias! Esse quod ad aperiam.
-            Quis praesentium numquam obcaecati deserunt, sint sapiente, est voluptatibus similique repellat ipsum accusantium! Molestias illo in ipsa. Nulla accusamus aut esse, nesciunt, quaerat a obcaecati pariatur ratione asperiores suscipit qui?
-            Quo nobis dolor repellat officia quasi necessitatibus, dignissimos autem sit doloribus hic totam laboriosam. Ipsa autem, explicabo id minus suscipit quis tenetur, velit debitis, aliquam assumenda saepe pariatur blanditiis distinctio.
-            Placeat repellat temporibus labore molestiae suscipit cumque illo architecto a iure. Sint, nobis amet! Magnam unde dolorem alias quidem sunt ipsa sed laudantium qui, molestias rerum cum dolores labore minima.
-            Impedit facilis ducimus ratione saepe, hic eveniet aliquid accusamus, corporis sequi numquam optio! Unde ab nam voluptate, voluptates nobis facere nesciunt, adipisci nisi architecto enim esse debitis error suscipit inventore.
-            Soluta veritatis obcaecati aliquid eius praesentium rem exercitationem natus doloribus officiis ratione accusantium rerum quod ad aut distinctio sint, nostrum vel hic, consequatur animi. Doloribus quidem voluptates amet dolorum iste?
-            Repellendus tenetur accusamus temporibus, nisi itaque, dolore magni laborum atque porro tempore rerum at repellat optio blanditiis quae ex doloremque vitae suscipit? Repellendus cupiditate magnam explicabo, ipsam eum obcaecati molestias.
-            Odit eum error facilis ut, aliquid eius! Ipsum quasi cum aliquam, ullam nam voluptas veniam debitis ut pariatur nemo officia voluptates doloremque dolor suscipit quos qui tempora iure consequuntur sapiente?
-            Laudantium sequi architecto debitis voluptate, aliquam cupiditate saepe nisi magnam quis autem id impedit aut reiciendis ad alias nulla consectetur commodi. Aliquid dolores excepturi sunt placeat pariatur dolorum ut eos!
-            Illo eos temporibus odio sint assumenda quibusdam ipsam molestias doloribus, quo vitae repudiandae minus amet odit corrupti accusantium est omnis? Nostrum nemo deleniti culpa maxime nisi molestias exercitationem ut. Ex!
-            Nam autem reiciendis soluta vel temporibus ea. Possimus ea maxime dolore magnam, pariatur laboriosam soluta delectus quod asperiores porro impedit odit at cumque nesciunt sit, illum nihil! Perferendis, dolore quo?
-            Sunt excepturi recusandae magni voluptatum natus dolorum beatae temporibus, quae deserunt quasi eligendi odio vitae explicabo. Mollitia deserunt quibusdam quisquam, inventore vitae adipisci dicta ad voluptatibus cum amet praesentium minus.
-            Consequatur placeat corrupti temporibus expedita nulla numquam asperiores doloribus possimus nobis, aut alias veritatis doloremque. Sint, nemo vitae possimus cupiditate explicabo laboriosam totam vel facere quidem, ipsam alias, non fuga?
-            Error ut eveniet odit a velit mollitia totam cumque autem ea architecto. Maxime atque vitae incidunt deleniti necessitatibus officia commodi inventore debitis consectetur nobis quis, tempora libero labore sunt in!
-            Quibusdam quas non debitis voluptatem ullam? Fugit voluptatibus, recusandae officia quasi enim assumenda quam numquam odio, magni ducimus adipisci architecto modi omnis, consequuntur eligendi voluptatum provident vel sapiente possimus inventore.
-            Nihil tenetur, nesciunt optio eos laborum quis eius nostrum odit nobis cum dicta assumenda quos, earum eligendi reiciendis voluptates cupiditate voluptate vitae, labore exercitationem veniam? Alias dolorem praesentium molestias recusandae!
-            Itaque, eligendi possimus excepturi, repellendus fuga est beatae numquam consectetur iusto doloribus laudantium. Et sed, tempora tempore aliquam soluta blanditiis praesentium labore? Ratione laudantium repellendus molestias fuga quos numquam voluptas?
-            Officiis minus eveniet fugiat labore eius. Possimus omnis incidunt dolor minima facere laborum velit cumque nulla ipsum accusantium in alias aliquid consequuntur, eum, nostrum ex voluptas inventore beatae quod quae?
-            Cupiditate, maxime. Eveniet veniam commodi quasi, odit quidem vero quas quam voluptatum repudiandae totam dicta a ad exercitationem deserunt cumque corporis eius, itaque expedita possimus earum maiores eos porro sequi!
-            Tenetur provident quaerat libero nulla aut iure tempora aliquam accusantium numquam? Reprehenderit at illum suscipit tempore voluptatem quaerat delectus voluptatibus numquam est ratione, sunt aliquid? Dolorum magni sunt at iure.
-            Quisquam iste eaque nulla. Maxime praesentium ipsa in eos nulla dolorem voluptatum nesciunt sint cupiditate, quasi, nihil ex repellendus deleniti. Quo perspiciatis, illo cumque ipsam quos a! Blanditiis, velit! Laborum?
-            Hic placeat soluta voluptatum neque eligendi esse accusamus ut harum aliquid cupiditate, nesciunt perspiciatis pariatur necessitatibus quidem iure delectus consequatur corrupti minima. Repudiandae in quaerat dolores necessitatibus facere hic dolorem.</p>
+            
         </div>
     </div>
 </body>
