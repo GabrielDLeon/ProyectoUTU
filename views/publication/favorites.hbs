@@ -1,48 +1,36 @@
 {{>navigation}}
 <div class="container">
-    {{#if result}}
-        <div class="table-responsive table-lg mt-3">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Publicacion</th>
-                        <th>Precio</th>
-                        <th class="max-width">Descripcion</th>
-                        <th>Vendedor</th>
-                        <th>Accion</th>
-                    </tr>
-                </thead>
-                <tbody>
+    <div class="table-responsive table-lg mt-3">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Publicacion</th>
+                    <th>Precio</th>
+                    <th class="max-width">Descripcion</th>
+                    <th>Vendedor</th>
+                    <th>Accion</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#if result}}
                     {{#each result}}
-                        <tr>
-                            <td class="text-nowrap align-middle"><span>{{titulo}}</span></td>
-                            <td class="text-nowrap align-middle"><span>{{precio}}</span></td>
-                            <td class="text-center align-middle"><span>{{descripcion}}</span></td>
-                            <td class="text-center align-middle"><span>{{vendedor}}</span></td>
-                            <td class="text-center align-middle">
-                                <div class="btn-group align-top">
-                                    <form action="/favorites/delete/{{nroPublicacion}}" method="POST">
-                                        <button class="btn btn-danger">Quitar favorito</button>
-                                    </form>
-                                    <a href="/publication/{{nroPublicacion}}" class="btn btn-secondary link-unstyled">Ver</a>
-                                </div>
-                            </td>
-                        </tr>
+                    <tr>
+                        <td class="text-nowrap align-middle"><span>{{titulo}}</span></td>
+                        <td class="text-nowrap align-middle"><span>{{precio}}</span></td>
+                        <td class="text-center align-middle"><span>{{descripcion}}</span></td>
+                        <td class="text-center align-middle"><span>{{vendedor}}</span></td>
+                        <td class="text-center align-middle">
+                            <div class="btn-group align-top">
+                                <form action="/favorites/delete/{{nroPublicacion}}" method="POST">
+                                    <button class="btn btn-danger">Quitar favorito</button>
+                                </form>
+                                <a href="/publication/{{nroPublicacion}}" class="btn btn-secondary link-unstyled">Ver</a>
+                            </div>
+                        </td>
+                    </tr>
                     {{/each}}
-                </tbody>
-            </table>
-            {{else}}
-            <div class="row d-flex justify-content-center">
-                <div class="col-10 p-5 text-center">
-                    <div>
-                        <h2>No se encontraron publicaciones favoritas</h2>
-                    </div>
-                    <div class="text-muted">
-                        <p>Aquí encontrarás todos los artículos que has marcado como favoritos. A pesar de que en estos momentos no cuentes con publicación favoritas, no tienes limites al momento de explorar las diversas opciones que se encuentran en el catálogo</p>
-                        <a href="/">Ir al catálogo</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    {{/if}}
+                {{/if}}
+            </tbody>
+        </table>
+    </div>
 </div>

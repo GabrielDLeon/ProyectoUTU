@@ -16,15 +16,3 @@ a.addEventListener("click", function(){
         b.disabled = true;
     }
 })
-
-const c = document.getElementById('cambiar-contraseña');
-const d = document.getElementById('contraseña');
-d.disabled = true;
-
-c.addEventListener("click", function(){
-    if (c.checked == true){
-        d.disabled = false;
-    } else {
-        d.disabled = true;
-    }
-})
