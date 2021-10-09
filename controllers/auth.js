@@ -21,16 +21,11 @@ exports.deleteUser = async (req, res, next) => {
       //2) Check if the user still exists
       db.query('SELECT * FROM cuentas WHERE email = ?', [decoded.id], (error, result) => {
         console.log(result);
-
         if(!result) {
           return next();
         }
-
         req.user = result[0];
-        console.log("user is")
-        console.log(req.user);
         return next();
-
       });
     } catch (error) {
       console.log(error);
@@ -55,15 +50,10 @@ exports.editUser = async (req, res, next) => {
       console.log(decoded);
       //2) Check if the user still exists
       db.query('SELECT cuentas.email, cuentas.password, cuenta_personal.nombre FROM cuentas INNER JOIN cuenta_personal ON cuentas.email = cuenta_personal.email WHERE email = ?', [decoded.id], (error, result) => {
-        console.log("resultado de consulta");
-        console.log(result);
-
         if(!result) {
           return next();
         }
         req.user = result[0];
-        console.log("user is")
-        console.log(req.user);
         return next();
       
       });
@@ -78,9 +68,7 @@ exports.editUser = async (req, res, next) => {
         nombre,
         mail,
       }
-      let hashedPassword = await bcrypt.hash(pass2, 8);
-      console.log(hashedPassword);
-      
+      let hashedPassword = await bcrypt.hash(pass2, 8);  
       db.query('SELECT cuentas.email, cuentas.password, cuenta_personal.nombre FROM cuentas INNER JOIN cuenta_personal ON cuentas.email = cuenta_personal.email WHERE email = ?', [mail], async (error, results) => {
         if( results.length == 0) {
           res.status(401).render('/profile/edit/:mail', {
@@ -108,15 +96,10 @@ exports.editCompany = async (req, res, next) => {
       console.log(decoded);
       //2) Check if the user still exists
       db.query('SELECT cuentas.email, cuentas.password, cuenta_empresa.nombre, cuenta_empresa.razonSocial FROM cuentas INNER JOIN cuenta_empresa ON cuentas.email = cuenta_empresa.email WHERE email = ?', [decoded.id], (error, result) => {
-        console.log("resultado de consulta");
-        console.log(result);
-
         if(!result) {
           return next();
         }
         req.user = result[0];
-        console.log("user is")
-        console.log(req.user);
         return next();
       
       });
@@ -130,10 +113,7 @@ exports.editCompany = async (req, res, next) => {
       const newData = { 
         nombre,
       }
-      console.log("Los datos son:");
-      console.log(newData);
       let hashedPassword = await bcrypt.hash(pass2, 8);
-      console.log(hashedPassword);
       
       db.query('SELECT cuentas.email, cuentas.password, cuenta_empresa.nombre, cuenta_empresa.razonSocial FROM cuentas INNER JOIN cuenta_empresa ON cuentas.email = cuenta_empresa.email WHERE email = ?', [mail], async (error, results) => {
         if( results.length == 0) {
@@ -165,7 +145,6 @@ exports.login = async (req, res) => {
     }
 
     db.query('SELECT * FROM cuentas WHERE email = ?', [mail], async (error, results) => {
-      console.log(results);
       if( results.length == 0 || !(await bcrypt.compare(pass, results[0].password)) ) {
         res.status(401).render('./auth/login', {
           mail: req.body.mail,
@@ -177,9 +156,7 @@ exports.login = async (req, res) => {
         const token = jwt.sign({ id }, process.env.JWT_SECRET, {
           expiresIn: process.env.JWT_EXPIRES_IN
         });
-
         console.log("The token is: " + token);
-
         const cookieOptions = {
           expires: new Date(
             Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
@@ -199,8 +176,6 @@ exports.login = async (req, res) => {
 }
 
 exports.register = (req, res) => {
-  console.log(req.body);
-
   const { name, mailUsuario, pass, passwordConfirm } = req.body;
   const expReg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   const esValido = expReg.test(mailUsuario);
@@ -242,8 +217,6 @@ exports.register = (req, res) => {
     }
 
     let hashedPassword = await bcrypt.hash(pass, 8);
-    console.log(hashedPassword);
-
     db.query('INSERT INTO cuentas SET ?', {email: mailUsuario, password: hashedPassword , tipo: 'usuario'}, (error, results) => {
       if(error) {
         console.log(error);
@@ -251,7 +224,6 @@ exports.register = (req, res) => {
     db.query('INSERT INTO cuenta_personal SET ?' , {email:mailUsuario, nombre:name} , (error, results)=> {
         if (error) {console.log(error)
         } else {
-          console.log(results);
           return res.render('./auth/register', {
             registroCompleto: 'Usuario registrado, puede ingresar'
           });
@@ -266,7 +238,6 @@ exports.register = (req, res) => {
 
 
 exports.registerCompany = (req, res) => {
-  console.log(req.body);
   const {name, mailEmpresa, pass, passwordConfirm, razon, rut} = req.body;
   function validate_isRUT(rut) {
     if (rut.length != 12) {
@@ -297,7 +268,6 @@ exports.registerCompany = (req, res) => {
     }
     return false;
   }
-  console.log()
   const expReg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   const esValido = expReg.test(mailEmpresa);
 
@@ -359,7 +329,6 @@ exports.registerCompany = (req, res) => {
     
 
     let hashedPassword = await bcrypt.hash(pass, 8);
-    console.log(hashedPassword);
 
     db.query('INSERT INTO cuentas SET ?', {email: mailEmpresa, password: hashedPassword , tipo: 'empresa'}, (error, results) => {
       if(error) {
@@ -372,7 +341,6 @@ exports.registerCompany = (req, res) => {
     db.query('INSERT INTO cuenta_empresa SET ?' , {email:mailEmpresa, nombre:name, RUT:rut, razonSocial:razon} , (error, results)=> {
         if (error) {console.log(error)
         } else {
-          console.log(results);
           return res.render('./auth/registerCompany', {
             registroCompleto: 'Empresa registrada, puede ingresar'
           });
@@ -399,12 +367,8 @@ exports.isLoggedIn = async (req, res, next) => {
             if(!result2) {
               return next();
             }
-    
             req.user = result2[0];
-            console.log("user es")
-            console.log(req.user);
             return next();
-    
           })
         } if(tipo == 'empresa') {
           db.query('SELECT cuentas.email , cuentas.password, cuentas.tipo, cuenta_empresa.nombre, cuenta_empresa.id FROM (cuentas INNER JOIN cuenta_empresa ON cuentas.email = cuenta_empresa.email) WHERE cuentas.email = ?', [decoded.id], (error, result) => {
@@ -430,10 +394,7 @@ exports.isLoggedIn = async (req, res, next) => {
 exports.verTienda = async (req, res, next) => {
   try {
     db.query('SELECT nombre FROM cuenta_empresa', (error, result) => {
-      console.log(result)
       req.tienda = result[0];
-      console.log("datos de tiendas")
-      console.log(req.tienda)
     })
   } catch (error) {
     console.log(error);

@@ -55,7 +55,6 @@ router.post('/', upload.array("imagen", 12) , authController.isLoggedIn , async 
     db.query('SELECT categoria FROM categorias', (error, categorias) => {
         db.query('SELECT material FROM materiales', (error, materiales) => {
             db.query('SELECT marca FROM marcas', (error, marcas) => {
-                // console.log(req.body);
                 user = req.user;
                 const { titulo, descripcion, precio, descuento, categoria, genero, material, marca } = req.body;
                 
