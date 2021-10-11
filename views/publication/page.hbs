@@ -66,9 +66,9 @@
                             <div>
                                 <form action="/publication/addFavorite/{{publication.nroPublicacion}}" method="POST">
                                     {{#if favorite}}
-                                        <button class="btn btn-default position-absolute top-0 end-0 p-5"><i class="fas fa-heart" style="font-size: xx-large;"></i></button>
+                                        <button title="Agregar a favoritos" class="btn btn-default position-absolute top-0 end-0 p-5"><i class="fas fa-heart" style="font-size: xx-large;"></i></button>
                                     {{else}}
-                                        <button class="btn btn-default position-absolute top-0 end-0 p-5"><i class="far fa-heart" style="font-size: xx-large;"></i></button>
+                                        <button title="Eliminar de favoritos" class="btn btn-default position-absolute top-0 end-0 p-5"><i class="far fa-heart" style="font-size: xx-large;"></i></button>
                                     {{/if}}
                                 </form>
                             </div>
@@ -134,17 +134,19 @@
                 <h3 class="fw-bold">Preguntas y respuestas</h3>
                 <div class="mb-3">
                     {{#if user}}
-                        <form action="/publication/question/{{publication.nroPublicacion}}" method="POST">
-                            <div class="row">
-                                <label for="question">Preguntale a la tienda</label>
-                                <div class="col">
-                                    <textarea class="form-control text-area rounded-0" name="mensaje" id="mensaje" placeholder="Ingrese su pregunta"></textarea>
+                        {{#ifCond user.tipo '==' 'usuario'}}
+                            <form action="/publication/question/{{publication.nroPublicacion}}" method="POST">
+                                <div class="row">
+                                    <label for="question">Preguntale a la tienda</label>
+                                    <div class="col">
+                                        <textarea class="form-control text-area rounded-0" name="mensaje" id="mensaje" placeholder="Ingrese su pregunta"></textarea>
+                                    </div>
+                                    <div class="col-auto">
+                                        <button title="Enviar pregunta" type="submit" class="text-uppercase rounded-0 btn btn-dark" style="height: 100%; width: 100%;"><i class="fas fa-angle-right"></i></button>
+                                    </div>
                                 </div>
-                                <div class="col-auto">
-                                    <button type="submit" class="text-uppercase rounded-0 btn btn-dark" style="height: 100%; width: 100%;"><i class="fas fa-angle-right"></i></button>
-                                </div>
-                            </div>
-                        </form>
+                            </form>
+                        {{/ifCond}}
                     {{else}}
                         <div class="my-2">
                             <div class="mt-2 ms-4 text-muted">
@@ -186,7 +188,7 @@
         
                         {{#if questions}}
                             {{#each questions}}
-                                <div class="my-2">
+                                <div class="my-3">
                                     <div>
                                         <p class="mb-2">{{mensaje}}<span class="ms-3 text-muted">{{timeago fechaPregunta}}</span></p>
                                     </div>
@@ -205,16 +207,17 @@
                                         </div>
                                     {{/if}}
                                     {{#unless respuesta}}
-                                        {{#ifCond req.user.nombre '==' vendedor}}
-                                            <div class="mb-3">
-                                                <form action="/publication/respuesta/{{idPregunta}}" method="POST">
+                                        {{#ifCond ../user.email '==' ../publication.vendedorEmail}}
+                                            {{!-- <button id="btnAnswer" class="btn btn-outline-dark">Responder pregunta</button> --}}
+                                            <div id="textAnswer" class="mb-3">
+                                                <form action="/publication/answer/{{idPregunta}}" method="POST">
                                                     <div class="row">
                                                         <label for="respuesta">Responder</label>
                                                         <div class="col">
                                                             <textarea class="form-control text-area rounded-0" name="respuesta" id="respuesta" placeholder="Ingrese su respuesta"></textarea>
                                                         </div>
                                                         <div class="col-auto">
-                                                            <button type="submit" class="text-uppercase rounded-0 btn btn-dark" style="height: 100%; width: 100%;"><i class="fab fa-facebook-messenger"></i></button>
+                                                            <button title="Enviar respuesta" type="submit" class="text-uppercase rounded-0 btn btn-dark" style="height: 100%; width: 100%;"><i class="fas fa-angle-right"></i></button>
                                                         </div>
                                                     </div>
                                                 </form>

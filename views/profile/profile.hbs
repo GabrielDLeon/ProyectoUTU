@@ -15,15 +15,19 @@
                             {{/if}}
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col">
-                            <div class="row">
+                    <div class="row d-flex justify-content-center">
+                        <div class="row">
+                            <div>
                                 <h2 class="text-center text-uppercase">{{data.nombre}}</h2>
-                                <p>{{profile.descripcion}}</p>
-                                {{!-- <p style="font-size: 1rem;">{{profile.descripcion}}</p> --}}
                             </div>
-                            <div class="row">
-                                <div class="col-auto">
+                            <div class="d-flex justify-content-center">
+                                <p>{{profile.descripcion}}</p>
+                            </div>
+                            {{!-- <p style="font-size: 1rem;">{{profile.descripcion}}</p> --}}
+                        </div>
+                        <div class="row">
+                            <div class="col d-flex justify-content-center">
+                                <div class="col-auto mx-2">
                                     <i class="fas fa-map-marker-alt"></i>
                                 </div>
                                 <div class="col-auto mb-1">
@@ -37,8 +41,8 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-auto">
+                            <div class="col d-flex justify-content-center">
+                                <div class="col-auto mx-2">
                                     <i class="fas fa-phone-alt"></i>
                                 </div>
                                 <div class="col-auto mb-1">
@@ -53,45 +57,44 @@
                                     <p class="text-muted"></p>
                                 </div>
                             </div>
-                            
-                            {{#if redes}}
-                                <div class="row">
-                                    <h6 class="text-center">Nuestras redes sociales</h6>
-                                    {{#each redes}}
-                                        {{#ifCond tipo '==' 'Instagram'}}
-                                            <div class="col-12 my-md-1 my-sm-2 text-muted d-flex justify-content-center">
-                                                <a class="link-unstyled" href="{{URL}}" target="_blank"><i class="fab fa-instagram"></i> {{nombre}} en Instagram</a>
-                                            </div>
-                                        {{/ifCond}}
-                                        {{#ifCond tipo '==' 'Facebook'}}
-                                            <div class="col-12 my-md-1 my-sm-2 text-muted d-flex justify-content-center">
-                                                <a class="link-unstyled" href="{{URL}}" target="_blank"><i class="fab fa-facebook"></i> {{nombre}} en Facebook</a>
-                                            </div>
-                                        {{/ifCond}}
-                                        {{#ifCond tipo '==' 'Whatsapp'}}
-                                            <div class="col-12 my-md-1 my-sm-2 text-muted d-flex justify-content-center">
-                                                <a class="link-unstyled" href="{{URL}}" target="_blank"><i class="fab fa-whatsapp"></i> {{nombre}} en Whatsapp</a>
-                                            </div>
-                                        {{/ifCond}}
-                                    {{/each}}
-                                </div>
-                            {{/if}}
-                            {{#ifCond data.email '==' user.email}}
-                                <div class="col-12 my-2 text-muted d-flex justify-content-center">
-                                    <a href="/profile/edit/{{user.id}}">
-                                        <button type='submit' class="btn btn-primary">Editar perfil</button>
-                                    </a>
-                                </div>
-                            {{/ifCond}}
-                            {{#ifCond user.tipo '==' 'usuario'}}
-                                <div class="col-12 my-2 text-muted d-flex justify-content-center">
-                                    <a href="/">
-                                        <button type='submit' class="btn btn-success">Seguir cuenta</button>
-                                        {{!-- <button type='submit' class="btn btn-danger">Dejar de seguir</button> --}}
-                                    </a>
-                                </div>
-                            {{/ifCond}}
                         </div>
+                        {{#if redes}}
+                            <div class="row">
+                                <h6 class="text-center">Nuestras redes sociales</h6>
+                                {{#each redes}}
+                                    {{#ifCond tipo '==' 'Instagram'}}
+                                        <div class="col-12 my-md-1 my-sm-2 text-muted d-flex justify-content-center">
+                                            <a class="link-unstyled" href="{{URL}}" target="_blank"><i class="fab fa-instagram"></i> {{nombre}} en Instagram</a>
+                                        </div>
+                                    {{/ifCond}}
+                                    {{#ifCond tipo '==' 'Facebook'}}
+                                        <div class="col-12 my-md-1 my-sm-2 text-muted d-flex justify-content-center">
+                                            <a class="link-unstyled" href="{{URL}}" target="_blank"><i class="fab fa-facebook"></i> {{nombre}} en Facebook</a>
+                                        </div>
+                                    {{/ifCond}}
+                                    {{#ifCond tipo '==' 'Whatsapp'}}
+                                        <div class="col-12 my-md-1 my-sm-2 text-muted d-flex justify-content-center">
+                                            <a class="link-unstyled" href="{{URL}}" target="_blank"><i class="fab fa-whatsapp"></i> {{nombre}} en Whatsapp</a>
+                                        </div>
+                                    {{/ifCond}}
+                                {{/each}}
+                            </div>
+                        {{/if}}
+                        {{#ifCond data.email '==' user.email}}
+                            <div class="col-12 my-2 text-muted d-flex justify-content-center">
+                                <a href="/profile/edit/{{user.id}}">
+                                    <button type='submit' class="btn btn-primary">Editar perfil</button>
+                                </a>
+                            </div>
+                        {{/ifCond}}
+                        {{#ifCond user.tipo '==' 'usuario'}}
+                            <div class="col-12 my-2 text-muted d-flex justify-content-center">
+                                <a href="/">
+                                    <button type='submit' class="btn btn-success">Seguir cuenta</button>
+                                    {{!-- <button type='submit' class="btn btn-danger">Dejar de seguir</button> --}}
+                                </a>
+                            </div>
+                        {{/ifCond}}
                     </div>
                 </div>
             </div>
