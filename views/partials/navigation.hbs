@@ -19,7 +19,6 @@
             </div> --}}
             <div class="collapse navbar-collapse" id="navbar">
                 <ul class="navbar-nav ms-auto mb-lg-0">
-                    {{#if user }}
                     <div class="container-fluid">
                         <div class="translate-middle-x">
                             <form action="/buscar" method="post">
@@ -34,7 +33,7 @@
                             </form>
                         </div>
                     </div>
-                    
+                    {{#if user }}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false"><span

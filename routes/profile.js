@@ -134,7 +134,7 @@ router.get('/:nombre', authController.isLoggedIn, async (req, res) => {
       db.query('SELECT direccion, descripcion, telefono, nombre, email FROM perfil WHERE nombre = ?', [nombre], (error, result1) => {
         const email = result1[0].email;
         db.query('SELECT tipo, URL, propietario, nombre FROM enlaces INNER JOIN perfil ON enlaces.propietario = perfil.email WHERE propietario = ?', [email], async (error, redes) => {
-          db.query('SELECT nroPublicacion, precio, titulo, descripcion, producto, cuenta_empresa.nombre AS vendedor FROM (publicacion INNER JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email) WHERE cuenta_empresa.nombre = ?', [nombre], (error, publicacion) => {
+          db.query('SELECT nroPublicacion, precio, titulo, descripcion, cuenta_empresa.nombre AS vendedor, categoria, genero, material, marca, imagen FROM (publicacion INNER JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email INNER JOIN producto ON producto.idProducto = publicacion.producto LEFT JOIN fotos ON fotos.publicacion = publicacion.nroPublicacion) WHERE cuenta_empresa.nombre = ? GROUP BY nroPublicacion', [nombre], (error, publicacion) => {
             res.render('profile/profile', {
               publicacion,
               profile: result1[0],
