@@ -22,20 +22,19 @@
                     {{#if user }}
                     <div class="container-fluid">
                         <div class="translate-middle-x">
-                            <form>
+                            <form action="/buscar" method="post">
                                 <div class="col-lg-10 mb-3">
                                     <div class="input-group">
-                                        <input type="text" class="form-control rounded-0" id="validationDefaultUsername"
-                                            placeholder="Buscar ropa, tiendas y marcas..." aria-describedby="inputGroupPrepend2" size="40px">
-                                        <div class="input-group-prepend">
-                                            <button type="button" class="btn btn-light" style="margin-right:5px"><i
-                                                    class="fas fa-search"></i></button>
+                                            <input type="text" name="palabra" id="buscador" class="form-control rounded-0" placeholder="Buscar ropa, tiendas y marcas..." aria-describedby="inputGroupPrepend2" size="40px" value="{{palabra}}">
+                                                <div class="input-group-prepend">
+                                                <button type="submit" class="btn btn-light" style="margin-right:5px"><i class="fas fa-search"></i></button>
                                         </div>
                                     </div>
                                 </div>
+                            </form>
                         </div>
                     </div>
-                    </form>
+                    
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false"><span

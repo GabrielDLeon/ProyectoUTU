@@ -104,7 +104,7 @@ router.post('/newEnlace/:id', authController.isLoggedIn, async (req, res) => {
         if (!link) {
           return res.render('profile/newEnlace', {
             name: req.body.name,
-            message: 'Ingrese un link antes de agregar',
+            message: 'Por favor ingrese un enlace antes de agregar',
             user: req.user,
             enlaces,
             tipoEnlace
@@ -116,7 +116,7 @@ router.post('/newEnlace/:id', authController.isLoggedIn, async (req, res) => {
           } else {
             return res.render('profile/newEnlace', {
               user: req.user,
-              linkAgregado: 'Link agregado',
+              linkAgregado: 'Enlace agregado',
               enlaces,
               tipoEnlace
             });

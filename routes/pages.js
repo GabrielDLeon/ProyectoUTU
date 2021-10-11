@@ -22,6 +22,32 @@ router.get('/', authController.isLoggedIn, async (req, res) => {
   });
 });
 
+router.post('/buscar', authController.isLoggedIn, async (req, res) => {
+  const { palabra } = req.body
+  console.log(palabra)
+  db.query('SELECT direccion, descripcion, telefono, nombre FROM perfil', (error, result) => {
+   db.query('SELECT nroPublicacion, precio, titulo, descripcion, producto, fotos.imagen , cuenta_empresa.nombre AS vendedor FROM (publicacion LEFT JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email LEFT JOIN fotos ON fotos.publicacion = publicacion.nroPublicacion) WHERE publicacion.titulo LIKE "%"?"%"  GROUP BY nroPublicacion ' , [palabra] , (error, publicacion) => {
+    if (publicacion.length > 0) {
+      return res.render('result', {
+        publicacion,
+        palabra: req.body.palabra,
+        data: result[0],
+        user: req.user,
+        title: "Klouts"
+      })
+    } else {
+      return res.render('result', {
+        publicacion,
+        data: result[0],
+        message: 'No hay coincidencias con la busqueda',
+        user: req.user,
+        title: "Klouts"
+      })
+    }
+   })
+  })
+})
+
 router.get('/register', (req, res) => {
   res.render('./auth/register', {
     title: "Registro"
