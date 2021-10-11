@@ -1,0 +1,57 @@
+{{>navigation}}
+<div class="container">
+
+    {{!-- <div class="form-check">
+        <input class="form-check-input" type="radio" name="filter" id="reply">
+        <label class="form-check-label" for="reply">Preguntas respondidas</label>
+    </div>    
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="filter" id="noreply">
+        <label class="form-check-label" for="noreply">Preguntas sin responder</label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="filter" id="all" checked>
+        <label class="form-check-label" for="all">Todas las preguntas</label>
+    </div> --}}
+
+    <a href="/list/questions/inbox?filter=reply"><button class="btn btn-success">Preguntas respondidas</button></a>
+    <a href="/list/questions/inbox?filter=noreply"><button class="btn btn-success">Preguntas sin responder</button></a>
+    <a href="/list/questions"><button class="btn btn-success">Todas las preguntas</button></a>
+
+    <div class="table-responsive table-lg mt-3">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Remitente</th>
+                    <th>Fecha</th>
+                    <th class="max-width">Mensaje</th>
+                    <th>Publicacion</th>
+                    <th>Accion</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#if result}}
+                    {{#each result}}
+                    <tr>
+                        <td class="text-nowrap align-middle"><span>{{remitente}}</span></td>
+                        <td class="text-nowrap align-middle"><span>{{timeago fechaPregunta}}</span></td>
+                        <td class="text-center align-middle"><span>{{mensaje}}</span></td>
+                        <td class="text-center align-middle"><span>{{titulo}}</span></td>
+                        <td class="text-center align-middle">
+                            <div class="btn-group align-top">
+                                {{!-- <form action="/list/edit/{{nroPublicacion}}" method="GET">
+                                    <button class="btn btn-primary">Editar</button>
+                                </form> --}}
+                                {{!-- <form action="/list/delete/{{nroPublicacion}}" method="POST">
+                                    <button class="btn btn-danger">Eliminar</button>
+                                </form> --}}
+                                <a href="/publication/{{nroPublicacion}}" class="btn btn-secondary link-unstyled">Ver</a>
+                            </div>
+                        </td>
+                    </tr>
+                    {{/each}}
+                {{/if}}
+            </tbody>
+        </table>
+    </div>
+</div>
