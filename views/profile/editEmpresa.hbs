@@ -10,26 +10,29 @@
       <label for="razon">Razón social</label>
       <select class="form-select" name="razon" id="razon">
         <option value="{{data.razonSocial}}">{{data.razonSocial}}</option>
-        {{#ifCond data.razonSocial '!=' 'SA'}}
-        <option value="SA">Sociedad Anónima</option>
+        {{#ifCond data.razonSocial '!=' 'Sociedad Anonima'}}
+        <option value="Sociedad Anonima">Sociedad Anónima</option>
         {{/ifCond}}
-        {{#ifCond data.razonSocial '!=' 'SL'}}
-        <option value="SL">Sociedad Limitada</option>
+        {{#ifCond data.razonSocial '!=' 'Otra'}}
+        <option value="Otra">Otra</option>
         {{/ifCond}}
-        {{#ifCond data.razonSocial '!=' 'SC'}}
-        <option value="SC">Sociedad Cooperativa</option>
+        {{#ifCond data.razonSocial '!=' 'Sociedad Limitada'}}
+        <option value="Sociedad Limitada">Sociedad Limitada</option>
         {{/ifCond}}
-        {{#ifCond data.razonSocial '!=' 'SLNE'}}
-        <option value="SLNE">Sociedad Limitada Nueva Empresa</option>
+        {{#ifCond data.razonSocial '!=' 'Sociedad Cooperativa'}}
+        <option value="Sociedad Cooperativa">Sociedad Cooperativa</option>
         {{/ifCond}}
-        {{#ifCond data.razonSocial '!=' 'SLL'}}
-        <option value="SLL">Sociedad Limitada Laboral</option>
+        {{#ifCond data.razonSocial '!=' 'Sociedad Limitada Nueva Empresa'}}
+        <option value="Sociedad Limitada Nueva Empresa">Sociedad Limitada Nueva Empresa</option>
         {{/ifCond}}
-        {{#ifCond data.razonSocial '!=' 'SAL'}}
-        <option value="SAL">Sociedad Anónima Laboral</option>
+        {{#ifCond data.razonSocial '!=' 'Sociedad Limitada Laboral'}}
+        <option value="Sociedad Limitada Laboral">Sociedad Limitada Laboral</option>
         {{/ifCond}}
-        {{#ifCond data.razonSocial '!=' 'SCS'}}
-        <option value="SCS">Sociedad Comanditaria Simple</option>
+        {{#ifCond data.razonSocial '!=' 'Sociedad Anonima Laboral'}}
+        <option value="Sociedad Anonima Laboral">Sociedad Anónima Laboral</option>
+        {{/ifCond}}
+        {{#ifCond data.razonSocial '!=' 'Sociedad Comanditaria Simple'}}
+        <option value="Sociedad Comanditaria Simple">Sociedad Comanditaria Simple</option>
         {{/ifCond}}
       </select>
     </div>

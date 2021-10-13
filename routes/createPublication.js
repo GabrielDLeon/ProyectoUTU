@@ -55,6 +55,7 @@ router.post('/', upload.array("imagen", 12) , authController.isLoggedIn , async 
     db.query('SELECT categoria FROM categorias', (error, categorias) => {
         db.query('SELECT material FROM materiales', (error, materiales) => {
             db.query('SELECT marca FROM marcas', (error, marcas) => {
+                db.query('SELECT color FROM colores', (error, colores) => {
                 user = req.user;
                 const { titulo, descripcion, precio, descuento, categoria, genero, material, marca } = req.body;
                 
@@ -77,6 +78,7 @@ router.post('/', upload.array("imagen", 12) , authController.isLoggedIn , async 
                         categorias,
                         materiales,
                         marcas,
+                        colores,
                         user: req.user,
                         titulo: req.body.titulo,
                         descripcion: req.body.descripcion,
@@ -108,6 +110,7 @@ router.post('/', upload.array("imagen", 12) , authController.isLoggedIn , async 
                     });
                 }
             })
+        })
         });
     });
 });
