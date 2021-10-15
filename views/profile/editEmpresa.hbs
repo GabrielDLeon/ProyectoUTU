@@ -64,7 +64,7 @@
     </div>
     <div class="row justify-content-center">
       <div class="col-4 mb-4">
-        {{#if profile.fotoPerfil}}
+        {{#if data.fotoPerfil}}
           <img src="data:imagen/png;base64, {{data.fotoPerfil}}" alt="Foto de perfil de {{user.nombre}}" class="img-fluid rounded-circle" style="z-index: 1;">
         {{else}}
           <img src="/img/avatar.png" alt="Foto de perfil genérica" class="img-fluid rounded-circle" style="width: max-content; z-index: 1" id="imagen">
@@ -98,7 +98,7 @@
       </div>
       <div class="d-grid gap-2">
         <br>
-        <button type="submit" class="text-uppercase btn btn-dark">Editar datos</button>
+        <button type="submit" class="text-uppercase btn btn-dark" name="guardar" id="guardar">Editar datos</button>
       </div>
       {{#if message }}
         <p class="text-danger text-center mt-1">{{message}}</p>

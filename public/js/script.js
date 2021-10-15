@@ -28,3 +28,7 @@ c.addEventListener("click", function(){
         d.disabled = true;
     }
 })
+const e = document.getElementById('guardar')
+e.addEventListener("click", function() {
+    location.reload();
+})

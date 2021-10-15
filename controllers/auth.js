@@ -156,7 +156,6 @@ exports.login = async (req, res) => {
         const token = jwt.sign({ id }, process.env.JWT_SECRET, {
           expiresIn: process.env.JWT_EXPIRES_IN
         });
-        console.log("The token is: " + token);
         const cookieOptions = {
           expires: new Date(
             Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
@@ -342,7 +341,8 @@ exports.registerCompany = (req, res) => {
         if (error) {console.log(error)
         } else {
           return res.render('./auth/registerCompany', {
-            registroCompleto: 'Empresa registrada, puede ingresar'
+            registroCompleto:'Empresa registrada correctamente, puede ingresar',
+            title: 'Registro Completado'
           });
         }
      })
