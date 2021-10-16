@@ -152,7 +152,7 @@
                     {{else}}
                         <div class="my-2">
                             <div class="mt-2 ms-4 text-muted">
-                                <p>Necesitas estar logueado para poder realizar una pregunta</p>
+                                <p>Necesitas una cuenta para poder realizar preguntas</p>
                             </div>
                         </div>
                     {{/if}}
@@ -232,7 +232,7 @@
                             {{!-- Cuando la publicación no tiene preguntas --}}
                             <div class="my-2">
                                 <div class="mt-2 ms-4 text-muted">
-                                    <p>Aún nadie ha realizado una pregunta sobre este producto, ¡se el primero en hacerlo!</p>
+                                    <p>Aún nadie ha realizado una pregunta sobre este producto, ¡sé el primero en hacerlo!</p>
                                 </div>
                             </div>
                         {{/if}}
@@ -273,7 +273,7 @@
                 {{!-- RECOMENDACIONES --}}
                 {{#if recommendations}}
                     <div class="mb-3">
-                        <h4 class="fw-bold mb-3">Otras publicaciones del vendedor</h4>
+                        <h4 class="fw-bold mb-3">Otras publicaciones de {{publication.vendedor}}</h4>
                         <div class="row row-cols-lg-3 row-cols-md-2 g-4">
                             {{>products}}
                         </div>

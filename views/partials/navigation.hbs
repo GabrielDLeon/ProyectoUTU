@@ -33,7 +33,7 @@
                 </form>
                 <ul class="navbar-nav ms-auto mb-lg-0">
                     {{#if user }}
-                        <li class="nav-item"><a title="Notificaciones" class="nav-link" href="/notifications"><i class="fas fa-bell"></i></a></li>
+                        <li class="nav-item"><a title="Notificaciones" class="nav-link" href="/notifications"><i class="fas fa-bell"></i><span class="badge">{{count}}</span></a></li>
                         {{#ifCond user.tipo '==' 'empresa'}}
                             <li class="nav-item"><a class="nav-link" href="/list">Mis publicaciones</a></li>
                             <li class="nav-item"><a class="nav-link" href="/create">Hacer publicacion</a></li>

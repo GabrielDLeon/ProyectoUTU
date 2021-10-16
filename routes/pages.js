@@ -10,18 +10,40 @@ const db = mysql.createConnection({
 });
 
 router.get('/', authController.isLoggedIn, async (req, res) => {
-  db.query('SELECT direccion, descripcion, telefono, nombre FROM perfil', (error, result) => {
+  if (req.user) {
+    const {email} = req.user
+    db.query('SELECT COUNT(idNotificacion) AS count FROM notificaciones WHERE usuario = ?', [email], (error, result) => {
+    const convert = result[0].count;
+    const string = convert.toString(10)
+    db.query('SELECT direccion, descripcion, telefono, nombre FROM perfil', (error, result) => {
     db.query('SELECT DISTINCT nroPublicacion, precio, titulo, descripcion, producto, fotos.imagen , cuenta_empresa.nombre AS vendedor FROM (publicacion LEFT JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email LEFT JOIN fotos ON fotos.publicacion = publicacion.nroPublicacion) GROUP BY nroPublicacion', (error, publicacion) => {
       res.render('index', {
         publicacion,
         data: result[0],
         user: req.user,
-        title: "Klouts"
+        title: "Klouts",
+        count: string
       })
     });
   });
-});
+})
+} else {
+    db.query('SELECT direccion, descripcion, telefono, nombre FROM perfil', (error, result) => {
+    db.query('SELECT DISTINCT nroPublicacion, precio, titulo, descripcion, producto, fotos.imagen , cuenta_empresa.nombre AS vendedor FROM (publicacion LEFT JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email LEFT JOIN fotos ON fotos.publicacion = publicacion.nroPublicacion) GROUP BY nroPublicacion', (error, publicacion) => {
+      res.render('index', {
+        publicacion,
+        data: result[0],
+        user: req.user,
+        title: "Klouts",
+      })
+    });
+  });
 
+}
+})
+ 
+  
+   
 router.post('/buscar', authController.isLoggedIn, async (req, res) => {
   const { palabra } = req.body
   console.log(palabra)

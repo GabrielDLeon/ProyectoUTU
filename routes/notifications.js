@@ -10,17 +10,17 @@ const db = mysql.createConnection({
     database: process.env.DATABASE,
 });
 
-// router.post('/delete/:notification', authController.isLoggedIn, async (req, res) => {
-//     const {notification} = req.query;
-//     console.log(notification);
-    // await db.query('DELETE FROM publicacion WHERE nroPublicacion = ?', [nroPublicacion], (error, results) => {
-    //     if (error) {
-    //         console.log(error)
-    //     } else {
-    //         return res.redirect('/list')
-    //     }
-    // })
-// });
+router.post('/delete/:notification', authController.isLoggedIn, async (req, res) => {
+     const {notification} = req.query;
+     console.log(notification);
+     await db.query('DELETE FROM publicacion WHERE nroPublicacion = ?', [nroPublicacion], (error, results) => {
+         if (error) {
+             console.log(error)
+         } else {
+             return res.redirect('/list')
+         }
+     })
+ });
 
 router.get('/', authController.isLoggedIn, async (req, res) => {
     if (req.user){

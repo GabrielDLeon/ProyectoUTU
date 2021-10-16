@@ -40,6 +40,7 @@ router.post('/question/:id', authController.isLoggedIn, async (req, res) => {
             // Envía la notificación
             await db.query('SELECT vendedor FROM publicacion WHERE nroPublicacion = ?', [id], (error, result) => {
                 const idPregunta = insert.insertId;
+                console.log(insert);
                 const vendedor = result[0].vendedor;
                 db.query('INSERT INTO notificaciones (`usuario`, `pregunta`) VALUES (?, ?)', [vendedor, idPregunta]);
                 console.log("Se envió correctamente la notificación al usuario: "+vendedor)
