@@ -11,15 +11,29 @@ const db = mysql.createConnection({
 });
 
 router.post('/delete/:notification', authController.isLoggedIn, async (req, res) => {
-     const {notification} = req.query;
-     console.log(notification);
-     await db.query('DELETE FROM publicacion WHERE nroPublicacion = ?', [nroPublicacion], (error, results) => {
-         if (error) {
-             console.log(error)
-         } else {
-             return res.redirect('/list')
-         }
-     })
+    if (req.user){
+        const {email} = req.user;
+        const {notification} = req.params;
+        db.query('SELECT idNotificacion FROM (notificaciones INNER JOIN cuentas ON notificaciones.usuario = cuentas.email) WHERE email = ? AND idNotificacion = ?', [email, notification], async (error, result) => {
+            if (result){
+                await db.query('DELETE FROM notificaciones WHERE idNotificacion = ?', [notification], (error, results) => {
+                    if (error) {
+                        console.log(error)
+                        return res.redirect('/notifications')
+                    } else {
+                        console.log("Notificación eliminada correctamente!")
+                        return res.redirect('/notifications')
+                    }
+                });
+            } else {
+                console.log("El usuario y la notificación NO coinciden")
+                res.redirect('/notifications')
+            }
+        })
+    } else {
+        console.log("No se ha iniciado sesión con un usuario");
+        res.redirect('/');
+    }
  });
 
 router.get('/', authController.isLoggedIn, async (req, res) => {

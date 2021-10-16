@@ -17,7 +17,9 @@
             <i class="fas fa-bars"></i>
         </button>
         <div class="collapse navbar-collapse" id="navbar">
-            <form action="/buscar" method="post">
+
+            {{!-- Buscador --}}
+            <form action="/search" method="post">
                 <div class="row search-box mx-1">
                     <div class="col d-flex">
                         <input type="text" class="input-search w-100" name="palabra" id="buscador" placeholder="Buscar ropa, tiendas o marcas..." value="{{palabra}}">
@@ -29,12 +31,18 @@
                     </div>
                 </div>
             </form>
+
+            {{!-- Lista desplegable --}}
             <ul class="navbar-nav ms-auto mb-lg-0">
                 {{#if user }}
                     <li class="nav-item">
                         <a title="Notificaciones" class="nav-link" href="/notifications">
                             <span class="d-inline d-lg-none">Notificaciones</span>
-                            <i class="fas fa-bell d-none d-lg-inline"></i><span class="badge">{{count}}</span>
+                            <i class="fas fa-bell d-none d-lg-inline position-relative">
+                                {{#if user.notificaciones}}
+                                    <span style="font-size: 10px;" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">{{user.notificaciones}}</span>
+                                {{/if}}
+                            </i>
                         </a>
                     </li>
                     {{#ifCond user.tipo '==' 'empresa'}}
@@ -57,6 +65,7 @@
                     <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
                 {{/if}}
             </ul>
+
         </div>
     </div>
 </nav>

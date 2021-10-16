@@ -12,21 +12,16 @@ const db = mysql.createConnection({
 router.get('/', authController.isLoggedIn, async (req, res) => {
   if (req.user) {
     const { email } = req.user
-    db.query('SELECT COUNT(idNotificacion) AS count FROM notificaciones WHERE usuario = ?', [email], (error, result) => {
-      const convert = result[0].count;
-      const string = convert.toString(10)
-      db.query('SELECT direccion, descripcion, telefono, nombre FROM perfil', (error, result) => {
-        db.query('SELECT DISTINCT nroPublicacion, precio, titulo, descripcion, producto, fotos.imagen , cuenta_empresa.nombre AS vendedor FROM (publicacion LEFT JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email LEFT JOIN fotos ON fotos.publicacion = publicacion.nroPublicacion) GROUP BY nroPublicacion', (error, recommendations) => {
-          res.render('index', {
-            recommendations,
-            data: result[0],
-            user: req.user,
-            title: "Klouts",
-            count: string
-          })
-        });
+    db.query('SELECT direccion, descripcion, telefono, nombre FROM perfil', (error, result) => {
+      db.query('SELECT DISTINCT nroPublicacion, precio, titulo, descripcion, producto, fotos.imagen , cuenta_empresa.nombre AS vendedor FROM (publicacion LEFT JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email LEFT JOIN fotos ON fotos.publicacion = publicacion.nroPublicacion) GROUP BY nroPublicacion', (error, recommendations) => {
+        res.render('index', {
+          recommendations,
+          data: result[0],
+          user: req.user,
+          title: "Klouts",
+        })
       });
-    })
+    });
   } else {
     db.query('SELECT direccion, descripcion, telefono, nombre FROM perfil', (error, result) => {
       db.query('SELECT DISTINCT nroPublicacion, precio, titulo, descripcion, producto, fotos.imagen , cuenta_empresa.nombre AS vendedor FROM (publicacion LEFT JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email LEFT JOIN fotos ON fotos.publicacion = publicacion.nroPublicacion) GROUP BY nroPublicacion', (error, recommendations) => {
@@ -41,26 +36,26 @@ router.get('/', authController.isLoggedIn, async (req, res) => {
   }
 })
 
-router.post('/buscar', authController.isLoggedIn, async (req, res) => {
+router.post('/search', authController.isLoggedIn, async (req, res) => {
   const { palabra } = req.body
   console.log(palabra)
   db.query('SELECT direccion, descripcion, telefono, nombre FROM perfil', (error, result) => {
-   db.query('SELECT nroPublicacion, precio, titulo, descripcion, producto, fotos.imagen , cuenta_empresa.nombre AS vendedor, categoria, genero, material, marca FROM (publicacion LEFT JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email LEFT JOIN fotos ON fotos.publicacion = publicacion.nroPublicacion INNER JOIN producto ON publicacion.nroPublicacion = producto.idProducto) WHERE titulo LIKE "%"?"%" OR categoria LIKE "%"?"%" OR genero LIKE "%"?"%" OR material LIKE "%"?"%" OR marca LIKE "%"?"%" OR cuenta_empresa.nombre LIKE "%"?"%" GROUP BY nroPublicacion' , [palabra,palabra,palabra,palabra,palabra,palabra] , (error, publicacion) => {
-    if (publicacion.length > 0) {
-      return res.render('result', {
-        publicacion,
+   db.query('SELECT nroPublicacion, precio, titulo, descripcion, producto, fotos.imagen , cuenta_empresa.nombre AS vendedor, categoria, genero, material, marca FROM (publicacion LEFT JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email LEFT JOIN fotos ON fotos.publicacion = publicacion.nroPublicacion INNER JOIN producto ON publicacion.nroPublicacion = producto.idProducto) WHERE titulo LIKE "%"?"%" OR categoria LIKE "%"?"%" OR genero LIKE "%"?"%" OR material LIKE "%"?"%" OR marca LIKE "%"?"%" OR cuenta_empresa.nombre LIKE "%"?"%" GROUP BY nroPublicacion' , [palabra,palabra,palabra,palabra,palabra,palabra] , (error, recommendations) => {
+    if (recommendations.length > 0) {
+      return res.render('search', {
+        recommendations,
         palabra: req.body.palabra,
         data: result[0],
         user: req.user,
-        title: "Klouts"
+        title: "Búsqueda"
       })
     } else {
-      return res.render('result', {
-        publicacion,
+      return res.render('search', {
+        recommendations,
         data: result[0],
         message: 'No hay coincidencias con la busqueda',
         user: req.user,
-        title: "Klouts"
+        title: "Búsqueda"
       })
     }
    })
