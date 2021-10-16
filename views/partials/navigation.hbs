@@ -1,63 +1,62 @@
 {{#if user}}
-<nav class="navbar sticky-top navbar-expand-md navbar-dark bg-dark">
-    {{else}}
-    <nav class="navbar sticky-top navbar-expand-md navbar-light bg-light">
+{{!-- Navbar de usuario --}}
+<nav class="navbar navbar-fixed-top sticky-top navbar-expand-lg navbar-dark bg-dark">
+{{else}}
+{{!-- Navbar de usuario anónimo --}}
+<nav class="navbar navbar-fixed-top sticky-top navbar-expand-lg navbar-light bg-light">
+{{/if}}
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">
+            {{#if user }}
+            <img src="/img/brand/Klouts_light.png" width="120"></a>
+        {{else}}
+        <img src="/img/brand/Klouts_dark.png" width="120">
         {{/if}}
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/">
-                {{#if user }}
-                <img src="/img/brand/Klouts_light.png" width="120"></a>
-            {{else}}
-            <img src="/img/brand/Klouts_dark.png" width="120">
-            {{/if}}
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar">
-                <i class="fas fa-bars"></i>
-            </button>
-            {{!-- <div class="flex">
-                <button type="button" class="btn btn-light" style="margin-right:5px"><i class="fas fa-search"></i></button>
-            </div> --}}
-            <div class="collapse navbar-collapse" id="navbar">
-                <form action="/buscar" method="post">
-                    <div class="row search-box mx-1">
-                        <div class="col d-flex">
-                            <input type="text" class="input-search w-100" name="palabra" id="buscador" placeholder="Buscar ropa, tiendas o marcas..." value="{{palabra}}">
-                        </div>
-                        <div class="col-auto p-0">
-                            <button class="btn btn-outline-light" type="submit">
-                                Buscar
-                                {{!-- <i class="fas fa-search"></i> --}}
-                            </button>   
-                        </div>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar">
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbar">
+            <form action="/buscar" method="post">
+                <div class="row search-box mx-1">
+                    <div class="col d-flex">
+                        <input type="text" class="input-search w-100" name="palabra" id="buscador" placeholder="Buscar ropa, tiendas o marcas..." value="{{palabra}}">
                     </div>
-                </form>
-                <ul class="navbar-nav ms-auto mb-lg-0">
-                    {{#if user }}
-                        <li class="nav-item"><a title="Notificaciones" class="nav-link" href="/notifications"><i class="fas fa-bell"></i><span class="badge">{{count}}</span></a></li>
-                        {{#ifCond user.tipo '==' 'empresa'}}
-                            <li class="nav-item"><a class="nav-link" href="/list">Mis publicaciones</a></li>
-                            <li class="nav-item"><a class="nav-link" href="/create">Hacer publicacion</a></li>
-                        {{/ifCond}}
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><span class="me-1">{{user.nombre}}</span></a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                {{#ifCond user.tipo '==' 'usuario'}}
-                                    <li class="nav-item"><a class="dropdown-item" href="/favorites"><i class="fas fa-star"></i> Favoritos</a></li>
-                                {{/ifCond}}
-                                <li class="nav-item"><a class="dropdown-item" href="/profile"><i class="fas fa-user"></i> Perfil</a></li>
-                                <li class="nav-item"><a class="dropdown-item" href="/profile/edit/{{user.id}}"><i class="fas fa-pen"></i> Editar perfil</a></li>
-                                <li class="nav-item"><a class="dropdown-item" href="/logout"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a></li>
-                            </ul>
-                        </li>
-                    {{else}}
-                        <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
-                    {{/if}}
-                </ul>
-                {{!-- <form class="d-flex input-group w-auto">
-                    <input type="search" class="form-control" placeholder="Type query" aria-label="Search" />
-                    <button class="btn btn-outline-primary" type="button" data-mdb-ripple-color="dark">Search</button>
-                </form> --}}
-            </div>
+                    <div class="col-auto p-0">
+                        <button class="btn btn-outline-light" type="submit">
+                            <i class="fas fa-search"></i>
+                        </button>   
+                    </div>
+                </div>
+            </form>
+            <ul class="navbar-nav ms-auto mb-lg-0">
+                {{#if user }}
+                    <li class="nav-item">
+                        <a title="Notificaciones" class="nav-link" href="/notifications">
+                            <span class="d-inline d-lg-none">Notificaciones</span>
+                            <i class="fas fa-bell d-none d-lg-inline"></i><span class="badge">{{count}}</span>
+                        </a>
+                    </li>
+                    {{#ifCond user.tipo '==' 'empresa'}}
+                        <li class="nav-item"><a class="nav-link" href="/list">Mis publicaciones</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/create">Hacer publicacion</a></li>
+                    {{/ifCond}}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><span class="me-1">{{user.nombre}}</span></a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            {{#ifCond user.tipo '==' 'usuario'}}
+                                <li class="nav-item"><a class="dropdown-item" href="/favorites"><i class="fas fa-star"></i> Favoritos</a></li>
+                            {{/ifCond}}
+                            <li class="nav-item"><a class="dropdown-item" href="/profile"><i class="fas fa-user"></i> Perfil</a></li>
+                            <li class="nav-item"><a class="dropdown-item" href="/profile/edit/{{user.id}}"><i class="fas fa-pen"></i> Editar perfil</a></li>
+                            <li class="nav-item"><a class="dropdown-item" href="/logout"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a></li>
+                        </ul>
+                    </li>
+                {{else}}
+                    <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
+                {{/if}}
+            </ul>
         </div>
-    </nav>
+    </div>
+</nav>

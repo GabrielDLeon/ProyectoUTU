@@ -1,34 +1,38 @@
-{{#each recommendations}}
-    <div class="col position-relative my-3">
-        <div class="card">
-            <a href="/publication/{{nroPublicacion}}" class="link-unstyled">
-                <div class="imgbox">
-                    {{#if imagen}}
-                        <img src="data:imagen/png;base64, {{imagen}}" class="card-img-top">
-                    {{else}}
-                        <img src="/img/testing/item3.jpg" class="card-img-top">
-                    {{/if}}
+{{#if recommendations}}
+    {{#each recommendations}}
+        <div class="col position-relative my-3">
+            <div class="card">
+                <a href="/publication/{{nroPublicacion}}" class="link-unstyled">
+                    <div class="imgbox">
+                        {{#if imagen}}
+                            <img src="data:imagen/png;base64, {{imagen}}" class="card-img-top">
+                        {{else}}
+                            <img src="/img/testing/item3.jpg" class="card-img-top">
+                        {{/if}}
+                    </div>
+                </a>
+                <div class="position-absolute p-1 mb-2 text-capitalize">
+                    <span class="badge rounded-pill bg-dark">{{categoria}}</span>
+                    <span class="badge rounded-pill bg-dark">{{genero}}</span>
+                    <span class="badge rounded-pill bg-dark">{{material}}</span>
+                    <span class="badge rounded-pill bg-dark">{{marca}}</span>
                 </div>
-            </a>
-            <div class="position-absolute p-1 mb-2 text-capitalize">
-                <span class="badge rounded-pill bg-dark">{{categoria}}</span>
-                <span class="badge rounded-pill bg-dark">{{genero}}</span>
-                <span class="badge rounded-pill bg-dark">{{material}}</span>
-                <span class="badge rounded-pill bg-dark">{{marca}}</span>
-            </div>
-            <div class="container my-2 text-center">
-                {{!-- <div><a href="/publication/{{nroPublicacion}}" class="link-unstyled">
-                    <h6 class="card-title mb-1">{{titulo}}</h6>
-                </a></div> --}}
-                <div class="d-flex justify-content-center">
-                    {{#if descuento}}
-                        <h4>${{descuento}}</h4>
-                        <h6 class="text-muted ms-1"><s>${{precio}}</s></h6>
-                    {{else}}
-                        <h4>${{precio}}</h4>
-                    {{/if}}
+                <div class="container my-2 text-center">
+                    <h5 class="card-title mb-1">{{titulo}}</h5>
+                    <h6><a href="/profile/{{vendedor}}" class="text-muted link-unstyled">{{vendedor}}</a></h6>
+                    {{!-- <div><a href="/publication/{{nroPublicacion}}" class="link-unstyled">
+                        <h6 class="card-title mb-1">{{titulo}}</h6>
+                    </a></div> --}}
+                    <div class="d-flex justify-content-center">
+                        {{#if descuento}}
+                            <h4>${{descuento}}</h4>
+                            <h6 class="text-muted ms-1"><s>${{precio}}</s></h6>
+                        {{else}}
+                            <h4>${{precio}}</h4>
+                        {{/if}}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-{{/each}}
+    {{/each}}
+{{/if}}

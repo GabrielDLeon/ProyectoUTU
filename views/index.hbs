@@ -1,68 +1,27 @@
 {{>navigation}}
-
 <body>
     <div class="container mt-5">
         <div class="row row-cols-lg-4 row-cols-sm-2 g-4">
             {{#if message }}
                 <p class="text-danger text-center mt-1">{{message}}</p>
             {{/if}}
-            {{#if publicacion}}
-            {{#each publicacion}}
-            <div class="col">
-                <a href="/publication/{{nroPublicacion}}" class="link-unstyled">
-                    <div class="card rounded-0">
-                        <div class="imgbox">
-                            {{#if imagen}}
-                            <img alt="Embedded Image" src="data:imagen/png;base64, {{imagen}}" class="card-img-top">
-                            {{else}}
-                            <img src="/img/testing/item3.jpg" class="card-img-top">
-                            {{/if}}
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title mb-1">{{titulo}}</h5>
-                            <h6><a href="/profile/{{vendedor}}" class="text-muted link-unstyled">{{vendedor}}</a></h6>
-            
-                            <div class="d-flex">
-                                <h4>${{precio}}</h4>
-                                <h6 class="text-muted ms-1"><s>$2000</s></h6>
-                            </div>
-
-                            {{!-- CUANDO NO HAY PRECIO ASIGNADO APARECE ESTE BOTON --}}
-                            {{!-- <div class="mb-3 d-grid gap-2">
-                                <button class="btn btn-dark">Consultar precio</button>
-                            </div> --}}
-
-                            {{!-- DESCRIPCION (no es necesario) --}}
-                            {{!-- <p class="card-text">
-                                This is a longer card with supporting text below as a natural lead-in to
-                                additional content. This content is a little bit longer.
-                            </p> --}}
-
-                        </div>
+            {{>products}}
+        </div>
+        <h1 class="text-center">Nuestros patrocinadores</h1>
+        <div class="d-flex justify-content-center">
+            <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active " data-bs-interval="5000">
+                        <img src="/img/testing/aliex.png" class="d-block w-50 mx-auto" alt="/img/testing/aliex.png">
                     </div>
-                </a>
-            </div>
-            {{/each}}
-            {{/if}}
-
-    </div> <br>
-    <h1 class="text-center">Nuestros patrocinadores</h1>
-    <div class="d-flex justify-content-center">
-        <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner">
-                <div class="carousel-item active " data-bs-interval="5000">
-                    <img src="/img/testing/aliex.png" class="d-block w-50 mx-auto" alt="/img/testing/aliex.png">
-                </div>
-                <div class="carousel-item " data-bs-interval="5000">
-                    <img src="/img/testing/tiendamia.png" class="d-block w-50 mx-auto" alt="/img/testing/aliex.png">
-                </div>
-                <div class="carousel-item " data-bs-interval="5000">
-                    <img src="/img/testing/mercado.jpg" class="d-block w-50 mx-auto" alt="/img/testing/aliex.png">
+                    <div class="carousel-item " data-bs-interval="5000">
+                        <img src="/img/testing/tiendamia.png" class="d-block w-50 mx-auto" alt="/img/testing/aliex.png">
+                    </div>
+                    <div class="carousel-item " data-bs-interval="5000">
+                        <img src="/img/testing/mercado.jpg" class="d-block w-50 mx-auto" alt="/img/testing/aliex.png">
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    </div>
-    </div>
     </div>
 </body>
