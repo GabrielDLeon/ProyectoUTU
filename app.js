@@ -85,6 +85,7 @@ app.use('/profile', require('./routes/profile'));
 app.use('/favorites', require('./routes/favorites'));
 app.use('/publication', require('./routes/publication'));
 app.use('/create', require('./routes/createPublication'));
+app.use('/notifications', require('./routes/notifications'));
 
 app.listen(3000, () => {
   console.log("Server started on Port 3000");

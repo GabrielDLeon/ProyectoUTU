@@ -1,0 +1,72 @@
+{{>navigation}}
+<div class="container">
+    {{#ifCond user.tipo '==' 'empresa'}}
+        <div class="table-responsive table-lg mt-3">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Remitente</th>
+                        <th>Fecha Pregunta</th>
+                        <th class="max-width">Mensaje</th>
+                        <th>Publicacion</th>
+                        <th>Accion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#if notifications}}
+                        {{#each notifications}}
+                        <tr>
+                            <td class="text-nowrap align-middle"><span>{{remitente}}</span></td>
+                            <td class="text-center align-middle"><span>{{timeago fechaPregunta}}</span></td>
+                            <td class="text-center align-middle"><span>{{mensaje}}</span></td>
+                            <td class="text-center align-middle"><span>{{idPublicacion}}</span></td>
+                            <td class="text-center align-middle">
+                                <div class="btn-group align-top">
+                                    <form action="/notification/delete/{{idPublicacion}}" method="POST">
+                                        <button class="btn btn-danger">Eliminar notificación</button>
+                                    </form>
+                                    <a href="/publication/{{idPublicacion}}" class="btn btn-secondary link-unstyled">Ver</a>
+                                </div>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    {{/if}}
+                </tbody>
+            </table>
+        </div>
+    {{else}}
+        <div class="table-responsive table-lg mt-3">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Tienda</th>
+                        <th>Fecha Respuesta</th>
+                        <th class="max-width">Respuesta</th>
+                        <th>Publicacion</th>
+                        <th>Accion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#if notifications}}
+                        {{#each notifications}}
+                        <tr>
+                            <td class="text-center align-middle"><span>{{vendedor}}</span></td>
+                            <td class="text-center align-middle"><span>{{timeago fechaRespuesta}}</span></td>
+                            <td class="text-center align-middle"><span>{{respuesta}}</span></td>
+                            <td class="text-center align-middle"><span>{{idPublicacion}}</span></td>
+                            <td class="text-center align-middle">
+                                <div class="btn-group align-top">
+                                    <form action="/notification/delete/{{idPublicacion}}" method="POST">
+                                        <button class="btn btn-danger">Eliminar notificación</button>
+                                    </form>
+                                    <a href="/publication/{{idPublicacion}}" class="btn btn-secondary link-unstyled">Ver</a>
+                                </div>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    {{/if}}
+                </tbody>
+            </table>
+        </div>
+    {{/ifCond}}
+</div>

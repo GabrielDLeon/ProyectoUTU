@@ -1,6 +1,7 @@
 const express = require('express');
 const authController = require('../controllers/auth');
 const mysql = require("mysql");
+const { update } = require('lodash');
 const router = express.Router();
 
 const db = mysql.createConnection({
@@ -35,7 +36,14 @@ router.post('/question/:id', authController.isLoggedIn, async (req, res) => {
             const path = '/publication/' + id + '/#seccion-preguntas';
             return res.redirect(path);
         }
-        await db.query('INSERT INTO `preguntas` (`mensaje`, `remitente`, `publicacion`, `fechaPregunta`) VALUES (?, ?, ?, ?)', [newQuestion.mensaje, newQuestion.remitente, newQuestion.publicacion, newQuestion.fechaPregunta], (error, result) => {
+        await db.query('INSERT INTO `preguntas` (`mensaje`, `remitente`, `publicacion`, `fechaPregunta`) VALUES (?, ?, ?, ?)', [newQuestion.mensaje, newQuestion.remitente, newQuestion.publicacion, newQuestion.fechaPregunta], async (error, insert) => {
+            // Envía la notificación
+            await db.query('SELECT vendedor FROM publicacion WHERE nroPublicacion = ?', [id], (error, result) => {
+                const idPregunta = insert.insertId;
+                const vendedor = result[0].vendedor;
+                db.query('INSERT INTO notificaciones (`usuario`, `pregunta`) VALUES (?, ?)', [vendedor, idPregunta]);
+                console.log("Se envió correctamente la notificación al usuario: "+vendedor)
+            })
             console.log('Pregunta enviada correctamente');
             const path = '/publication/' + id + '/#seccion-preguntas';
             res.redirect(path);
@@ -49,19 +57,26 @@ router.post('/question/:id', authController.isLoggedIn, async (req, res) => {
 router.post('/answer/:id', authController.isLoggedIn, async (req, res) => {
     const { id } = req.params
     await db.query('SELECT idPregunta, nroPublicacion, mensaje, fechaPregunta, cuenta_empresa.nombre AS vendedor, cuenta_personal.nombre AS remitente, respuesta FROM (publicacion INNER JOIN preguntas ON publicacion.nroPublicacion = preguntas.publicacion INNER JOIN cuenta_personal ON cuenta_personal.email = preguntas.remitente INNER JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email) WHERE idPregunta = ? ORDER BY fechaPregunta DESC', [id], async (error, questions) => {
-        const nroPublicacion = questions[0].nroPublicacion
+        const { nroPublicacion } = questions[0];
         if (questions.length > 0) {
             const { id } = req.params;
-            const idPregunta = questions[0].idPregunta
+            const { idPregunta } = questions[0];
             const { respuesta } = req.body;
             if (!respuesta) {
                 const path = '/publication/' + id + '/#seccion-preguntas';
                 return res.redirect(path);
             }
-            await db.query('UPDATE preguntas SET ? WHERE idPregunta = ?', [{ respuesta: respuesta }, idPregunta]);
-            console.log('Respuesta enviada correctamente');
-            const path = '/publication/' + nroPublicacion + '/#seccion-preguntas';
-            return res.redirect(path);
+            await db.query('UPDATE preguntas SET ? WHERE idPregunta = ?', [{ respuesta: respuesta }, idPregunta], async (error, result) => {
+                // Envía la notificación
+                await db.query('SELECT remitente FROM preguntas WHERE idPregunta = ?', [idPregunta], (error, result) => {
+                    const {remitente} = result[0];
+                    db.query('INSERT INTO notificaciones (`usuario`, `pregunta`) VALUES (?, ?)', [remitente, idPregunta]);
+                    console.log("Se envió correctamente la notificación al usuario: "+remitente)
+                })
+                console.log('Respuesta enviada correctamente');
+                const path = '/publication/' + nroPublicacion + '/#seccion-preguntas';
+                return res.redirect(path);
+            });
         }
     })
 });
@@ -97,7 +112,7 @@ router.get('/:id', authController.isLoggedIn, async (req, res) => {
                                     }
                                     const vendedor = result[0].vendedorEmail;
                                     await db.query('SELECT idPregunta, mensaje, fechaPregunta, fechaRespuesta, cuenta_empresa.nombre AS vendedor, cuenta_personal.nombre AS remitente, respuesta, cuentas.tipo FROM (publicacion INNER JOIN preguntas ON publicacion.nroPublicacion = preguntas.publicacion INNER JOIN cuenta_personal ON cuenta_personal.email = preguntas.remitente INNER JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email INNER JOIN cuentas ON cuentas.email = cuenta_empresa.email) WHERE nroPublicacion = ? ORDER BY fechaPregunta DESC', [id], async (error, questions) => {
-                                        await db.query('SELECT nroPublicacion, precio, titulo FROM `publicacion` WHERE vendedor = ? AND nroPublicacion != ?', [vendedor, id], async (error, recommendations) => {
+                                        await db.query('SELECT nroPublicacion, precio, precio-precio*descuento.porcentaje/100 AS descuento, titulo, imagen FROM (publicacion LEFT JOIN fotos ON publicacion.nroPublicacion = fotos.publicacion LEFT JOIN descuento ON descuento.publication = publicacion.nroPublicacion) WHERE vendedor = ? AND nroPublicacion != ? GROUP BY nroPublicacion', [vendedor, id], async (error, recommendations) => {
                                             await db.query('SELECT * from perfil WHERE email = ?', [vendedor], (error, perfil) => {
                                                 res.render('publication/page', {
                                                     user: req.user,

@@ -37,7 +37,7 @@ router.get('/', authController.isLoggedIn, async (req, res) => {
         const email = req.user.email;
         db.query('SELECT tipo, URL, propietario, nombre FROM enlaces INNER JOIN perfil ON enlaces.propietario = perfil.email WHERE propietario = ?', [email], async (error, redes) => {
           db.query('SELECT direccion, descripcion, telefono, fotoPerfil, nombre FROM perfil WHERE nombre = ?', [nombre], (error, result1) => {
-            db.query('SELECT nroPublicacion, precio, titulo, descripcion, producto, cuenta_empresa.nombre AS vendedor FROM (publicacion INNER JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email) WHERE cuenta_empresa.nombre = ?', [nombre], (error, publicacion) => {
+            db.query('SELECT nroPublicacion, precio, titulo, descripcion, producto, cuenta_empresa.nombre AS vendedor, descuento.porcentaje FROM (publicacion INNER JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email LEFT JOIN descuento ON descuento.publication = publicacion.nroPublicacion) WHERE cuenta_empresa.nombre = ?', [nombre], (error, publicacion) => {
               res.render('profile/profile', {
                 publicacion,
                 profile: result1[0],
@@ -134,9 +134,9 @@ router.get('/:nombre', authController.isLoggedIn, async (req, res) => {
       db.query('SELECT direccion, descripcion, telefono, nombre, email FROM perfil WHERE nombre = ?', [nombre], (error, result1) => {
         const email = result1[0].email;
         db.query('SELECT tipo, URL, propietario, nombre FROM enlaces INNER JOIN perfil ON enlaces.propietario = perfil.email WHERE propietario = ?', [email], async (error, redes) => {
-          db.query('SELECT nroPublicacion, precio, titulo, descripcion, cuenta_empresa.nombre AS vendedor, categoria, genero, material, marca, imagen FROM (publicacion INNER JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email INNER JOIN producto ON producto.idProducto = publicacion.producto LEFT JOIN fotos ON fotos.publicacion = publicacion.nroPublicacion) WHERE cuenta_empresa.nombre = ? GROUP BY nroPublicacion', [nombre], (error, publicacion) => {
+          db.query('SELECT nroPublicacion, precio, precio-precio*descuento.porcentaje/100 AS descuento, titulo, descripcion, cuenta_empresa.nombre AS vendedor, categoria, genero, material, marca, imagen FROM (publicacion INNER JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email INNER JOIN producto ON producto.idProducto = publicacion.producto LEFT JOIN fotos ON fotos.publicacion = publicacion.nroPublicacion LEFT JOIN descuento ON descuento.publication = publicacion.nroPublicacion) WHERE cuenta_empresa.nombre = ? GROUP BY nroPublicacion', [nombre], (error, recommendations) => {
             res.render('profile/profile', {
-              publicacion,
+              recommendations,
               profile: result1[0],
               data: result[0],
               user: req.user,
