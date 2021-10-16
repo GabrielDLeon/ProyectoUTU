@@ -175,3 +175,20 @@ box-shadow:
 ::-webkit-scrollbar-thumb:hover {
     background: #555; 
 }
+
+.input-search{
+    border-style: none;
+    width: max-content;
+    padding: 5px;
+    border-radius: 25px;
+    transition: all .5s ease-in-out;
+    background-color: transparent;
+    color:#fff;
+}
+
+.search-box{
+    width: 300px;
+    border-radius: 0px;
+    border-bottom:1px solid rgba(255,255,255,.5);
+    transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
+}
