@@ -16,30 +16,62 @@ const db = mysql.createConnection({
     database: process.env.DATABASE,
 });
 
-// Crear una nueva publicacion
 router.get('/', authController.isLoggedIn, (req, res) => {
     if (req.user.tipo == 'empresa') {
-    db.query('SELECT categoria FROM categorias', (error, categorias) => {
-        db.query('SELECT material FROM materiales', (error, materiales) => {
-            db.query('SELECT marca FROM marcas', (error, marcas) => {
-                db.query('SELECT color FROM colores', (error, colores) => {
-                    res.render('publication/create', {
-                        categorias,
-                        materiales,
-                        marcas,
-                        colores,
-                        user: req.user,
-                        title: "Nueva publicación"
+        const query = req.query;
+        if (query.newPublication){
+            db.query('SELECT categoria FROM categorias', (error, categorias) => {
+                db.query('SELECT material FROM materiales', (error, materiales) => {
+                    db.query('SELECT marca FROM marcas', (error, marcas) => {
+                        db.query('SELECT color FROM colores', (error, colores) => {
+                            res.render('publication/create', {
+                                categorias,
+                                materiales,
+                                marcas,
+                                colores,
+                                user: req.user,
+                                query: "newPublication=true",
+                                title: "Nueva publicación"
+                            });
+                        });
                     });
                 });
             });
-        });
-    });
-    } else { 
-        res.redirect('/login')
+        } else if (query.idProducto) {
+            const {idProducto} = query;
+            db.query('SELECT * FROM producto WHERE idProducto = ?', [idProducto], (error, product) => {
+                if (product[0]){
+                    db.query('SELECT categoria FROM categorias WHERE categoria != ?', [product[0].categoria], (error, categorias) => {
+                        db.query('SELECT material FROM materiales WHERE material != ?', [product[0].material], (error, materiales) => {
+                            db.query('SELECT marca FROM marcas WHERE marca != ?', [product[0].marca], (error, marcas) => {
+                                db.query('SELECT color FROM colores', (error, colores) => {
+                                    res.render('publication/create', {
+                                        product: product[0],
+                                        categorias,
+                                        materiales,
+                                        marcas,
+                                        colores,
+                                        user: req.user,
+                                        query: "idProducto="+idProducto,
+                                        title: "Nueva publicación"
+                                    });
+                                });
+                            });
+                        });
+                    });
+                } else {
+                    console.log("El producto que desea utilizar no existe")
+                    res.redirect('/create?newPublication=true')
+                }
+            });
+        } else {
+            console.log("Qué intentas hacer? eri gei?");
+            res.redirect('/create?newPublication=true')
+        }
+    } else {
+        res.redirect('/login');
     }
-});
-
+})
 
 router.post('/', upload.array("imagen", 12) , authController.isLoggedIn , async (req, res) => {
     db.query('SELECT categoria FROM categorias', (error, categorias) => {

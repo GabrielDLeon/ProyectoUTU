@@ -1,6 +1,6 @@
 {{>navigation}}
 <section class="container my-5">
-    <form method="POST" action="/create" enctype="multipart/form-data">
+    <form method="POST" action="/create?{{query}}" enctype="multipart/form-data">
         <div class="mb-3">
             <h2>Datos de la publicación</h2>
             <input class="form-control" name="titulo" id="titulo" type="text" placeholder="Titulo" value="{{titulo}}">
@@ -16,7 +16,11 @@
         <div class="mb-3">
             <h2>Caracteristicas del producto</h2>
             <select class="form-select" name="categoria" id="categoria">
-                <option value="">Seleccione una categoría</option>
+                {{#if product}}
+                    <option value="{{product.categoria}}">{{product.categoria}}</option>
+                {{else}}
+                    <option value="">Seleccione una categoría</option>
+                {{/if}}
                 {{#each categorias}}
                     <option class="text-capitalize" value="{{categoria}}">{{categoria}}</option>
                 {{/each}}
@@ -28,20 +32,28 @@
                 <option value="Unisex">Unisex</option>
             </select>
             <select class="form-select" name="material" id="material">
-                <option value="0">Seleccione un material</option>
+                {{#if product}}
+                    <option value="{{product.material}}">{{product.material}}</option>
+                {{else}}
+                    <option value="">Seleccione un material</option>
+                {{/if}}
                 {{#each materiales}}
                     <option value="{{material}}">{{material}}</option>
                 {{/each}}
             </select>
             <select class="form-select" name="marca" id="marca">
-                <option value="0">Seleccione la marca</option>
+                {{#if product}}
+                    <option value="{{product.marca}}">{{product.marca}}</option>
+                {{else}}
+                    <option value="">Seleccione la marca</option>
+                {{/if}}
                 {{#each marcas}}
                     <option value="{{marca}}">{{marca}}</option>
                 {{/each}}
             </select>
             <div>
                 <select class="form-select" name="colores" id="colores">
-                    <option value="0">Seleccione un color</option>
+                    <option value="">Seleccione un color</option>
                     {{#each colores}}
                         <option value="{{color}}">{{color}}</option>
                     {{/each}}

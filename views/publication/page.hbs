@@ -62,17 +62,23 @@
                                 </div>
                             </div>
                         {{/if}}
-                        {{#ifCond user.tipo '==' 'usuario'}}
-                            <div>
-                                <form action="/publication/addFavorite/{{publication.nroPublicacion}}" method="POST">
-                                    {{#if favorite}}
-                                        <button title="Agregar a favoritos" class="btn btn-default position-absolute top-0 end-0 p-5"><i class="fas fa-heart" style="font-size: xx-large;"></i></button>
-                                    {{else}}
-                                        <button title="Eliminar de favoritos" class="btn btn-default position-absolute top-0 end-0 p-5"><i class="far fa-heart" style="font-size: xx-large;"></i></button>
-                                    {{/if}}
-                                </form>
-                            </div>
-                        {{/ifCond}}
+                        {{#if user}}
+                            {{#ifCond user.tipo '==' 'usuario'}}
+                                <div>
+                                    <form action="/publication/addFavorite/{{publication.nroPublicacion}}" method="POST">
+                                        {{#if favorite}}
+                                            <button title="Agregar a favoritos" class="btn btn-default position-absolute top-0 end-0 p-5"><i class="fas fa-heart" style="font-size: xx-large;"></i></button>
+                                        {{else}}
+                                            <button title="Eliminar de favoritos" class="btn btn-default position-absolute top-0 end-0 p-5"><i class="far fa-heart" style="font-size: xx-large;"></i></button>
+                                        {{/if}}
+                                    </form>
+                                </div>
+                            {{else}}
+                                <div class="text-muted fw-bold">
+                                    <p>¿Vendes un producto igual? <a href="/create?idProducto={{publication.producto}}">Crea una publicación similar</a></p>
+                                </div>
+                            {{/ifCond}}
+                        {{/if}}
                     </div>
                 </div>
             </div>

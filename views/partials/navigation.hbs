@@ -47,7 +47,7 @@
                     </li>
                     {{#ifCond user.tipo '==' 'empresa'}}
                         <li class="nav-item"><a class="nav-link" href="/list">Mis publicaciones</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/create">Hacer publicacion</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/create?newPublication=true">Hacer publicacion</a></li>
                     {{/ifCond}}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><span class="me-1">{{user.nombre}}</span></a>
