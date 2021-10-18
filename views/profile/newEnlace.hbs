@@ -1,6 +1,6 @@
 {{>navigation}}
 <div class="container mt-5">
-<form action="/profile/newEnlace/{{user.id}}" method="POST"> 
+<form action="/profile/newEnlace/{{user.data.id}}" method="POST"> 
          <select class="form-select" name="tipo" id="tipo">
         <option value="0">Selecciona una red social</option>
         {{#each tipo}}

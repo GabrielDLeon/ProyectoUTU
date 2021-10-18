@@ -80,14 +80,14 @@
                                 {{/each}}
                             </div>
                         {{/if}}
-                        {{#ifCond data.email '==' user.email}}
+                        {{#ifCond data.email '==' user.data.email}}
                             <div class="col-12 my-2 text-muted d-flex justify-content-center">
-                                <a href="/profile/edit/{{user.id}}">
+                                <a href="/profile/edit/{{user.data.id}}">
                                     <button type='submit' class="btn btn-primary">Editar perfil</button>
                                 </a>
                             </div>
                         {{/ifCond}}
-                        {{#ifCond user.tipo '==' 'usuario'}}
+                        {{#ifCond user.data.tipo '==' 'usuario'}}
                             <div class="col-12 my-2 text-muted d-flex justify-content-center">
                                 <a href="/">
                                     <button type='submit' class="btn btn-success">Seguir cuenta</button>

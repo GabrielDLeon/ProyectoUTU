@@ -363,22 +363,32 @@ exports.isLoggedIn = async (req, res, next) => {
         const tipo = (result[0].tipo);
         //comprobacion de q el usuario exista
         if (tipo == 'usuario') {
-          db.query('SELECT cuentas.email , cuentas.password, cuentas.tipo, cuenta_personal.nombre, cuenta_personal.id, COUNT(notificaciones.idNotificacion) AS notificaciones FROM (cuentas INNER JOIN cuenta_personal ON cuentas.email = cuenta_personal.email LEFT JOIN notificaciones ON notificaciones.usuario = cuenta_personal.email) WHERE cuentas.email = ? GROUP BY email', [decoded.id], (error, result2) => {
+          db.query('SELECT cuentas.email, cuentas.password, cuentas.tipo, cuenta_personal.nombre, cuenta_personal.id FROM (cuentas INNER JOIN cuenta_personal ON cuentas.email = cuenta_personal.email) WHERE cuentas.email = ?', [decoded.id], (error, result2) => {
             if(!result2) {
               return next();
             }
-            req.user = result2[0];
-            return next();
+            db.query('SELECT COUNT(idNotificacion) AS notificaciones FROM notificaciones WHERE usuario = ? AND visto = 0',[decoded.id], (error, notifications) => {
+              req.user = {
+                data: result2[0],
+                notification: notifications[0].notificaciones
+              }
+              // console.log(req.user);
+              return next();
+            })
           })
         } if(tipo == 'empresa') {
-          db.query('SELECT cuentas.email , cuentas.password, cuentas.tipo, cuenta_empresa.nombre, cuenta_empresa.id, COUNT(notificaciones.idNotificacion) AS notificaciones FROM (cuentas INNER JOIN cuenta_empresa ON cuentas.email = cuenta_empresa.email LEFT JOIN notificaciones ON notificaciones.usuario = cuenta_empresa.email) WHERE cuentas.email = ? GROUP BY email', [decoded.id], (error, result) => {
+          db.query('SELECT cuentas.email, cuentas.password, cuentas.tipo, cuenta_empresa.nombre, cuenta_empresa.id FROM (cuentas INNER JOIN cuenta_empresa ON cuentas.email = cuenta_empresa.email) WHERE cuentas.email = ?', [decoded.id], (error, result) => {
             if(!result) {
               return next();
             }
-    
-            req.user = result[0];
-            return next();
-    
+            db.query('SELECT COUNT(idNotificacion) AS notificaciones FROM notificaciones WHERE usuario = ? AND visto = 0',[decoded.id], (error, notifications) => {
+              req.user = {
+                data: result[0],
+                notification: notifications[0].notificaciones
+              }
+              // console.log(req.user);
+              return next();
+            })
           })
         }
       })

@@ -12,8 +12,8 @@ const db = mysql.createConnection({
 
 router.get('/', authController.isLoggedIn, (req, res) => {
     if (req.user) {
-        const mail = req.user.email
-        db.query('SELECT nroPublicacion, precio, titulo, descripcion, producto, cuenta_empresa.nombre AS vendedor, COUNT(preguntas.idPregunta) AS cantPreguntas FROM (publicacion INNER JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email LEFT JOIN preguntas ON preguntas.publicacion = publicacion.nroPublicacion) WHERE vendedor = ? GROUP BY nroPublicacion', [mail], (error, publicacion) => {
+        const {email} = req.user.data;
+        db.query('SELECT nroPublicacion, precio, titulo, descripcion, producto, cuenta_empresa.nombre AS vendedor, COUNT(preguntas.idPregunta) AS cantPreguntas FROM (publicacion INNER JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email LEFT JOIN preguntas ON preguntas.publicacion = publicacion.nroPublicacion) WHERE vendedor = ? GROUP BY nroPublicacion', [email], (error, publicacion) => {
             res.render('publication/list', {
                 publicacion,
                 user: req.user,
@@ -38,7 +38,7 @@ router.post('/delete/:nroPublicacion', authController.isLoggedIn, async (req, re
 
 router.get('/edit/:id', authController.isLoggedIn, async (req, res) => {
     const {id} = req.params;
-    const {email} = req.user;
+    const {email} = req.user.data;
     await db.query('SELECT vendedor FROM publicacion WHERE nroPublicacion = ?',[id], (error, result) => {
         if (result.length>0){
             if (email === result[0].vendedor){

@@ -1,10 +1,10 @@
 {{>navigation}}
 <div class="container mt-5">
-  <form action="/profile/edit/{{user.id}}" method="POST" enctype="multipart/form-data">
+  <form action="/profile/edit/{{user.data.id}}" method="POST" enctype="multipart/form-data">
     <h3>Datos de cuenta</h3>
     <div class="mb-3">
       <label for="name" class="form-label1">Nombre</label>
-      <input type="text" class="form-control" id="name" name="nombre" value="{{user.nombre}}{{name}}">
+      <input type="text" class="form-control" id="name" name="nombre" value="{{user.data.nombre}}{{name}}">
     </div>
     <div class="mb-3">
       <label for="razon">Razón social</label>
@@ -65,7 +65,7 @@
     <div class="row justify-content-center">
       <div class="col-4 mb-4">
         {{#if data.fotoPerfil}}
-          <img src="data:imagen/png;base64, {{data.fotoPerfil}}" alt="Foto de perfil de {{user.nombre}}" class="img-fluid rounded-circle" style="z-index: 1;">
+          <img src="data:imagen/png;base64, {{data.fotoPerfil}}" alt="Foto de perfil de {{user.data.nombre}}" class="img-fluid rounded-circle" style="z-index: 1;">
         {{else}}
           <img src="/img/avatar.png" alt="Foto de perfil genérica" class="img-fluid rounded-circle" style="width: max-content; z-index: 1" id="imagen">
         {{/if}}
@@ -94,7 +94,7 @@
     <label for="change_password">Cambiar contraseña</label> --}}
     <div class="mb-3">
       <div>
-        <a class="btn btn-success" href="/profile/newEnlace/{{user.id}}">Nueva red</a>
+        <a class="btn btn-success" href="/profile/newEnlace/{{user.data.id}}">Nueva red</a>
       </div>
       <div class="d-grid gap-2">
         <br>

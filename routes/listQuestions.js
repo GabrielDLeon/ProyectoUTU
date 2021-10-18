@@ -12,7 +12,7 @@ const db = mysql.createConnection({
 
 router.get('/:filter', authController.isLoggedIn, async (req, res) => {
     if (req.user) {
-        const {email} = req.user;
+        const {email} = req.user.data;
         const {filter} = req.query;
         if (filter === 'noreply'){
             db.query('SELECT idPregunta, publicacion.nroPublicacion, publicacion.titulo, publicacion.vendedor, mensaje, fechaPregunta, respuesta, fechaRespuesta, cuenta_personal.nombre AS remitente FROM (preguntas INNER JOIN cuenta_personal ON preguntas.remitente = cuenta_personal.email INNER JOIN publicacion ON publicacion.nroPublicacion = preguntas.publicacion) WHERE vendedor = ? AND respuesta = ""', [email], (error, result) => {
@@ -38,7 +38,7 @@ router.get('/:filter', authController.isLoggedIn, async (req, res) => {
 
 router.get('/', authController.isLoggedIn, async (req, res) => {
     if (req.user) {
-        const {email} = req.user;
+        const {email} = req.user.data;
         
         // Solo comentarios con respuesta
         // SELECT idPregunta, publicacion.nroPublicacion, publicacion.titulo, publicacion.vendedor, mensaje, fechaPregunta, respuesta, fechaRespuesta, cuenta_personal.nombre AS remitente FROM (preguntas INNER JOIN cuenta_personal ON preguntas.remitente = cuenta_personal.email INNER JOIN publicacion ON publicacion.nroPublicacion = preguntas.publicacion) WHERE vendedor = ? AND respuesta != ''
@@ -48,7 +48,6 @@ router.get('/', authController.isLoggedIn, async (req, res) => {
 
 
         db.query('SELECT idPregunta, publicacion.nroPublicacion, publicacion.titulo, publicacion.vendedor, mensaje, fechaPregunta, respuesta, fechaRespuesta, cuenta_personal.nombre AS remitente FROM (preguntas INNER JOIN cuenta_personal ON preguntas.remitente = cuenta_personal.email INNER JOIN publicacion ON publicacion.nroPublicacion = preguntas.publicacion) WHERE vendedor = ?', [email], (error, result) => {
-            console.log(result)
             res.render('publication/listQuestions', {
                 result,
                 user: req.user,

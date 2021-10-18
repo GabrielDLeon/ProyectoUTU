@@ -1,6 +1,6 @@
 {{>navigation}}
 <div class="container">
-    {{#ifCond user.tipo '==' 'empresa'}}
+    {{#ifCond user.data.tipo '==' 'empresa'}}
         <div class="table-responsive table-lg mt-3">
             <table class="table table-bordered">
                 <thead>
@@ -15,20 +15,24 @@
                 <tbody>
                     {{#if notifications}}
                         {{#each notifications}}
-                        <tr>
-                            <td class="text-nowrap align-middle"><span>{{remitente}}</span></td>
-                            <td class="text-center align-middle"><span>{{timeago fechaPregunta}}</span></td>
-                            <td class="text-center align-middle"><span>{{mensaje}}</span></td>
-                            <td class="text-center align-middle"><span>{{idPublicacion}}</span></td>
-                            <td class="text-center align-middle">
-                                <div class="btn-group align-top">
-                                    <form action="/notification/delete/{{idPublicacion}}" method="POST">
-                                        <button class="btn btn-danger">Eliminar notificación</button>
-                                    </form>
-                                    <a href="/publication/{{idPublicacion}}" class="btn btn-secondary link-unstyled">Ver</a>
-                                </div>
-                            </td>
-                        </tr>
+                            {{#ifCond visto '==' 0}}
+                            <tr style="background-color: aliceblue;">
+                            {{else}}
+                            <tr>
+                            {{/ifCond}}
+                                <td class="text-nowrap align-middle"><span>{{remitente}}</span></td>
+                                <td class="text-center align-middle"><span>{{timeago fechaPregunta}}</span></td>
+                                <td class="text-center align-middle"><span>{{mensaje}}</span></td>
+                                <td class="text-center align-middle"><span>{{idPublicacion}}</span></td>
+                                <td class="text-center align-middle">
+                                    <div class="btn-group align-top">
+                                        <form action="/notifications/delete/{{idNotificacion}}" method="POST">
+                                            <button class="btn btn-danger">Eliminar notificación</button>
+                                        </form>
+                                        <a href="/publication/{{idPublicacion}}" class="btn btn-secondary link-unstyled">Ver</a>
+                                    </div>
+                                </td>
+                            </tr>
                         {{/each}}
                     {{/if}}
                 </tbody>

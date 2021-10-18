@@ -63,7 +63,7 @@
                             </div>
                         {{/if}}
                         {{#if user}}
-                            {{#ifCond user.tipo '==' 'usuario'}}
+                            {{#ifCond user.data.tipo '==' 'usuario'}}
                                 <div>
                                     <form action="/publication/addFavorite/{{publication.nroPublicacion}}" method="POST">
                                         {{#if favorite}}
@@ -140,7 +140,7 @@
                 <h3 class="fw-bold">Preguntas y respuestas</h3>
                 <div class="mb-3">
                     {{#if user}}
-                        {{#ifCond user.tipo '==' 'usuario'}}
+                        {{#ifCond user.data.tipo '==' 'usuario'}}
                             <form action="/publication/question/{{publication.nroPublicacion}}" method="POST">
                                 <div class="row">
                                     <label for="question">Preguntale a la tienda</label>
@@ -213,7 +213,7 @@
                                         </div>
                                     {{/if}}
                                     {{#unless respuesta}}
-                                        {{#ifCond ../user.email '==' ../publication.vendedorEmail}}
+                                        {{#ifCond ../user.data.email '==' ../publication.vendedorEmail}}
                                             {{!-- <button id="btnAnswer" class="btn btn-outline-dark">Responder pregunta</button> --}}
                                             <div id="textAnswer" class="mb-3">
                                                 <form action="/publication/answer/{{idPregunta}}" method="POST">

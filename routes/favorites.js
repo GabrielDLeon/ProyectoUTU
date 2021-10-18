@@ -11,7 +11,7 @@ const db = mysql.createConnection({
 });
 
 router.get('/', authController.isLoggedIn, async (req, res) => {
-    const {email} = req.user;
+    const {email} = req.user.data;
     await db.query('SELECT nroPublicacion, titulo, descripcion, precio, cuenta_empresa.nombre AS vendedor FROM (favoritos INNER JOIN publicacion ON favoritos.publicacion = publicacion.nroPublicacion INNER JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email) WHERE usuario = ?', [email], (error, result) => {
         res.render('publication/favorites', {
             result,
@@ -23,7 +23,7 @@ router.get('/', authController.isLoggedIn, async (req, res) => {
 
 router.post('/delete/:id', authController.isLoggedIn, async (req, res) => {
     const {id} = req.params;
-    const {email} = req.user;
+    const {email} = req.user.data;
     await db.query('SELECT usuario, publicacion FROM (favoritos INNER JOIN cuenta_personal ON favoritos.usuario = cuenta_personal.email) WHERE publicacion = ? AND usuario = ?',[id, email], async (error, result) => {
         if (result.length>0){
             await db.query('DELETE FROM favoritos WHERE publicacion = ? AND usuario = ?', [id, email], (error) => {
