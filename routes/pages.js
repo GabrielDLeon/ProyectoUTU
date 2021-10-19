@@ -36,8 +36,6 @@ router.post('/search', authController.isLoggedIn, async (req, res) => {
       })
     } else {
       return res.render('search', {
-        recommendations,
-        data: result[0],
         message: 'No hay coincidencias con la busqueda',
         user: req.user,
         title: "Búsqueda"

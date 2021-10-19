@@ -10,9 +10,6 @@ var _ = require('lodash');
 // Load the core build.
 var _ = require('lodash/core');
 
-var at = require('lodash/at');
-var curryN = require('lodash/fp/curryN');
-
 const upload = multer({storage:multer.memoryStorage()});
 
 const db = mysql.createConnection({
@@ -142,9 +139,61 @@ router.get('/:nombre', authController.isLoggedIn, async (req, res) => {
   });
 });
 
+router.get('/edit/pass/:id', authController.isLoggedIn, async (req, res) => {
+    const email = req.user.data.email
+    if (req.user.data.tipo == 'empresa') {
+    const {email} = req.user.data;
+    const {id} = req.params;
+     db.query('SELECT cuentas.email, cuentas.password, cuenta_empresa.id FROM cuentas INNER JOIN cuenta_empresa ON cuentas.email = cuenta_empresa.email WHERE cuentas.email = ?',[email], async (error, result) => {
+      if (result[0].id == id) {
+        res.render('profile/editAccount', {
+          data: result[0],
+          user: req.user.data,
+          title: "Cambiar contraseña"
+        })
+      } else {
+        res.redirect('/')
+      }
+    })
+  }
+})
+
+router.post('/edit/pass/:id',authController.isLoggedIn, async (req, res)=>{
+  const {email} = req.user.data;
+  await db.query('SELECT cuentas.email, cuentas.password, cuenta_empresa.id FROM cuentas INNER JOIN cuenta_empresa ON cuentas.email = cuenta_empresa.email WHERE cuentas.email = ?',[email], async (error, result) => {
+    const email = result[0].email;
+    const {pass , newPass, newPassConfirm} = req.body;
+            if( result.length == 0 || !(await bcrypt.compare(pass, result[0].password))) {
+                return res.status(401).render('profile/editAccount', {
+                  nombre: req.body.name,
+                  data: result[0],
+                  user: req.user,
+                  message: 'Contraseña incorrecta',
+                  title: 'Cambiar contraseña'
+                })
+              }
+              if(newPass !== newPassConfirm ) {
+                return res.render('profile/editAccount', {
+                  data: result[0],
+                  message: 'Las contraseñas no coinciden',
+                  user: req.user,
+                  title: 'Cambiar contraseña'
+                })
+              }
+             else if (!newPassConfirm || !newPass || !pass) {
+                return res.render('profile/editAccount', {
+                  user: req.user,
+                  message: "Complete todos los campos"
+                })
+              } 
+                let hashedPassword = await bcrypt.hash(newPass, 8);
+                db.query('UPDATE cuentas set ? WHERE email = ?',[{password: hashedPassword} , email]);
+                res.redirect(req.originalUrl);
+          })
+})
+
 router.get('/edit/:id', authController.isLoggedIn, async (req, res) => {
     const email = req.user.data.email
-    console.log(email)
     if (req.user.data.tipo == 'usuario') {
     await db.query('SELECT cuentas.email , cuentas.password, cuentas.tipo, cuenta_personal.nombre, cuenta_personal.id FROM (cuentas INNER JOIN cuenta_personal ON cuentas.email = cuenta_personal.email) WHERE cuentas.email = ?', [email], (error, result2) => {
     if(!result2) {
@@ -165,7 +214,7 @@ router.get('/edit/:id', authController.isLoggedIn, async (req, res) => {
     })
   })
   } if (req.user.data.tipo == 'empresa') {
-    await db.query('SELECT cuentas.email , cuentas.password , cuentas.tipo, cuenta_empresa.nombre, cuenta_empresa.id FROM (cuentas INNER JOIN cuenta_empresa ON cuentas.email = cuenta_empresa.email INNER JOIN perfil ON perfil.email = cuenta_empresa.email) WHERE cuentas.email = ?', [decoded.id], (error, result2) => {
+    await db.query('SELECT cuentas.email , cuentas.password , cuentas.tipo, cuenta_empresa.nombre, cuenta_empresa.id FROM (cuentas INNER JOIN cuenta_empresa ON cuentas.email = cuenta_empresa.email INNER JOIN perfil ON perfil.email = cuenta_empresa.email) WHERE cuentas.email = ?', [email], (error, result2) => {
       if(!result2) {
         console.log(error)
       }
@@ -188,7 +237,6 @@ router.get('/edit/:id', authController.isLoggedIn, async (req, res) => {
 })
 
 router.post('/edit/:id', upload.single("imagen"), authController.isLoggedIn, async (req, res) => {
-  
   const {email} = req.user.data;
   if (req.user.data.tipo == 'usuario') {
   await db.query('SELECT cuentas.email, cuentas.password, cuenta_personal.nombre, cuenta_personal.id FROM cuentas INNER JOIN cuenta_personal ON cuentas.email = cuenta_personal.email WHERE cuenta_personal.email = ?',[email], async (error, result) => {
@@ -230,25 +278,7 @@ router.post('/edit/:id', upload.single("imagen"), authController.isLoggedIn, asy
             await db.query('SELECT cuentas.email , cuentas.password, perfil.fotoPerfil, cuentas.tipo, cuenta_empresa.nombre, cuenta_empresa.id, razonSocial, descripcion, direccion, telefono FROM (cuentas INNER JOIN cuenta_empresa ON cuentas.email = cuenta_empresa.email INNER JOIN perfil ON perfil.email = cuenta_empresa.email) WHERE cuentas.email = ?',[email], async (error, result) => {
               const {id} = req.params;
               const email = result[0].email;
-              const {nombre, pass , newPass, newPassConfirm, descripcion, direccion, telefono, razon} = req.body;
-                      if( result.length == 0 || !(await bcrypt.compare(pass, result[0].password))) {
-                          return res.status(401).render('profile/editEmpresa', {
-                            nombre: req.body.name,
-                            data: result[0],
-                            user: req.user,
-                            message: 'Contraseña incorrecta',
-                            title: 'Editar perfil'
-                          })
-                        }
-                        if( newPass !== newPassConfirm ) {
-                          return res.render('profile/editEmpresa', {
-                            name: req.body.name,
-                            data: result[0],
-                            message: 'Las contraseñas no coinciden',
-                            user: req.user,
-                            title: 'Editar perfil'
-                          })
-                        }
+              const {nombre, descripcion, direccion, telefono, razon} = req.body;
                        /* else if (!nombre || !newPassConfirm || !newPass || !pass || !descripcion || !direccion) {
                           return res.render('profile/editEmpresa', {
                             data: result[0],
@@ -261,19 +291,18 @@ router.post('/edit/:id', upload.single("imagen"), authController.isLoggedIn, asy
                             message: "Complete todos los campos"
                           })
                         } */
-                          let hashedPassword = await bcrypt.hash(newPass, 8);
-                          if (req.file) {
+                          if (req.file) { 
                           imagen = req.file.buffer.toString('base64');
-                          db.query('UPDATE perfil set ? WHERE email = ?',[{descripcion:descripcion , direccion:direccion , telefono:telefono, fotoPerfil:imagen}, email]);
+                          db.query('UPDATE perfil set ? WHERE email = ?',[{fotoPerfil:imagen}, email]);
                         }
+                          db.query('UPDATE perfil set ? WHERE email = ?',[{descripcion:descripcion , direccion:direccion , telefono:telefono}, email]);
                           db.query('UPDATE cuenta_empresa set ? WHERE id = ?',[{nombre:nombre, razonSocial:razon}, id]);
-                          db.query('UPDATE cuentas set ? WHERE email = ?',[{password: hashedPassword} , email]);
                           res.redirect(req.originalUrl);
                     })
             }
           });
 
-router.get('/delete/:mail' , authController.deleteUser, async (req, res) => {
+router.get('/delete/:mail' , authController.deleteAccount, async (req, res) => {
     res.redirect('/login')
   })
 

@@ -1,10 +1,10 @@
 {{>navigation}}
 <div class="container mt-5">
-  <form action="/profile/edit/{{user.data.id}}" method="POST" enctype="multipart/form-data">
-    <h3>Datos de cuenta</h3>
+  <form action="/profile/edit/{{data.id}}" method="POST" enctype="multipart/form-data">
+  <h3>Datos de cuenta</h3>
     <div class="mb-3">
       <label for="name" class="form-label1">Nombre</label>
-      <input type="text" class="form-control" id="name" name="nombre" value="{{user.data.nombre}}{{name}}">
+      <input type="text" class="form-control" id="name" name="nombre" value="{{data.nombre}}">
     </div>
     <div class="mb-3">
       <label for="razon">Razón social</label>
@@ -35,37 +35,16 @@
         <option value="Sociedad Comanditaria Simple">Sociedad Comanditaria Simple</option>
         {{/ifCond}}
       </select>
+      <br>
+      <p>¿Deseas cambiar la contraseña?<a href="/profile/edit/pass/{{data.id}}">Click aquí</a></p>
     </div>
-    <div class="mb-3">
-      <input type="checkbox" name="cambiar-contraseña" id="cambiar-contraseña">
-      <label for="cambiar-contraseña">Cambiar contraseña</label>
-    </div>
-    <article name="contraseña" id="contraseña">
-      <div class="mb-3">
-        <label for="pass2" class="form-label">Contraseña actual</label>
-        <input type="password" class="form-control" id="pass" name="pass" value="{{pass}}">
-        <div class="col-auto">
-        </div>
-      </div>
-      <div class="mb-3">
-        <label for="pass2" class="form-label">Nueva contraseña</label>
-        <input type="password" class="form-control" id="pass" name="newPass" value="{{newPass}}">
-        <div class="col-auto">
-        </div>
-        <br>
-        <div class="mb-3">
-          <label for="pass2" class="form-label">Confirmación de la nueva contraseña</label>
-          <input type="password" class="form-control" id="pass" name="newPassConfirm" value="{{newPassConfirm}}">
-          <div class="col-auto">
-          </div>
-    </article>
     <div class="mb-3">
       <h3>Datos de perfil</h3>
     </div>
     <div class="row justify-content-center">
       <div class="col-4 mb-4">
         {{#if data.fotoPerfil}}
-          <img src="data:imagen/png;base64, {{data.fotoPerfil}}" alt="Foto de perfil de {{user.data.nombre}}" class="img-fluid rounded-circle" style="z-index: 1;">
+          <img src="data:imagen/png;base64, {{data.fotoPerfil}}" alt="Foto de perfil de {{data.nombre}}" class="img-fluid rounded-circle" style="z-index: 1;">
         {{else}}
           <img src="/img/avatar.png" alt="Foto de perfil genérica" class="img-fluid rounded-circle" style="width: max-content; z-index: 1" id="imagen">
         {{/if}}
@@ -94,7 +73,7 @@
     <label for="change_password">Cambiar contraseña</label> --}}
     <div class="mb-3">
       <div>
-        <a class="btn btn-success" href="/profile/newEnlace/{{user.data.id}}">Nueva red</a>
+        <a class="btn btn-success" href="/profile/newEnlace/{{data.id}}">Nueva red</a>
       </div>
       <div class="d-grid gap-2">
         <br>

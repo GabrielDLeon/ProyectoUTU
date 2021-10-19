@@ -36,7 +36,7 @@
                                         {{#if profile.direccion}}
                                             {{profile.direccion}}
                                         {{else}}
-                                            <p>No se ha proporcionado dirección</p>
+                                            <p></p>
                                         {{/if}}
                                     </span>
                                 </div>
@@ -49,12 +49,12 @@
                                     <p class="m-0"><strong>Teléfono</strong></p>
                                     <span class="text-muted">
                                         {{#if profile.telefono}}
-                                            {{profile.telefono}}
+                                        <p class="text-muted">{{profile.telefono}}</p>
                                         {{else}}
-                                            <p>No se ha proporcionado teléfono</p>
+                                            <p></p>
                                         {{/if}}
                                     </span>
-                                    <p class="text-muted"></p>
+                                    
                                 </div>
                             </div>
                         </div>

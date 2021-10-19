@@ -10,8 +10,7 @@ const db = mysql.createConnection({
   database: process.env.DATABASE,
 });
 
-exports.deleteUser = async (req, res, next) => {
-
+exports.deleteAccount = async (req, res, next) => {
   if(req.cookies.jwt) {
     try {
       //1) verify the token
@@ -31,106 +30,11 @@ exports.deleteUser = async (req, res, next) => {
       console.log(error);
       return next();
     }
-  } if (req.cookies.jwt) {
-    try {
-        const { mail } = req.params
-        db.query('DELETE FROM cuentas WHERE email = ?',[mail]);
-    } catch (error) {
-    }
-  }
+    const { mail } = req.params
+    db.query('DELETE FROM cuentas WHERE email = ?',[mail]);
+  } 
 }
 
-exports.editUser = async (req, res, next) => {
-  const { nombre , mail2 , pass2 } = req.body;
-  if(req.cookies.jwt) {
-    try {
-      //1) verify the token
-      const decoded = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRET);
-
-      console.log(decoded);
-      //2) Check if the user still exists
-      db.query('SELECT cuentas.email, cuentas.password, cuenta_personal.nombre FROM cuentas INNER JOIN cuenta_personal ON cuentas.email = cuenta_personal.email WHERE email = ?', [decoded.id], (error, result) => {
-        if(!result) {
-          return next();
-        }
-        req.user = result[0];
-        return next();
-      
-      });
-    } catch (error) {
-      console.log(error);
-      return next();
-    }
-  } if (req.cookies.jwt) {
-    try {
-      const { mail } = req.params
-      const newData = { 
-        nombre,
-        mail,
-      }
-      let hashedPassword = await bcrypt.hash(pass2, 8);  
-      db.query('SELECT cuentas.email, cuentas.password, cuenta_personal.nombre FROM cuentas INNER JOIN cuenta_personal ON cuentas.email = cuenta_personal.email WHERE email = ?', [mail], async (error, results) => {
-        if( results.length == 0) {
-          res.status(401).render('/profile/edit/:mail', {
-            mail: req.body.mail,
-            message: 'Contraseña incorrecta'
-          })
-        } else {
-          db.query('UPDATE cuentas set ? WHERE email = ?',[{email: mail2, password: hashedPassword} , mail]);
-          db.query('UPDATE cuenta_personal set ? WHERE email = ?',[{name:nombre} , mail]);
-        }
-      });
-      
-    } catch (error) {
-    }
-  }
-}
-
-exports.editCompany = async (req, res, next) => {
-  const { nombre , mail2 , pass2, razon } = req.body;
-  if(req.cookies.jwt) {
-    try {
-      //1) verify the token
-      const decoded = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRET);
-
-      console.log(decoded);
-      //2) Check if the user still exists
-      db.query('SELECT cuentas.email, cuentas.password, cuenta_empresa.nombre, cuenta_empresa.razonSocial FROM cuentas INNER JOIN cuenta_empresa ON cuentas.email = cuenta_empresa.email WHERE email = ?', [decoded.id], (error, result) => {
-        if(!result) {
-          return next();
-        }
-        req.user = result[0];
-        return next();
-      
-      });
-    } catch (error) {
-      console.log(error);
-      return next();
-    }
-  } if (req.cookies.jwt) {
-    try {
-      const { mail } = req.params
-      const newData = { 
-        nombre,
-      }
-      let hashedPassword = await bcrypt.hash(pass2, 8);
-      
-      db.query('SELECT cuentas.email, cuentas.password, cuenta_empresa.nombre, cuenta_empresa.razonSocial FROM cuentas INNER JOIN cuenta_empresa ON cuentas.email = cuenta_empresa.email WHERE email = ?', [mail], async (error, results) => {
-        if( results.length == 0) {
-          res.status(401).render('/profile/edit/:mail', {
-            mail: req.body.mail,
-            message: 'Contraseña incorrecta'
-          })
-        } else {
-          db.query('UPDATE cuentas set ? WHERE email = ?',[{email: mail2, password: hashedPassword} , mail]);
-          db.query('UPDATE cuenta_empresa set ? WHERE email = ?',[{nombre:nombre, razonSocial:razon} , mail]);
-        }
-      });
-      
-    } catch (error) {
-    }
-  }
-}
 
 exports.login = async (req, res) => { 
   try {
@@ -357,7 +261,6 @@ exports.isLoggedIn = async (req, res, next) => {
       //1) verify the token
 
       const decoded = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRET);
-      console.log(decoded);
 
       db.query('SELECT * from cuentas WHERE cuentas.email = ?', [decoded.id], (error, result) => {
         const tipo = (result[0].tipo);
@@ -398,16 +301,6 @@ exports.isLoggedIn = async (req, res, next) => {
     }
   } else {
     return next();
-  }
-}
-
-exports.verTienda = async (req, res, next) => {
-  try {
-    db.query('SELECT nombre FROM cuenta_empresa', (error, result) => {
-      req.tienda = result[0];
-    })
-  } catch (error) {
-    console.log(error);
   }
 }
 

@@ -1,0 +1,30 @@
+{{>navigation}}
+<div class="container mt-5">
+    <h4>Cambio de contraseña</h4>
+    <form action="/profile/edit/pass/{{data.id}}" method="post">
+      <div class="mb-3">
+        <label for="pass2" class="form-label">Contraseña actual</label>
+        <input type="password" class="form-control" id="pass" name="pass" value="{{pass}}">
+        <div class="col-auto">
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="pass2" class="form-label">Nueva contraseña</label>
+        <input type="password" class="form-control" id="pass" name="newPass" value="{{newPass}}">
+        <div class="col-auto">
+        </div>
+        <br>
+        <div class="mb-3">
+          <label for="pass2" class="form-label">Confirmación de la nueva contraseña</label>
+          <input type="password" class="form-control" id="pass" name="newPassConfirm" value="{{newPassConfirm}}">
+          <div class="col-auto">
+          </div>
+          <div class="d-grid gap-2">
+        <br>
+            <button type="submit" class="text-uppercase btn btn-dark" name="guardar" id="guardar">Editar datos</button>
+      </div>
+      {{#if message }}
+        <p class="text-danger text-center mt-1">{{message}}</p>
+      {{/if}}
+      </form>
+</div>    

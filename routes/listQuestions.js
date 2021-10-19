@@ -14,6 +14,7 @@ router.get('/:filter', authController.isLoggedIn, async (req, res) => {
     if (req.user) {
         const {email} = req.user.data;
         const {filter} = req.query;
+        console.log(filter)
         if (filter === 'noreply'){
             db.query('SELECT idPregunta, publicacion.nroPublicacion, publicacion.titulo, publicacion.vendedor, mensaje, fechaPregunta, respuesta, fechaRespuesta, cuenta_personal.nombre AS remitente FROM (preguntas INNER JOIN cuenta_personal ON preguntas.remitente = cuenta_personal.email INNER JOIN publicacion ON publicacion.nroPublicacion = preguntas.publicacion) WHERE vendedor = ? AND respuesta = ""', [email], (error, result) => {
                 res.render('publication/listQuestions', {
