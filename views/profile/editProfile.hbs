@@ -1,9 +1,9 @@
 {{>navigation}}
 <div class="container mt-5">
-<form action="/profile/edit/{{user.data.id}}" method="POST"> 
+<form action="/profile/edit/{{user.id}}" method="POST"> 
         <div class="mb-3"> 
           <label for="name" class="form-label1">Nombre</label>
-          <input type="User" class="form-control" id="name" name="nombre" value="{{user.data.nombre}}{{name}}">
+          <input type="User" class="form-control" id="name" name="nombre" value="{{user.nombre}}">
         </div>
           <div class="mb-3"> 
          <label for="pass2" class="form-label">Contraseña actual</label> 
