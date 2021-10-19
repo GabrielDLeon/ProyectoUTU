@@ -11,12 +11,15 @@
                         {{/if}}
                     </div>
                 </a>
-                <div class="position-absolute p-1 mb-2 text-capitalize">
-                    <span class="badge rounded-pill bg-dark">{{categoria}}</span>
-                    <span class="badge rounded-pill bg-dark">{{genero}}</span>
-                    <span class="badge rounded-pill bg-dark">{{material}}</span>
-                    <span class="badge rounded-pill bg-dark">{{marca}}</span>
-                </div>
+                {{#if descuento}}
+                    <div class="position-absolute p-1 ms-1 mb-2 text-capitalize">
+                        <span class="badge rounded-pill bg-danger">SALE</span>
+                        {{!-- <span class="badge rounded-pill bg-dark">{{categoria}}</span> --}}
+                        {{!-- <span class="badge rounded-pill bg-dark">{{genero}}</span> --}}
+                        {{!-- <span class="badge rounded-pill bg-dark">{{material}}</span> --}}
+                        {{!-- <span class="badge rounded-pill bg-dark">{{marca}}</span> --}}
+                    </div>
+                {{/if}}
                 <div class="container my-2 text-center">
                     <h5 class="card-title mb-1">{{titulo}}</h5>
                     <h6><a href="/profile/{{vendedor}}" class="text-muted link-unstyled">{{vendedor}}</a></h6>

@@ -10,9 +10,8 @@ const db = mysql.createConnection({
 });
 
 router.get('/', authController.isLoggedIn, async (req, res) => {
-  if (req.user) {
     db.query('SELECT direccion, descripcion, telefono, nombre FROM perfil', (error, result) => {
-      db.query('SELECT DISTINCT nroPublicacion, precio, titulo, descripcion, producto, fotos.imagen , cuenta_empresa.nombre AS vendedor FROM (publicacion LEFT JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email LEFT JOIN fotos ON fotos.publicacion = publicacion.nroPublicacion) GROUP BY nroPublicacion', (error, recommendations) => {
+      db.query('SELECT nroPublicacion, precio, precio-precio*descuento.porcentaje/100 AS descuento, titulo, descripcion, producto, fotos.imagen, cuenta_empresa.nombre AS vendedor FROM (publicacion LEFT JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email LEFT JOIN fotos ON fotos.publicacion = publicacion.nroPublicacion LEFT JOIN descuento ON descuento.publication = publicacion.nroPublicacion) GROUP BY nroPublicacion', (error, recommendations) => {
         res.render('index', {
           recommendations,
           data: result[0],
@@ -21,24 +20,12 @@ router.get('/', authController.isLoggedIn, async (req, res) => {
         })
       });
     });
-  } else {
-    db.query('SELECT direccion, descripcion, telefono, nombre FROM perfil', (error, result) => {
-      db.query('SELECT DISTINCT nroPublicacion, precio, titulo, descripcion, producto, fotos.imagen , cuenta_empresa.nombre AS vendedor FROM (publicacion LEFT JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email LEFT JOIN fotos ON fotos.publicacion = publicacion.nroPublicacion) GROUP BY nroPublicacion', (error, recommendations) => {
-        res.render('index', {
-          recommendations,
-          data: result[0],
-          user: req.user,
-          title: "Klouts",
-        })
-      });
-    });
-  }
 });
 
 router.post('/search', authController.isLoggedIn, async (req, res) => {
-  const { palabra } = req.body
+  const { palabra } = req.body;
   db.query('SELECT direccion, descripcion, telefono, nombre FROM perfil', (error, result) => {
-   db.query('SELECT nroPublicacion, precio, titulo, descripcion, producto, fotos.imagen , cuenta_empresa.nombre AS vendedor, categoria, genero, material, marca FROM (publicacion LEFT JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email LEFT JOIN fotos ON fotos.publicacion = publicacion.nroPublicacion INNER JOIN producto ON publicacion.nroPublicacion = producto.idProducto) WHERE titulo LIKE "%"?"%" OR categoria LIKE "%"?"%" OR genero LIKE "%"?"%" OR material LIKE "%"?"%" OR marca LIKE "%"?"%" OR cuenta_empresa.nombre LIKE "%"?"%" GROUP BY nroPublicacion' , [palabra,palabra,palabra,palabra,palabra,palabra] , (error, recommendations) => {
+   db.query('SELECT nroPublicacion, precio, titulo, descripcion, producto, fotos.imagen, cuenta_empresa.nombre AS vendedor, categoria, genero, material, marca FROM (publicacion LEFT JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email LEFT JOIN fotos ON fotos.publicacion = publicacion.nroPublicacion INNER JOIN producto ON publicacion.nroPublicacion = producto.idProducto) WHERE titulo LIKE "%"?"%" OR categoria LIKE "%"?"%" OR genero LIKE "%"?"%" OR material LIKE "%"?"%" OR marca LIKE "%"?"%" OR cuenta_empresa.nombre LIKE "%"?"%" GROUP BY nroPublicacion' , [palabra,palabra,palabra,palabra,palabra,palabra] , (error, recommendations) => {
     if (recommendations.length > 0) {
       return res.render('search', {
         recommendations,
