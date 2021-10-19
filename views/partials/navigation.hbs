@@ -47,16 +47,11 @@
                                 </i>
                             </a>
                         </li>
-                        {{#ifCond data.tipo '==' 'empresa'}}
-                            <li class="nav-item"><a class="nav-link" href="/list">Mis publicaciones</a></li>
-                            <li class="nav-item"><a class="nav-link" href="/list/questions">Preguntas</a></li>
-                            <li class="nav-item"><a class="nav-link" href="/create?newPublication=true">Hacer publicacion</a></li>
-                        {{/ifCond}}
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><span class="me-1">{{data.nombre}}</span></a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 {{#ifCond data.tipo '==' 'usuario'}}
-                                    <li class="nav-item"><a class="dropdown-item" href="/favorites"><i class="fas fa-star"></i> Favoritos</a></li>
+                                    <li class="nav-item"><a class="dropdown-item" href="/favorites"><i class="fas fa-heart"></i> Favoritos</a></li>
                                 {{/ifCond}}
                                 {{#ifCond data.tipo '==' 'empresa'}}
                                     <li class="nav-item"><a class="dropdown-item" href="/profile"><i class="fas fa-user"></i> Perfil</a></li>
@@ -65,6 +60,11 @@
                                 <li class="nav-item"><a class="dropdown-item" href="/logout"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a></li>
                             </ul>
                         </li>
+                        {{#ifCond data.tipo '==' 'empresa'}}
+                            <li class="nav-item"><a class="nav-link" href="/list">Mis publicaciones</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/list/questions">Preguntas</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/create?newPublication=true">Hacer publicacion</a></li>
+                        {{/ifCond}}
                     {{/with}}
                 {{else}}
                     <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>

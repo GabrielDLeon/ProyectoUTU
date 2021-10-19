@@ -67,9 +67,9 @@
                                 <div>
                                     <form action="/publication/addFavorite/{{publication.nroPublicacion}}" method="POST">
                                         {{#if favorite}}
-                                            <button title="Agregar a favoritos" class="btn btn-default position-absolute top-0 end-0 p-5"><i class="fas fa-heart" style="font-size: xx-large;"></i></button>
+                                            <button title="Eliminar de favoritos" class="btn btn-default position-absolute top-0 end-0 p-5"><i class="fas fa-heart" style="font-size: xx-large;"></i></button>
                                         {{else}}
-                                            <button title="Eliminar de favoritos" class="btn btn-default position-absolute top-0 end-0 p-5"><i class="far fa-heart" style="font-size: xx-large;"></i></button>
+                                            <button title="Agregar a favoritos" class="btn btn-default position-absolute top-0 end-0 p-5"><i class="far fa-heart" style="font-size: xx-large;"></i></button>
                                         {{/if}}
                                     </form>
                                 </div>
@@ -253,7 +253,7 @@
                     <div class="card mb-3 col-md-10 col-sm-9">
                         <div class="row my-3 justify-content-center">
                             <div class="col-sm-12 col-md-3 jumbotron d-flex align-items-center justify-content-center">
-                                {{#if profile.fotoPerfil}}
+                                {{#if perfil.fotoPerfil}}
                                     <img src="data:imagen/png;base64, {{perfil.fotoPerfil}}" alt="Generic placeholder image" class="img-fluid rounded-circle img-thumbnail" style="width: 75%; z-index: 1">
                                 {{else}}
                                     <img src="/img/avatar.png" alt="Generic placeholder image" class="img-fluid rounded-circle" style="width: max-content; z-index: 1" id="imagen">

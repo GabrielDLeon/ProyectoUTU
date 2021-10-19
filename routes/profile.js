@@ -27,9 +27,9 @@ router.get('/', authController.isLoggedIn, async (req, res) => {
         const {email} = req.user.data;
         db.query('SELECT tipo, URL, propietario, nombre FROM enlaces INNER JOIN perfil ON enlaces.propietario = perfil.email WHERE propietario = ?', [email], async (error, redes) => {
           db.query('SELECT direccion, descripcion, telefono, fotoPerfil, nombre FROM perfil WHERE nombre = ?', [nombre], (error, result1) => {
-            db.query('SELECT nroPublicacion, precio, titulo, descripcion, producto, cuenta_empresa.nombre AS vendedor, descuento.porcentaje FROM (publicacion INNER JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email LEFT JOIN descuento ON descuento.publication = publicacion.nroPublicacion) WHERE cuenta_empresa.nombre = ?', [nombre], (error, publicacion) => {
+            db.query('SELECT nroPublicacion, precio, titulo, descripcion, producto, cuenta_empresa.nombre AS vendedor, descuento.porcentaje, fotos.imagen FROM (publicacion INNER JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email LEFT JOIN descuento ON descuento.publication = publicacion.nroPublicacion INNER JOIN fotos ON fotos.publicacion = publicacion.nroPublicacion) WHERE cuenta_empresa.email = ?', [email], (error, recommendations) => {
               res.render('profile/profile', {
-                publicacion,
+                recommendations,
                 profile: result1[0],
                 data: result[0],
                 user: req.user,
