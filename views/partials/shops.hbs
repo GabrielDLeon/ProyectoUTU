@@ -1,0 +1,23 @@
+{{#if shops}}
+    {{#each shops}}
+        <div class="col position-relative my-3">
+            <div class="card">
+                <div class="card-head p-1 d-flex justify-content-center">
+                    <img src="data:imagen/png;base64, {{fotoPerfil}}" src="./img/avatar.png" alt="" width="50%">
+                </div>
+                <div class="card-body">
+                    <div class="text-center mb-3">
+                        <h3 class="card-title f-space-3 mb-0">{{nombre}}</h3>
+                        <span class="badge rounded-pill bg-dark">Tienda oficial</span>
+                    </div>
+                    <div class="d-flex">
+                        <a href="/profile" class="link-unstyled ms-auto">{{vendedor}}</a>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <a class="btn btn-outline-dark" href="/profile/{{nombre}}">Ver perfil</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{/each}}
+{{/if}}

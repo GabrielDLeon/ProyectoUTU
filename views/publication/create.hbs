@@ -56,7 +56,11 @@
             <button type="submit" class="btn btn-success btn-lg"><i class="fas fa-check"></i> Publicar</button>
             <button type="reset" class="btn btn-danger btn-lg"><i class="fas fa-trash"></i> Descartar</button>
         </div>
-        {{#if message }}
+        {{#if success}}
+        <p class="text-success text-center mt-1">{{success}}</p>
+        <p><a href="/publication/{{id}}">Click aquí</a> para verla </p>
+        {{/if}}
+        {{#if message}}
            <p class="text-danger text-center mt-1">{{message}}</p>
         {{/if}}
           </div>

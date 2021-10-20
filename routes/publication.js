@@ -42,7 +42,7 @@ router.get('/:id', authController.isLoggedIn, async (req, res) => {
                                         }
                                     }
                                     const vendedor = result[0].vendedorEmail;
-                                    await db.query('SELECT idPregunta, mensaje, fechaPregunta, fechaRespuesta, cuenta_empresa.nombre AS vendedor, cuenta_personal.nombre AS remitente, respuesta, cuentas.tipo FROM (publicacion INNER JOIN preguntas ON publicacion.nroPublicacion = preguntas.publicacion INNER JOIN cuenta_personal ON cuenta_personal.email = preguntas.remitente INNER JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email INNER JOIN cuentas ON cuentas.email = cuenta_empresa.email) WHERE nroPublicacion = ? ORDER BY fechaPregunta DESC', [id], async (error, questions) => {
+                                    await db.query('SELECT idPregunta, mensaje, fechaPregunta, fechaRespuesta, cuenta_empresa.nombre AS vendedor, cuenta_personal.nombre AS remitente, respuesta, cuentas.tipo FROM (publicacion INNER JOIN preguntas ON publicacion.nroPublicacion = preguntas.publicacion INNER JOIN cuenta_personal ON cuenta_personal.email = preguntas.remitente INNER JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email INNER JOIN cuentas ON cuentas.email = cuenta_empresa.email) WHERE nroPublicacion = ? ORDER BY fechaPregunta DESC LIMIT 5', [id], async (error, questions) => {
                                         await db.query('SELECT nroPublicacion, precio, precio-precio*descuento.porcentaje/100 AS descuento, imagen FROM (publicacion LEFT JOIN fotos ON publicacion.nroPublicacion = fotos.publicacion LEFT JOIN descuento ON descuento.publication = publicacion.nroPublicacion) WHERE vendedor = ? AND nroPublicacion != ? GROUP BY nroPublicacion LIMIT 3', [vendedor, id], async (error, recommendations) => {
                                             await db.query('SELECT * from perfil WHERE email = ?', [vendedor], (error, perfil) => {
                                                 res.render('publication/page', {
@@ -95,7 +95,6 @@ router.post('/question/:id', authController.isLoggedIn, async (req, res) => {
             // Envía la notificación
             await db.query('SELECT vendedor FROM publicacion WHERE nroPublicacion = ?', [id], (error, result) => {
                 const idPregunta = insert.insertId;
-                console.log(insert);
                 const vendedor = result[0].vendedor;
                 db.query('INSERT INTO notificaciones (`usuario`, `pregunta`) VALUES (?, ?)', [vendedor, idPregunta]);
                 console.log("Se envió correctamente la notificación al usuario: "+vendedor)

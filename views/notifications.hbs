@@ -1,5 +1,6 @@
 {{>navigation}}
 <div class="container">
+    {{#if notifications}}
     {{#ifCond user.data.tipo '==' 'empresa'}}
         <div class="table-responsive table-lg mt-3">
             <table class="table table-bordered">
@@ -77,4 +78,17 @@
             </table>
         </div>
     {{/ifCond}}
+    {{else}}
+    <div class="row d-flex justify-content-center">
+                <div class="col-10 p-5 text-center">
+                    <div>
+                        <h2>No tienes notificaciones</h2>
+                    </div>
+                    <div class="text-muted">
+                        <p>Aquí encontrarás todos las notificaciones que recibas. Las mismas se mostrarán aquí cuando los usuarios hagan preguntas en tus publicaciones</p>
+                        <a href="/list">Tus publicaciones</a>
+                    </div>
+                </div>
+            </div>
+    {{/if}} 
 </div>

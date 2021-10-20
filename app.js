@@ -78,8 +78,9 @@ db.connect( (error) => {
 //Define Routes
 app.use('/', require('./routes/pages'));
 app.use('/', require('./routes/auth'));
-app.use('/list', require('./routes/listPublication'))
-app.use('/list/questions', require('./routes/listQuestions'))
+app.use('/search', require('./routes/search'));
+app.use('/list', require('./routes/listPublication'));
+app.use('/list/questions', require('./routes/listQuestions'));
 app.use('/profile', require('./routes/profile'));
 app.use('/favorites', require('./routes/favorites'));
 app.use('/publication', require('./routes/publication'));

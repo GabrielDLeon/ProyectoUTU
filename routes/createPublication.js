@@ -6,8 +6,17 @@ const multer = require('multer');
 var _ = require('lodash');
 // Load the core build.
 var _ = require('lodash/core');
-
-const upload = multer({storage:multer.memoryStorage()});
+var path = require('path');
+var filtro; 
+const upload = multer({storage:multer.memoryStorage(), fileFilter: function (req, file, callback) {
+    var ext = path.extname(file.originalname);
+    if(ext !== '.png' && ext !== '.jpg' && ext !== '.svg' && ext !== '.jpeg') {
+        filtro = false;
+    } else{
+        filtro = true;
+    }
+    callback(null, true)
+}});
 
 const db = mysql.createConnection({
     host: process.env.DATABASE_HOST,
@@ -73,6 +82,7 @@ router.get('/', authController.isLoggedIn, (req, res) => {
     }
 })
 
+
 router.post('/', upload.array("imagen", 12) , authController.isLoggedIn , async (req, res) => {
     db.query('SELECT categoria FROM categorias', (error, categorias) => {
         db.query('SELECT material FROM materiales', (error, materiales) => {
@@ -92,7 +102,7 @@ router.post('/', upload.array("imagen", 12) , authController.isLoggedIn , async 
                         descuento,
                         vendedor: req.user.data.email
                     }
-
+                    filtro==false
                     if (!genero || !titulo || !descripcion || !precio || !material || !marca || !categoria) {
                         return res.render('publication/create', {
                             categorias,
@@ -104,7 +114,22 @@ router.post('/', upload.array("imagen", 12) , authController.isLoggedIn , async 
                             descripcion: req.body.descripcion,
                             precio: req.body.precio,
                             descuento: req.body.descuento,
-                            message: "Complete todos los campos antes de crear la publicación",
+                            message: "Complete todos los campos antes de crear la publicación o compruebe la extensión de las imagenes que quiere subir",
+                            title: "Nueva publicación"
+                        })
+                    }
+                    else if (filtro == false) {
+                        return res.render('publication/create', {
+                            categorias,
+                            materiales,
+                            marcas,
+                            colores,
+                            user: req.user,
+                            titulo: req.body.titulo,
+                            descripcion: req.body.descripcion,
+                            precio: req.body.precio,
+                            descuento: req.body.descuento,
+                            message: "Compruebe la extensión de las imagenes que quiere subir",
                             title: "Nueva publicación"
                         })
                     } else {
@@ -118,14 +143,27 @@ router.post('/', upload.array("imagen", 12) , authController.isLoggedIn , async 
                                     db.query("INSERT INTO descuento VALUES (?, ?);", [idPublicacion, newPublication.descuento]);
                                     if (req.files) {
                                     imagenes= req.files
+                                    
                                     var buffer = imagenes.map((element)=>{ return _.pick(element, ['buffer'])})
                                     buffer.forEach((imagen) => {
                                         resultado = imagen.buffer.toString('base64');
                                         db.query("INSERT INTO fotos VALUES (?, ?);", [idPublicacion, resultado]);
                                     })
                                     }
-                                    const path = '/publication/' + idPublicacion;
-                                    res.redirect(path);
+                                    return res.render('publication/create', {
+                                        id: result.insertId,
+                                        categorias,
+                                        materiales,
+                                        marcas,
+                                        colores,
+                                        user: req.user,
+                                        titulo: req.body.titulo,
+                                        descripcion: req.body.descripcion,
+                                        precio: req.body.precio,
+                                        descuento: req.body.descuento,
+                                        success: "Publicación creada",
+                                        title: "Nueva publicación"
+                                    })
                                 });
                             }
                         });
