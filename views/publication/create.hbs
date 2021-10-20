@@ -1,73 +1,66 @@
 {{>navigation}}
 <section class="container my-5">
-    <form method="POST" action="/create?{{query}}" enctype="multipart/form-data">
+    <form method="POST" action="/create" enctype="multipart/form-data">
+    <div class="d-flex card w-50 p-3 shadow-lg p-3 mb-5 bg-body rounded border border-dark">
+  <div class="card-body">
         <div class="mb-3">
             <h2>Datos de la publicación</h2>
-            <input class="form-control" name="titulo" id="titulo" type="text" placeholder="Titulo" value="{{titulo}}">
-            <textarea class="form-control" name="descripcion" id="descripcion" placeholder="Descripción" maxlength="155"></textarea>
-            <input class="form-control" type="file" id="formFile" name="imagen" multiple>
-            <input class="form-control input-number" name="precio" id="precio" type="number" placeholder="Precio" value="{{precio}}">
+            <input class="form-control" name="titulo" id="titulo" type="text" placeholder="Titulo del producto" value="{{titulo}}"> <br>
+            <textarea class="form-control" name="descripcion" id="descripcion" placeholder="Descripción" maxlength="155"></textarea> <br>
+            <input class="form-control" type="file" id="formFile" name="imagen" multiple> <br>
+            <input class="form-control input-number" name="precio" id="precio" type="number" placeholder="Precio ($)" value="{{precio}}"> <br>
             <input type="checkbox" name="confirm-descuento" id="confirm-descuento">
             <label for="confirm-descuento">Añadir descuento</label>
-            <input class="form-control input-number" name="descuento" id="descuento" type="number" placeholder="Descuento" onKeyPress="if(this.value.length==2) return false;">
+            <input class="form-control input-number" name="descuento" id="descuento" type="number" placeholder="Descuento (%)" onKeyPress="if(this.value.length==2) return false;">
             
             {{!-- <input class="form-control" value="" name="" id="" type="text" placeholder=""> --}}
-        </div>
+        </div> <hr>
         <div class="mb-3">
-            <h2>Caracteristicas del producto</h2>
-            <select class="form-select" name="categoria" id="categoria">
-                {{#if product}}
-                    <option value="{{product.categoria}}">{{product.categoria}}</option>
-                {{else}}
-                    <option value="">Seleccione una categoría</option>
-                {{/if}}
+            <h2>Caracteristicas del producto</h2> <br>
+            <select class="text-uppercase form-select" name="categoria" id="categoria">
+                <option value="">Seleccione una categoría</option>
                 {{#each categorias}}
                     <option class="text-capitalize" value="{{categoria}}">{{categoria}}</option>
                 {{/each}}
-            </select>
-            <select class="form-select" name="genero" id="genero">
-                <option value="0">Seleccione un género</option>
+            </select> <br>
+            <select class="text-uppercase form-select" name="genero" id="genero">
+                <option value="0">Seleccione un género</option> 
                 <option value="Hombre">Hombre</option>
                 <option value="Mujer">Mujer</option>
                 <option value="Unisex">Unisex</option>
-            </select>
-            <select class="form-select" name="material" id="material">
-                {{#if product}}
-                    <option value="{{product.material}}">{{product.material}}</option>
-                {{else}}
-                    <option value="">Seleccione un material</option>
-                {{/if}}
+            </select> <br>
+            <select class="text-uppercase form-select" name="material" id="material">
+                <option value="0">Seleccione un material</option>
                 {{#each materiales}}
                     <option value="{{material}}">{{material}}</option>
                 {{/each}}
-            </select>
-            <select class="form-select" name="marca" id="marca">
-                {{#if product}}
-                    <option value="{{product.marca}}">{{product.marca}}</option>
-                {{else}}
-                    <option value="">Seleccione la marca</option>
-                {{/if}}
+            </select> <br>
+            <select class="text-uppercase form-select" name="marca" id="marca">
+                <option value="0">Seleccione la marca</option>
                 {{#each marcas}}
                     <option value="{{marca}}">{{marca}}</option>
                 {{/each}}
-            </select>
+            </select> <br>
             <div>
-                <select class="form-select" name="colores" id="colores">
-                    <option value="">Seleccione un color</option>
+                <select class="text-uppercase form-select" name="colores" id="colores">
+                    <option value="0">Seleccione un color</option> 
                     {{#each colores}}
                         <option value="{{color}}">{{color}}</option>
                     {{/each}}
-                </select>
-                <button type="button" class="btn btn-success" name="addColor" id="addColor">Agregar color</button>
-                <p id="textColores">Aquí apareceran los colores</p>
+                </select> <br>
+                <p id="textColores">¿No encuentras el color que buscas? Agrégalo tu mismo.</p>
+                <button type="button" class="btn btn-success" name="addColor" id="addColor">Añadir color</button> 
             </div>
         </div>
-        <div class="">
-            <button type="submit" class="btn btn-success">ENVIAR</button>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button type="submit" class="btn btn-success btn-lg"><i class="fas fa-check"></i> Publicar</button>
+            <button type="reset" class="btn btn-danger btn-lg"><i class="fas fa-trash"></i> Descartar</button>
         </div>
         {{#if message }}
            <p class="text-danger text-center mt-1">{{message}}</p>
         {{/if}}
+          </div>
+</div>
     </form>
 </section>
 {{>footer}}

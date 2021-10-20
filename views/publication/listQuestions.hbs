@@ -13,20 +13,21 @@
         <input class="form-check-input" type="radio" name="filter" id="all" checked>
         <label class="form-check-label" for="all">Todas las preguntas</label>
     </div> --}}
-
-    <a href="/list/questions/inbox?filter=reply"><button class="btn btn-success">Preguntas respondidas</button></a>
-    <a href="/list/questions/inbox?filter=noreply"><button class="btn btn-success">Preguntas sin responder</button></a>
-    <a href="/list/questions"><button class="btn btn-success">Todas las preguntas</button></a>
-
+    <br>
+<div class="d-flex justify-content-center">
+    <a href="/list/questions/inbox?filter=reply"><button style="margin-right: 10px;" class="btn btn-primary">Preguntas respondidas</button></a>
+    <a href="/list/questions/inbox?filter=noreply"><button style="margin-right: 10px;" class="btn btn-primary">Preguntas sin responder</button></a>
+    <a href="/list/questions"><button style="margin-right: 10px;" class="btn btn-primary">Todas las preguntas</button></a>
+</div>
     <div class="table-responsive table-lg mt-3">
-        <table class="table table-bordered">
+        <table class="table table-striped table-bordered table-hover border-3 text-center"> 
             <thead>
                 <tr>
                     <th>Remitente</th>
                     <th>Fecha</th>
                     <th class="max-width">Mensaje</th>
-                    <th>Publicacion</th>
-                    <th>Accion</th>
+                    <th>Publicación</th>
+                    <th>Acción</th>
                 </tr>
             </thead>
             <tbody>
@@ -45,7 +46,7 @@
                                 {{!-- <form action="/list/delete/{{nroPublicacion}}" method="POST">
                                     <button class="btn btn-danger">Eliminar</button>
                                 </form> --}}
-                                <a href="/publication/{{nroPublicacion}}" class="btn btn-secondary link-unstyled">Ver</a>
+                                <a href="/publication/{{nroPublicacion}}" class="btn btn-outline dark link-unstyled"><i class="fas fa-eye"></i></a>
                             </div>
                         </td>
                     </tr>
