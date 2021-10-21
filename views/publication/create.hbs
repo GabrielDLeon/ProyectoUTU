@@ -65,7 +65,11 @@
         <div class="">
             <button type="submit" class="btn btn-success">ENVIAR</button>
         </div>
-        {{#if message }}
+        {{#if success}}
+        <p class="text-success text-center mt-1">{{success}}</p>
+        <p><a href="/publication/{{id}}">Click aquí</a> para verla </p>
+        {{/if}}
+        {{#if message}}
            <p class="text-danger text-center mt-1">{{message}}</p>
         {{/if}}
     </form>

@@ -202,9 +202,11 @@ router.get('/edit/:id', authController.isLoggedIn, async (req, res) => {
     req.user = result2[0];
     const {email} = req.user;
     const {id} = req.params;
-     db.query('SELECT cuentas.email, cuentas.password, cuenta_personal.nombre, cuenta_personal.id FROM cuentas INNER JOIN cuenta_personal ON cuentas.email = cuenta_personal.email WHERE cuenta_personal.email = ?',[email], async (error, result) => {
+     db.query('SELECT cuentas.email, cuentas.password, cuenta_personal.nombre, cuenta_personal.id, cuentas.tipo FROM cuentas INNER JOIN cuenta_personal ON cuentas.email = cuenta_personal.email WHERE cuenta_personal.email = ?',[email], async (error, result) => {
       if (result[0].id == id) {
+        console.log(result[0])
         res.render('profile/editProfile', {
+        data: result[0],
         user: req.user,
         title: 'Editar perfil'
         })

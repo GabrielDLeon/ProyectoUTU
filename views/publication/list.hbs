@@ -1,5 +1,6 @@
 {{>navigation}}
 <div class="container">
+     {{#if publicacion}}
     <div class="table-responsive table-lg mt-3">
         <table class="table table-bordered">
             <thead>
@@ -12,7 +13,6 @@
                 </tr>
             </thead>
             <tbody>
-                {{#if publicacion}}
                     {{#each publicacion}}
                     <tr>
                         <td class="text-nowrap align-middle"><span>{{titulo}}</span></td>
@@ -31,7 +31,19 @@
                             </div>
                         </td>
                     </tr>
-                    {{/each}}
+                {{/each}}
+                {{else}}
+            <div class="row d-flex justify-content-center">
+                <div class="col-10 p-5 text-center">
+                    <div>
+                        <h2>No se encontraron publicaciones</h2>
+                    </div>
+                    <div class="text-muted">
+                        <p>Aquí encontrarás todos las publicaciones que hayas creado. A pesar de que no hayas creado ninguna todavía, lo puedes hacer en la sección "Hacer publicación"</p>
+                        <a href="/create?newPublication=true">Hacer una publicación</a>
+                    </div>
+                </div>
+            </div>
                 {{/if}}
             </tbody>
         </table>
