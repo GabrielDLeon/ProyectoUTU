@@ -240,6 +240,9 @@
                                 </div>
                             </div>
                         {{/if}}
+                        <div class="mb-5 d-grid gap-2">
+                            <button class="btn btn-dark"><a href="/publication/{{publication.nroPublicacion}}/comments" class="link-unstyled">Ver todos los comentarios</a></button>
+                        </div>
         
                     </div>
                 </div>
@@ -281,7 +284,9 @@
                         <div class="row row-cols-xl-3 row-cols-lg-2 row-cols-md-2 row-cols-sm-1 g-4">
                             {{>products}}
                         </div>
-                        <button class="btn btn-dark"><a href="/profile/{{publication.vendedor}}" class="link-unstyled">Ver todas las publicaciones</a></button>
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-dark"><a href="/profile/{{publication.vendedor}}" class="link-unstyled">Ver más publicaciones de {{publication.vendedor}}</a></button>
+                        </div>
                     </div>
                 {{/if}}
             </section>

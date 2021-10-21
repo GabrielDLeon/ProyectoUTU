@@ -22,29 +22,6 @@ router.get('/', authController.isLoggedIn, async (req, res) => {
     });
 });
 
-router.post('/search', authController.isLoggedIn, async (req, res) => {
-  const { palabra } = req.body;
-  db.query('SELECT direccion, descripcion, telefono, nombre FROM perfil', (error, result) => {
-   db.query('SELECT nroPublicacion, precio, titulo, precio-precio*descuento.porcentaje/100 AS descuento, descripcion, producto, fotos.imagen, cuenta_empresa.nombre AS vendedor, categoria, genero, material, marca FROM (publicacion LEFT JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email LEFT JOIN fotos ON fotos.publicacion = publicacion.nroPublicacion LEFT JOIN producto ON publicacion.nroPublicacion = producto.idProducto LEFT JOIN descuento ON descuento.publication = publicacion.nroPublicacion) WHERE titulo LIKE "%"?"%" OR categoria LIKE "%"?"%" OR genero LIKE "%"?"%" OR material LIKE "%"?"%" OR marca LIKE "%"?"%" OR cuenta_empresa.nombre LIKE "%"?"%" GROUP BY nroPublicacion' , [palabra,palabra,palabra,palabra,palabra,palabra] , (error, recommendations) => {
-    if (recommendations.length > 0) {
-      return res.render('search', {
-        recommendations,
-        palabra: req.body.palabra,
-        data: result[0],
-        user: req.user,
-        title: "Búsqueda"
-      })
-    } else {
-      return res.render('search', {
-        message: 'No hay coincidencias con la busqueda',
-        user: req.user,
-        title: "Búsqueda"
-      })
-    }
-   })
-  })
-})
-
 router.get('/register', (req, res) => {
   res.render('./auth/register', {
     title: "Registro"
@@ -63,6 +40,5 @@ router.get('/login', (req, res) => {
     title: "Inicio de sesión"
   });
 });
-
 
 module.exports = router;
