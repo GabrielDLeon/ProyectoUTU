@@ -6,11 +6,11 @@
             <div class="sticky-top pt-sm-0 pt-md-0 pt-lg-5 pt-xl-5" style="z-index: 1">
                 <div class="m-5 p-lg-2 p-xl-4">
                     <div class="mb-1 text-capitalize">
-                        <a href=""><span class="badge rounded-pill bg-dark">{{product.categoria}}</span></a>
-                        <a href=""><span class="badge rounded-pill bg-dark">{{product.genero}}</span></a>
-                        <a href=""><span class="badge rounded-pill bg-dark">{{product.marca}}</span></a>
+                        <a href="/search?key={{product.categoria}}"><span class="badge rounded-pill bg-dark">{{product.categoria}}</span></a>
+                        <a href="/search?key={{product.genero}}"><span class="badge rounded-pill bg-dark">{{product.genero}}</span></a>
+                        <a href="/search?key={{product.marca}}"><span class="badge rounded-pill bg-dark">{{product.marca}}</span></a>
                         {{#if valor.descuento}}
-                            <a href="/#sales"><span class="badge rounded-pill bg-danger">sale</span></a>
+                            <a href="/search?sale=1"><span class="badge rounded-pill bg-danger">sale</span></a>
                         {{/if}}
                     </div>
                     <div>
