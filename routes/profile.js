@@ -22,31 +22,35 @@ const db = mysql.createConnection({
 router.get('/', authController.isLoggedIn, async (req, res) => {
   if (req.user.data.tipo == 'empresa') {
     const { nombre } = req.user.data;
-    await db.query('SELECT * FROM cuenta_empresa WHERE nombre = ?', [nombre], (error, result) => {
-      if (result.length > 0) {
-        const {email} = req.user.data;
-        db.query('SELECT tipo, URL, propietario, nombre FROM enlaces INNER JOIN perfil ON enlaces.propietario = perfil.email WHERE propietario = ?', [email], async (error, redes) => {
-          db.query('SELECT direccion, descripcion, telefono, fotoPerfil, nombre FROM perfil WHERE nombre = ?', [nombre], (error, result1) => {
-            db.query('SELECT nroPublicacion, precio, titulo, descripcion, producto, cuenta_empresa.nombre AS vendedor, descuento.porcentaje, fotos.imagen FROM (publicacion INNER JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email LEFT JOIN descuento ON descuento.publication = publicacion.nroPublicacion INNER JOIN fotos ON fotos.publicacion = publicacion.nroPublicacion) WHERE cuenta_empresa.email = ?', [email], (error, recommendations) => {
-              res.render('profile/profile', {
-                recommendations,
-                profile: result1[0],
-                data: result[0],
-                user: req.user,
-                title: result[0].nombre,
-                redes
-              })
-            });
-          });
-        })
-      } else {
-        res.redirect('/');
-      }
-
-    })
+    const path = '/profile/' + nombre;
+    res.redirect(path);
   } else {
-    res.redirect('/login')
+    res.redirect('/')
   }
+});
+
+router.get('/:nombre', authController.isLoggedIn, async (req, res) => {
+  const { nombre } = req.params;
+  await db.query('SELECT * FROM cuenta_empresa WHERE nombre = ?', [nombre], (error, result) => {
+    // console.log(result);
+    if (result.length > 0) {
+      db.query('SELECT fotoPerfil, nombre, email, direccion, descripcion, telefono  FROM (perfil) WHERE nombre = ?', [nombre], (error, result1) => {
+        const email = result1[0].email;
+        db.query('SELECT tipo, URL, propietario, nombre FROM (enlaces INNER JOIN perfil ON enlaces.propietario = perfil.email) WHERE propietario = ?', [email], async (error, redes) => {
+          db.query('SELECT nroPublicacion, precio, precio-precio*descuento.porcentaje/100 AS descuento, imagen FROM (publicacion INNER JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email INNER JOIN producto ON producto.idProducto = publicacion.producto LEFT JOIN fotos ON fotos.publicacion = publicacion.nroPublicacion LEFT JOIN descuento ON descuento.publication = publicacion.nroPublicacion) WHERE cuenta_empresa.nombre = ? GROUP BY nroPublicacion', [nombre], (error, recommendations) => {
+            res.render('profile/profile', {
+              recommendations,
+              profile: result1[0],
+              data: result[0],
+              user: req.user,
+              title: result[0].nombre,
+              redes
+            })
+          })
+        })
+      });
+    } else { res.redirect('/'); }
+  });
 });
 
 router.get('/newEnlace/:id', authController.isLoggedIn, async (req, res) => {
@@ -114,29 +118,6 @@ router.post('/newEnlace/:id', authController.isLoggedIn, async (req, res) => {
       })
     })
   })
-});
-
-router.get('/:nombre', authController.isLoggedIn, async (req, res) => {
-  const { nombre } = req.params;
-  await db.query('SELECT * FROM cuenta_empresa WHERE nombre = ?', [nombre], (error, result) => {
-    if (result.length > 0) {
-      db.query('SELECT direccion, descripcion, telefono, nombre, email FROM perfil WHERE nombre = ?', [nombre], (error, result1) => {
-        const email = result1[0].email;
-        db.query('SELECT tipo, URL, propietario, nombre FROM enlaces INNER JOIN perfil ON enlaces.propietario = perfil.email WHERE propietario = ?', [email], async (error, redes) => {
-          db.query('SELECT nroPublicacion, precio, precio-precio*descuento.porcentaje/100 AS descuento, imagen FROM (publicacion INNER JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email INNER JOIN producto ON producto.idProducto = publicacion.producto LEFT JOIN fotos ON fotos.publicacion = publicacion.nroPublicacion LEFT JOIN descuento ON descuento.publication = publicacion.nroPublicacion) WHERE cuenta_empresa.nombre = ? GROUP BY nroPublicacion', [nombre], (error, recommendations) => {
-            res.render('profile/profile', {
-              recommendations,
-              profile: result1[0],
-              data: result[0],
-              user: req.user,
-              title: result[0].nombre,
-              redes
-            })
-          })
-        })
-      });
-    } else { res.redirect('/'); }
-  });
 });
 
 router.get('/edit/pass/:id', authController.isLoggedIn, async (req, res) => {
@@ -305,8 +286,7 @@ router.post('/edit/:id', upload.single("imagen"), authController.isLoggedIn, asy
           });
 
 router.get('/delete/:mail' , authController.deleteAccount, async (req, res) => {
-    res.redirect('/login')
-  })
-
+    res.redirect('/login');
+})
 
 module.exports = router;

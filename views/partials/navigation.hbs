@@ -57,7 +57,7 @@
                                     <li class="nav-item"><a class="dropdown-item" href="/favorites"><i class="fas fa-heart"></i> Favoritos</a></li>
                                 {{/ifCond}}
                                 {{#ifCond data.tipo '==' 'empresa'}}
-                                    <li class="nav-item"><a class="dropdown-item" href="/profile"><i class="fas fa-user"></i> Perfil</a></li>
+                                    <li class="nav-item"><a class="dropdown-item" href="/profile/{{data.nombre}}"><i class="fas fa-user"></i> Perfil</a></li>
                                 {{/ifCond}}
                                 <li class="nav-item"><a class="dropdown-item" href="/profile/edit/{{data.id}}"><i class="fas fa-pen"></i> Editar perfil</a></li>
                                 <li class="nav-item"><a class="dropdown-item" href="/logout"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a></li>

@@ -1,6 +1,6 @@
 {{#if recommendations}}
     {{#each recommendations}}
-        <div class="col position-relative my-3">
+        <div class="col position-relative mt-3">
             <div class="card border-0 s">
                 <a href="/publication/{{nroPublicacion}}" class="link-unstyled">
                     <div class="imgbox">
@@ -13,31 +13,34 @@
                 </a>
                 {{#if descuento}}
                     <div class="position-absolute p-1 ms-1 mb-2 text-capitalize">
-                        <span class="badge rounded-pill bg-danger">SALE</span>
+                        <a href=""><span class="badge rounded-pill bg-danger">SALE</span></a>
                         {{!-- <span class="badge rounded-pill bg-dark">{{categoria}}</span> --}}
                         {{!-- <span class="badge rounded-pill bg-dark">{{genero}}</span> --}}
                         {{!-- <span class="badge rounded-pill bg-dark">{{material}}</span> --}}
                         {{!-- <span class="badge rounded-pill bg-dark">{{marca}}</span> --}}
                     </div>
                 {{/if}}
-                <div class="container my-3 text-center">
+                <div class="my-3 text-center">
                     <div class="d-flex justify-content-center">
                         {{#if descuento}}
-                            <h4>${{descuento}}</h4>
-                            <h6 class="ms-1 fw-bold" style="color: #B53636;"><s>${{precio}}</s></h6>
+                            <h4 class="m-0">${{descuento}}</h4> 
+                            {{!-- <span class="ms-1 badge rounded-pill bg-danger"><s class="align-middle">${{precio}}</s></span> --}}
+                            <h6 class="m-0 ms-1 fw-bold" style="color: #B53636;"><s>${{precio}}</s></h6>
                         {{else}}
-                            <h4>${{precio}}</h4>
+                            <h4 class="m-0">${{precio}}</h4>
                         {{/if}}
                     </div>
-                    {{!-- <h6 class="card-title mb-1">{{titulo}}</h6> --}}
-                    <h6 class="mb-0"><a href="/profile/{{vendedor}}" class="text-muted link-unstyled">{{vendedor}}</a></h6>
-                    {{#if categoria}}
-                        <small class="text-muted text-capitalize"><i>{{categoria}} + {{genero}}</i></small>
-                    {{/if}}
-                    
-                    {{!-- <div><a href="/publication/{{nroPublicacion}}" class="link-unstyled">
-                        <h6 class="card-title mb-1">{{titulo}}</h6>
-                    </a></div> --}}
+                    <div class="mt-2">
+                        {{!-- <h6 class="card-title mb-1">{{titulo}}</h6> --}}
+                        <h6 class="mb-0"><a href="/profile/{{vendedor}}" class="text-muted link-unstyled">{{vendedor}}</a></h6>
+                        {{#if categoria}}
+                            <small class="text-muted text-capitalize"><i>{{categoria}} + {{genero}}</i></small>
+                        {{/if}}
+                        
+                        {{!-- <div><a href="/publication/{{nroPublicacion}}" class="link-unstyled">
+                            <h6 class="card-title mb-1">{{titulo}}</h6>
+                        </a></div> --}}
+                    </div>
                 </div>
             </div>
         </div>

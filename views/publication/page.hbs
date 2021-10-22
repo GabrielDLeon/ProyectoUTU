@@ -252,36 +252,38 @@
             <section class="mx-4 mx-lg-1 mb-5" id="seccion-tienda">
 
                 {{!-- SOBRE NOSOTROS --}}
-                <div class="mb-3 d-flex justify-content-center">
-                    <div class="card mb-3 col-md-10 col-sm-9">
-                        <div class="row my-3 justify-content-center">
-                            <div class="col-sm-12 col-md-3 jumbotron d-flex align-items-center justify-content-center">
-                                {{#if perfil.fotoPerfil}}
-                                    <img src="data:imagen/png;base64, {{perfil.fotoPerfil}}" alt="Generic placeholder image" class="img-fluid rounded-circle img-thumbnail" style="width: 75%; z-index: 1">
-                                {{else}}
-                                    <img src="/img/avatar.png" alt="Generic placeholder image" class="img-fluid rounded-circle" style="width: max-content; z-index: 1" id="imagen">
-                                {{/if}}
-                            </div>
-                            <div class="col-md-9">
-                                <div class="card-body">
-                                    <h3 class="card-title text-center f-space-3">Sobre nosotros</h3>
-                                    <p class="card-text">{{perfil.descripcion}}</p>
-                                    <div class="d-flex">
-                                        <a href="/profile" class="link-unstyled ms-auto">
-                                            <span class="card-subtitle d-inline text-muted carattere me-3">{{publication.vendedor}}</span>
-                                        </a>
+                {{#if perfil.descripcion}}
+                    <div class="mb-3 d-flex justify-content-center">
+                        <div class="card mb-3 col-md-10 col-sm-9">
+                            <div class="row my-3 justify-content-center">
+                                <div class="col-sm-12 col-md-3 jumbotron d-flex align-items-center justify-content-center">
+                                    {{#if perfil.fotoPerfil}}
+                                        <img src="data:imagen/png;base64, {{perfil.fotoPerfil}}" alt="Generic placeholder image" class="img-fluid rounded-circle img-thumbnail" style="width: 75%; z-index: 1">
+                                    {{else}}
+                                        <img src="/img/avatar.png" alt="Generic placeholder image" class="img-fluid rounded-circle" style="width: max-content; z-index: 1" id="imagen">
+                                    {{/if}}
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="card-body">
+                                        <h3 class="card-title text-center f-space-3">Sobre nosotros</h3>
+                                        <p class="card-text">{{perfil.descripcion}}</p>
+                                        <div class="d-flex">
+                                            <a href="/profile" class="link-unstyled ms-auto">
+                                                <span class="card-subtitle d-inline text-muted carattere me-3">{{publication.vendedor}}</span>
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                {{/if}}
 
                 {{!-- RECOMENDACIONES --}}
                 {{#if recommendations}}
                     <div class="mb-3">
                         <h4 class="fw-bold mb-3">Otras publicaciones de {{publication.vendedor}}</h4>
-                        <div class="row row-cols-xl-3 row-cols-lg-2 row-cols-md-2 row-cols-sm-1 g-4">
+                        <div class="row row-cols-xl-3 row-cols-lg-2 row-cols-md-2 row-cols-sm-1 g-4 mb-2">
                             {{>products}}
                         </div>
                         <div class="d-grid gap-2">
