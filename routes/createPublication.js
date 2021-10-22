@@ -84,25 +84,7 @@ router.get('/', authController.isLoggedIn, (req, res) => {
 
 
 router.post('/', upload.array("imagen", 12) , authController.isLoggedIn , async (req, res) => {
-    db.query('SELECT categoria FROM categorias', (error, categorias) => {
-        db.query('SELECT material FROM materiales', (error, materiales) => {
-            db.query('SELECT marca FROM marcas', (error, marcas) => {
-                db.query('SELECT color FROM colores', (error, colores) => {
                     const { titulo, descripcion, precio, descuento, categoria, genero, material, marca } = req.body;
-                    const newProduct = {
-                        categoria,
-                        genero,
-                        material,
-                        marca
-                    };
-                    const newPublication = {
-                        titulo,
-                        descripcion,
-                        precio,
-                        descuento,
-                        vendedor: req.user.data.email
-                    }
-                    filtro==false
                     if (!genero || !titulo || !descripcion || !precio || !material || !marca || !categoria) {
                         return res.render('publication/create', {
                             categorias,
@@ -114,7 +96,7 @@ router.post('/', upload.array("imagen", 12) , authController.isLoggedIn , async 
                             descripcion: req.body.descripcion,
                             precio: req.body.precio,
                             descuento: req.body.descuento,
-                            message: "Complete todos los campos antes de crear la publicación o compruebe la extensión de las imagenes que quiere subir",
+                            message: "Por favor complete todos los campos antes de crear la publicación",
                             title: "Nueva publicación"
                         })
                     }
@@ -129,10 +111,35 @@ router.post('/', upload.array("imagen", 12) , authController.isLoggedIn , async 
                             descripcion: req.body.descripcion,
                             precio: req.body.precio,
                             descuento: req.body.descuento,
-                            message: "Compruebe la extensión de las imagenes que quiere subir",
+                            message: "Compruebe la extensión de las imagenes que quiere subir (solo válidas .png, .jpg, .jpeg, .svg)",
                             title: "Nueva publicación"
                         })
-                    } else {
+                    } else {  
+                        db.query('SELECT * FROM marcas WHERE marca = ?',[marca],(error, result) => {
+                            if (result.length > 0) {
+                                    console.log("la marca existe y no se va a crear")
+                                } else {
+                                    console.log("la marca no existe y se va a crear")
+                                    db.query('INSERT INTO marcas (marca) VALUES (?)', [marca])
+                                }
+                        })
+                        db.query('SELECT categoria FROM categorias', (error, categorias) => {
+                            db.query('SELECT material FROM materiales', (error, materiales) => {
+                                db.query('SELECT marca FROM marcas', (error, marcas) => {
+                                    db.query('SELECT color FROM colores', (error, colores) => {
+                        const newProduct = {
+                            categoria,
+                            genero,
+                            material,
+                            marca
+                        };
+                        const newPublication = {
+                            titulo,
+                            descripcion,
+                            precio,
+                            descuento,
+                            vendedor: req.user.data.email
+                        }
                         db.query("INSERT INTO producto (categoria, genero, material, marca) VALUES (?, ?, ?, ?)", [newProduct.categoria, newProduct.genero, newProduct.material, newProduct.marca], (error, result) => {
                             if (error) {
                                 console.log("ERROR: " + error);
@@ -167,11 +174,12 @@ router.post('/', upload.array("imagen", 12) , authController.isLoggedIn , async 
                                 });
                             }
                         });
-                    }
+                        
                 });
             });
         });
     });
+                    }
 });
 
 module.exports = router;

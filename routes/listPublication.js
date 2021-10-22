@@ -38,12 +38,14 @@ router.post('/delete/:nroPublicacion', authController.isLoggedIn, async (req, re
 
 router.get('/edit/:id', authController.isLoggedIn, async (req, res) => {
     const {id} = req.params;
+    console.log(id)
     const {email} = req.user.data;
     await db.query('SELECT vendedor FROM publicacion WHERE nroPublicacion = ?',[id], (error, result) => {
         if (result.length>0){
             if (email === result[0].vendedor){
                 db.query('SELECT nroPublicacion AS id, precio, titulo, descripcion, porcentaje AS descuento FROM (publicacion INNER JOIN descuento ON publicacion.nroPublicacion = descuento.publication) WHERE publicacion.nroPublicacion = ?',[id], (error, result) => {
                     db.query('SELECT categoria, genero, material, marca FROM (producto INNER JOIN publicacion ON producto.idProducto = publicacion.producto) WHERE nroPublicacion = ?',[id], (error, product) => {
+                        console.log(result)
                         const {categoria, genero, material, marca} = product[0];
                         db.query('SELECT categoria FROM categorias WHERE categoria != ?',[categoria], (error, categorias) => {
                             db.query('SELECT material FROM materiales WHERE material != ?',[material], (error, materiales) => {
@@ -55,7 +57,8 @@ router.get('/edit/:id', authController.isLoggedIn, async (req, res) => {
                                         marcas,
                                         genero,
                                         product: product[0],
-                                        publication: result[0]
+                                        publication: result[0],
+                                        title: "Editar publicación"
                                     })
                                 })
                             })

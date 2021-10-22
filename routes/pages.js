@@ -11,7 +11,7 @@ const db = mysql.createConnection({
 
 router.get('/', authController.isLoggedIn, async (req, res) => {
     db.query('SELECT direccion, descripcion, telefono, nombre FROM perfil', (error, result) => {
-      db.query('SELECT nroPublicacion, precio, precio-precio*descuento.porcentaje/100 AS descuento, titulo, descripcion, producto, fotos.imagen, cuenta_empresa.nombre AS vendedor FROM (publicacion LEFT JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email LEFT JOIN fotos ON fotos.publicacion = publicacion.nroPublicacion LEFT JOIN descuento ON descuento.publication = publicacion.nroPublicacion) GROUP BY nroPublicacion', (error, recommendations) => {
+      db.query('SELECT nroPublicacion, precio, precio-precio*descuento.porcentaje/100 AS descuento, titulo, descripcion, producto, producto.categoria, producto.genero, fotos.imagen, cuenta_empresa.nombre AS vendedor FROM (publicacion LEFT JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email LEFT JOIN fotos ON fotos.publicacion = publicacion.nroPublicacion LEFT JOIN descuento ON descuento.publication = publicacion.nroPublicacion INNER JOIN producto ON producto.idProducto = publicacion.producto) GROUP BY nroPublicacion', (error, recommendations) => {
         res.render('index', {
           recommendations,
           data: result[0],

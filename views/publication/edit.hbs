@@ -6,9 +6,14 @@
             <input class="form-control" name="titulo" id="titulo" type="text" placeholder="Titulo" value="{{publication.titulo}}">
             <textarea class="form-control" name="descripcion" id="descripcion" placeholder="Descripción" maxlength="155">{{publication.descripcion}}</textarea>
             <input class="form-control input-number" name="precio" id="precio" type="number" placeholder="Precio" value="{{publication.precio}}">
+            <input type="checkbox" name="confirm-descuento" id="confirm-descuento">
             {{#if publication.descuento}}
-                <input class="form-control input-number" name="descuento" id="descuento" type="number" placeholder="Descuento" onKeyPress="if(this.value.length==2) return false;" value="{{publication.descuento}}">
+            <label for="confirm-descuento">Cambiar descuento</label>
+            {{else}}
+            <label for="confirm-descuento">Añadir descuento</label>
             {{/if}}
+            <input class="form-control input-number" name="descuento" id="descuento" type="number" placeholder="Descuento" onKeyPress="if(this.value.length==2) return false;" {{#if publication.descuento}}value="{{publication.descuento}}" {{/if}}>
+            
             
             {{!-- <input class="form-control" value="" name="" id="" type="text" placeholder=""> --}}
         </div>

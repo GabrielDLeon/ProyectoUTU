@@ -2,21 +2,19 @@
 
 <body>
     <div class="container mt-5">
-        {{#if message}}
+        {{#if shops}}
+            <h1>Tiendas:</h1>
+            <div class="row row-cols-lg-4 row-cols-sm-3 g-4 mb-3">
+                {{>shops}}
+            </div>
+        {{/if}}
+        {{#if recommendations}}
+            <h1>Productos:</h1>
+            <div class="row row-cols-lg-4 row-cols-sm-2 g-4">
+                {{>products}}
+            </div>
+        {{else}}
             <p class="text-secondary">No hay coincidencias con la búsqueda</p>
         {{/if}}
-        
-        <h1>Tiendas:</h1>
-        <div class="row row-cols-lg-4 row-cols-sm-3 g-4 mb-3">
-            {{>shops}}
-        </div>
-        
-        <h1>Productos:</h1>
-        <div class="row row-cols-lg-4 row-cols-sm-2 g-4">
-            {{#if message}}
-                <p class="text-secondary">No hay coincidencias con la búsqueda</p>
-            {{/if}}
-            {{>products}}
-        </div>
     </div>
 </body>
