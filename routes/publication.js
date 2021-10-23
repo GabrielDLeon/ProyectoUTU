@@ -117,11 +117,12 @@ router.post('/answer/:id', authController.isLoggedIn, async (req, res) => {
             const { id } = req.params;
             const { idPregunta } = questions[0];
             const { respuesta } = req.body;
+            const currentDate = new Date();
             if (!respuesta) {
                 const path = '/publication/' + id + '/#seccion-preguntas';
                 return res.redirect(path);
             }
-            await db.query('UPDATE preguntas SET ? WHERE idPregunta = ?', [{ respuesta: respuesta }, idPregunta], async (error, result) => {
+            await db.query('UPDATE preguntas SET respuesta = ?, fechaRespuesta = ? WHERE idPregunta = ?', [ respuesta, currentDate, idPregunta], async (error, result) => {
                 // Envía la notificación
                 await db.query('SELECT remitente FROM preguntas WHERE idPregunta = ?', [idPregunta], (error, result) => {
                     const {remitente} = result[0];
