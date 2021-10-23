@@ -37,6 +37,14 @@
             <ul class="navbar-nav ms-auto mb-lg-0">
                 {{#if user }}
                     {{#with user}}
+                        {{#ifCond data.tipo '==' 'usuario'}}
+                            <li class="nav-item">
+                                <a title="Favoritos" class="nav-link" href="/favorites">
+                                    <span class="d-inline d-lg-none">Favoritos</span>
+                                    <i class="fas fa-heart d-none d-lg-inline"></i>
+                                </a>
+                            </li>
+                        {{/ifCond}}
                         <li class="nav-item">
                             <a title="Notificaciones" class="nav-link" href="/notifications">
                                 <span class="d-inline d-lg-none">Notificaciones</span>
@@ -50,12 +58,6 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><span class="me-1">{{data.nombre}}{{nombre}}</span></a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                {{#ifCond data.tipo '==' 'usuario'}}
-                                    <li class="nav-item"><a class="dropdown-item" href="/favorites"><i class="fas fa-heart"></i> Favoritos</a></li>
-                                {{/ifCond}}
-                                {{#ifCond tipo '==' 'usuario'}}
-                                    <li class="nav-item"><a class="dropdown-item" href="/favorites"><i class="fas fa-heart"></i> Favoritos</a></li>
-                                {{/ifCond}}
                                 {{#ifCond data.tipo '==' 'empresa'}}
                                     <li class="nav-item"><a class="dropdown-item" href="/profile/{{data.nombre}}"><i class="fas fa-user"></i> Perfil</a></li>
                                 {{/ifCond}}

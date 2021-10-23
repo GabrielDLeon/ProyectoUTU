@@ -1,71 +1,93 @@
 {{>navigation}}
 <section class="container my-5">
-    <form method="POST" action="/create" enctype="multipart/form-data">
-    <div class="d-flex card w-50 p-3 shadow-lg p-3 mb-5 bg-body rounded border border-dark">
-  <div class="card-body">
-        <div class="mb-3">
-            <h2>Datos de la publicación</h2>
-            <input class="form-control" name="titulo" id="titulo" type="text" placeholder="Titulo del producto" value="{{titulo}}"> <br>
-            <textarea class="form-control" name="descripcion" id="descripcion" placeholder="Descripción" maxlength="155"></textarea> <br>
-            <input class="form-control" type="file" id="formFile" name="imagen" multiple> <br>
-            <input class="form-control input-number" name="precio" id="precio" type="number" placeholder="Precio ($)" value="{{precio}}"> <br>
-            <input type="checkbox" name="confirm-descuento" id="confirm-descuento">
-            <label for="confirm-descuento">Añadir descuento</label>
-            <input class="form-control input-number" name="descuento" id="descuento" type="number" placeholder="Descuento (%)" onKeyPress="if(this.value.length==2) return false;">
-            
-            {{!-- <input class="form-control" value="" name="" id="" type="text" placeholder=""> --}}
-        </div> <hr>
-        <div class="mb-3">
-            <h2>Caracteristicas del producto</h2> <br>
-            <select class="text-uppercase form-select" name="categoria" id="categoria">
-                <option value="">Seleccione una categoría</option>
-                {{#each categorias}}
-                    <option class="text-capitalize" value="{{categoria}}">{{categoria}}</option>
-                {{/each}}
-            </select> <br>
-            <select class="text-uppercase form-select" name="genero" id="genero">
-                <option value="0">Seleccione un género</option> 
-                <option value="Hombre">Hombre</option>
-                <option value="Mujer">Mujer</option>
-                <option value="Unisex">Unisex</option>
-            </select> <br>
-            <select class="text-uppercase form-select" name="material" id="material">
-                <option value="0">Seleccione un material</option>
-                {{#each materiales}}
-                    <option value="{{material}}">{{material}}</option>
-                {{/each}}
-            </select> <br>
-            <input type="text" class="form-control" list="marca" name="marca" placeholder="SELECCIONE O INGRESE UNA MARCA"/>
-            <datalist name="marca" id="marca">
-                <option value="">Seleccione o ingrese una marca</option>
-                {{#each marcas}}
-                    <option class="text-capitalize" value="{{marca}}">{{marca}}</option>
-                {{/each}}
-            </datalist> <br>
-            <div>
-                <select class="text-uppercase form-select" name="colores" id="colores">
-                    <option value="0">Seleccione un color</option> 
-                    {{#each colores}}
-                        <option value="{{color}}">{{color}}</option>
-                    {{/each}}
-                </select> <br>
-                <p id="textColores">¿No encuentras el color que buscas? Agrégalo tu mismo.</p>
-                <button type="button" class="btn btn-success" name="addColor" id="addColor">Añadir color</button> 
+    {{#if product}}
+        <form method="POST" action="/create?idProducto={{product.idProducto}}" enctype="multipart/form-data">
+    {{else}}
+        <form method="POST" action="/create?newPublication=true" enctype="multipart/form-data">
+    {{/if}}
+        <div class="d-flex card w-50 p-3 shadow-lg p-3 mb-5 bg-body rounded border border-dark">
+            <div class="card-body">
+                <div class="mb-3">
+                    <h2>Datos de la publicación</h2>
+                    <input class="form-control" name="titulo" id="titulo" type="text" placeholder="Titulo del producto"
+                        value="{{titulo}}"> <br>
+                    <textarea class="form-control" name="descripcion" id="descripcion" placeholder="Descripción"
+                        maxlength="155"></textarea> <br>
+                    <input class="form-control" type="file" id="formFile" name="imagen" multiple> <br>
+                    <input class="form-control input-number" name="precio" id="precio" type="number"
+                        placeholder="Precio ($)" value="{{precio}}"> <br>
+                    <input type="checkbox" name="confirm-descuento" id="confirm-descuento">
+                    <label for="confirm-descuento">Añadir descuento</label>
+                    <input class="form-control input-number" name="descuento" id="descuento" type="number"
+                        placeholder="Descuento (%)" onKeyPress="if(this.value.length==2) return false;">
+
+                    {{!-- <input class="form-control" value="" name="" id="" type="text" placeholder=""> --}}
+                </div>
+                {{#if product}}
+                    {{#with product}}
+                        <h2>Publicación basada</h2>
+                        <p>{{idProducto}}</p>
+                        <p>{{categoria}}</p>
+                        <p>{{genero}}</p>
+                        <p>{{material}}</p>
+                        <p>{{marca}}</p>
+                    {{/with}}
+                {{else}}
+                    <hr>
+                    <div class="mb-3">
+                        <h2>Caracteristicas del producto</h2> <br>
+                        <select class="text-uppercase form-select" name="categoria" id="categoria">
+                            <option value="">Seleccione una categoría</option>
+                            {{#each categorias}}
+                                <option class="text-capitalize" value="{{categoria}}">{{categoria}}</option>
+                            {{/each}}
+                        </select> <br>
+                        <select class="text-uppercase form-select" name="genero" id="genero">
+                            <option value="0">Seleccione un género</option>
+                            <option value="Hombre">Hombre</option>
+                            <option value="Mujer">Mujer</option>
+                            <option value="Unisex">Unisex</option>
+                        </select> <br>
+                        <select class="text-uppercase form-select" name="material" id="material">
+                            <option value="0">Seleccione un material</option>
+                            {{#each materiales}}
+                                <option value="{{material}}">{{material}}</option>
+                            {{/each}}
+                        </select> <br>
+                        <input type="text" class="form-control" list="marca" name="marca"
+                            placeholder="SELECCIONE O INGRESE UNA MARCA" />
+                        <datalist name="marca" id="marca">
+                            <option value="">Seleccione o ingrese una marca</option>
+                            {{#each marcas}}
+                                <option class="text-capitalize" value="{{marca}}">{{marca}}</option>
+                            {{/each}}
+                        </datalist> <br>
+                        {{!-- <div>
+                            <select class="text-uppercase form-select" name="colores" id="colores">
+                                <option value="0">Seleccione un color</option>
+                                {{#each colores}}
+                                    <option value="{{color}}">{{color}}</option>
+                                {{/each}}
+                            </select> <br>
+                            <p id="textColores">¿No encuentras el color que buscas? Agrégalo tu mismo.</p>
+                            <button type="button" class="btn btn-success" name="addColor" id="addColor">Añadir
+                                color</button>
+                        </div> --}}
+                    </div>
+                {{/if}}
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <button type="submit" class="btn btn-success btn-lg"><i class="fas fa-check"></i> Publicar</button>
+                    <button type="reset" class="btn btn-danger btn-lg"><i class="fas fa-trash"></i> Descartar</button>
+                </div>
+                {{#if success}}
+                    <p class="text-success text-center mt-1">{{success}}</p>
+                    <p><a href="/publication/{{id}}">Click aquí</a> para verla </p>
+                {{/if}}
+                {{#if message}}
+                    <p class="text-danger text-center mt-1">{{message}}</p>
+                {{/if}}
             </div>
         </div>
-        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <button type="submit" class="btn btn-success btn-lg"><i class="fas fa-check"></i> Publicar</button>
-            <button type="reset" class="btn btn-danger btn-lg"><i class="fas fa-trash"></i> Descartar</button>
-        </div>
-        {{#if success}}
-        <p class="text-success text-center mt-1">{{success}}</p>
-        <p><a href="/publication/{{id}}">Click aquí</a> para verla </p>
-        {{/if}}
-        {{#if message}}
-           <p class="text-danger text-center mt-1">{{message}}</p>
-        {{/if}}
-          </div>
-</div>
     </form>
 </section>
 {{>footer}}

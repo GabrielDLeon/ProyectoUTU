@@ -4,7 +4,7 @@
         {{!-- SIDEBAR --}}
         <div class="col-md-12 col-lg-5" id="sidebar" style="background-color: #fafafa;">
             <div class="sticky-top pt-sm-0 pt-md-0 pt-lg-5 pt-xl-5" style="z-index: 1">
-                <div class="m-5 p-lg-2 p-xl-4">
+                <div class="position-relative m-5 p-lg-2 p-xl-4">
                     <div class="mb-1 text-capitalize">
                         <a href="/search?key={{product.categoria}}"><span class="badge rounded-pill bg-dark">{{product.categoria}}</span></a>
                         <a href="/search?key={{product.genero}}"><span class="badge rounded-pill bg-dark">{{product.genero}}</span></a>
@@ -68,9 +68,9 @@
                                 <div>
                                     <form action="/publication/addFavorite/{{publication.nroPublicacion}}" method="POST">
                                         {{#if favorite}}
-                                            <button title="Eliminar de favoritos" class="btn btn-default position-absolute top-0 end-0 p-5"><i class="fas fa-heart" style="font-size: xx-large;"></i></button>
+                                            <button title="Eliminar de favoritos" class="btn btn-default position-absolute top-0 end-0 m-1 p-1"><i class="fas fa-heart" style="font-size: xx-large;"></i></button>
                                         {{else}}
-                                            <button title="Agregar a favoritos" class="btn btn-default position-absolute top-0 end-0 p-5"><i class="far fa-heart" style="font-size: xx-large;"></i></button>
+                                            <button title="Agregar a favoritos" class="btn btn-default position-absolute top-0 end-0 m-1 p-1"><i class="far fa-heart" style="font-size: xx-large;"></i></button>
                                         {{/if}}
                                     </form>
                                 </div>
@@ -120,7 +120,7 @@
                                 {{/each}}
                             {{else}}
                                 <div class="carousel-item active">
-                                    <img src="/img/testing/item3.jpg" class="d-block w-100" alt="...">
+                                    <img src="/img/Generic.png" class="d-block w-100" alt="...">
                                 </div>
                             {{/if}}
                         </div>
@@ -237,14 +237,13 @@
                             {{!-- Cuando la publicación no tiene preguntas --}}
                             <div class="my-2">
                                 <div class="mt-2 ms-4 text-muted">
-                                    <p>Aún nadie ha realizado una pregunta sobre este producto, ¡sé el primero en hacerlo!</p>
+                                    <p>Aún nadie ha realizado una pregunta sobre este producto{{#ifCond user.data.tipo '==' 'usuario'}}, ¡sé el primero en hacerlo!{{/ifCond}}</p>
                                 </div>
                             </div>
                         {{/if}}
                         <div class="mb-5 d-grid gap-2">
                             <button class="btn btn-dark"><a href="/publication/{{publication.nroPublicacion}}/comments" class="link-unstyled">Ver todos los comentarios</a></button>
                         </div>
-        
                     </div>
                 </div>
             </section>
