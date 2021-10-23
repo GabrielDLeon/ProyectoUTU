@@ -44,7 +44,8 @@ exports.login = async (req, res) => {
       return res.status(400).render('./auth/login', {
         pass: req.body.pass,
         mail: req.body.mail,
-        message: 'Ingrese mail y contraseña'
+        message: 'Ingrese mail y contraseña',
+        title: "Login"
       })
     }
 
@@ -52,7 +53,8 @@ exports.login = async (req, res) => {
       if( results.length == 0 || !(await bcrypt.compare(pass, results[0].password)) ) {
         res.status(401).render('./auth/login', {
           mail: req.body.mail,
-          message: 'Email o contraseña incorrectos'
+          message: 'Email o contraseña incorrectos',
+          title: "Login"
         })
       } else {
         const id = results[0].email;
@@ -93,7 +95,8 @@ exports.register = (req, res) => {
             pass: req.body.pass,
             pass2: req.body.passwordConfirm,
             name: req.body.name,
-            message: 'Complete todos los campos'
+            message: 'Complete todos los campos',
+            title: "Registro de usuario"
       })
    }
    if (esValido == false) {  
@@ -101,7 +104,8 @@ exports.register = (req, res) => {
             pass: req.body.pass,
             pass2: req.body.passwordConfirm,
             name: req.body.name,
-            message: 'El correo ingresado es inválido, ingrese su correo original.'
+            message: 'El correo ingresado no es válido.',
+            title: "Registro de usuario"
           })
         }
     if(results.length > 0 ) {
@@ -109,13 +113,15 @@ exports.register = (req, res) => {
             pass: req.body.pass,
             pass2: req.body.passwordConfirm,
             name: req.body.name,
-            message: 'Mail ya en uso'
+            message: 'Mail ya en uso',
+            title: "Registro de usuario"
       })
     } else if( pass !== passwordConfirm ) {
       return res.render('./auth/register', {
         mailUsuario: req.body.mailUsuario,
             name: req.body.name,
-            message: 'Las contraseñas no coinciden'
+            message: 'Las contraseñas no coinciden',
+            title: "Registro de usuario"
       });
     }
 
@@ -128,7 +134,8 @@ exports.register = (req, res) => {
         if (error) {console.log(error)
         } else {
           return res.render('./auth/register', {
-            registroCompleto: 'Usuario registrado, puede ingresar'
+            registroCompleto: 'Usuario registrado, puede ingresar',
+            title: "Registro completo"
           });
         }
      })
@@ -178,7 +185,10 @@ exports.registerCompany = (req, res) => {
     if(error) {
       console.log(error);
     }
-    
+    db.query('SELECT nombre FROM perfil WHERE nombre = ?', [name], async (error, result) => {
+      if(error) {
+        console.log(error);
+      }
     if(!pass || !mailEmpresa || !name || !rut || !razon ) {
       return res.render('./auth/registerCompany', {
          mailEmpresa: req.body.mailEmpresa,
@@ -188,7 +198,8 @@ exports.registerCompany = (req, res) => {
             pass2: req.body.passwordConfirm,
             name: req.body.name,
             title: 'Registro de empresa',
-            message: 'Complete todos los campos'
+            message: 'Complete todos los campos',
+            title: "Registro de empresa"
       })
    }
   //  if (validate_isRUT(rut) == false) {
@@ -202,6 +213,17 @@ exports.registerCompany = (req, res) => {
   //        message: 'RUT inválido'
   //  })
   //  }
+  if( result.length > 0 ) {
+    return res.render('./auth/registerCompany', {
+          pass: req.body.pass,
+          pass2: req.body.passwordConfirm,
+          name: req.body.name,
+          rut: req.body.rut,
+          mailEmpresa: req.body.mailEmpresa,
+          message: 'Nombre ya en uso',
+          title: "Registro de empresa"
+    })
+  }
    if (esValido == false) {  
     return res.render('./auth/registerCompany', {
           pass: req.body.pass,
@@ -209,7 +231,8 @@ exports.registerCompany = (req, res) => {
           name: req.body.name,
           rut: req.body.rut,
           razon: req.body.razon,
-          message: 'El correo ingresado es inválido, ingrese su correo original.'
+          message: 'El correo ingresado es inválido, ingrese su correo original.',
+          title: "Registro de empresa"
         })
       }
     if( results.length > 0 ) {
@@ -217,7 +240,8 @@ exports.registerCompany = (req, res) => {
             pass: req.body.pass,
             pass2: req.body.passwordConfirm,
             name: req.body.name,
-            message: 'Mail ya en uso'
+            message: 'Mail ya en uso',
+            title: "Registro de empresa"
       })
     } else if( pass !== passwordConfirm ) {
       return res.render('./auth/registerCompany', {
@@ -225,7 +249,8 @@ exports.registerCompany = (req, res) => {
             name: req.body.name,
             rut: req.body.rut,
             razon: req.body.razon,
-            message: 'Las contraseñas no coinciden'
+            message: 'Las contraseñas no coinciden',
+            title: "Registro de empresa"
       });
     }
 
@@ -246,11 +271,12 @@ exports.registerCompany = (req, res) => {
         } else {
           return res.render('./auth/registerCompany', {
             registroCompleto:'Empresa registrada correctamente, puede ingresar',
-            title: 'Registro Completado'
+            title: 'Registro Completo'
           });
         }
      })
     })
+  })
   })
   });
 }
