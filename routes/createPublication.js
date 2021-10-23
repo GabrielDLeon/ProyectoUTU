@@ -84,6 +84,10 @@ router.get('/', authController.isLoggedIn, (req, res) => {
 
 
 router.post('/', upload.array("imagen", 12), authController.isLoggedIn, async (req, res) => {
+    db.query('SELECT categoria FROM categorias', (error, categorias) => {
+        db.query('SELECT material FROM materiales', (error, materiales) => {
+            db.query('SELECT marca FROM marcas', (error, marcas) => {
+                db.query('SELECT color FROM colores', (error, colores) => {
     const { titulo, descripcion, precio, descuento, categoria, genero, material, marca } = req.body;
     if (!genero || !titulo || !descripcion || !precio || !material || !marca || !categoria) {
         return res.render('publication/create', {
@@ -181,6 +185,10 @@ router.post('/', upload.array("imagen", 12), authController.isLoggedIn, async (r
             });
         });
     }
+});
+});
+});
+});
 });
 
 module.exports = router;
