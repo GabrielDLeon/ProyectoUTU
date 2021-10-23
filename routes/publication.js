@@ -24,7 +24,7 @@ router.get('/:id', authController.isLoggedIn, async (req, res) => {
     if (req.user){var {email} = req.user.data}
     await db.query('SELECT nroPublicacion, precio, titulo, descripcion, producto, cuenta_empresa.email AS vendedorEmail, cuenta_empresa.nombre AS vendedor, fechaPublicacion FROM (publicacion INNER JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email) WHERE nroPublicacion = ?',[id], async (error, result) => { 
         if (result.length>0){
-            await db.query('SELECT idProducto, categoria, genero, material, marca FROM (publicacion INNER JOIN producto ON publicacion.producto = producto.idProducto) WHERE publicacion.nroPublicacion = ?',[id], async (error, product) => {
+            await db.query('SELECT idProducto, categoria, genero, material, marca FROM (publicacion INNER JOIN productos ON publicacion.producto = productos.idProducto) WHERE publicacion.nroPublicacion = ?',[id], async (error, product) => {
                 await db.query('SELECT * FROM favoritos WHERE usuario = ? AND publicacion = ?', [email, id], async (error, favorite) => {
                     await db.query('SELECT talle FROM (publicacion INNER JOIN curvas ON publicacion.nroPublicacion = curvas.publicacion) WHERE nroPublicacion = ?', [id], async (error, sizes) => {
                         await db.query('SELECT color FROM (publicacion_color INNER JOIN publicacion ON publicacion_color.publicacion = publicacion.nroPublicacion) WHERE publicacion.nroPublicacion = ?', [id], async (error, colors) => {

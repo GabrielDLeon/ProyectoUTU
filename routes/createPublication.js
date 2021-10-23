@@ -31,7 +31,7 @@ router.get('/', authController.isLoggedIn, (req, res) => {
         const query = req.query;
         if (query.idProducto) {
             const {idProducto} = query;
-            db.query('SELECT * FROM producto WHERE idProducto = ?', [idProducto], (error, product) => {
+            db.query('SELECT * FROM productos WHERE idProducto = ?', [idProducto], (error, product) => {
                 console.log(product);
                 if (product[0]){
                     db.query('SELECT color FROM colores', (error, colores) => {
@@ -83,6 +83,7 @@ router.post('/', upload.array("imagen", 12), authController.isLoggedIn, async (r
     // Cuando se crea una  publicación con un producto ya existente (que se encuentra en la BD)
     if (action.idProducto) {
         // res.send("Utilizando producto")
+        console.log("Se está creando una publicación desde un producto ya existente");
         const { titulo, descripcion, precio, descuento } = req.body;
         if (!titulo || !descripcion || !precio) {
             return res.render('publication/create', {
@@ -129,7 +130,7 @@ router.post('/', upload.array("imagen", 12), authController.isLoggedIn, async (r
                         db.query("INSERT INTO fotos VALUES (?, ?);", [idPublicacion, resultado]);
                     })
                 }
-                db.query('SELECT * FROM producto WHERE idProducto = ?', [idProducto], (error, product) => {
+                db.query('SELECT * FROM productos WHERE idProducto = ?', [idProducto], (error, product) => {
                     return res.render('publication/create', {
                         id: idPublicacion,
                         product: product[0],
@@ -147,8 +148,9 @@ router.post('/', upload.array("imagen", 12), authController.isLoggedIn, async (r
         }
     
     // Cuando se crea una  publicación con un producto nuevo (que no se encuentra en la BD)
-    } else if (action.newPublication == true) {
+    } else if (action.newPublication) {
         // res.send("Nueva publicación")
+        console.log("Se está creando una publicación y un producto");
         db.query('SELECT categoria FROM categorias', (error, categorias) => {
             db.query('SELECT material FROM materiales', (error, materiales) => {
                 db.query('SELECT marca FROM marcas', (error, marcas) => {
@@ -211,7 +213,7 @@ router.post('/', upload.array("imagen", 12), authController.isLoggedIn, async (r
                                                 vendedor: req.user.data.email,
                                                 fecha: currentDate
                                             }
-                                            db.query("INSERT INTO producto (categoria, genero, material, marca) VALUES (?, ?, ?, ?)", [newProduct.categoria, newProduct.genero, newProduct.material, newProduct.marca], (error, result) => {
+                                            db.query("INSERT INTO productos (categoria, genero, material, marca) VALUES (?, ?, ?, ?)", [newProduct.categoria, newProduct.genero, newProduct.material, newProduct.marca], (error, result) => {
                                                 if (error) {
                                                     console.log("ERROR: " + error);
                                                 } else {

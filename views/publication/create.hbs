@@ -18,8 +18,7 @@
                         placeholder="Precio ($)" value="{{precio}}"> <br>
                     <input type="checkbox" name="confirm-descuento" id="confirm-descuento">
                     <label for="confirm-descuento">Añadir descuento</label>
-                    <input class="form-control input-number" name="descuento" id="descuento" type="number"
-                        placeholder="Descuento (%)" onKeyPress="if(this.value.length==2) return false;">
+                    <input class="form-control input-number" name="descuento" id="descuento" type="number" placeholder="Descuento (%)" onKeyPress="if(this.value.length==2) return false;">
 
                     {{!-- <input class="form-control" value="" name="" id="" type="text" placeholder=""> --}}
                 </div>
@@ -36,12 +35,14 @@
                     <hr>
                     <div class="mb-3">
                         <h2>Caracteristicas del producto</h2> <br>
-                        <select class="text-uppercase form-select" name="categoria" id="categoria">
+                        <input type="text" class="form-control" list="categoria" name="categoria" placeholder="SELECCIONE O INGRESE UNA categoria" />
+                        <datalist name="categoria" id="categoria">
                             <option value="">Seleccione una categoría</option>
                             {{#each categorias}}
-                                <option class="text-capitalize" value="{{categoria}}">{{categoria}}</option>
+                            <option class="text-capitalize" value="{{categoria}}">{{categoria}}</option>
                             {{/each}}
-                        </select> <br>
+                        </datalist> <br>
+
                         <select class="text-uppercase form-select" name="genero" id="genero">
                             <option value="0">Seleccione un género</option>
                             <option value="Hombre">Hombre</option>
@@ -54,8 +55,7 @@
                                 <option value="{{material}}">{{material}}</option>
                             {{/each}}
                         </select> <br>
-                        <input type="text" class="form-control" list="marca" name="marca"
-                            placeholder="SELECCIONE O INGRESE UNA MARCA" />
+                        <input type="text" class="form-control" list="marca" name="marca" placeholder="SELECCIONE O INGRESE UNA MARCA" />
                         <datalist name="marca" id="marca">
                             <option value="">Seleccione o ingrese una marca</option>
                             {{#each marcas}}

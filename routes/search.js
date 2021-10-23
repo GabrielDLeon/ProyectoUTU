@@ -47,7 +47,7 @@ router.get('/', authController.isLoggedIn, async (req, res) => {
     if (maxPrice) {array.push('(precio <'+maxPrice+' OR (precio-precio*descuento.porcentaje/100) <'+maxPrice+')')}
 
     // Template almacena una consulta de SQL donde acumula todos los filtros de la búsqueda
-    let template = 'SELECT '+variables+' FROM (publicacion LEFT JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email LEFT JOIN fotos ON fotos.publicacion = publicacion.nroPublicacion INNER JOIN producto ON publicacion.producto = producto.idProducto LEFT JOIN descuento ON descuento.publication = publicacion.nroPublicacion) ';
+    let template = 'SELECT '+variables+' FROM (publicacion LEFT JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email LEFT JOIN fotos ON fotos.publicacion = publicacion.nroPublicacion INNER JOIN productos ON publicacion.producto = productos.idProducto LEFT JOIN descuento ON descuento.publication = publicacion.nroPublicacion) ';
 
     // Añade los filtros de la búsqueda a la consulta SQL (template)
     template += 'WHERE ';
