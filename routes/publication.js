@@ -22,7 +22,7 @@ router.get('/', (req, res) => {
 router.get('/:id', authController.isLoggedIn, async (req, res) => {
     const {id} = req.params;
     if (req.user){var {email} = req.user.data}
-    await db.query('SELECT nroPublicacion, precio, titulo, descripcion, producto, cuenta_empresa.email AS vendedorEmail, cuenta_empresa.nombre AS vendedor FROM (publicacion INNER JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email) WHERE nroPublicacion = ?',[id], async (error, result) => { 
+    await db.query('SELECT nroPublicacion, precio, titulo, descripcion, producto, cuenta_empresa.email AS vendedorEmail, cuenta_empresa.nombre AS vendedor, fechaPublicacion FROM (publicacion INNER JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email) WHERE nroPublicacion = ?',[id], async (error, result) => { 
         if (result.length>0){
             await db.query('SELECT idProducto, categoria, genero, material, marca FROM (publicacion INNER JOIN producto ON publicacion.producto = producto.idProducto) WHERE publicacion.nroPublicacion = ?',[id], async (error, product) => {
                 await db.query('SELECT * FROM favoritos WHERE usuario = ? AND publicacion = ?', [email, id], async (error, favorite) => {

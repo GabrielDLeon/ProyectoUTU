@@ -16,8 +16,9 @@
                     <div>
                         <h3 class="fw-bold">{{publication.titulo}}</h3>
                         <a href="/profile/{{publication.vendedor}}" class="link-unstyled">
-                            <h6 class="text-muted d-inline f-space-2">Promocionado por <span>{{publication.vendedor}}</span></h6>
+                            <h6 class="text-muted d-inline f-space-2">Promocionado por <span>{{publication.vendedor}}</span></h6><br>
                         </a>
+                        <small class="text-muted">{{timeago publication.fechaPublicacion}}</small>
                     </div>
                     <div class="my-3">
                         <div>

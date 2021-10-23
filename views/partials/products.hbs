@@ -33,10 +33,13 @@
                     <div class="mt-2">
                         {{!-- <h6 class="card-title mb-1">{{titulo}}</h6> --}}
                         <h6 class="mb-0"><a href="/profile/{{vendedor}}" class="text-muted link-unstyled">{{vendedor}}</a></h6>
-                        {{#if categoria}}
-                            <small class="text-muted text-capitalize"><i>{{categoria}} + {{genero}}</i></small>
+                        {{#if fechaPublicacion}}
+                            <small class="text-muted"><i>{{timeago fechaPublicacion}}</i></small>
+                        {{else}}
+                            {{#if categoria}}
+                                <small class="text-muted text-capitalize"><i>{{categoria}} + {{genero}}</i></small>
+                            {{/if}}
                         {{/if}}
-                        
                         {{!-- <div><a href="/publication/{{nroPublicacion}}" class="link-unstyled">
                             <h6 class="card-title mb-1">{{titulo}}</h6>
                         </a></div> --}}
