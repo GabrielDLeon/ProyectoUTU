@@ -31,7 +31,7 @@ router.get('/', authController.isLoggedIn, async (req, res) => {
     let array = [];
 
     // Variables almacena todos los valores que se extraerán de la consulta SQL
-    let variables = 'nroPublicacion, precio, titulo, precio-precio*descuento.porcentaje/100 AS descuento, descripcion, producto, cuenta_empresa.nombre AS vendedor, categoria, genero, material, marca'
+    let variables = 'nroPublicacion, fotos.imagen AS imagen,precio, titulo, precio-precio*descuento.porcentaje/100 AS descuento, descripcion, producto, cuenta_empresa.nombre AS vendedor, categoria, genero, material, marca'
 
     // Se verifica que filtros se están usando en la URL
     if (key) {array.push('(titulo LIKE "%'+key+'%" OR categoria LIKE "%'+key+'%" OR genero LIKE "%'+key+'%" OR material LIKE "%'+key+'%" OR marca LIKE "%'+key+'%" OR cuenta_empresa.nombre LIKE "%'+key+'%")')}
