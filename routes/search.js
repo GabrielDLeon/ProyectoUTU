@@ -21,17 +21,28 @@ router.post('/', async (req, res) => {
 
 router.get('/', authController.isLoggedIn, async (req, res) => {
     const query = req.query;
-    const {key} = query;
-    const {sale} = query;
+    const {key, sale, minPrice, maxPrice} = query;
+    let array = [];
+
     // La variable template almacena una consulta de SQL donde acumula todos los filtros de la búsqueda
     // Si existen dos filtros el template guardará uno primero, y posteriormente añadirá el otro
     let template = 'SELECT nroPublicacion, precio, titulo, precio-precio*descuento.porcentaje/100 AS descuento, descripcion, producto, cuenta_empresa.nombre AS vendedor, categoria, genero, material, marca FROM (publicacion LEFT JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email LEFT JOIN fotos ON fotos.publicacion = publicacion.nroPublicacion INNER JOIN producto ON publicacion.producto = producto.idProducto LEFT JOIN descuento ON descuento.publication = publicacion.nroPublicacion) ';
-    if (key || sale){
-        template += 'WHERE ';
-        if (key) {template += 'titulo LIKE "%'+key+'%" OR categoria LIKE "%'+key+'%" OR genero LIKE "%'+key+'%" OR material LIKE "%'+key+'%" OR marca LIKE "%'+key+'%" OR cuenta_empresa.nombre LIKE "%'+key+'%" '}
-        if (sale==1) {template+= 'descuento.porcentaje > 0 '}
-    }
-    template += 'GROUP BY nroPublicacion;';
+    if (key) {array.push('(titulo LIKE "%'+key+'%" OR categoria LIKE "%'+key+'%" OR genero LIKE "%'+key+'%" OR material LIKE "%'+key+'%" OR marca LIKE "%'+key+'%" OR cuenta_empresa.nombre LIKE "%'+key+'%")')}
+    if (sale==1)  {array.push('(descuento.porcentaje > 0)')}
+    if (minPrice) {array.push('(precio >'+minPrice+' OR (precio-precio*descuento.porcentaje/100) >'+minPrice+')')}
+    if (maxPrice) {array.push('(precio <'+maxPrice+' OR (precio-precio*descuento.porcentaje/100) <'+maxPrice+')')}
+    template += 'WHERE ';
+    let i = 0;
+    array.forEach(string => {
+        if (i < (array.length-1)){
+            template += string.valueOf();
+            template += ' AND '
+            i++;
+        } else {
+            template += string.valueOf();
+        }
+    });
+    template += ' GROUP BY nroPublicacion;';
     db.query('SELECT * FROM perfil WHERE perfil.email LIKE "%"?"%"', [key], (error, shops) => {
         db.query(template, (error, recommendations) => {
             res.render('search', {
