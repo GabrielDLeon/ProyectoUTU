@@ -1,10 +1,10 @@
 {{>navigation}}
 <div class="container mt-5">
-  <form action="/profile/edit/{{data.id}}" method="POST" enctype="multipart/form-data">
+  <form action="/profile/edit/{{data.id}}" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
   <h3>Datos de cuenta</h3>
     <div class="mb-3">
       <label for="name" class="form-label1">Nombre</label>
-      <input type="text" class="form-control" id="name" name="nombre" value="{{data.nombre}}">
+      <input type="text" class="form-control" id="name" name="nombre" value="{{data.nombre}}" required>
     </div>
     <div class="mb-3">
       <label for="razon">Razón social</label>
@@ -12,9 +12,6 @@
         <option value="{{data.razonSocial}}">{{data.razonSocial}}</option>
         {{#ifCond data.razonSocial '!=' 'Sociedad Anonima'}}
         <option value="Sociedad Anonima">Sociedad Anónima</option>
-        {{/ifCond}}
-        {{#ifCond data.razonSocial '!=' 'Otra'}}
-        <option value="Otra">Otra</option>
         {{/ifCond}}
         {{#ifCond data.razonSocial '!=' 'Sociedad Limitada'}}
         <option value="Sociedad Limitada">Sociedad Limitada</option>
@@ -33,6 +30,9 @@
         {{/ifCond}}
         {{#ifCond data.razonSocial '!=' 'Sociedad Comanditaria Simple'}}
         <option value="Sociedad Comanditaria Simple">Sociedad Comanditaria Simple</option>
+        {{/ifCond}}
+        {{#ifCond data.razonSocial '!=' 'Otra'}}
+        <option value="Otra">Otra</option>
         {{/ifCond}}
       </select>
       <br>
@@ -88,3 +88,22 @@
     </div>
   </form>
 </div>
+<script>
+    (function() {
+  'use strict';
+  window.addEventListener('load', function() {
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.getElementsByClassName('needs-validation');
+    // Loop over them and prevent submission
+    var validation = Array.prototype.filter.call(forms, function(form) {
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  }, false);
+})();
+</script>

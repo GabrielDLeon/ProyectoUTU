@@ -44,7 +44,7 @@ router.get('/edit/:id', authController.isLoggedIn, async (req, res) => {
         if (result.length>0){
             if (email === result[0].vendedor){
                 db.query('SELECT nroPublicacion AS id, precio, titulo, descripcion, porcentaje AS descuento FROM (publicacion INNER JOIN descuento ON publicacion.nroPublicacion = descuento.publication) WHERE publicacion.nroPublicacion = ?',[id], (error, result) => {
-                    db.query('SELECT categoria, genero, material, marca FROM (productso INNER JOIN publicacion ON productos.idProducto = publicacion.producto) WHERE nroPublicacion = ?',[id], (error, product) => {
+                    db.query('SELECT categoria, genero, material, marca FROM (productos INNER JOIN publicacion ON productos.idProducto = publicacion.producto) WHERE nroPublicacion = ?',[id], (error, product) => {
                         console.log(result)
                         const {categoria, genero, material, marca} = product[0];
                         db.query('SELECT categoria FROM categorias WHERE categoria != ?',[categoria], (error, categorias) => {

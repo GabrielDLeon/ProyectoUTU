@@ -1,34 +1,14 @@
 {{>navigation}}
 <div class="container mt-5">
-<form action="/profile/edit/{{user.id}}" method="POST"> 
+<form action="/profile/edit/{{user.id}}" method="POST" class="needs-validation" novalidate> 
         <div class="mb-3"> 
           <label for="name" class="form-label1">Nombre</label>
-          <input type="User" class="form-control" id="name" name="nombre" value="{{user.nombre}}">
+          <input type="User" class="form-control" id="name" name="nombre" value="{{user.nombre}}" required>
         </div>
-          <div class="mb-3"> 
-         <label for="pass2" class="form-label">Contraseña actual</label> 
-          <input type="password" class="form-control" id="pass" name="pass" value="{{pass}}"> 
-          <div class="col-auto">
-          </div> 
-        </div>
-        <div class="mb-3"> 
-         <label for="pass2" class="form-label">Nueva contraseña</label> 
-          <input type="password" class="form-control" id="pass" name="newPass" value="{{newPass}}"> 
-          <div class="col-auto">
-        </div> 
-        <br>
-        <div class="mb-3"> 
-         <label for="pass2" class="form-label">Confirmación de la nueva contraseña</label> 
-          <input type="password" class="form-control" id="pass" name="newPassConfirm" value="{{newPassConfirm}}"> 
-          <div class="col-auto">
-        </div> 
-        {{!--
-        <input type="checkbox" name="change_password" id="change_password" value="1" onclick="setPasswordForm(this.checked)" title="Cambiar contraseña" class="checkbox no-bg validation-passed">
-        <label for="change_password">Cambiar contraseña</label> --}}
+        <p>¿Deseas cambiar la contraseña? <a href="/profile/edit/pass/{{data.id}}">Click aquí</a></p>
         <div class="mb-3">
           <div class="d-grid gap-2">
-            <br>
-            <button type="submit" class="text-uppercase btn btn-dark" name="guardar" id="guardar">Editar datos</button>
+            <button type="submit" class="text-uppercase btn btn-dark" name="guardar" id="guardar">Editar nombre</button>
           </div>
           {{#if message }}
            <p class="text-danger text-center mt-1">{{message}}</p>
@@ -38,3 +18,22 @@
           {{/if}}
       </form>
 </div>
+<script>
+    (function() {
+  'use strict';
+  window.addEventListener('load', function() {
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.getElementsByClassName('needs-validation');
+    // Loop over them and prevent submission
+    var validation = Array.prototype.filter.call(forms, function(form) {
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  }, false);
+})();
+</script>

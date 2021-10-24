@@ -1,24 +1,25 @@
 {{>navigation}}
 <section class="container my-5">
     {{#if product}}
-        <form method="POST" action="/create?idProducto={{product.idProducto}}" enctype="multipart/form-data">
+        <form method="POST" action="/create?idProducto={{product.idProducto}}" enctype="multipart/form-data" class="needs-validation" novalidate>
     {{else}}
-        <form method="POST" action="/create?newPublication=true" enctype="multipart/form-data">
+        <form method="POST" action="/create?newPublication=true" enctype="multipart/form-data" class="needs-validation" novalidate>
     {{/if}}
         <div class="d-flex card w-50 p-3 shadow-lg p-3 mb-5 bg-body rounded border border-dark">
             <div class="card-body">
                 <div class="mb-3">
                     <h2>Datos de la publicación</h2>
                     <input class="form-control" name="titulo" id="titulo" type="text" placeholder="Titulo del producto"
-                        value="{{titulo}}"> <br>
+                        value="{{titulo}}" required> <br>
                     <textarea class="form-control" name="descripcion" id="descripcion" placeholder="Descripción"
-                        maxlength="155"></textarea> <br>
-                    <input class="form-control" type="file" id="formFile" name="imagen" multiple> <br>
+                        maxlength="155" required></textarea> <br>
+                    <label for="formFile">Imágen/es para la publicación</label>
+                    <input class="form-control" type="file" id="formFile" name="imagen" placeholder="Imageasdasdsadn" multiple> <br>
                     <input class="form-control input-number" name="precio" id="precio" type="number"
-                        placeholder="Precio ($)" value="{{precio}}"> <br>
+                        placeholder="Precio ($)" value="{{precio}}" required> <br>
                     <input type="checkbox" name="confirm-descuento" id="confirm-descuento">
                     <label for="confirm-descuento">Añadir descuento</label>
-                    <input class="form-control input-number" name="descuento" id="descuento" type="number" placeholder="Descuento (%)" onKeyPress="if(this.value.length==2) return false;">
+                    <input class="form-control input-number" name="descuento" id="descuento" type="number" placeholder="Descuento (%)" onKeyPress="if(this.value.length==2) return false;" required>
 
                     {{!-- <input class="form-control" value="" name="" id="" type="text" placeholder=""> --}}
                 </div>
@@ -35,7 +36,7 @@
                     <hr>
                     <div class="mb-3">
                         <h2>Caracteristicas del producto</h2> <br>
-                        <input type="text" class="form-control" list="categoria" name="categoria" placeholder="SELECCIONE O INGRESE UNA categoria" />
+                        <input type="text" class="form-control" list="categoria" name="categoria" placeholder="SELECCIONE UNA CATEGORIA" required/>
                         <datalist name="categoria" id="categoria">
                             <option value="">Seleccione una categoría</option>
                             {{#each categorias}}
@@ -43,19 +44,19 @@
                             {{/each}}
                         </datalist> <br>
 
-                        <select class="text-uppercase form-select" name="genero" id="genero">
-                            <option value="0">Seleccione un género</option>
+                        <select class="text-uppercase form-select" name="genero" id="genero" required>
+                            <option value="">Seleccione un género</option>
                             <option value="Hombre">Hombre</option>
                             <option value="Mujer">Mujer</option>
                             <option value="Unisex">Unisex</option>
                         </select> <br>
-                        <select class="text-uppercase form-select" name="material" id="material">
-                            <option value="0">Seleccione un material</option>
+                        <select class="text-uppercase form-select" name="material" id="material" required>
+                            <option value="">Seleccione un material</option>
                             {{#each materiales}}
                                 <option value="{{material}}">{{material}}</option>
                             {{/each}}
                         </select> <br>
-                        <input type="text" class="form-control" list="marca" name="marca" placeholder="SELECCIONE O INGRESE UNA MARCA" />
+                        <input type="text" class="form-control" list="marca" name="marca" placeholder="SELECCIONE O INGRESE UNA MARCA" required />
                         <datalist name="marca" id="marca">
                             <option value="">Seleccione o ingrese una marca</option>
                             {{#each marcas}}
@@ -90,4 +91,23 @@
         </div>
     </form>
 </section>
+<script>
+    (function() {
+  'use strict';
+  window.addEventListener('load', function() {
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.getElementsByClassName('needs-validation');
+    // Loop over them and prevent submission
+    var validation = Array.prototype.filter.call(forms, function(form) {
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  }, false);
+})();
+</script>
 {{>footer}}

@@ -156,6 +156,7 @@ router.post('/', upload.array("imagen", 12), authController.isLoggedIn, async (r
                 db.query('SELECT marca FROM marcas', (error, marcas) => {
                     db.query('SELECT color FROM colores', (error, colores) => {
                         const { titulo, descripcion, precio, descuento, categoria, genero, material, marca } = req.body;
+                        db.query('SELECT categoria FROM categorias WHERE categoria = ?', [categoria], (error, categoriasR) => {
                         if (!genero || !titulo || !descripcion || !precio || !material || !marca || !categoria) {
                             return res.render('publication/create', {
                                 categorias,
@@ -170,8 +171,7 @@ router.post('/', upload.array("imagen", 12), authController.isLoggedIn, async (r
                                 message: "Por favor complete todos los campos antes de crear la publicación",
                                 title: "Nueva publicación"
                             })
-                        }
-                        else if (filtro == false) {
+                        } else if (filtro == false) {
                             return res.render('publication/create', {
                                 categorias,
                                 materiales,
@@ -183,6 +183,20 @@ router.post('/', upload.array("imagen", 12), authController.isLoggedIn, async (r
                                 precio: req.body.precio,
                                 descuento: req.body.descuento,
                                 message: "Compruebe la extensión de las imagenes que quiere subir (solo válidas .png, .jpg, .jpeg, .svg)",
+                                title: "Nueva publicación"
+                            })
+                        } else if (categoriasR.length <= 0) {
+                            console.log("gola")
+                            return res.render('publication/create', {
+                                categorias,
+                                materiales,
+                                marcas,
+                                user: req.user,
+                                titulo: req.body.titulo,
+                                descripcion: req.body.descripcion,
+                                precio: req.body.precio,
+                                descuento: req.body.descuento,
+                                message: "Esa categoria no existe, seleccione otra",
                                 title: "Nueva publicación"
                             })
                         } else {
@@ -253,6 +267,7 @@ router.post('/', upload.array("imagen", 12), authController.isLoggedIn, async (r
                             });
                         }
                     });
+                    })
                 });
             });
         });

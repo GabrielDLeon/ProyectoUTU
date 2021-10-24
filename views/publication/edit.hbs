@@ -1,42 +1,42 @@
 {{>navigation}}
 <section class="container my-5">
-    <form method="POST" action="/list/edit/{{publication.id}}">
+    <form method="POST" action="/list/edit/{{publication.id}}" class="needs-validation" novalidate>
         <div class="mb-3">
             <h2>Editar datos de la publicación</h2>
-            <input class="form-control" name="titulo" id="titulo" type="text" placeholder="Titulo" value="{{publication.titulo}}">
-            <textarea class="form-control" name="descripcion" id="descripcion" placeholder="Descripción" maxlength="155">{{publication.descripcion}}</textarea>
-            <input class="form-control input-number" name="precio" id="precio" type="number" placeholder="Precio" value="{{publication.precio}}">
+            <input class="form-control" name="titulo" id="titulo" type="text" placeholder="Titulo" value="{{publication.titulo}}" required>
+            <textarea class="form-control" name="descripcion" id="descripcion" placeholder="Descripción" maxlength="155" required>{{publication.descripcion}}</textarea>
+            <input class="form-control input-number" name="precio" id="precio" type="number" placeholder="Precio" value="{{publication.precio}}" required>
             <input type="checkbox" name="confirm-descuento" id="confirm-descuento">
             {{#if publication.descuento}}
             <label for="confirm-descuento">Cambiar descuento</label>
             {{else}}
             <label for="confirm-descuento">Añadir descuento</label>
             {{/if}}
-            <input class="form-control input-number" name="descuento" id="descuento" type="number" placeholder="Descuento" onKeyPress="if(this.value.length==2) return false;" {{#if publication.descuento}}value="{{publication.descuento}}" {{/if}}>
+            <input class="form-control input-number" name="descuento" id="descuento" type="number" placeholder="Descuento" onKeyPress="if(this.value.length==2) return false;" {{#if publication.descuento}}value="{{publication.descuento}}" required{{/if}}>
             
             
             {{!-- <input class="form-control" value="" name="" id="" type="text" placeholder=""> --}}
         </div>
         <div class="mb-3">
-            <select class="form-select" name="categoria" id="categoria">
+            <select class="form-select" name="categoria" id="categoria" required>
                 <option value="{{product.categoria}}">{{product.categoria}}</option>
                 {{#each categorias}}
                     <option class="text-capitalize" value="{{categoria}}">{{categoria}}</option>
                 {{/each}}
             </select>
-            <select class="form-select" name="genero" id="genero">
-                <option value="0">Seleccione un género</option>
+            <select class="form-select" name="genero" id="genero" required>
+                <option value="">Seleccione un género</option>
                 <option value="Hombre">Hombre</option>
                 <option value="Mujer">Mujer</option>
                 <option value="Unisex">Unisex</option>
             </select>
-            <select class="form-select" name="material" id="material">
+            <select class="form-select" name="material" id="material" required>
                 <option value="{{product.material}}">{{product.material}}</option>
                 {{#each materiales}}
                     <option value="{{material}}">{{material}}</option>
                 {{/each}}
             </select>
-            <select class="form-select" name="marca" id="marca">
+            <select class="form-select" name="marca" id="marca" required>
                 <option value="{{product.marca}}">{{product.marca}}</option>
                 {{#each marcas}}
                     <option value="{{marca}}">{{marca}}</option>
@@ -61,3 +61,22 @@
         {{/if}}
     </form>
 </section>
+<script>
+    (function() {
+  'use strict';
+  window.addEventListener('load', function() {
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.getElementsByClassName('needs-validation');
+    // Loop over them and prevent submission
+    var validation = Array.prototype.filter.call(forms, function(form) {
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  }, false);
+})();
+</script>

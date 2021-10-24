@@ -8,6 +8,8 @@
     --image-bg:  #cad2c5 ;
 }
 
+select { width: 400px; text-align-last:center; }
+
 body {
     height: 100vh;
     font-family: 'Poppins', sans-serif;

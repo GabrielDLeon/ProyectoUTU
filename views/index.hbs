@@ -1,47 +1,79 @@
 {{>navigation}}
 <body>
-    {{!-- BANNER --}}
-    <section class="mb-5">
-        <div style="min-height: 35vh; background-color: #fafafa;" class="jumbotron d-flex align-items-center">
-            <div class="container text-center">
-                <h1>Bienvenidos a Klouts</h1>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt porro, repellendus officiis provident voluptatum repellat, magni at voluptates nostrum ut asperiores reprehenderit cupiditate quo quas exercitationem? Quod voluptatibus dicta veniam?</p>
-                <div class="d-inline">
-                    <a href="/search?newest=1"><button class="btn rounded-pill btn-outline-dark">Novedades</button></a>
-                    <a href="#tiendas"><button class="btn rounded-pill btn-outline-dark">Tiendas oficiales</button></a>
-                    <a href="/search?sale=1"><button class="btn rounded-pill btn-outline-danger">Mejores ofertas</button></a>
-                </div>
-            </div>
+  <div id="mySidenav" class="sidenav">
+  <button type="button" class="btn-close btn-close-white " aria-label="Close" onclick="closeNav()"></button>
+  <ul class="list-unstyled ps-0">
+      <li class="mb-1">
+        <button class="btn btn-toggle align-items-center rounded collapsed text-white" data-bs-toggle="collapse" data-bs-target="#a-collapse" aria-expanded="true">
+         Vestimentas
+        </button>
+        <div class="collapse show" id="a-collapse">
+          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+            <li><a href="#" class="link-dark rounded">Buzos</a></li>
+            <li><a href="#" class="link-dark rounded">Camperas</a></li>
+            <li><a href="#" class="link-dark rounded">Musculosas</a></li>
+            <li><a href="#" class="link-dark rounded">Remeras</a></li>
+            <li><a href="#" class="link-dark rounded">Tops</a></li>
+          </ul>
         </div>
-    </section>
-
-    {{!-- CONTENT --}}
-    <section class="container mb-5">
-        <div class="row row-cols-lg-4 row-cols-sm-2 g-4">
+      </li>
+  <ul class="list-unstyled ps-0">
+      <li class="mb-1">
+        <button class="btn btn-toggle align-items-center rounded collapsed text-white" data-bs-toggle="collapse" data-bs-target="#b-collapse" aria-expanded="true">
+          Ropa Interior
+        </button>
+        <div class="collapse show" id="b-collapse">
+          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+            <li><a href="#" class="link-dark rounded">Camisetas</a></li>
+            <li><a href="#" class="link-dark rounded">Bóxers</a></li>
+            <li><a href="#" class="link-dark rounded">Reports</a></li>
+          </ul>
+        </div>
+      </li>
+  <ul class="list-unstyled ps-0">
+      <li class="mb-1">
+        <button class="btn btn-toggle align-items-center rounded collapsed text-white" data-bs-toggle="collapse" data-bs-target="#d-collapse" aria-expanded="true">
+          Pantalones
+        </button>
+        <div class="collapse show" id="d-collapse">
+          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+            <li><a href="#" class="link-dark rounded">Leggings</a></li>
+            <li><a href="#" class="link-dark rounded">Jeans</a></li>
+            <li><a href="#" class="link-dark rounded">Deportivos</a></li>
+          </ul>
+        </div>
+      </li>
+</div>
+<span onclick="openNav()"><i style="font-size: 30px;" class="bi bi-list"></i></span>
+          </ul>
+        </div>
+      </li>
+    </ul>
+</div>
+<div class="content">
+    <div class="container mt-5">
+        <div class="row row-cols-lg-5 row-cols-sm-2 g-4">
+            {{#if message }}
+                <p class="text-danger text-center mt-1">{{message}}</p>
+            {{/if}}
             {{>products}}
         </div>
-        <div class="my-5">
-            <h1 class="text-center" id="tiendas">Tiendas oficiales</h1>
-            <div class="d-flex justify-content-center">
-                <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
-                    <div class="carousel-inner">
-                        <div class="carousel-item active " data-bs-interval="5000">
-                            <img src="/img/testing/aliex.png" class="d-block w-50 mx-auto" alt="/img/testing/aliex.png">
-                        </div>
-                        <div class="carousel-item " data-bs-interval="5000">
-                            <img src="/img/testing/tiendamia.png" class="d-block w-50 mx-auto" alt="/img/testing/aliex.png">
-                        </div>
-                        <div class="carousel-item " data-bs-interval="5000">
-                            <img src="/img/testing/mercado.jpg" class="d-block w-50 mx-auto" alt="/img/testing/aliex.png">
-                        </div>
+        <h1 class="text-center">Nuestros patrocinadores</h1>
+        <div class="d-flex justify-content-center">
+            <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active " data-bs-interval="5000">
+                        <img src="/img/testing/aliex.png" class="d-block w-50 mx-auto" alt="/img/testing/aliex.png">
+                    </div>
+                    <div class="carousel-item " data-bs-interval="5000">
+                        <img src="/img/testing/tiendamia.png" class="d-block w-50 mx-auto" alt="/img/testing/aliex.png">
+                    </div>
+                    <div class="carousel-item " data-bs-interval="5000">
+                        <img src="/img/testing/mercado.jpg" class="d-block w-50 mx-auto" alt="/img/testing/aliex.png">
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-
-    {{!-- FOOTER --}}
-    <section>
-        {{>footer}}
-    </section>
+    </div>
+</div>
 </body>

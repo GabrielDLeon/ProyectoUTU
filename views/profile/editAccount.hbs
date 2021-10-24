@@ -1,22 +1,22 @@
 {{>navigation}}
 <div class="container mt-5">
     <h4>Cambio de contraseña</h4>
-    <form action="/profile/edit/pass/{{data.id}}" method="post">
+    <form action="/profile/edit/pass/{{data.id}}" method="post" class="needs-validation" novalidate>
       <div class="mb-3">
         <label for="pass2" class="form-label">Contraseña actual</label>
-        <input type="password" class="form-control" id="pass" name="pass" value="{{pass}}">
+        <input type="password" class="form-control" id="pass" name="pass" value="{{pass}}" required>
         <div class="col-auto">
         </div>
       </div>
       <div class="mb-3">
         <label for="pass2" class="form-label">Nueva contraseña</label>
-        <input type="password" class="form-control" id="pass" name="newPass" value="{{newPass}}">
+        <input type="password" class="form-control" id="pass" name="newPass" value="{{newPass}}" required>
         <div class="col-auto">
         </div>
         <br>
         <div class="mb-3">
           <label for="pass2" class="form-label">Confirmación de la nueva contraseña</label>
-          <input type="password" class="form-control" id="pass" name="newPassConfirm" value="{{newPassConfirm}}">
+          <input type="password" class="form-control" id="pass" name="newPassConfirm" value="{{newPassConfirm}}" required>
           <div class="col-auto">
           </div>
           <div class="d-grid gap-2">
@@ -27,4 +27,23 @@
         <p class="text-danger text-center mt-1">{{message}}</p>
       {{/if}}
       </form>
-</div>    
+</div> 
+<script>
+    (function() {
+  'use strict';
+  window.addEventListener('load', function() {
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.getElementsByClassName('needs-validation');
+    // Loop over them and prevent submission
+    var validation = Array.prototype.filter.call(forms, function(form) {
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  }, false);
+})();
+</script>   
