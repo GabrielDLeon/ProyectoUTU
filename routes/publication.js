@@ -129,6 +129,14 @@ router.post('/answer/:id', authController.isLoggedIn, async (req, res) => {
                     db.query('INSERT INTO notificaciones (`usuario`, `pregunta`) VALUES (?, ?)', [remitente, idPregunta]);
                     console.log("Se envió correctamente la notificación al usuario: "+remitente)
                 })
+                // Eliminar notificación de la pregunta del vendedor
+                await db.query('SELECT idNotificacion FROM notificaciones WHERE pregunta = ?', [idPregunta], (error, result) => {
+                    if (result){
+                        const {idNotificacion} = result[0];
+                        db.query('DELETE FROM notificaciones WHERE idNotificacion = ?', [idNotificacion]);
+                        console.log("Se eliminó correctamente la notificación vinculada a la pregunta");
+                    } else { console.log("No se encontró la pregunta") }
+                })
                 console.log('Respuesta enviada correctamente');
                 const path = '/publication/' + nroPublicacion + '/#seccion-preguntas';
                 return res.redirect(path);

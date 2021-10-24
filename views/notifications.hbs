@@ -4,7 +4,7 @@
         {{#each notifications}}
             <div class="card my-3">
                 <div class="row g-0">
-                    <div class="d-none d-md-block col-2" style="max-height: 234px;">
+                    <div class="d-none d-md-block col-2" style="max-height: 264px;">
                         {{#if imagen}}
                             <img src="data:imagen/png;base64, {{imagen}}" style="display: block; object-fit: cover; height: 100%; width: 100%;" class="img-fluid rounded-start" alt="...">
                         {{else}}
@@ -37,13 +37,17 @@
                                 <h5 class="card-title"><span>{{remitente}}</span> ha realizado una pregunta</h5>
                                 <p class="card-text">{{mensaje}}</p>
                             {{/if}}
-                            <div class="d-sm-grid d-md-block gap-2">
-                                {{!-- <form action="/notifications/delete/{{idNotificacion}}" method="POST">
-                                    <button class="btn btn-danger">Eliminar notificación</button>
-                                </form>
-                                --}}
-                                <a href="/publication/{{idPublicacion}}" class="btn btn-success link-unstyled">Ver publicación relacionada</a> 
-                                <button class="btn btn-danger">Eliminar</button>
+                            <div class="d-flex">
+                                <div class="me-1">
+                                    <form action="/notifications/delete/{{idNotificacion}}" method="POST">
+                                        <div class="d-sm-grid d-md-block gap-2">
+                                            <button class="btn btn-danger">Eliminar notificación</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="d-sm-grid d-md-block gap-2">
+                                    <a href="/publication/{{idPublicacion}}" class="btn btn-success link-unstyled">Ver publicación relacionada</a> 
+                                </div>
                             </div>
                         </div>
                     </div>

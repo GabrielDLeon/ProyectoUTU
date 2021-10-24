@@ -12,9 +12,9 @@ const db = mysql.createConnection({
 
 router.get('/', authController.isLoggedIn, async (req, res) => {
     const {email} = req.user.data;
-    await db.query('SELECT nroPublicacion, titulo, descripcion, precio, cuenta_empresa.nombre AS vendedor FROM (favoritos INNER JOIN publicacion ON favoritos.publicacion = publicacion.nroPublicacion INNER JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email) WHERE usuario = ?', [email], (error, result) => {
+    await db.query('SELECT imagen, nroPublicacion, titulo, descripcion, precio, precio-precio*descuento.porcentaje/100 AS descuento, cuenta_empresa.nombre AS vendedor FROM (favoritos INNER JOIN publicacion ON favoritos.publicacion = publicacion.nroPublicacion INNER JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email LEFT JOIN fotos ON fotos.publicacion = publicacion.nroPublicacion LEFT JOIN descuento ON descuento.publication = publicacion.nroPublicacion) WHERE usuario = ? GROUP BY nroPublicacion', [email], (error, result) => {
         res.render('publication/favorites', {
-            result,
+            favorite: result,
             user: req.user,
             title: "Mis publicaciones"
         })
