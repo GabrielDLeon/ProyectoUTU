@@ -1,21 +1,10 @@
-/* input.form-control { 
-    background-color:rgba(0,0,0,0) !important;
-    border:solid 1px white !important;
-}
-
-.form-control {
-   background-color: rgba(0, 0, 0, 0);
-   border:solid 1px white;
-}
-
-.form-control {
-    opacity: 1;
-    color: #dae0e5 !important;
-} */
-
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Carattere&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
+
+.s{
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
 
 /* SACAR FLECHAS EN INPUT NUMBER */
 /* Chrome, Safari, Edge, Opera */
@@ -24,14 +13,6 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-
-
-
-body {
-	background: #DDD;
-	font-size: 15px;
-}
-
 
 /* Firefox */
 input[type=number] {
@@ -86,13 +67,17 @@ p {
     resize: none;
  }
 
-.imgbox { /* now a container for the image */
-    display: inline-block; /* shrink wrap to image */
-    overflow: hidden; /* hide the excess */
+.imgbox {
+    /* shrink wrap to image */
+    /* display: inline-block; */
+    /* hide the excess */
+    overflow: hidden;
 }
 .imgbox img {
     display: block; /* no whitespace */
+    object-fit: cover;
     transition: .5s ease-in-out;
+    height: 420px;
 }
 .imgbox:hover img {
     transform: scale(1.1);
@@ -208,64 +193,4 @@ thead    {
     margin: 0 auto; 
     float: none; 
     margin-bottom: 10px; 
-}
-/* The side navigation menu */
-.sidenav {
-
-    height: 100%; /* 100% Full-height */
-    width: 0; /* 0 width - change this with JavaScript */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Stay on top */
-    top: 0;
-    left: 0;
-    background-color: #212529; /* Black*/
-    overflow-x: hidden; /* Disable horizontal scroll */
-    padding-top: 60px; /* Place content 60px from the top */
-    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
-}
-
-/* The navigation menu links */
-.sidenav a {
-   font-size: 15px;
-   padding:5px 10px 5px 10px;
-    text-decoration: none !important;    
-    color: #afadad;
-    background: transparent;
-    display: block;
-    transition: 0.3s
-}
-
-/* When you mouse over the navigation links, change their color */
-.sidenav a:hover, .offcanvas a:focus{
-    color: #ffffff;
-}
-
-/* Position and style the close button (top right corner) */
-.sidenav .closebtn {
-    position: absolute;
-    top: 0;
-    right: 25px;
-    font-size: 36px;
-    margin-left: 50px;
-}
-
-.sidenav .removebtn {
-    color: #ffffff;
-    position: absolute;
-    top: 0;
-    left: 25px;
-    font-size: 20px;
-    margin-right: 50px;
-}
-
-/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
-#main {
-    transition: margin-left .5s;
-    padding: 20px;
-}
-
-/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
-@media screen and (max-height: 450px) {
-    .sidenav {padding-top: 15px;}
-    .sidenav a {font-size: 18px;}
 }

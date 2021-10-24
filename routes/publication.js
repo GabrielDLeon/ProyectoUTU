@@ -79,7 +79,7 @@ router.post('/question/:id', authController.isLoggedIn, async (req, res) => {
     if (req.user){
         const { email } = req.user.data;
         const { id } = req.params;
-        const { mensaje, color } = req.body;
+        const { mensaje } = req.body;
         const currentDate = new Date();
         const newQuestion = {
             mensaje,
@@ -87,8 +87,6 @@ router.post('/question/:id', authController.isLoggedIn, async (req, res) => {
             remitente: email,
             publicacion: id
         };
-        console.log("color es")
-        console.log(color)
         if (!mensaje) {
             const path = '/publication/' + id + '/#seccion-preguntas';
             return res.redirect(path);
