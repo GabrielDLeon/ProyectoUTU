@@ -22,7 +22,7 @@ const db = mysql.createConnection({
 router.get('/', authController.isLoggedIn, async (req, res) => {
   if (req.user.data.tipo == 'empresa') {
     const { nombre } = req.user.data;
-    const path = '/profile/' + nombre;
+    const path = '/profile/' + nombre + '?page=1';
     res.redirect(path);
   } else {
     res.redirect('/')
@@ -31,26 +31,42 @@ router.get('/', authController.isLoggedIn, async (req, res) => {
 
 router.get('/:nombre', authController.isLoggedIn, async (req, res) => {
   const { nombre } = req.params;
-  await db.query('SELECT * FROM cuenta_empresa WHERE nombre = ?', [nombre], (error, result) => {
-    // console.log(result);
-    if (result.length > 0) {
-      db.query('SELECT fotoPerfil, nombre, email, direccion, descripcion, telefono  FROM (perfil) WHERE nombre = ?', [nombre], (error, result1) => {
-        const email = result1[0].email;
-        db.query('SELECT tipo, URL, propietario, nombre FROM (enlaces INNER JOIN perfil ON enlaces.propietario = perfil.email) WHERE propietario = ?', [email], async (error, redes) => {
-          db.query('SELECT nroPublicacion, precio, precio-precio*descuento.porcentaje/100 AS descuento, imagen FROM (publicacion INNER JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email INNER JOIN productos ON productos.idProducto = publicacion.producto LEFT JOIN fotos ON fotos.publicacion = publicacion.nroPublicacion LEFT JOIN descuento ON descuento.publication = publicacion.nroPublicacion) WHERE cuenta_empresa.nombre = ? GROUP BY nroPublicacion', [nombre], (error, recommendations) => {
-            res.render('profile/profile', {
-              recommendations,
-              profile: result1[0],
-              data: result[0],
-              user: req.user,
-              title: result[0].nombre,
-              redes
+  if (req.query.page){
+    await db.query('SELECT * FROM cuenta_empresa WHERE nombre = ?', [nombre], (error, result) => {
+      // Verifica que exista una cuenta de empresa con ese nombre
+      if (result.length > 0) {
+        db.query('SELECT fotoPerfil, nombre, email, direccion, descripcion, telefono  FROM (perfil) WHERE nombre = ?', [nombre], (error, result1) => {
+          const email = result1[0].email;
+          db.query('SELECT tipo, URL, propietario, nombre FROM (enlaces INNER JOIN perfil ON enlaces.propietario = perfil.email) WHERE propietario = ?', [email], async (error, redes) => {
+            const page = JSON.parse(req.query.page);
+            let muestra = 9; //Nro de publicaciones por página
+            let final = (page*muestra);
+            let inicio = final-muestra;
+            const limit = { final, inicio }
+            const query = 'SELECT nroPublicacion, precio, precio-precio*descuento.porcentaje/100 AS descuento, imagen FROM (publicacion INNER JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email INNER JOIN productos ON productos.idProducto = publicacion.producto LEFT JOIN fotos ON fotos.publicacion = publicacion.nroPublicacion LEFT JOIN descuento ON descuento.publication = publicacion.nroPublicacion) WHERE cuenta_empresa.nombre = ? GROUP BY nroPublicacion  LIMIT ? OFFSET ?'
+            db.query(query, [nombre, muestra, inicio], (error, recommendations) => {
+              db.query(query, [nombre, muestra, (inicio+muestra)], (error, existNextPage) => {
+                if (existNextPage.length>0){ var pagination = { lastPage: page-1, actualPage: page, nextPage: page+1} }
+                else { var pagination = { lastPage: page-1, actualPage: page} }
+                res.render('profile/profile', {
+                  recommendations,
+                  pagination,
+                  profile: result1[0],
+                  data: result[0],
+                  user: req.user,
+                  title: result[0].nombre,
+                  redes
+                })
+              })
             })
           })
-        })
-      });
-    } else { res.redirect('/'); }
-  });
+        });
+      } else { res.redirect('/'); }
+    });
+  } else {
+    const path = '/profile/'+nombre+'?page=1';
+    res.redirect(path);
+  }
 });
 
 router.get('/newEnlace/:id', authController.isLoggedIn, async (req, res) => {
