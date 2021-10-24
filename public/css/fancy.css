@@ -186,7 +186,7 @@ box-shadow:
     transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
 }
 thead    {
-    background-color: #6610f2;
+    background-color: #1b1b1b;
     color: rgb(255, 255, 255);
 } 
 .card {

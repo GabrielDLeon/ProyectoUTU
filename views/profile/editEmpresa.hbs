@@ -1,109 +1,120 @@
 {{>navigation}}
 <div class="container mt-5">
-  <form action="/profile/edit/{{data.id}}" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
-  <h3>Datos de cuenta</h3>
-    <div class="mb-3">
-      <label for="name" class="form-label1">Nombre</label>
-      <input type="text" class="form-control" id="name" name="nombre" value="{{data.nombre}}" required>
-    </div>
-    <div class="mb-3">
-      <label for="razon">Razón social</label>
-      <select class="form-select" name="razon" id="razon">
-        <option value="{{data.razonSocial}}">{{data.razonSocial}}</option>
-        {{#ifCond data.razonSocial '!=' 'Sociedad Anonima'}}
-        <option value="Sociedad Anonima">Sociedad Anónima</option>
-        {{/ifCond}}
-        {{#ifCond data.razonSocial '!=' 'Sociedad Limitada'}}
-        <option value="Sociedad Limitada">Sociedad Limitada</option>
-        {{/ifCond}}
-        {{#ifCond data.razonSocial '!=' 'Sociedad Cooperativa'}}
-        <option value="Sociedad Cooperativa">Sociedad Cooperativa</option>
-        {{/ifCond}}
-        {{#ifCond data.razonSocial '!=' 'Sociedad Limitada Nueva Empresa'}}
-        <option value="Sociedad Limitada Nueva Empresa">Sociedad Limitada Nueva Empresa</option>
-        {{/ifCond}}
-        {{#ifCond data.razonSocial '!=' 'Sociedad Limitada Laboral'}}
-        <option value="Sociedad Limitada Laboral">Sociedad Limitada Laboral</option>
-        {{/ifCond}}
-        {{#ifCond data.razonSocial '!=' 'Sociedad Anonima Laboral'}}
-        <option value="Sociedad Anonima Laboral">Sociedad Anónima Laboral</option>
-        {{/ifCond}}
-        {{#ifCond data.razonSocial '!=' 'Sociedad Comanditaria Simple'}}
-        <option value="Sociedad Comanditaria Simple">Sociedad Comanditaria Simple</option>
-        {{/ifCond}}
-        {{#ifCond data.razonSocial '!=' 'Otra'}}
-        <option value="Otra">Otra</option>
-        {{/ifCond}}
-      </select>
-      <br>
-      <p>¿Deseas cambiar la contraseña? <a href="/profile/edit/pass/{{data.id}}">Click aquí</a></p>
-    </div>
-    <div class="mb-3">
-      <h3>Datos de perfil</h3>
-    </div>
-    <div class="row justify-content-center">
-      <div class="col-4 mb-4">
-        {{#if data.fotoPerfil}}
-          <img src="data:imagen/png;base64, {{data.fotoPerfil}}" alt="Foto de perfil de {{data.nombre}}" class="img-fluid rounded-circle" style="z-index: 1;">
-        {{else}}
-          <img src="/img/avatar.png" alt="Foto de perfil genérica" class="img-fluid rounded-circle" style="width: max-content; z-index: 1" id="imagen">
-        {{/if}}
-      </div>
-    </div>
-    <div class="mb-3">
-      <label for="formFile" class="form-label">Cambiar foto de perfil</label>
-      <input class="form-control" type="file" id="formFile" name="imagen">
-    </div>
-    <div class="mb-3">
-      <label for="descripcion" class="form-label">Descripcion del perfil</label>
-      <textarea class="form-control" name="descripcion" id="descripcion" placeholder="Descripción de perfil"
-        maxlength="155">{{data.descripcion}}</textarea>
-    </div>
-    <div class="mb-3">
-      <label for="telefono" class="form-label">Telefono</label>
-      <input type="number" class="form-control" id="telefono" name="telefono" value="{{data.telefono}}">
-    </div>
-    <div class="mb-3">
-      <label for="direccion" class="form-label">Direccion</label>
-      <input type="text" class="form-control" id="direccion" name="direccion" value="{{data.direccion}}">
-    </div>
-    {{!--
-    <input type="checkbox" name="change_password" id="change_password" value="1" onclick="setPasswordForm(this.checked)"
-      title="Cambiar contraseña" class="checkbox no-bg validation-passed">
-    <label for="change_password">Cambiar contraseña</label> --}}
-    <div class="mb-3">
-      <div>
-        <a class="btn btn-success" href="/profile/newEnlace/{{data.id}}">Nueva red</a>
-      </div>
-      <div class="d-grid gap-2">
-        <br>
-        <button type="submit" class="text-uppercase btn btn-dark" name="guardar" id="guardar">Editar datos</button>
-      </div>
-      {{#if message }}
-        <p class="text-danger text-center mt-1">{{message}}</p>
-      {{/if}}
-      {{#if editCompleto }}
-        <p class="text-success text-center mt-1">{{editCompleto}}</p>
-      {{/if}}
-    </div>
+  <form action="/profile/edit/{{data.id}}" method="POST" enctype="multipart/form-data" class="needs-validation"
+    novalidate>
+    <div class="d-flex card p-3 shadow p-3 mb-5 bg-body rounded">
+      <div class="card-body">
+        <h3>Datos de cuenta</h3>
+        <div class="mb-3">
+          <label for="name" class="form-label1 fw-bold">Nombre</label>
+          <input type="text" class="form-control" id="name" name="nombre" value="{{data.nombre}}" required>
+        </div>
+        <div class="mb-3">
+          <label for="razon" class="fw-bold">Razón social</label>
+          <select class="form-select" name="razon" id="razon">
+            <option value="{{data.razonSocial}}">{{data.razonSocial}}</option>
+            {{#ifCond data.razonSocial '!=' 'Sociedad Anonima'}}
+            <option value="Sociedad Anonima">Sociedad Anónima</option>
+            {{/ifCond}}
+            {{#ifCond data.razonSocial '!=' 'Sociedad Limitada'}}
+            <option value="Sociedad Limitada">Sociedad Limitada</option>
+            {{/ifCond}}
+            {{#ifCond data.razonSocial '!=' 'Sociedad Cooperativa'}}
+            <option value="Sociedad Cooperativa">Sociedad Cooperativa</option>
+            {{/ifCond}}
+            {{#ifCond data.razonSocial '!=' 'Sociedad Limitada Nueva Empresa'}}
+            <option value="Sociedad Limitada Nueva Empresa">Sociedad Limitada Nueva Empresa</option>
+            {{/ifCond}}
+            {{#ifCond data.razonSocial '!=' 'Sociedad Limitada Laboral'}}
+            <option value="Sociedad Limitada Laboral">Sociedad Limitada Laboral</option>
+            {{/ifCond}}
+            {{#ifCond data.razonSocial '!=' 'Sociedad Anonima Laboral'}}
+            <option value="Sociedad Anonima Laboral">Sociedad Anónima Laboral</option>
+            {{/ifCond}}
+            {{#ifCond data.razonSocial '!=' 'Sociedad Comanditaria Simple'}}
+            <option value="Sociedad Comanditaria Simple">Sociedad Comanditaria Simple</option>
+            {{/ifCond}}
+            {{#ifCond data.razonSocial '!=' 'Otra'}}
+            <option value="Otra">Otra</option>
+            {{/ifCond}}
+          </select>
+          <br>
+          <p>¿Deseas cambiar la contraseña? <a href="/profile/edit/pass/{{data.id}}">Click aquí</a></p>
+        </div>
+        <hr>
+        <div class="mb-3">
+          <h3>Datos del perfil</h3>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-4 mb-4">
+            {{#if data.fotoPerfil}}
+            <img src="data:imagen/png;base64, {{data.fotoPerfil}}" alt="Foto de perfil de {{data.nombre}}"
+              class="img-fluid rounded-circle" style="z-index: 1;">
+            {{else}}
+            <img src="/img/avatar.png" alt="Foto de perfil genérica" class="img-fluid rounded-circle"
+              style="width: max-content; z-index: 1" id="imagen">
+            {{/if}}
+          </div>
+        </div>
+        <hr>
+        <div class="mb-3">
+          <label for="formFile" class="form-label fw-bold">Cambiar foto de perfil</label>
+          <input class="form-control" type="file" id="formFile" name="imagen">
+        </div>
+        <div class="mb-3">
+          <label for="descripcion" class="form-label fw-bold">Descripción del perfil</label>
+          <textarea class="form-control" name="descripcion" id="descripcion" placeholder="Descripción del perfil"
+            maxlength="155">{{data.descripcion}}</textarea>
+        </div>
+        <div class="mb-3">
+          <label for="telefono" class="form-label fw-bold">Teléfono</label>
+          <input type="number" class="form-control" id="telefono" name="telefono" placeholder="Ej: 092776255"
+            value="{{data.telefono}}">
+        </div>
+        <div class="mb-3">
+          <label for="direccion" class="form-label fw-bold">Dirección</label>
+          <input type="text" class="form-control" id="direccion" name="direccion" placeholder="Ej: 18 de Julio y Ruta 3"
+            value="{{data.direccion}}">
+        </div>
+        {{!--
+        <input type="checkbox" name="change_password" id="change_password" value="1"
+          onclick="setPasswordForm(this.checked)" title="Cambiar contraseña" class="checkbox no-bg validation-passed">
+        <label for="change_password">Cambiar contraseña</label> --}}
+        <div class="mb-3">
+          <div>
+            <a class="btn btn-outline-dark" href="/profile/newEnlace/{{data.id}}">Añadir Red Social</a>
+          </div>
+          <div class="d-grid gap-2">
+            <br>
+            <button type="submit" class="text-uppercase btn btn-success" name="guardar" id="guardar">Editar
+              datos</button>
+          </div>
+          {{#if message }}
+          <p class="text-danger text-center mt-1">{{message}}</p>
+          {{/if}}
+          {{#if editCompleto }}
+          <p class="text-success text-center mt-1">{{editCompleto}}</p>
+          {{/if}}
+        </div>
   </form>
 </div>
+</div>
 <script>
-    (function() {
-  'use strict';
-  window.addEventListener('load', function() {
-    // Fetch all the forms we want to apply custom Bootstrap validation styles to
-    var forms = document.getElementsByClassName('needs-validation');
-    // Loop over them and prevent submission
-    var validation = Array.prototype.filter.call(forms, function(form) {
-      form.addEventListener('submit', function(event) {
-        if (form.checkValidity() === false) {
-          event.preventDefault();
-          event.stopPropagation();
-        }
-        form.classList.add('was-validated');
-      }, false);
-    });
-  }, false);
-})();
+  (function () {
+    'use strict';
+    window.addEventListener('load', function () {
+      // Fetch all the forms we want to apply custom Bootstrap validation styles to
+      var forms = document.getElementsByClassName('needs-validation');
+      // Loop over them and prevent submission
+      var validation = Array.prototype.filter.call(forms, function (form) {
+        form.addEventListener('submit', function (event) {
+          if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          form.classList.add('was-validated');
+        }, false);
+      });
+    }, false);
+  })();
 </script>
