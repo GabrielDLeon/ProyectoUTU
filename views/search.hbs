@@ -1,76 +1,20 @@
 {{>navigation}}
 
 <body>
-
     <div class="container mt-5">
         {{#if shops}}
-        <h1>Tiendas:</h1>
-        <div class="row row-cols-lg-4 row-cols-sm-3 g-4 mb-3">
-            {{>shops}}
-        </div>
+            <h1>Tiendas:</h1>
+            <div class="row row-cols-lg-4 row-cols-sm-3 g-4 mb-3">
+                {{>shops}}
+            </div>
         {{/if}}
         {{#if recommendations}}
-        <h1>Productos:</h1>
-        <div class="row row-cols-lg-4 row-cols-sm-2 g-4">
-            {{>products}}
-        </div>
+            <h1>Productos:</h1>
+            <div class="row row-cols-lg-4 row-cols-sm-2 g-4">
+                {{>products}}
+            </div>
         {{else}}
-        <div class="alert alert-danger" role="alert">
-            <p class="d-flex justify-content-center">No hay coincidencias con la búsqueda</p>
-        </div>
+            <p class="text-secondary">No hay coincidencias con la búsqueda</p>
         {{/if}}
     </div>
-    <div class="p-3">
-        <ul class="list-unstyled ps-0">
-            <li class="mb-1">
-                <p class="fw-bold">Parte Superior</p>
-                </button>
-                <div class="collapse show" id="home-collapse">
-                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                        <li><a href="#" class="btn text-muted">Buzos</a></li>
-                        <li><a href="#" class="btn text-muted">Sacos</a></li>
-                        <li><a href="#" class="btn text-muted">Abrigos</a></li>
-                    </ul>
-                </div>
-            </li>
-            <li class="mb-1">
-                <p class="fw-bold">Ropa Interior</p>
-                </button>
-                <div class="collapse show" id="dashboard-collapse">
-                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                        <li><a href="#" class="btn text-muted">Medias</a></li>
-                        <li><a href="#" class="btn text-muted">Bombachas</a></li>
-                        <li><a href="#" class="btn text-muted">Sostenes</a></li>
-                        <li><a href="#" class="btn text-muted">Bóxers</a></li>
-                    </ul>
-                </div>
-            </li>
-            <li class="mb-1">
-                <p class="fw-bold">Parte Inferior</p>
-                </button>
-                <div class="collapse show" id="orders-collapse">
-                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                        <li><a href="#" class="btn text-muted">Jeans</a></li>
-                        <li><a href="#" class="btn text-muted">Deportivos</a></li>
-                        <li><a href="#" class="btn text-muted">Leggings</a></li>
-                        <li><a href="#" class="btn text-muted">Shorts</a></li>
-                    </ul>
-                </div>
-            </li>
-            <li class="mb-1">
-                <p class="fw-bold">Calzados</p>
-                </button>
-                <div class="collapse show" id="account-collapse">
-                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                        <li><a href="#" class="btn text-muted">Deportivos</a></li>
-                        <li><a href="#" class="btn text-muted">De Vestir</a></li>
-                        <li><a href="#" class="btn text-muted">Casuales</a></li>
-                        <li><a href="#" class="btn text-muted">Chinelas / Sandalias</a></li>
-                    </ul>
-                </div>
-            </li>
-        </ul>
-    </div>
-    {{!-- No le sé al llamado de funciones en handlebars --}}
-    {{!-- {{>pagination}} --}}
 </body>

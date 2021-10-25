@@ -131,7 +131,7 @@ router.post('/answer/:id', authController.isLoggedIn, async (req, res) => {
                 })
                 // Eliminar notificación de la pregunta del vendedor
                 await db.query('SELECT idNotificacion FROM notificaciones WHERE pregunta = ?', [idPregunta], (error, result) => {
-                    if (result){
+                    if (result.length > 0){
                         const {idNotificacion} = result[0];
                         db.query('DELETE FROM notificaciones WHERE idNotificacion = ?', [idNotificacion]);
                         console.log("Se eliminó correctamente la notificación vinculada a la pregunta");

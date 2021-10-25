@@ -70,19 +70,18 @@ router.get('/:nombre', authController.isLoggedIn, async (req, res) => {
 });
 
 router.get('/newEnlace/:id', authController.isLoggedIn, async (req, res) => {
-  const decoded = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRET);
-  await db.query('SELECT cuentas.email , cuentas.password, cuentas.tipo, cuenta_empresa.nombre, cuenta_empresa.id FROM (cuentas INNER JOIN cuenta_empresa ON cuentas.email = cuenta_empresa.email) WHERE cuentas.email = ?', [decoded.id], (error, result2) => {
+  const {email} = req.user.data;
+  console.log(req.user.data)
+  await db.query('SELECT cuentas.email , cuentas.password, cuentas.tipo, cuenta_empresa.nombre, cuenta_empresa.id FROM (cuentas INNER JOIN cuenta_empresa ON cuentas.email = cuenta_empresa.email) WHERE cuentas.email = ?', [email], (error, result2) => {
     if (!result2) {
       console.log(error)
     }
-    req.user.data = result2[0];
-    const { email } = req.user.data;
     const { id } = req.params;
     db.query('SELECT cuenta_empresa.email , cuenta_empresa.id FROM cuenta_empresa WHERE cuenta_empresa.email = ?', [email], async (error, result) => {
       db.query('SELECT * FROM enlaces_tipos', async (error, tipo) => {
         if (result[0].id == id) {
           res.render('profile/newEnlace', {
-            user: req.user,
+            user: req.user.data,
             tipo,
             title: "Agregar enlace"
           })
@@ -96,17 +95,14 @@ router.get('/newEnlace/:id', authController.isLoggedIn, async (req, res) => {
 
 router.post('/newEnlace/:id', authController.isLoggedIn, async (req, res) => {
   const {email} = req.user.data;
-  await db.query('SELECT cuentas.email, cuentas.password, cuenta_empresa.nombre, cuenta_empresa.id FROM cuentas INNER JOIN cuenta_empresa ON cuentas.email = cuenta_empresa.email WHERE cuenta_empresa.email = ?', [email], async (error, result) => {
-    const email = result[0].email
-    const { tipo } = req.body;
-    const { link } = req.body;
+  const { tipo , link } = req.body;
     await db.query('SELECT * FROM enlaces_tipos', async (error, tipoEnlace) => {
       await db.query('SELECT tipo from enlaces WHERE tipo = ? AND propietario = ?', [tipo,email], async (error, enlaces) => {
         if (enlaces.length > 0) {
           return res.render('profile/newEnlace', {
             name: req.body.name,
             message: 'No puedes agregar dos enlaces para el mismo tipo de red social',
-            user: req.user,
+            user: req.user.data,
             tipoEnlace
           })
         }
@@ -114,7 +110,7 @@ router.post('/newEnlace/:id', authController.isLoggedIn, async (req, res) => {
           return res.render('profile/newEnlace', {
             name: req.body.name,
             message: 'Por favor ingrese un enlace antes de agregar',
-            user: req.user,
+            user: req.user.data,
             enlaces,
             tipoEnlace
           })
@@ -124,7 +120,7 @@ router.post('/newEnlace/:id', authController.isLoggedIn, async (req, res) => {
             console.log(error)
           } else {
             return res.render('profile/newEnlace', {
-              user: req.user,
+              user: req.user.data,
               linkAgregado: 'Enlace agregado',
               enlaces,
               tipoEnlace
@@ -133,11 +129,9 @@ router.post('/newEnlace/:id', authController.isLoggedIn, async (req, res) => {
         })
       })
     })
-  })
 });
 
 router.get('/edit/pass/:id', authController.isLoggedIn, async (req, res) => {
-    const email = req.user.data.email
     if (req.user.data.tipo == 'empresa') {
     const {email} = req.user.data;
     const {id} = req.params;
@@ -237,6 +231,53 @@ router.post('/edit/pass/:id',authController.isLoggedIn, async (req, res)=>{
         }
 })
 
+router.get('/enlaces/edit/:id', authController.isLoggedIn, async (req, res) => {
+  const email = req.user.data.email
+  await db.query('SELECT tipo, URL, propietario, id FROM enlaces INNER JOIN cuenta_empresa ON cuenta_empresa.email = enlaces.propietario WHERE propietario = ?', [email], (error, enlaces) => {
+    db.query('SELECT * from enlaces_tipos', (error, tipos) => {
+      console.log(enlaces)
+      res.render('profile/editEnlaces', {
+      user: req.user.data,
+      title: "Editar redes sociales",
+      enlaces,
+      tipos
+      })
+    })
+  })
+})
+
+router.post('/enlaces/edit/:id', authController.isLoggedIn, async (req, res) => {
+  const email = req.user.data.email
+  const {Whatsapp, Instagram, Facebook} = req.body
+    await db.query('SELECT tipo, URL, propietario, id FROM enlaces INNER JOIN cuenta_empresa ON cuenta_empresa.email = enlaces.propietario WHERE propietario = ?', [email], (error, enlaces) => {
+      /*if (!Whatsapp || !Instagram || !Facebook) {
+          res.render('profile/editEnlaces', {
+            user: req.user.data,
+            title: "Editar redes sociales",
+            enlaces,
+            message: "No puedes dejar campos vacios"
+              }) 
+            } else { */
+              var tipo = enlaces.map((element) => { return _.pick(element, ['tipo']) })
+                    tipo.forEach((imagen) => {
+                        console.log(imagen)
+                        const  tipos = imagen.tipo
+                        console.log(tipos)
+                        if (tipos === 'Facebook') {
+                          db.query('UPDATE enlaces set ? WHERE enlaces.tipo = ? AND enlaces.propietario = ? ',[{URL:Facebook}, tipos,email]);
+                        }
+                        if (tipos === 'Instagram') {
+                          db.query('UPDATE enlaces set ? WHERE enlaces.tipo = ? AND enlaces.propietario = ? ',[{URL:Instagram}, tipos,email]);
+                        }
+                        if (tipos === 'Whatsapp') {
+                          db.query('UPDATE enlaces set ? WHERE enlaces.tipo = ? AND enlaces.propietario = ? ',[{URL:Whatsapp}, tipos,email]);
+                        }
+                    })
+            res.redirect(req.originalUrl);
+            
+          })
+      })
+
 router.get('/edit/:id', authController.isLoggedIn, async (req, res) => {
     const email = req.user.data.email
     if (req.user.data.tipo == 'usuario') {
@@ -268,16 +309,22 @@ router.get('/edit/:id', authController.isLoggedIn, async (req, res) => {
       const {email} = req.user;
       const {id} = req.params;
        db.query('SELECT cuentas.email , cuentas.password, perfil.fotoPerfil, cuentas.tipo, cuenta_empresa.nombre, cuenta_empresa.id, razonSocial, descripcion, direccion, telefono FROM (cuentas INNER JOIN cuenta_empresa ON cuentas.email = cuenta_empresa.email INNER JOIN perfil ON perfil.email = cuenta_empresa.email) WHERE cuentas.email = ?',[email], async (error, result) => {
-        if (result[0].id == id) {
-          res.render('profile/editEmpresa', {
-          data: result[0],
-          user: req.user,
-          title: 'Editar perfil',
+         db.query('SELECT tipo, URL, propietario, id FROM enlaces INNER JOIN cuenta_empresa ON cuenta_empresa.email = enlaces.propietario WHERE propietario = ?', [email], (error, enlaces) => {
+           db.query('SELECT COUNT(tipo) as redes FROM enlaces WHERE propietario = ?', [email], (error,count) => {
+            if (result[0].id == id) {
+              res.render('profile/editEmpresa', {
+              data: result[0],
+              user: req.user,
+              title: 'Editar perfil',
+              enlaces,
+              redes: count[0]
+              })
+            } else {
+              res.redirect('/')
+            }
           })
-        } else {
-          res.redirect('/')
-        }
-      })
+          })
+    })
     })
   }
 })

@@ -1,17 +1,10 @@
-{{#if user}}
+
 {{!-- Navbar de usuario --}}
 <nav class="navbar navbar-fixed-top sticky-top navbar-expand-lg navbar-dark bg-dark" style="background-color: #182023;">
-{{else}}
-{{!-- Navbar de usuario anónimo --}}
-<nav class="navbar navbar-fixed-top sticky-top navbar-expand-lg navbar-light bg-light">
-{{/if}}
+
     <div class="container-fluid">
         <a class="navbar-brand" href="/">
-            {{#if user }}
                 <img src="/img/brand/Klouts_light.png" width="120"></a>
-            {{else}}
-                <img src="/img/brand/Klouts_dark.png" width="120">
-            {{/if}}
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar">
             <i class="fas fa-bars"></i>
@@ -45,6 +38,14 @@
                                 </a>
                             </li>
                         {{/ifCond}}
+                        {{#ifCond tipo '==' 'usuario'}}
+                            <li class="nav-item">
+                                <a title="Favoritos" class="nav-link" href="/favorites">
+                                    <span class="d-inline d-lg-none">Favoritos</span>
+                                    <i class="fas fa-heart d-none d-lg-inline"></i>
+                                </a>
+                            </li>
+                        {{/ifCond}}
                         <li class="nav-item">
                             <a title="Notificaciones" class="nav-link" href="/notifications">
                                 <span class="d-inline d-lg-none">Notificaciones</span>
@@ -61,6 +62,9 @@
                                 {{#ifCond data.tipo '==' 'empresa'}}
                                     <li class="nav-item"><a class="dropdown-item" href="/profile/{{data.nombre}}?page=1"><i class="fas fa-user"></i> Perfil</a></li>
                                 {{/ifCond}}
+                                {{#ifCond tipo '==' 'empresa'}}
+                                    <li class="nav-item"><a class="dropdown-item" href="/profile/{{data.nombre}}?page=1"><i class="fas fa-user"></i> Perfil</a></li>
+                                {{/ifCond}}
                                 <li class="nav-item"><a class="dropdown-item" href="/profile/edit/{{data.id}}"><i class="fas fa-pen"></i> Editar perfil</a></li>
                                 <li class="nav-item"><a class="dropdown-item" href="/logout"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a></li>
                             </ul>
@@ -70,10 +74,15 @@
                             <li class="nav-item"><a class="nav-link" href="/list/questions">Preguntas</a></li>
                             <li class="nav-item"><a class="nav-link" href="/create?newPublication=true">Hacer publicacion</a></li>
                         {{/ifCond}}
+                        {{#ifCond tipo '==' 'empresa'}}
+                            <li class="nav-item"><a class="nav-link" href="/list">Mis publicaciones</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/list/questions">Preguntas</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/create?newPublication=true">Hacer publicacion</a></li>
+                        {{/ifCond}}
                     {{/with}}
                 {{else}}
-                    <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/login">Ingresa</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/register">Crea tu cuenta</a></li>
                 {{/if}}
             </ul>
         </div>

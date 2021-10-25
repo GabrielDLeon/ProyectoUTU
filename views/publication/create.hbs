@@ -5,7 +5,7 @@
     {{else}}
         <form method="POST" action="/create?newPublication=true" enctype="multipart/form-data" class="needs-validation" novalidate>
     {{/if}}
-        <div class="d-flex card p-3 shadow p-3 mb-5 bg-body rounded">
+        <div class="d-flex card w-50 p-3 shadow-lg p-3 mb-5 bg-body rounded border border-dark">
             <div class="card-body">
                 <div class="mb-3">
                     <h2>Datos de la publicación</h2>
@@ -26,7 +26,6 @@
                 {{#if product}}
                     {{#with product}}
                         <h2>Publicación basada</h2>
-                        <p>{{idProducto}}</p>
                         <p>{{categoria}}</p>
                         <p>{{genero}}</p>
                         <p>{{material}}</p>

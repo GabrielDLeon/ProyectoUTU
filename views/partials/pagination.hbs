@@ -3,12 +3,12 @@
         <ul class="pagination justify-content-center">
             {{#ifCond lastPage '!=' 0}}
                 <li class="page-item">
-                        <a class="page-link" href="/profile/{{../profile.nombre}}?page={{lastPage}}">Anterior</a>
+                        <a class="page-link" href="/profile/{{../profile.nombre}}?page={{lastPage}}">Previous</a>
                     </li>
                 <li class="page-item"><a class="page-link" href="/profile/{{../profile.nombre}}?page={{lastPage}}">{{lastPage}}</a></li>
             {{else}}
                 <li class="page-item disabled">
-                    <a class="page-link" href="/profile/{{../profile.nombre}}?page={{lastPage}}">Anterior</a>
+                    <a class="page-link" href="/profile/{{../profile.nombre}}?page={{lastPage}}">Previous</a>
                 </li>
             {{/ifCond}}
             <li class="page-item active" aria-current="page">
@@ -17,11 +17,11 @@
             {{#if nextPage}}
                 <li class="page-item"><a class="page-link" href="/profile/{{../profile.nombre}}?page={{nextPage}}">{{nextPage}}</a></li>
                 <li class="page-item">
-                    <a class="page-link" href="/profile/{{../profile.nombre}}?page={{nextPage}}">Siguiente</a>
+                    <a class="page-link" href="/profile/{{../profile.nombre}}?page={{nextPage}}">Next</a>
                 </li>
             {{else}}
                 <li class="page-item disabled">
-                    <a class="page-link" href="/profile/{{../profile.nombre}}?page={{nextPage}}">Siguiente</a>
+                    <a class="page-link" href="/profile/{{../profile.nombre}}?page={{nextPage}}">Next</a>
                 </li>
             {{/if}}
         </ul>
