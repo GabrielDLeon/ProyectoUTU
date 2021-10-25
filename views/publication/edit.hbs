@@ -1,10 +1,11 @@
 {{>navigation}}
 <section class="container my-5">
-    <form method="POST" action="/list/edit/{{publication.id}}" class="needs-validation" novalidate>
+    <form method="POST" action="/list/edit/{{publication.id}}" enctype="multipart/form-data" class="needs-validation" novalidate>
         <div class="mb-3">
             <h2>Editar datos de la publicación</h2>
             <input class="form-control" name="titulo" id="titulo" type="text" placeholder="Titulo" value="{{publication.titulo}}" required>
             <textarea class="form-control" name="descripcion" id="descripcion" placeholder="Descripción" maxlength="155" required>{{publication.descripcion}}</textarea>
+            <input class="form-control" type="file" id="formFile" name="imagen" placeholder="Imagenes" multiple>
             <input class="form-control input-number" name="precio" id="precio" type="number" placeholder="Precio" value="{{publication.precio}}" required>
             <input type="checkbox" name="confirm-descuento" id="confirm-descuento">
             {{#if publication.descuento}}
