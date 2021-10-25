@@ -1973,7 +1973,6 @@ progress {
 }
 .table > thead {
   vertical-align: bottom;
-  background-color: #292b2c;
 }
 .table > :not(:last-child) > :last-child > * {
   border-bottom-color: currentColor;
