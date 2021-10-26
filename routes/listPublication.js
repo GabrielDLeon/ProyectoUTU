@@ -63,20 +63,27 @@ router.get('/edit/:id', authController.isLoggedIn, async (req, res) => {
                         db.query('SELECT categoria FROM categorias WHERE categoria != ?',[categoria], (error, categorias) => {
                             db.query('SELECT material FROM materiales WHERE material != ?',[material], (error, materiales) => {
                                 db.query('SELECT marca FROM marcas WHERE marca != ?',[marca], (error, marcas) => {
-                                    res.render('publication/edit', {
-                                        user: req.user,
-                                        categorias,
-                                        materiales,
-                                        marcas,
-                                        genero,
-                                        product: product[0],
-                                        publication: result[0],
-                                        title: "Editar publicación"
+                                    /*SELECT * FROM talles WHERE talle NOT IN (SELECT talle FROM curvas WHERE publicacion = 5)*/
+                                    db.query('SELECT talle FROM curvas WHERE publicacion = ?', [id], (error, tallesSelected) => {
+                                        db.query('SELECT talle FROM talles WHERE talle NOT IN (SELECT talle FROM curvas WHERE publicacion = ?)',[id], (error, talles) => {
+                                            res.render('publication/edit', {
+                                                user: req.user,
+                                                categorias,
+                                                materiales,
+                                                marcas,
+                                                genero,
+                                                tallesSelected,
+                                                talles,
+                                                product: product[0],
+                                                publication: result[0],
+                                                title: "Editar publicación"
+                                            })
+                                        });
                                     })
-                                })
-                            })
-                        })
-                    })
+                                });
+                            });
+                        });
+                    });
                 })
             } else {
                 console.log("No se pudieron actualizar los datos de la publicación, esto debido a que la cuenta activa no corresponde al usuario vendedor de la publicación")
@@ -92,6 +99,7 @@ router.get('/edit/:id', authController.isLoggedIn, async (req, res) => {
 router.post('/edit/:id', upload.array("imagen", 12), authController.isLoggedIn, async (req, res) => {
     const { id } = req.params;
     const { titulo, descripcion, precio } = req.body;
+    console.log(req.body);
     db.query('SELECT nroPublicacion, titulo, descripcion, precio, descuento FROM (view_publicaciones) WHERE nroPublicacion = ?', [id], (error, result) => {
         db.query('SELECT categoria, genero, material, marca FROM (productos INNER JOIN publicacion ON productos.idProducto = publicacion.producto) WHERE nroPublicacion = ?', [id], (error, product) => {
             const { categoria, genero, material, marca } = product[0];
@@ -112,15 +120,15 @@ router.post('/edit/:id', upload.array("imagen", 12), authController.isLoggedIn, 
                                 title: "Editar publicación"
                             })
                         }
-                        if (req.files) {
-                            db.query('DELETE FROM fotos WHERE publicacion = ?', [id])
-                            imagenes = req.files
-                            var buffer = imagenes.map((element) => { return _.pick(element, ['buffer']) })
-                            buffer.forEach((imagen) => {
-                                resultado = imagen.buffer.toString('base64');
-                                db.query("INSERT INTO fotos VALUES (?, ?);", [id, resultado]);
-                            })
-                        }
+                        // if (req.files) {
+                        //     db.query('DELETE FROM fotos WHERE publicacion = ?', [id])
+                        //     imagenes = req.files
+                        //     var buffer = imagenes.map((element) => { return _.pick(element, ['buffer']) })
+                        //     buffer.forEach((imagen) => {
+                        //         resultado = imagen.buffer.toString('base64');
+                        //         db.query("INSERT INTO fotos VALUES (?, ?);", [id, resultado]);
+                        //     })
+                        // }
                     })
                 })
             })
@@ -129,6 +137,22 @@ router.post('/edit/:id', upload.array("imagen", 12), authController.isLoggedIn, 
             console.log("Se actualizó correctamente la publicación " + id);
             res.redirect('/list');
         })
+        db.query('DELETE FROM curvas WHERE publicacion = ?', [id]);
+        const {G, L, M, S, XL, XS, XXL, XXS, XXXL, XXXXL} = req.body;
+        var array = [];
+        if (G) array.push('G');
+        if (L) array.push('L');
+        if (M) array.push('M');
+        if (S) array.push('S');
+        if (XL) array.push('XL');
+        if (XS) array.push('XS');
+        if (XXL) array.push('XXL');
+        if (XXS) array.push('XXS');
+        if (XXXL) array.push('XXXL');
+        if (XXXXL) array.push('XXXXL');
+        array.forEach(talle => {
+            db.query('INSERT INTO curvas VALUES (?, ?)', [talle, id]);
+        });
     })
 })
 module.exports = router;

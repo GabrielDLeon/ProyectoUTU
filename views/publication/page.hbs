@@ -5,82 +5,88 @@
         <div class="col-md-12 col-lg-5" id="sidebar" style="background-color: #fafafa;">
             <div class="sticky-top pt-sm-0 pt-md-0 pt-lg-5 pt-xl-5" style="z-index: 1">
                 <div class="position-relative m-5 p-lg-2 p-xl-4">
-                    <div class="mb-1 text-capitalize">
-                        <a href="/search?key={{product.categoria}}"><span class="badge rounded-pill bg-dark">{{product.categoria}}</span></a>
-                        <a href="/search?key={{product.genero}}"><span class="badge rounded-pill bg-dark">{{product.genero}}</span></a>
-                        <a href="/search?key={{product.marca}}"><span class="badge rounded-pill bg-dark">{{product.marca}}</span></a>
-                        {{#if valor.descuento}}
-                            <a href="/search?sale=1"><span class="badge rounded-pill bg-danger">sale</span></a>
-                        {{/if}}
-                    </div>
-                    <div>
-                        <h3 class="fw-bold">{{publication.titulo}}</h3>
-                        <a href="/profile/{{publication.vendedor}}" class="link-unstyled">
-                            <h6 class="text-muted d-inline f-space-2">Promocionado por <span>{{publication.vendedor}}</span></h6><br>
-                        </a>
-                        <small class="text-muted">{{timeago publication.fechaPublicacion}}</small>
-                    </div>
-                    <div class="my-3">
-                        <div>
-                            <h6>Descripción del producto</h6>
-                            <p> {{publication.descripcion}} </p>
+                    {{#with publication}}
+                        <div class="mb-1 text-capitalize">
+                            <a href="/search?key={{categoria}}"><span class="badge rounded-pill bg-dark">{{categoria}}</span></a>
+                            <a href="/search?key={{genero}}"><span class="badge rounded-pill bg-dark">{{genero}}</span></a>
+                            <a href="/search?key={{marca}}"><span class="badge rounded-pill bg-dark">{{marca}}</span></a>
+                            {{#if descuento}}
+                                <a href="/search?sale=1"><span class="badge rounded-pill bg-danger">sale</span></a>
+                            {{/if}}
                         </div>
                         <div>
-                            <div class="row d-flex">
-                                <div class="col-auto h1">
-                                    <span>${{valor.final}}</span>
+                            <h3 class="fw-bold">{{titulo}}</h3>
+                            <a href="/profile/{{nombreVendedor}}" class="link-unstyled">
+                                <h6 class="text-muted d-inline f-space-2">Promocionado por <span>{{nombreVendedor}}</span></h6><br>
+                            </a>
+                            <small class="text-muted">{{timeago fechaPublicacion}}</small>
+                        </div>
+                        <div class="my-3">
+                            <div>
+                                <h6>Descripción del producto</h6>
+                                <p> {{descripcion}} </p>
+                            </div>
+                            <div>
+                                <div class="row d-flex">
+                                    {{#if descuento}}
+                                        <div class="col-auto h1">
+                                            <span>${{descuento}}</span>
+                                        </div>
+                                        <div class="col">
+                                            <p class="mb-0">{{porcentaje}}% descuento</p>
+                                            <span class="mr-1"><del>${{precio}}</del></span>
+                                        </div>
+                                    {{else}}
+                                        <div class="col-auto h1">
+                                            <span>${{precio}}</span>
+                                        </div>
+                                    {{/if}}
                                 </div>
-                                {{#if valor.descuento}}
-                                    <div class="col">
-                                        <p class="mb-0">{{valor.descuento}}% descuento</p>
-                                        <span class="mr-1"><del>${{publication.precio}}</del></span>
+                            </div>
+                            {{#if colors}}
+                                <div class="my-3">
+                                    <h6>Colores disponibles</h6>
+                                    <div>
+                                        {{#each colors}}
+                                            <button type="button" class="btn btn-default btn-circle product-color color-{{color}}"><i class="fas fa-brush"></i></button>
+                                        {{/each}}
                                     </div>
-                                {{/if}}
-                            </div>
+                                </div>
+                            {{/if}}
+                            {{#if ../sizes}}
+                                <div class="my-3">
+                                    <h6>Talles disponibles</h6>
+                                    <div>
+                                        {{#each ../sizes}}
+                                            <button type="button" class="btn btn-outline-dark btn-lg custom">{{talle}}</button>
+                                        {{/each}}
+                                    </div>
+                                    <div class="my-2">
+                                        <a href="/publication/{{nroPublicacion}}/#guiaTalles" class="text-reset">
+                                            <p class="d-inline">Guia de talles</p>
+                                        </a>
+                                    </div>
+                                </div>
+                            {{/if}}
+                            {{#if ../user}}
+                                {{#ifCond ../user.data.tipo '==' 'usuario'}}
+                                    <div>
+                                        <form action="/publication/addFavorite/{{nroPublicacion}}" method="POST">
+                                            {{#if ../favorite}}
+                                                <button title="Eliminar de favoritos" class="btn btn-default position-absolute top-0 end-0 m-1 p-1"><i class="fas fa-heart" style="font-size: xx-large;"></i></button>
+                                            {{else}}
+                                                <button title="Agregar a favoritos" class="btn btn-default position-absolute top-0 end-0 m-1 p-1"><i class="far fa-heart" style="font-size: xx-large;"></i></button>
+                                            {{/if}}
+                                        </form>
+                                    </div>
+                                {{else}}
+                                    <div class="text-muted fw-bold">
+                                        <p>¿Vendes un producto igual? <a href="/create?idProducto={{publication.producto}}">Crea una publicación similar</a></p>
+                                    </div>
+                                {{/ifCond}}
+                            {{/if}}
                         </div>
-                        {{#if colors}}
-                            <div class="my-3">
-                                <h6>Colores disponibles</h6>
-                                <div>
-                                    {{#each colors}}
-                                        <button type="button" class="btn btn-default btn-circle product-color color-{{color}}"><i class="fas fa-brush"></i></button>
-                                    {{/each}}
-                                </div>
-                            </div>
-                        {{/if}}
-                        {{#if sizes}}
-                            <div class="my-3">
-                                <h6>Talles disponibles</h6>
-                                <div>
-                                    {{#each sizes}}
-                                        <button type="button" class="btn btn-outline-dark btn-lg custom">{{talle}}</button>
-                                    {{/each}}
-                                </div>
-                                <div class="my-2">
-                                    <a href="/publication/{{publication.nroPublicacion}}/#guiaTalles" class="text-reset">
-                                        <p class="d-inline">Guia de talles</p>
-                                    </a>
-                                </div>
-                            </div>
-                        {{/if}}
-                        {{#if user}}
-                            {{#ifCond user.data.tipo '==' 'usuario'}}
-                                <div>
-                                    <form action="/publication/addFavorite/{{publication.nroPublicacion}}" method="POST">
-                                        {{#if favorite}}
-                                            <button title="Eliminar de favoritos" class="btn btn-default position-absolute top-0 end-0 m-1 p-1"><i class="fas fa-heart" style="font-size: xx-large;"></i></button>
-                                        {{else}}
-                                            <button title="Agregar a favoritos" class="btn btn-default position-absolute top-0 end-0 m-1 p-1"><i class="far fa-heart" style="font-size: xx-large;"></i></button>
-                                        {{/if}}
-                                    </form>
-                                </div>
-                            {{else}}
-                                <div class="text-muted fw-bold">
-                                    <p>¿Vendes un producto igual? <a href="/create?idProducto={{publication.producto}}">Crea una publicación similar</a></p>
-                                </div>
-                            {{/ifCond}}
-                        {{/if}}
-                    </div>
+                    {{/with}}
                 </div>
             </div>
         </div>
@@ -93,8 +99,8 @@
                 <div class="col-md-10 ms-auto me-auto">
                     <div id="carousel" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-indicators">
-                            {{#if imagen}}
-                                {{#each imagen}}
+                            {{#if images}}
+                                {{#each images}}
                                     {{#ifCond @index '==' 0}}
                                         <button type="button" data-bs-target="#carousel" data-bs-slide-to="{{@index}}" class="active" aria-current="true"></button>
                                     {{else}}
@@ -106,8 +112,8 @@
                             {{/if}}
                         </div>
                         <div class="carousel-inner">
-                            {{#if imagen}}
-                                {{#each imagen}}
+                            {{#if images}}
+                                {{#each images}}
                                     {{#ifCond @index '==' 0}}
                                         <div class="carousel-item active">
                                             <img src="data:imagen/png;base64, {{imagen}}" class="d-block w-100" alt="...">
@@ -139,6 +145,8 @@
             {{!-- SECCION DE PREGUNTAS --}}
             <section class="mx-4 mx-lg-1 mb-3" id="seccion-preguntas">
                 <h3 class="fw-bold">Preguntas y respuestas</h3>
+
+                {{!-- Formulario de pregunta --}}
                 <div class="mb-3">
                     {{#if user}}
                         {{#ifCond user.data.tipo '==' 'usuario'}}
@@ -162,6 +170,8 @@
                         </div>
                     {{/if}}
                 </div>
+
+                {{!-- Listado de preguntas y respuestas --}}
                 <div>
         
                     {{!-- Esta seccion aparece si existen preguntas realizadas por el propio usuario --}}
@@ -192,7 +202,6 @@
         
                     <div>
                         <h5 class="text-muted">Preguntas realizadas</h5>
-        
                         {{#if questions}}
                             {{#each questions}}
                                 <div class="my-3">
@@ -203,7 +212,7 @@
                                         <div class="ms-4 text-muted">
                                             <a href="/profile" class="link-unstyled">
                                                 <div class="montserrat d-inline">
-                                                    <span class="fw-bold">{{vendedor}}</span>
+                                                    <span class="fw-bold">{{../publication.nombreVendedor}}</span>
                                                     <span class="badge rounded-pill bg-secondary ms-1">Respuesta</span>
                                                 </div>
                                             </a>
@@ -212,25 +221,26 @@
                                                 <p>{{respuesta}} {{!-- <span class="ms-3">{{timeago fechaRespuesta}}</span> --}}</p>
                                             </div>
                                         </div>
+                                    {{else}}
+                                        {{#if user}}
+                                            {{#ifCond ../user.data.email '==' ../publication.vendedorEmail}}
+                                                {{!-- <button id="btnAnswer" class="btn btn-outline-dark">Responder pregunta</button> --}}
+                                                <div id="textAnswer" class="mb-3">
+                                                    <form action="/publication/answer/{{idPregunta}}" method="POST">
+                                                        <div class="row">
+                                                            <label for="respuesta">Responder</label>
+                                                            <div class="col">
+                                                                <textarea class="form-control text-area rounded-0" name="respuesta" id="respuesta" placeholder="Ingrese su respuesta"></textarea>
+                                                            </div>
+                                                            <div class="col-auto">
+                                                                <button title="Enviar respuesta" type="submit" class="text-uppercase rounded-0 btn btn-dark" style="height: 100%; width: 100%;"><i class="fas fa-angle-right"></i></button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            {{/ifCond}}
+                                        {{/if}}
                                     {{/if}}
-                                    {{#unless respuesta}}
-                                        {{#ifCond ../user.data.email '==' ../publication.vendedorEmail}}
-                                            {{!-- <button id="btnAnswer" class="btn btn-outline-dark">Responder pregunta</button> --}}
-                                            <div id="textAnswer" class="mb-3">
-                                                <form action="/publication/answer/{{idPregunta}}" method="POST">
-                                                    <div class="row">
-                                                        <label for="respuesta">Responder</label>
-                                                        <div class="col">
-                                                            <textarea class="form-control text-area rounded-0" name="respuesta" id="respuesta" placeholder="Ingrese su respuesta"></textarea>
-                                                        </div>
-                                                        <div class="col-auto">
-                                                            <button title="Enviar respuesta" type="submit" class="text-uppercase rounded-0 btn btn-dark" style="height: 100%; width: 100%;"><i class="fas fa-angle-right"></i></button>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        {{/ifCond}}
-                                    {{/unless}}
                                 </div>
                             {{/each}}
                         {{else}}

@@ -19,57 +19,42 @@ router.get('/', (req, res) => {
 });
 
 // Entrar a una publicacion desde URL con el ID
-router.get('/:id', authController.isLoggedIn, async (req, res) => {
-    const {id} = req.params;
+router.get('/:nroPublicacion', authController.isLoggedIn, async (req, res) => {
+    const {nroPublicacion} = req.params;
+    const id = req.params;
     if (req.user){var {email} = req.user.data}
-    await db.query('SELECT nroPublicacion, precio, titulo, descripcion, producto, cuenta_empresa.email AS vendedorEmail, cuenta_empresa.nombre AS vendedor, fechaPublicacion FROM (publicacion INNER JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email) WHERE nroPublicacion = ?',[id], async (error, result) => { 
-        if (result.length>0){
-            await db.query('SELECT idProducto, categoria, genero, material, marca FROM (publicacion INNER JOIN productos ON publicacion.producto = productos.idProducto) WHERE publicacion.nroPublicacion = ?',[id], async (error, product) => {
-                await db.query('SELECT * FROM favoritos WHERE usuario = ? AND publicacion = ?', [email, id], async (error, favorite) => {
-                    await db.query('SELECT talle FROM (publicacion INNER JOIN curvas ON publicacion.nroPublicacion = curvas.publicacion) WHERE nroPublicacion = ?', [id], async (error, sizes) => {
-                        await db.query('SELECT color FROM (publicacion_color INNER JOIN publicacion ON publicacion_color.publicacion = publicacion.nroPublicacion) WHERE publicacion.nroPublicacion = ?', [id], async (error, colors) => {
-                            await db.query('SELECT publicacion, imagen FROM fotos WHERE publicacion = ?', [id], async (error, imagen) => {
-                                await db.query('SELECT porcentaje AS descuento FROM (descuento INNER JOIN publicacion ON descuento.publication = publicacion.nroPublicacion) WHERE publicacion.nroPublicacion = ?', [id], async (error, sale) => {
-                                    if (sale.length > 0) {
-                                        var valor = {
-                                            descuento: sale[0].descuento,
-                                            final: saleCalculator(result[0].precio, sale[0].descuento)
-                                        }
-                                    } else {
-                                        var valor = {
-                                            descuento: '',
-                                            final: result[0].precio,
-                                        }
-                                    }
-                                    const vendedor = result[0].vendedorEmail;
-                                    await db.query('SELECT idPregunta, mensaje, fechaPregunta, fechaRespuesta, cuenta_empresa.nombre AS vendedor, cuenta_personal.nombre AS remitente, respuesta, cuentas.tipo FROM (publicacion INNER JOIN preguntas ON publicacion.nroPublicacion = preguntas.publicacion INNER JOIN cuenta_personal ON cuenta_personal.email = preguntas.remitente INNER JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email INNER JOIN cuentas ON cuentas.email = cuenta_empresa.email) WHERE nroPublicacion = ? ORDER BY fechaPregunta DESC LIMIT 5', [id], async (error, questions) => {
-                                        await db.query('SELECT nroPublicacion, precio, precio-precio*descuento.porcentaje/100 AS descuento, imagen FROM (publicacion LEFT JOIN fotos ON publicacion.nroPublicacion = fotos.publicacion LEFT JOIN descuento ON descuento.publication = publicacion.nroPublicacion) WHERE vendedor = ? AND nroPublicacion != ? GROUP BY nroPublicacion LIMIT 6', [vendedor, id], async (error, recommendations) => {
-                                            await db.query('SELECT * from perfil WHERE email = ?', [vendedor], (error, perfil) => {
-                                                res.render('publication/page', {
-                                                    user: req.user,
-                                                    title: result[0].titulo,
-                                                    publication: result[0],
-                                                    product: product[0],
-                                                    favorite: favorite[0],
-                                                    colors,
-                                                    sizes,
-                                                    valor,
-                                                    imagen,
-                                                    questions,
-                                                    recommendations,
-                                                    perfil: perfil[0]
-                                                });
-                                            });
+    db.query('SELECT nroPublicacion, titulo, descripcion, precio, emailVendedor, nombreVendedor, fechaPublicacion, idProducto, categoria, genero, material, marca, porcentaje, descuento FROM (view_publicaciones) WHERE nroPublicacion = ?',[nroPublicacion], async (error, publication) => {
+        if (publication.length>0){
+            const {emailVendedor} = publication[0];
+            await db.query('SELECT imagen FROM fotos WHERE publicacion = ?', [nroPublicacion], async (error, images) => {
+                await db.query('SELECT * FROM view_preguntas WHERE nroPublicacion = ?', [nroPublicacion], async (error, questions) => {
+                    await db.query('SELECT * FROM favoritos WHERE usuario = ? AND publicacion = ?', [email, nroPublicacion], async (error, favorite) => {
+                        await db.query('SELECT talle FROM (publicacion INNER JOIN curvas ON publicacion.nroPublicacion = curvas.publicacion) WHERE nroPublicacion = ?', [nroPublicacion], async (error, sizes) => {
+                            await db.query('SELECT color FROM (publicacion_color INNER JOIN publicacion ON publicacion_color.publicacion = publicacion.nroPublicacion) WHERE publicacion.nroPublicacion = ?', [nroPublicacion], async (error, colors) => {
+                                await db.query('SELECT nroPublicacion, precio, descuento imagen FROM (view_publicaciones) WHERE emailVendedor = ? AND nroPublicacion != ? LIMIT 6', [emailVendedor ,nroPublicacion], async (error, recommendations) => {
+                                    await db.query('SELECT * from perfil WHERE email = ?', [emailVendedor], (error, perfil) => {
+                                        console.log("SE ENCUENTRA EN LA PUBLICACIÓN "+nroPublicacion);
+                                        res.render('publication/page', {
+                                            title: publication[0].titulo,
+                                            user: req.user,
+                                            publication: publication[0],
+                                            images,
+                                            questions,
+                                            favorite,
+                                            sizes,
+                                            colors,
+                                            recommendations,
+                                            perfil
                                         });
-                                    });
+                                    })
                                 });
-                            })
+                            });
                         });
                     });
-                })
+                });
             })
         } else {
-            res.redirect('/');
+            res.redirect('/')
         }
     });
 });
