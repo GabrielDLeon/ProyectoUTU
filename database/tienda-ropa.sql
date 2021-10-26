@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 26, 2021 at 04:26 AM
+-- Generation Time: Oct 26, 2021 at 04:36 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.12
 
@@ -198,7 +198,7 @@ INSERT INTO `descuento` (`publication`, `porcentaje`) VALUES
 (1, NULL),
 (2, NULL),
 (3, 10),
-(4, 10);
+(4, 25);
 
 -- --------------------------------------------------------
 
@@ -520,7 +520,7 @@ CREATE TABLE `view_publicaciones` (
 ,`descripcion` varchar(255)
 ,`precio` int(11)
 ,`porcentaje` int(2)
-,`descuento` decimal(15,4)
+,`descuento` decimal(25,4)
 ,`idProducto` int(11)
 ,`categoria` varchar(255)
 ,`genero` varchar(255)
@@ -547,7 +547,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `view_publicaciones`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_publicaciones`  AS SELECT `publicacion`.`nroPublicacion` AS `nroPublicacion`, `publicacion`.`titulo` AS `titulo`, `publicacion`.`descripcion` AS `descripcion`, `publicacion`.`precio` AS `precio`, `descuento`.`porcentaje` AS `porcentaje`, `publicacion`.`precio`- `publicacion`.`precio` / `descuento`.`porcentaje` AS `descuento`, `productos`.`idProducto` AS `idProducto`, `productos`.`categoria` AS `categoria`, `productos`.`genero` AS `genero`, `productos`.`material` AS `material`, `productos`.`marca` AS `marca`, `cuenta_empresa`.`email` AS `emailVendedor`, `cuenta_empresa`.`nombre` AS `nombreVendedor`, `fotos`.`imagen` AS `imagen` FROM ((((`publicacion` join `productos` on(`publicacion`.`producto` = `productos`.`idProducto`)) join `descuento` on(`descuento`.`publication` = `publicacion`.`nroPublicacion`)) join `cuenta_empresa` on(`cuenta_empresa`.`email` = `publicacion`.`vendedor`)) left join `fotos` on(`fotos`.`publicacion` = `publicacion`.`nroPublicacion`)) GROUP BY `publicacion`.`nroPublicacion` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_publicaciones`  AS SELECT `publicacion`.`nroPublicacion` AS `nroPublicacion`, `publicacion`.`titulo` AS `titulo`, `publicacion`.`descripcion` AS `descripcion`, `publicacion`.`precio` AS `precio`, `descuento`.`porcentaje` AS `porcentaje`, `publicacion`.`precio`- `publicacion`.`precio` * `descuento`.`porcentaje` / 100 AS `descuento`, `productos`.`idProducto` AS `idProducto`, `productos`.`categoria` AS `categoria`, `productos`.`genero` AS `genero`, `productos`.`material` AS `material`, `productos`.`marca` AS `marca`, `cuenta_empresa`.`email` AS `emailVendedor`, `cuenta_empresa`.`nombre` AS `nombreVendedor`, `fotos`.`imagen` AS `imagen` FROM ((((`publicacion` join `productos` on(`publicacion`.`producto` = `productos`.`idProducto`)) join `descuento` on(`descuento`.`publication` = `publicacion`.`nroPublicacion`)) join `cuenta_empresa` on(`cuenta_empresa`.`email` = `publicacion`.`vendedor`)) left join `fotos` on(`fotos`.`publicacion` = `publicacion`.`nroPublicacion`)) GROUP BY `publicacion`.`nroPublicacion` ;
 
 --
 -- Indexes for dumped tables
