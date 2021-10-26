@@ -42,22 +42,27 @@ router.get('/:nombre', authController.isLoggedIn, async (req, res) => {
             let muestra = 9; //Nro de publicaciones por página
             let final = (page*muestra);
             let inicio = final-muestra;
-            const limit = { final, inicio }
+            const limit = { final, inicio };
             const query = 'SELECT nroPublicacion, precio, descuento, imagen FROM view_publicaciones WHERE view_publicaciones.nombreVendedor = ? GROUP BY view_publicaciones.nroPublicacion LIMIT ? OFFSET ?';
             db.query(query, [nombre, muestra, inicio], (error, recommendations) => {
-              db.query(query, [nombre, muestra, (inicio+muestra)], (error, existNextPage) => {
-                if (existNextPage.length>0){ var pagination = { lastPage: page-1, actualPage: page, nextPage: page+1} }
-                else { var pagination = { lastPage: page-1, actualPage: page} }
-                res.render('profile/profile', {
-                  recommendations,
-                  pagination,
-                  profile: result1[0],
-                  data: result[0],
-                  user: req.user,
-                  title: result[0].nombre,
-                  redes
+              if (recommendations.length>0){
+                db.query(query, [nombre, muestra, (inicio+muestra)], (error, existNextPage) => {
+                  if (existNextPage.length>0){ var pagination = { lastPage: page-1, actualPage: page, nextPage: page+1} }
+                  else { var pagination = { lastPage: page-1, actualPage: page} }
+                  res.render('profile/profile', {
+                    recommendations,
+                    pagination,
+                    profile: result1[0],
+                    data: result[0],
+                    user: req.user,
+                    title: result[0].nombre,
+                    redes
+                  })
                 })
-              })
+              } else {
+                const path = '/profile/'+nombre+'?page=1';
+                res.redirect(path);
+              }
             })
           })
         });

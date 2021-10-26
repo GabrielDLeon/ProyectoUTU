@@ -2,6 +2,7 @@ const express = require('express');
 const authController = require('../controllers/auth');
 const router = express.Router();
 const mysql = require("mysql");
+const { result } = require('lodash');
 const db = mysql.createConnection({
   host: process.env.DATABASE_HOST,
   user: process.env.DATABASE_USER,
@@ -40,5 +41,51 @@ router.get('/login', (req, res) => {
     title: "Inicio de sesión"
   });
 });
+
+router.get('/admin/resetIncremental', authController.isLoggedIn, async (req, res) => {
+  const tables = ['cuenta_empresa','cuenta_personal','notificaciones','preguntas','productos','publicacion'];
+  const incremental = ['id', 'id', 'idNotificacion', 'idPregunta', 'idProducto', 'nroPublicacion'];
+  let template = '', query = '';
+  for (let index = 0; index < tables.length; index++) {
+    template = 'SELECT MAX('+incremental[index]+') AS number FROM '+tables[index];
+    db.query(template, (error, result) => {
+      var number = result[0].number + 1;
+      query = 'ALTER TABLE '+tables[index]+' AUTO_INCREMENT = '+number;
+      db.query(query, (error, result) => {
+        if (error){ console.log(error) }
+      });
+    });
+  }
+  console.log("Reset exitoso!");
+  res.redirect('/');
+});
+
+router.get('/admin/genaratePublication', authController.isLoggedIn, async(req,res) => {
+  if (req.user.data.tipo == 'empresa'){
+    const {email} = req.user.data;
+    const generate = 4;
+    for (let index = 0; index < generate; index++) {
+      db.query('INSERT INTO publicacion (precio, titulo, descripcion, producto, vendedor, fechaPublicacion) VALUES (1000, "Generic Publication", "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Animi suscipit tempore et, fugiat impedit assumenda", 1, ?, "2021-10-26")', [email]); 
+    }
+    res.redirect('/');
+  } else {
+    res.redirect('/');
+  }
+});
+
+router.get('/admin/deleteGeneric', authController.isLoggedIn, async(req,res) => {
+  if (req.user.data.tipo == 'empresa'){
+    const {email} = req.user.data;
+    db.query('DELETE FROM publicacion WHERE titulo = "Generic Publication" AND vendedor = ?', [email]);
+    console.log("Publicaciones genéricas eliminadas correctamente!")
+    res.redirect('/admin/resetIncremental')
+  } 
+})
+
+router.get('/admin/deleteGenericAll', authController.isLoggedIn, async(req,res) => {
+  db.query('DELETE FROM publicacion WHERE titulo = "Generic Publication"');
+  console.log("Publicaciones genéricas eliminadas correctamente!")
+  res.redirect('/admin/resetIncremental')
+})
 
 module.exports = router;

@@ -98,7 +98,6 @@ router.post('/edit/:id', upload.array("imagen", 12), authController.isLoggedIn, 
             db.query('SELECT categoria FROM categorias WHERE categoria != ?', [categoria], (error, categorias) => {
                 db.query('SELECT material FROM materiales WHERE material != ?', [material], (error, materiales) => {
                     db.query('SELECT marca FROM marcas WHERE marca != ?', [marca], (error, marcas) => {
-                        console.log(filtro)
                         if (filtro == false) {
                             return res.render('publication/edit', {
                                 //colores,

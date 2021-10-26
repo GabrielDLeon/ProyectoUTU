@@ -74,7 +74,6 @@ router.get('/', authController.isLoggedIn, async (req, res) => {
     // Template almacena toda la consulta + variables + join + condiciones + auxiliares
     let template = 'SELECT '+variables+' FROM (view_publicaciones'+join+') '+condicion+' GROUP BY (nroPublicacion) '+auxiliar;
     // console.log(template);
-
     db.query('SELECT * FROM perfil WHERE perfil.email LIKE "%"?"%"', [key], (error, shops) => {
         db.query(template, (error, recommendations) => {
             res.render('search', {
