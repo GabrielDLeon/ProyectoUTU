@@ -32,16 +32,18 @@ router.get('/', authController.isLoggedIn, (req, res) => {
         if (query.idProducto) {
             const {idProducto} = query;
             db.query('SELECT * FROM productos WHERE idProducto = ?', [idProducto], (error, product) => {
-                console.log(product);
                 if (product[0]){
                     db.query('SELECT color FROM colores', (error, colores) => {
-                        res.render('publication/create', {
-                            product: product[0],
-                            colores,
-                            user: req.user,
-                            query: "idProducto="+idProducto,
-                            title: "Nueva publicación"
-                        });
+                        db.query('SELECT talle FROM talles', (error, talles) => {
+                            res.render('publication/create', {
+                                product: product[0],
+                                colores,
+                                talles,
+                                user: req.user,
+                                query: "idProducto="+idProducto,
+                                title: "Nueva publicación"
+                            });
+                        })
                     });
                 } else {
                     console.log("El producto que desea utilizar no existe")
@@ -53,15 +55,18 @@ router.get('/', authController.isLoggedIn, (req, res) => {
                 db.query('SELECT material FROM materiales', (error, materiales) => {
                     db.query('SELECT marca FROM marcas', (error, marcas) => {
                         db.query('SELECT color FROM colores', (error, colores) => {
-                            res.render('publication/create', {
-                                categorias,
-                                materiales,
-                                marcas,
-                                colores,
-                                user: req.user,
-                                query: "newPublication=true",
-                                title: "Nueva publicación"
-                            });
+                            db.query('SELECT talle FROM talles', (error, talles) => {
+                                res.render('publication/create', {
+                                    categorias,
+                                    materiales,
+                                    marcas,
+                                    colores,
+                                    talles,
+                                    user: req.user,
+                                    query: "newPublication=true",
+                                    title: "Nueva publicación"
+                                });
+                            })
                         });
                     });
                 });
@@ -79,7 +84,7 @@ router.get('/', authController.isLoggedIn, (req, res) => {
 router.post('/', upload.array("imagen", 12), authController.isLoggedIn, async (req, res) => {
     const action = req.query;
     console.log(action);
-
+    console.log(req.body);
     // Cuando se crea una  publicación con un producto ya existente (que se encuentra en la BD)
     if (action.idProducto) {
         // res.send("Utilizando producto")
@@ -121,7 +126,22 @@ router.post('/', upload.array("imagen", 12), authController.isLoggedIn, async (r
             const { idProducto } = action;
             db.query("INSERT INTO publicacion (precio, titulo, descripcion, producto, vendedor, fechaPublicacion) VALUES (?, ?, ?, ?, ?, ?)", [newPublication.precio, newPublication.titulo, newPublication.descripcion, idProducto, newPublication.vendedor, newPublication.fecha], async (error, result) => {
                 const idPublicacion = result.insertId;
-                db.query("INSERT INTO descuento VALUES (?, ?);", [idPublicacion, newPublication.descuento]);
+                const {G, L, M, S, XL, XS, XXL, XXS, XXXL, XXXXL} = req.body
+                var array = [];
+                if (G) array.push('G');
+                if (L) array.push('L');
+                if (M) array.push('M');
+                if (S) array.push('S');
+                if (XL) array.push('XL');
+                if (XS) array.push('XS');
+                if (XXL) array.push('XXL');
+                if (XXS) array.push('XXS');
+                if (XXXL) array.push('XXXL');
+                if (XXXXL) array.push('XXXXL');
+                array.forEach(talle => {
+                    db.query('INSERT INTO curvas VALUES (?, ?)', [talle, idPublicacion]);
+                });
+                db.query("INSERT INTO descuento VALUES (?, ?)", [idPublicacion, newPublication.descuento]);
                 if (req.files) {
                     imagenes = req.files
                     var buffer = imagenes.map((element) => { return _.pick(element, ['buffer']) })
@@ -143,6 +163,7 @@ router.post('/', upload.array("imagen", 12), authController.isLoggedIn, async (r
                         success: "Publicación creada",
                         title: "Nueva publicación"
                     })
+                    
                 })
             });
         }
@@ -234,6 +255,21 @@ router.post('/', upload.array("imagen", 12), authController.isLoggedIn, async (r
                                                     const idProducto = result.insertId;
                                                     db.query("INSERT INTO publicacion (precio, titulo, descripcion, producto, vendedor, fechaPublicacion) VALUES (?, ?, ?, ?, ?, ?)", [newPublication.precio, newPublication.titulo, newPublication.descripcion, idProducto, newPublication.vendedor, newPublication.fecha], async (error, result) => {
                                                         const idPublicacion = result.insertId;
+                                                        const {G, L, M, S, XL, XS, XXL, XXS, XXXL, XXXXL} = req.body
+                                                        var array = [];
+                                                        if (G) array.push('G');
+                                                        if (L) array.push('L');
+                                                        if (M) array.push('M');
+                                                        if (S) array.push('S');
+                                                        if (XL) array.push('XL');
+                                                        if (XS) array.push('XS');
+                                                        if (XXL) array.push('XXL');
+                                                        if (XXS) array.push('XXS');
+                                                        if (XXXL) array.push('XXXL');
+                                                        if (XXXXL) array.push('XXXXL');
+                                                        array.forEach(talle => {
+                                                            db.query('INSERT INTO curvas VALUES (?, ?)', [talle, idPublicacion]);
+                                                        });
                                                         db.query("INSERT INTO descuento VALUES (?, ?);", [idPublicacion, newPublication.descuento]);
                                                         if (req.files) {
                                                             imagenes = req.files

@@ -75,6 +75,12 @@
                         </div> --}}
                     </div>
                 {{/if}}
+                {{#each talles}}
+                    <div class="form-check">
+                        <input type="checkbox" class="btn-check" name="{{talle}}" id="btn-{{talle}}" autocomplete="off">
+                        <label class="btn btn-primary" for="btn-{{talle}}">{{talle}}</label>
+                    </div>
+                {{/each}}
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                     <button type="submit" class="btn btn-success btn-lg"><i class="fas fa-check"></i> Publicar</button>
                     <button type="reset" class="btn btn-danger btn-lg"><i class="fas fa-trash"></i> Descartar</button>

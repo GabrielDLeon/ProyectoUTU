@@ -28,7 +28,7 @@ const db = mysql.createConnection({
 router.get('/', authController.isLoggedIn, (req, res) => {
     if (req.user) {
         const {email} = req.user.data;
-        db.query('SELECT nroPublicacion, titulo, descripcion, precio, idProducto, nombreVendedor, COUNT(preguntas.idPregunta) AS cantPreguntas FROM (view_publicaciones INNER JOIN preguntas ON preguntas.publicacion = nroPublicacion) WHERE emailVendedor = ? GROUP BY nroPublicacion;', [email], (error, publicacion) => {
+        db.query('SELECT nroPublicacion, titulo, descripcion, precio, idProducto, nombreVendedor, COUNT(preguntas.idPregunta) AS cantPreguntas FROM (view_publicaciones LEFT JOIN preguntas ON preguntas.publicacion = nroPublicacion) WHERE emailVendedor = ? GROUP BY nroPublicacion;', [email], (error, publicacion) => {
             res.render('publication/list', {
                 publicacion,
                 user: req.user,

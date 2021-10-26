@@ -1,6 +1,6 @@
 {{>navigation}}
 <section class="container my-5">
-    <form method="POST" action="/list/edit/{{publication.id}}" enctype="multipart/form-data" class="needs-validation" novalidate>
+    <form method="POST" action="/list/edit/{{publication.nroPublicacion}}" enctype="multipart/form-data" class="needs-validation" novalidate>
         <div class="mb-3">
             <h2>Editar datos de la publicación</h2>
             <input class="form-control" name="titulo" id="titulo" type="text" placeholder="Titulo" value="{{publication.titulo}}" required>
