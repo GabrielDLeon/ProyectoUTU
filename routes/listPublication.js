@@ -28,7 +28,7 @@ const db = mysql.createConnection({
 router.get('/', authController.isLoggedIn, (req, res) => {
     if (req.user) {
         const {email} = req.user.data;
-        db.query('SELECT nroPublicacion, precio, titulo, descripcion, producto, cuenta_empresa.nombre AS vendedor, COUNT(preguntas.idPregunta) AS cantPreguntas FROM (publicacion INNER JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email LEFT JOIN preguntas ON preguntas.publicacion = publicacion.nroPublicacion) WHERE vendedor = ? GROUP BY nroPublicacion', [email], (error, publicacion) => {
+        db.query('SELECT nroPublicacion, titulo, descripcion, precio, idProducto, nombreVendedor, COUNT(preguntas.idPregunta) AS cantPreguntas FROM (view_publicaciones INNER JOIN preguntas ON preguntas.publicacion = nroPublicacion) WHERE emailVendedor = ? GROUP BY nroPublicacion;', [email], (error, publicacion) => {
             res.render('publication/list', {
                 publicacion,
                 user: req.user,
@@ -53,14 +53,12 @@ router.post('/delete/:nroPublicacion', authController.isLoggedIn, async (req, re
 
 router.get('/edit/:id', authController.isLoggedIn, async (req, res) => {
     const {id} = req.params;
-    console.log(id)
     const {email} = req.user.data;
     await db.query('SELECT vendedor FROM publicacion WHERE nroPublicacion = ?',[id], (error, result) => {
         if (result.length>0){
             if (email === result[0].vendedor){
-                db.query('SELECT nroPublicacion AS id, precio, titulo, descripcion, porcentaje AS descuento FROM (publicacion INNER JOIN descuento ON publicacion.nroPublicacion = descuento.publication) WHERE publicacion.nroPublicacion = ?',[id], (error, result) => {
-                    db.query('SELECT categoria, genero, material, marca FROM (productos INNER JOIN publicacion ON productos.idProducto = publicacion.producto) WHERE nroPublicacion = ?',[id], (error, product) => {
-                        console.log(result)
+                db.query('SELECT nroPublicacion, titulo, descripcion, precio, descuento FROM (view_publicaciones) WHERE nroPublicacion = ?;',[id], (error, result) => {
+                    db.query('SELECT categoria, genero, material, marca FROM (view_publicaciones) WHERE nroPublicacion = ?',[id], (error, product) => {
                         const {categoria, genero, material, marca} = product[0];
                         db.query('SELECT categoria FROM categorias WHERE categoria != ?',[categoria], (error, categorias) => {
                             db.query('SELECT material FROM materiales WHERE material != ?',[material], (error, materiales) => {
@@ -91,47 +89,47 @@ router.get('/edit/:id', authController.isLoggedIn, async (req, res) => {
     })
 })
 
-router.post('/edit/:id',upload.array("imagen", 12), authController.isLoggedIn, async (req, res) => {
-    const {id} = req.params;
-    const {titulo, descripcion, precio} = req.body;
-    db.query('SELECT nroPublicacion AS id, precio, titulo, descripcion, porcentaje AS descuento FROM (publicacion INNER JOIN descuento ON publicacion.nroPublicacion = descuento.publication) WHERE publicacion.nroPublicacion = ?',[id], (error, result) => {
-    db.query('SELECT categoria, genero, material, marca FROM (productos INNER JOIN publicacion ON productos.idProducto = publicacion.producto) WHERE nroPublicacion = ?',[id], (error, product) => {
-    const {categoria, genero, material, marca} = product[0];
-    db.query('SELECT categoria FROM categorias WHERE categoria != ?',[categoria], (error, categorias) => {
-        db.query('SELECT material FROM materiales WHERE material != ?',[material], (error, materiales) => {
-            db.query('SELECT marca FROM marcas WHERE marca != ?',[marca], (error, marcas) => {
-                console.log(filtro)
-    if (filtro == false) {
-        return res.render('publication/edit', {
-            //colores,
-            user: req.user,
-            categorias,
-            materiales,
-            marcas,
-            genero,
-            product: product[0],
-            publication: result[0],
-            message: "Compruebe la extensión de las imagenes que quiere subir (solo válidas .png, .jpg, .jpeg, .svg)",
-            title: "Editar publicación"
+router.post('/edit/:id', upload.array("imagen", 12), authController.isLoggedIn, async (req, res) => {
+    const { id } = req.params;
+    const { titulo, descripcion, precio } = req.body;
+    db.query('SELECT nroPublicacion, titulo, descripcion, precio, descuento FROM (view_publicaciones) WHERE nroPublicacion = ?', [id], (error, result) => {
+        db.query('SELECT categoria, genero, material, marca FROM (productos INNER JOIN publicacion ON productos.idProducto = publicacion.producto) WHERE nroPublicacion = ?', [id], (error, product) => {
+            const { categoria, genero, material, marca } = product[0];
+            db.query('SELECT categoria FROM categorias WHERE categoria != ?', [categoria], (error, categorias) => {
+                db.query('SELECT material FROM materiales WHERE material != ?', [material], (error, materiales) => {
+                    db.query('SELECT marca FROM marcas WHERE marca != ?', [marca], (error, marcas) => {
+                        console.log(filtro)
+                        if (filtro == false) {
+                            return res.render('publication/edit', {
+                                //colores,
+                                user: req.user,
+                                categorias,
+                                materiales,
+                                marcas,
+                                genero,
+                                product: product[0],
+                                publication: result[0],
+                                message: "Compruebe la extensión de las imagenes que quiere subir (solo válidas .png, .jpg, .jpeg, .svg)",
+                                title: "Editar publicación"
+                            })
+                        }
+                        if (req.files) {
+                            db.query('DELETE FROM fotos WHERE publicacion = ?', [id])
+                            imagenes = req.files
+                            var buffer = imagenes.map((element) => { return _.pick(element, ['buffer']) })
+                            buffer.forEach((imagen) => {
+                                resultado = imagen.buffer.toString('base64');
+                                db.query("INSERT INTO fotos VALUES (?, ?);", [id, resultado]);
+                            })
+                        }
+                    })
+                })
+            })
         })
-    }
-    if (req.files) {
-        db.query('DELETE FROM fotos WHERE publicacion = ?', [id])
-        imagenes = req.files
-        var buffer = imagenes.map((element) => { return _.pick(element, ['buffer']) })
-        buffer.forEach((imagen) => {
-            resultado = imagen.buffer.toString('base64');
-            db.query("INSERT INTO fotos VALUES (?, ?);", [id, resultado]);
+        db.query('UPDATE publicacion SET titulo = ?, descripcion = ?, precio = ? WHERE nroPublicacion = ?', [titulo, descripcion, precio, id], (error, result) => {
+            console.log("Se actualizó correctamente la publicación " + id);
+            res.redirect('/list');
         })
-    }
-})
-})
-})
-})
-    db.query('UPDATE publicacion SET titulo = ?, descripcion = ?, precio = ? WHERE nroPublicacion = ?',[titulo, descripcion, precio ,id], (error, result) => {
-        console.log("Se actualizó correctamente la publicación "+id);
-        res.redirect('/list');
     })
-})
 })
 module.exports = router;

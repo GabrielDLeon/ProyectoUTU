@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.0
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 23-10-2021 a las 22:17:25
--- Versión del servidor: 10.4.18-MariaDB
--- Versión de PHP: 8.0.3
+-- Host: 127.0.0.1
+-- Generation Time: Oct 26, 2021 at 04:26 AM
+-- Server version: 10.4.21-MariaDB
+-- PHP Version: 8.0.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `tienda-ropa`
+-- Database: `tienda-ropa`
 --
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `categorias`
+-- Table structure for table `categorias`
 --
 
 CREATE TABLE `categorias` (
@@ -32,7 +32,7 @@ CREATE TABLE `categorias` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Volcado de datos para la tabla `categorias`
+-- Dumping data for table `categorias`
 --
 
 INSERT INTO `categorias` (`categoria`) VALUES
@@ -79,7 +79,7 @@ INSERT INTO `categorias` (`categoria`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `colores`
+-- Table structure for table `colores`
 --
 
 CREATE TABLE `colores` (
@@ -87,7 +87,7 @@ CREATE TABLE `colores` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Volcado de datos para la tabla `colores`
+-- Dumping data for table `colores`
 --
 
 INSERT INTO `colores` (`color`) VALUES
@@ -109,7 +109,7 @@ INSERT INTO `colores` (`color`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `cuentas`
+-- Table structure for table `cuentas`
 --
 
 CREATE TABLE `cuentas` (
@@ -119,7 +119,7 @@ CREATE TABLE `cuentas` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Volcado de datos para la tabla `cuentas`
+-- Dumping data for table `cuentas`
 --
 
 INSERT INTO `cuentas` (`email`, `password`, `tipo`) VALUES
@@ -130,7 +130,7 @@ INSERT INTO `cuentas` (`email`, `password`, `tipo`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `cuenta_empresa`
+-- Table structure for table `cuenta_empresa`
 --
 
 CREATE TABLE `cuenta_empresa` (
@@ -142,7 +142,7 @@ CREATE TABLE `cuenta_empresa` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Volcado de datos para la tabla `cuenta_empresa`
+-- Dumping data for table `cuenta_empresa`
 --
 
 INSERT INTO `cuenta_empresa` (`id`, `email`, `RUT`, `nombre`, `razonSocial`) VALUES
@@ -152,7 +152,7 @@ INSERT INTO `cuenta_empresa` (`id`, `email`, `RUT`, `nombre`, `razonSocial`) VAL
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `cuenta_personal`
+-- Table structure for table `cuenta_personal`
 --
 
 CREATE TABLE `cuenta_personal` (
@@ -162,7 +162,7 @@ CREATE TABLE `cuenta_personal` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Volcado de datos para la tabla `cuenta_personal`
+-- Dumping data for table `cuenta_personal`
 --
 
 INSERT INTO `cuenta_personal` (`id`, `email`, `nombre`) VALUES
@@ -171,7 +171,7 @@ INSERT INTO `cuenta_personal` (`id`, `email`, `nombre`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `curvas`
+-- Table structure for table `curvas`
 --
 
 CREATE TABLE `curvas` (
@@ -182,7 +182,7 @@ CREATE TABLE `curvas` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `descuento`
+-- Table structure for table `descuento`
 --
 
 CREATE TABLE `descuento` (
@@ -191,7 +191,7 @@ CREATE TABLE `descuento` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Volcado de datos para la tabla `descuento`
+-- Dumping data for table `descuento`
 --
 
 INSERT INTO `descuento` (`publication`, `porcentaje`) VALUES
@@ -203,7 +203,7 @@ INSERT INTO `descuento` (`publication`, `porcentaje`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `enlaces`
+-- Table structure for table `enlaces`
 --
 
 CREATE TABLE `enlaces` (
@@ -215,7 +215,7 @@ CREATE TABLE `enlaces` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `enlaces_tipos`
+-- Table structure for table `enlaces_tipos`
 --
 
 CREATE TABLE `enlaces_tipos` (
@@ -223,7 +223,7 @@ CREATE TABLE `enlaces_tipos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Volcado de datos para la tabla `enlaces_tipos`
+-- Dumping data for table `enlaces_tipos`
 --
 
 INSERT INTO `enlaces_tipos` (`plataforma`) VALUES
@@ -234,7 +234,7 @@ INSERT INTO `enlaces_tipos` (`plataforma`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `favoritos`
+-- Table structure for table `favoritos`
 --
 
 CREATE TABLE `favoritos` (
@@ -243,7 +243,7 @@ CREATE TABLE `favoritos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Volcado de datos para la tabla `favoritos`
+-- Dumping data for table `favoritos`
 --
 
 INSERT INTO `favoritos` (`usuario`, `publicacion`) VALUES
@@ -253,7 +253,7 @@ INSERT INTO `favoritos` (`usuario`, `publicacion`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `fotos`
+-- Table structure for table `fotos`
 --
 
 CREATE TABLE `fotos` (
@@ -262,7 +262,7 @@ CREATE TABLE `fotos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Volcado de datos para la tabla `fotos`
+-- Dumping data for table `fotos`
 --
 
 INSERT INTO `fotos` (`publicacion`, `imagen`) VALUES
@@ -285,7 +285,7 @@ INSERT INTO `fotos` (`publicacion`, `imagen`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `marcas`
+-- Table structure for table `marcas`
 --
 
 CREATE TABLE `marcas` (
@@ -293,7 +293,7 @@ CREATE TABLE `marcas` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Volcado de datos para la tabla `marcas`
+-- Dumping data for table `marcas`
 --
 
 INSERT INTO `marcas` (`marca`) VALUES
@@ -322,7 +322,7 @@ INSERT INTO `marcas` (`marca`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `materiales`
+-- Table structure for table `materiales`
 --
 
 CREATE TABLE `materiales` (
@@ -330,7 +330,7 @@ CREATE TABLE `materiales` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Volcado de datos para la tabla `materiales`
+-- Dumping data for table `materiales`
 --
 
 INSERT INTO `materiales` (`material`) VALUES
@@ -346,7 +346,7 @@ INSERT INTO `materiales` (`material`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `notificaciones`
+-- Table structure for table `notificaciones`
 --
 
 CREATE TABLE `notificaciones` (
@@ -357,7 +357,7 @@ CREATE TABLE `notificaciones` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Volcado de datos para la tabla `notificaciones`
+-- Dumping data for table `notificaciones`
 --
 
 INSERT INTO `notificaciones` (`idNotificacion`, `usuario`, `pregunta`, `visto`) VALUES
@@ -368,7 +368,7 @@ INSERT INTO `notificaciones` (`idNotificacion`, `usuario`, `pregunta`, `visto`) 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `perfil`
+-- Table structure for table `perfil`
 --
 
 CREATE TABLE `perfil` (
@@ -381,7 +381,7 @@ CREATE TABLE `perfil` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Volcado de datos para la tabla `perfil`
+-- Dumping data for table `perfil`
 --
 
 INSERT INTO `perfil` (`fotoPerfil`, `email`, `nombre`, `descripcion`, `direccion`, `telefono`) VALUES
@@ -392,7 +392,7 @@ INSERT INTO `perfil` (`fotoPerfil`, `email`, `nombre`, `descripcion`, `direccion
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `preguntas`
+-- Table structure for table `preguntas`
 --
 
 CREATE TABLE `preguntas` (
@@ -406,7 +406,7 @@ CREATE TABLE `preguntas` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Volcado de datos para la tabla `preguntas`
+-- Dumping data for table `preguntas`
 --
 
 INSERT INTO `preguntas` (`idPregunta`, `mensaje`, `fechaPregunta`, `remitente`, `publicacion`, `respuesta`, `fechaRespuesta`) VALUES
@@ -416,7 +416,7 @@ INSERT INTO `preguntas` (`idPregunta`, `mensaje`, `fechaPregunta`, `remitente`, 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `productos`
+-- Table structure for table `productos`
 --
 
 CREATE TABLE `productos` (
@@ -428,7 +428,7 @@ CREATE TABLE `productos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Volcado de datos para la tabla `productos`
+-- Dumping data for table `productos`
 --
 
 INSERT INTO `productos` (`idProducto`, `categoria`, `genero`, `material`, `marca`) VALUES
@@ -440,7 +440,7 @@ INSERT INTO `productos` (`idProducto`, `categoria`, `genero`, `material`, `marca
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `publicacion`
+-- Table structure for table `publicacion`
 --
 
 CREATE TABLE `publicacion` (
@@ -454,7 +454,7 @@ CREATE TABLE `publicacion` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Volcado de datos para la tabla `publicacion`
+-- Dumping data for table `publicacion`
 --
 
 INSERT INTO `publicacion` (`nroPublicacion`, `precio`, `titulo`, `descripcion`, `producto`, `vendedor`, `fechaPublicacion`) VALUES
@@ -466,7 +466,7 @@ INSERT INTO `publicacion` (`nroPublicacion`, `precio`, `titulo`, `descripcion`, 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `talles`
+-- Table structure for table `talles`
 --
 
 CREATE TABLE `talles` (
@@ -474,7 +474,7 @@ CREATE TABLE `talles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Volcado de datos para la tabla `talles`
+-- Dumping data for table `talles`
 --
 
 INSERT INTO `talles` (`talle`) VALUES
@@ -489,95 +489,155 @@ INSERT INTO `talles` (`talle`) VALUES
 ('XXXL'),
 ('XXXXL');
 
+-- --------------------------------------------------------
+
 --
--- Índices para tablas volcadas
+-- Stand-in structure for view `view_preguntas`
+-- (See below for the actual view)
+--
+CREATE TABLE `view_preguntas` (
+`idPregunta` int(11)
+,`nroPublicacion` int(11)
+,`emailRemitente` varchar(255)
+,`nombreRemitente` varchar(255)
+,`fechaPregunta` datetime
+,`mensaje` varchar(255)
+,`emailVendedor` varchar(255)
+,`nombreVendedor` varchar(255)
+,`fechaRespuesta` datetime
+,`respuesta` varchar(255)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `view_publicaciones`
+-- (See below for the actual view)
+--
+CREATE TABLE `view_publicaciones` (
+`nroPublicacion` int(11)
+,`titulo` varchar(255)
+,`descripcion` varchar(255)
+,`precio` int(11)
+,`porcentaje` int(2)
+,`descuento` decimal(15,4)
+,`idProducto` int(11)
+,`categoria` varchar(255)
+,`genero` varchar(255)
+,`material` varchar(255)
+,`marca` varchar(255)
+,`emailVendedor` varchar(255)
+,`nombreVendedor` varchar(255)
+,`imagen` longtext
+);
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `view_preguntas`
+--
+DROP TABLE IF EXISTS `view_preguntas`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_preguntas`  AS SELECT `preguntas`.`idPregunta` AS `idPregunta`, `publicacion`.`nroPublicacion` AS `nroPublicacion`, `preguntas`.`remitente` AS `emailRemitente`, `cuenta_personal`.`nombre` AS `nombreRemitente`, `preguntas`.`fechaPregunta` AS `fechaPregunta`, `preguntas`.`mensaje` AS `mensaje`, `cuenta_empresa`.`email` AS `emailVendedor`, `cuenta_empresa`.`nombre` AS `nombreVendedor`, `preguntas`.`fechaRespuesta` AS `fechaRespuesta`, `preguntas`.`respuesta` AS `respuesta` FROM (((`preguntas` join `publicacion` on(`preguntas`.`publicacion` = `publicacion`.`nroPublicacion`)) join `cuenta_personal` on(`cuenta_personal`.`email` = `preguntas`.`remitente`)) join `cuenta_empresa` on(`cuenta_empresa`.`email` = `publicacion`.`vendedor`)) ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `view_publicaciones`
+--
+DROP TABLE IF EXISTS `view_publicaciones`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_publicaciones`  AS SELECT `publicacion`.`nroPublicacion` AS `nroPublicacion`, `publicacion`.`titulo` AS `titulo`, `publicacion`.`descripcion` AS `descripcion`, `publicacion`.`precio` AS `precio`, `descuento`.`porcentaje` AS `porcentaje`, `publicacion`.`precio`- `publicacion`.`precio` / `descuento`.`porcentaje` AS `descuento`, `productos`.`idProducto` AS `idProducto`, `productos`.`categoria` AS `categoria`, `productos`.`genero` AS `genero`, `productos`.`material` AS `material`, `productos`.`marca` AS `marca`, `cuenta_empresa`.`email` AS `emailVendedor`, `cuenta_empresa`.`nombre` AS `nombreVendedor`, `fotos`.`imagen` AS `imagen` FROM ((((`publicacion` join `productos` on(`publicacion`.`producto` = `productos`.`idProducto`)) join `descuento` on(`descuento`.`publication` = `publicacion`.`nroPublicacion`)) join `cuenta_empresa` on(`cuenta_empresa`.`email` = `publicacion`.`vendedor`)) left join `fotos` on(`fotos`.`publicacion` = `publicacion`.`nroPublicacion`)) GROUP BY `publicacion`.`nroPublicacion` ;
+
+--
+-- Indexes for dumped tables
 --
 
 --
--- Indices de la tabla `categorias`
+-- Indexes for table `categorias`
 --
 ALTER TABLE `categorias`
   ADD PRIMARY KEY (`categoria`);
 
 --
--- Indices de la tabla `colores`
+-- Indexes for table `colores`
 --
 ALTER TABLE `colores`
   ADD PRIMARY KEY (`color`);
 
 --
--- Indices de la tabla `cuentas`
+-- Indexes for table `cuentas`
 --
 ALTER TABLE `cuentas`
   ADD PRIMARY KEY (`email`);
 
 --
--- Indices de la tabla `cuenta_empresa`
+-- Indexes for table `cuenta_empresa`
 --
 ALTER TABLE `cuenta_empresa`
   ADD PRIMARY KEY (`id`),
   ADD KEY `cuenta_empresa_ibfk_1` (`email`);
 
 --
--- Indices de la tabla `cuenta_personal`
+-- Indexes for table `cuenta_personal`
 --
 ALTER TABLE `cuenta_personal`
   ADD PRIMARY KEY (`id`),
   ADD KEY `cuenta_personal_ibfk_1` (`email`);
 
 --
--- Indices de la tabla `curvas`
+-- Indexes for table `curvas`
 --
 ALTER TABLE `curvas`
   ADD PRIMARY KEY (`talle`,`publicacion`),
   ADD KEY `curvas_ibfk_1` (`publicacion`);
 
 --
--- Indices de la tabla `descuento`
+-- Indexes for table `descuento`
 --
 ALTER TABLE `descuento`
   ADD PRIMARY KEY (`publication`);
 
 --
--- Indices de la tabla `enlaces`
+-- Indexes for table `enlaces`
 --
 ALTER TABLE `enlaces`
   ADD PRIMARY KEY (`tipo`,`propietario`),
   ADD KEY `enlaces_ibfk_1` (`propietario`);
 
 --
--- Indices de la tabla `enlaces_tipos`
+-- Indexes for table `enlaces_tipos`
 --
 ALTER TABLE `enlaces_tipos`
   ADD PRIMARY KEY (`plataforma`);
 
 --
--- Indices de la tabla `favoritos`
+-- Indexes for table `favoritos`
 --
 ALTER TABLE `favoritos`
   ADD PRIMARY KEY (`usuario`,`publicacion`),
   ADD KEY `favoritos_ibfk_1` (`publicacion`);
 
 --
--- Indices de la tabla `fotos`
+-- Indexes for table `fotos`
 --
 ALTER TABLE `fotos`
   ADD KEY `publicacion` (`publicacion`);
 
 --
--- Indices de la tabla `marcas`
+-- Indexes for table `marcas`
 --
 ALTER TABLE `marcas`
   ADD PRIMARY KEY (`marca`);
 
 --
--- Indices de la tabla `materiales`
+-- Indexes for table `materiales`
 --
 ALTER TABLE `materiales`
   ADD PRIMARY KEY (`material`);
 
 --
--- Indices de la tabla `notificaciones`
+-- Indexes for table `notificaciones`
 --
 ALTER TABLE `notificaciones`
   ADD PRIMARY KEY (`idNotificacion`),
@@ -585,13 +645,13 @@ ALTER TABLE `notificaciones`
   ADD KEY `notificaciones_ibfk_1` (`usuario`);
 
 --
--- Indices de la tabla `perfil`
+-- Indexes for table `perfil`
 --
 ALTER TABLE `perfil`
   ADD PRIMARY KEY (`email`);
 
 --
--- Indices de la tabla `preguntas`
+-- Indexes for table `preguntas`
 --
 ALTER TABLE `preguntas`
   ADD PRIMARY KEY (`idPregunta`),
@@ -599,7 +659,7 @@ ALTER TABLE `preguntas`
   ADD KEY `preguntas_ibfk_2` (`publicacion`);
 
 --
--- Indices de la tabla `productos`
+-- Indexes for table `productos`
 --
 ALTER TABLE `productos`
   ADD PRIMARY KEY (`idProducto`),
@@ -609,7 +669,7 @@ ALTER TABLE `productos`
   ADD KEY `material` (`material`);
 
 --
--- Indices de la tabla `publicacion`
+-- Indexes for table `publicacion`
 --
 ALTER TABLE `publicacion`
   ADD PRIMARY KEY (`nroPublicacion`),
@@ -617,122 +677,122 @@ ALTER TABLE `publicacion`
   ADD KEY `publicacion_ibfk_2` (`vendedor`);
 
 --
--- Indices de la tabla `talles`
+-- Indexes for table `talles`
 --
 ALTER TABLE `talles`
   ADD PRIMARY KEY (`talle`);
 
 --
--- AUTO_INCREMENT de las tablas volcadas
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT de la tabla `cuenta_empresa`
+-- AUTO_INCREMENT for table `cuenta_empresa`
 --
 ALTER TABLE `cuenta_empresa`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT de la tabla `cuenta_personal`
+-- AUTO_INCREMENT for table `cuenta_personal`
 --
 ALTER TABLE `cuenta_personal`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT de la tabla `notificaciones`
+-- AUTO_INCREMENT for table `notificaciones`
 --
 ALTER TABLE `notificaciones`
   MODIFY `idNotificacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT de la tabla `preguntas`
+-- AUTO_INCREMENT for table `preguntas`
 --
 ALTER TABLE `preguntas`
   MODIFY `idPregunta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT de la tabla `productos`
+-- AUTO_INCREMENT for table `productos`
 --
 ALTER TABLE `productos`
   MODIFY `idProducto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT de la tabla `publicacion`
+-- AUTO_INCREMENT for table `publicacion`
 --
 ALTER TABLE `publicacion`
   MODIFY `nroPublicacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- Restricciones para tablas volcadas
+-- Constraints for dumped tables
 --
 
 --
--- Filtros para la tabla `cuenta_empresa`
+-- Constraints for table `cuenta_empresa`
 --
 ALTER TABLE `cuenta_empresa`
   ADD CONSTRAINT `cuenta_empresa_ibfk_1` FOREIGN KEY (`email`) REFERENCES `cuentas` (`email`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `cuenta_personal`
+-- Constraints for table `cuenta_personal`
 --
 ALTER TABLE `cuenta_personal`
   ADD CONSTRAINT `cuenta_personal_ibfk_1` FOREIGN KEY (`email`) REFERENCES `cuentas` (`email`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `curvas`
+-- Constraints for table `curvas`
 --
 ALTER TABLE `curvas`
   ADD CONSTRAINT `curvas_ibfk_1` FOREIGN KEY (`publicacion`) REFERENCES `publicacion` (`nroPublicacion`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `curvas_ibfk_2` FOREIGN KEY (`talle`) REFERENCES `talles` (`talle`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `descuento`
+-- Constraints for table `descuento`
 --
 ALTER TABLE `descuento`
   ADD CONSTRAINT `descuento_ibfk_1` FOREIGN KEY (`publication`) REFERENCES `publicacion` (`nroPublicacion`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `enlaces`
+-- Constraints for table `enlaces`
 --
 ALTER TABLE `enlaces`
   ADD CONSTRAINT `enlaces_ibfk_2` FOREIGN KEY (`tipo`) REFERENCES `enlaces_tipos` (`plataforma`),
   ADD CONSTRAINT `enlaces_ibfk_3` FOREIGN KEY (`propietario`) REFERENCES `perfil` (`email`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `favoritos`
+-- Constraints for table `favoritos`
 --
 ALTER TABLE `favoritos`
   ADD CONSTRAINT `favoritos_ibfk_1` FOREIGN KEY (`publicacion`) REFERENCES `publicacion` (`nroPublicacion`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `favoritos_ibfk_2` FOREIGN KEY (`usuario`) REFERENCES `cuenta_personal` (`email`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `fotos`
+-- Constraints for table `fotos`
 --
 ALTER TABLE `fotos`
   ADD CONSTRAINT `fotos_ibfk_1` FOREIGN KEY (`publicacion`) REFERENCES `publicacion` (`nroPublicacion`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `notificaciones`
+-- Constraints for table `notificaciones`
 --
 ALTER TABLE `notificaciones`
   ADD CONSTRAINT `notificaciones_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `cuentas` (`email`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `notificaciones_ibfk_2` FOREIGN KEY (`pregunta`) REFERENCES `preguntas` (`idPregunta`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `perfil`
+-- Constraints for table `perfil`
 --
 ALTER TABLE `perfil`
   ADD CONSTRAINT `perfil_ibfk_1` FOREIGN KEY (`email`) REFERENCES `cuentas` (`email`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `preguntas`
+-- Constraints for table `preguntas`
 --
 ALTER TABLE `preguntas`
   ADD CONSTRAINT `preguntas_ibfk_1` FOREIGN KEY (`remitente`) REFERENCES `cuenta_personal` (`email`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `preguntas_ibfk_2` FOREIGN KEY (`publicacion`) REFERENCES `publicacion` (`nroPublicacion`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `productos`
+-- Constraints for table `productos`
 --
 ALTER TABLE `productos`
   ADD CONSTRAINT `productos_ibfk_1` FOREIGN KEY (`categoria`) REFERENCES `categorias` (`categoria`),
@@ -740,7 +800,7 @@ ALTER TABLE `productos`
   ADD CONSTRAINT `productos_ibfk_4` FOREIGN KEY (`material`) REFERENCES `materiales` (`material`);
 
 --
--- Filtros para la tabla `publicacion`
+-- Constraints for table `publicacion`
 --
 ALTER TABLE `publicacion`
   ADD CONSTRAINT `publicacion_ibfk_1` FOREIGN KEY (`producto`) REFERENCES `productos` (`idProducto`) ON DELETE CASCADE ON UPDATE CASCADE,

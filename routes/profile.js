@@ -43,7 +43,7 @@ router.get('/:nombre', authController.isLoggedIn, async (req, res) => {
             let final = (page*muestra);
             let inicio = final-muestra;
             const limit = { final, inicio }
-            const query = 'SELECT nroPublicacion, precio, precio-precio*descuento.porcentaje/100 AS descuento, imagen FROM (publicacion INNER JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email INNER JOIN productos ON productos.idProducto = publicacion.producto LEFT JOIN fotos ON fotos.publicacion = publicacion.nroPublicacion LEFT JOIN descuento ON descuento.publication = publicacion.nroPublicacion) WHERE cuenta_empresa.nombre = ? GROUP BY nroPublicacion  LIMIT ? OFFSET ?'
+            const query = 'SELECT nroPublicacion, precio, descuento, imagen FROM view_publicaciones WHERE view_publicaciones.nombreVendedor = ? GROUP BY view_publicaciones.nroPublicacion LIMIT ? OFFSET ?';
             db.query(query, [nombre, muestra, inicio], (error, recommendations) => {
               db.query(query, [nombre, muestra, (inicio+muestra)], (error, existNextPage) => {
                 if (existNextPage.length>0){ var pagination = { lastPage: page-1, actualPage: page, nextPage: page+1} }

@@ -14,20 +14,8 @@ router.get('/', authController.isLoggedIn, async (req, res) => {
     if (req.user){
         const user = req.user;
         const {email} = user.data;
-
-        if (user.data.tipo == 'empresa'){
-            // Listado de notificaciones para la empresa
-            db.query('SELECT fotos.imagen, idNotificacion, idPregunta, mensaje, fechaPregunta, publicacion.nroPublicacion AS idPublicacion, cuenta_personal.nombre AS remitente, visto FROM (notificaciones INNER JOIN preguntas ON notificaciones.pregunta = preguntas.idPregunta INNER JOIN publicacion ON publicacion.nroPublicacion = preguntas.publicacion INNER JOIN cuenta_personal ON cuenta_personal.email = preguntas.remitente LEFT JOIN fotos ON fotos.publicacion = publicacion.nroPublicacion) WHERE usuario = ? GROUP BY idNotificacion ORDER BY fechaPregunta DESC;',[email], (error, result) => {
-                res.render('notifications', {
-                    title: "Notificaciones",
-                    notifications: result,
-                    user,
-                });
-                db.query('UPDATE notificaciones SET visto = 1 WHERE visto = 0 AND usuario = ?', [email]);
-            })
-        } else if (user.data.tipo == 'usuario'){
-            // Listado de notificaciones para el usuario
-            db.query('SELECT fotos.imagen, idNotificacion, idPregunta, mensaje, respuesta, fechaRespuesta, publicacion.nroPublicacion AS idPublicacion, cuenta_empresa.nombre AS vendedor, visto FROM (notificaciones INNER JOIN preguntas ON notificaciones.pregunta = preguntas.idPregunta INNER JOIN publicacion ON publicacion.nroPublicacion = preguntas.publicacion INNER JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email LEFT JOIN fotos ON fotos.publicacion = publicacion.nroPublicacion) WHERE usuario = ? GROUP BY idNotificacion ORDER BY fechaRespuesta DESC',[email], (error, result) => {
+        if (user){
+            db.query('SELECT idNotificacion,  nroPublicacion, visto, idPregunta, fechaPregunta, mensaje, nombreRemitente, fechaRespuesta, respuesta, nombreVendedor, imagen FROM (notificaciones INNER JOIN view_preguntas ON notificaciones.pregunta = view_preguntas.idPregunta INNER JOIN fotos ON fotos.publicacion = nroPublicacion) WHERE notificaciones.usuario = ? GROUP BY notificaciones.idNotificacion ORDER BY fechaPregunta',[email], (error, result) => {
                 res.render('notifications', {
                     title: "Notificaciones",
                     notifications: result,

@@ -22,7 +22,7 @@
                                         {{/ifCond}}
                                     </small>
                                 </p>
-                                <h5 class="card-title"><span>{{vendedor}}</span> ha respondido tu pregunta</h5>
+                                <h5 class="card-title"><span>{{nombreVendedor}}</span> ha respondido tu pregunta</h5>
                                 <small class="card-text text-muted">{{mensaje}}</small>   
                                 <p class="card-text">{{respuesta}}</p>
                             {{else}}
@@ -34,7 +34,7 @@
                                         {{/ifCond}}
                                     </small>
                                 </p>
-                                <h5 class="card-title"><span>{{remitente}}</span> ha realizado una pregunta</h5>
+                                <h5 class="card-title"><span>{{nombreRemitente}}</span> ha realizado una pregunta</h5>
                                 <p class="card-text">{{mensaje}}</p>
                             {{/if}}
                             <div class="d-flex">
@@ -52,7 +52,7 @@
                         </div>
                     </div>
                 </div>
-            </div>        
+            </div>
         {{/each}}
     {{else}}
         <div class="row d-flex justify-content-center">
