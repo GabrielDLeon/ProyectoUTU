@@ -25,44 +25,55 @@ function addDays(date, days) {
     return copy
 }
 
+function hi (){
+    const saludo = "hola";
+    return saludo;
+}
+
 router.get('/', authController.isLoggedIn, async (req, res) => {
     const query = req.query;
-    const {key, sale, newest, minPrice, maxPrice} = query;
+    const {key, sale, newest, minPrice, maxPrice, top} = query;
     let array = [];
+    let condicion = '', auxiliar = '', join = '';
 
-    // Variables almacena todos los valores que se extraerán de la consulta SQL
-    let variables = 'nroPublicacion, fotos.imagen AS imagen,precio, titulo, precio-precio*descuento.porcentaje/100 AS descuento, descripcion, producto, cuenta_empresa.nombre AS vendedor, categoria, genero, material, marca'
+    // Creación de las Variables
+    let variables = 'nroPublicacion, titulo, descripcion, precio, descuento, nombreVendedor, categoria, genero, material, marca, imagen';
 
-    // Se verifica que filtros se están usando en la URL
-    if (key) {array.push('(titulo LIKE "%'+key+'%" OR categoria LIKE "%'+key+'%" OR genero LIKE "%'+key+'%" OR material LIKE "%'+key+'%" OR marca LIKE "%'+key+'%" OR cuenta_empresa.nombre LIKE "%'+key+'%")')}
-    if (sale==1)  {array.push('(descuento.porcentaje > 0)')}
+    // Identificación de los filtros se están usando en la URL
+    if (key) {array.push('(titulo LIKE "%'+key+'%" OR categoria LIKE "%'+key+'%" OR genero LIKE "%'+key+'%" OR material LIKE "%'+key+'%" OR marca LIKE "%'+key+'%" OR nombreVendedor LIKE "%'+key+'%")')}
+    if (top==1) {
+        variables+= ', COUNT(favoritos.publicacion) AS cantFavoritos'
+        auxiliar+= 'HAVING (COUNT(favoritos.publicacion)) ORDER BY cantFavoritos DESC LIMIT 8'
+        join+= ' INNER JOIN favoritos ON favoritos.publicacion = view_publicaciones.nroPublicacion'
+    }
+    if (sale==1)  {array.push('(porcentaje > 0)')}
     if (newest==1)  {
         const date = new Date();
         const newDate = addDays(date, - process.env.NEWEST_PUBLICATION);
         let string = newDate.getFullYear()+'-'+(date.getMonth()+1)+'-'+newDate.getDate();
-        array.push('(fechaPublicacion >= "'+string+'")');
+        array.push('(fechaPublicacion >=  "'+string+'")');
         variables+= ', fechaPublicacion';
     }
-    if (minPrice) {array.push('(precio >'+minPrice+' OR (precio-precio*descuento.porcentaje/100) >'+minPrice+')')}
-    if (maxPrice) {array.push('(precio <'+maxPrice+' OR (precio-precio*descuento.porcentaje/100) <'+maxPrice+')')}
+    if (minPrice) {array.push('(precio >= '+minPrice+' OR descuento >= '+minPrice+')')}
+    if (maxPrice) {array.push('(precio <= '+maxPrice+' OR descuento <= '+maxPrice+')')}
 
-    // Template almacena una consulta de SQL donde acumula todos los filtros de la búsqueda
-    let template = 'SELECT '+variables+' FROM (publicacion LEFT JOIN cuenta_empresa ON publicacion.vendedor = cuenta_empresa.email LEFT JOIN fotos ON fotos.publicacion = publicacion.nroPublicacion INNER JOIN productos ON publicacion.producto = productos.idProducto LEFT JOIN descuento ON descuento.publication = publicacion.nroPublicacion) ';
 
-    // Añade los filtros de la búsqueda a la consulta SQL (template)
-    template += 'WHERE ';
-    let i = 0; // Contador de filtros
-    array.forEach(string => {
-        
-        if (i < (array.length-1)){  // Cuando el contador de filtros no llegó al final de la array
-            template += string.valueOf();
-            template += ' AND ';
-            i++;
-        } else { template += string.valueOf() } // Cuando el contador llega al final
-    });
+    // Creación de las Condiciones
+    if (array.length>0){
+        condicion += 'WHERE ';
+        let i = 0; // Contador de filtros
+        array.forEach(string => {
+            if (i < (array.length-1)){  // Cuando el contador de filtros no llegó al final de la array
+                condicion += string.valueOf();
+                condicion += ' AND ';
+                i++;
+            } else { condicion += string.valueOf() } // Cuando el contador llega al final
+        });
+    }
 
-    // Se completa el template con el GROUP BY para dar por finalizado la consulta
-    template += ' GROUP BY nroPublicacion;';
+    // Template almacena toda la consulta + variables + join + condiciones + auxiliares
+    let template = 'SELECT '+variables+' FROM (view_publicaciones'+join+') '+condicion+' GROUP BY (nroPublicacion) '+auxiliar;
+    // console.log(template);
 
     db.query('SELECT * FROM perfil WHERE perfil.email LIKE "%"?"%"', [key], (error, shops) => {
         db.query(template, (error, recommendations) => {
