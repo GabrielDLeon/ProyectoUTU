@@ -54,20 +54,22 @@
                 <p id="textColores">Aquí apareceran los colores</p>
             </div> --}}
         </div>
-        {{#if tallesSelected}}
-            {{#each tallesSelected}}
-                <div class="form-check">
-                    <input type="checkbox" class="btn-check" name="{{talle}}" id="btn-{{talle}}" autocomplete="off" checked>
-                    <label class="btn btn-primary" for="btn-{{talle}}">{{talle}}</label>
+        <div class="my-3">
+            {{#if tallesSelected}}
+                {{#each tallesSelected}}
+                    <div class="form-check d-inline m-0 p-0">
+                        <input type="checkbox" class="btn-check" name="{{talle}}" id="btn-{{talle}}" autocomplete="off" checked>
+                        <label class="btn btn-outline-dark btn-lg shadow-none" for="btn-{{talle}}" style="width: 100px;">{{talle}}</label>
+                    </div>
+                {{/each}}
+            {{/if}}
+            {{#each talles}}
+                <div class="form-check d-inline m-0 p-0">
+                    <input type="checkbox" class="btn-check" name="{{talle}}" id="btn-{{talle}}" autocomplete="off">
+                    <label class="btn btn-outline-dark btn-lg shadow-none" for="btn-{{talle}}" style="width: 100px;">{{talle}}</label>
                 </div>
             {{/each}}
-        {{/if}}
-        {{#each talles}}
-            <div class="form-check">
-                <input type="checkbox" class="btn-check" name="{{talle}}" id="btn-{{talle}}" autocomplete="off">
-                <label class="btn btn-primary" for="btn-{{talle}}">{{talle}}</label>
-            </div>
-        {{/each}}
+        </div>
         <div class="">
             <button type="submit" class="btn btn-success">GUARDAR</button>
         </div>

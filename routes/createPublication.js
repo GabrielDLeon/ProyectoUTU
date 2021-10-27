@@ -34,7 +34,7 @@ router.get('/', authController.isLoggedIn, (req, res) => {
             db.query('SELECT * FROM productos WHERE idProducto = ?', [idProducto], (error, product) => {
                 if (product[0]){
                     db.query('SELECT color FROM colores', (error, colores) => {
-                        db.query('SELECT talle FROM talles', (error, talles) => {
+                        db.query('SELECT talle FROM talles ORDER BY orden ASC', (error, talles) => {
                             res.render('publication/create', {
                                 product: product[0],
                                 colores,
@@ -55,7 +55,7 @@ router.get('/', authController.isLoggedIn, (req, res) => {
                 db.query('SELECT material FROM materiales', (error, materiales) => {
                     db.query('SELECT marca FROM marcas', (error, marcas) => {
                         db.query('SELECT color FROM colores', (error, colores) => {
-                            db.query('SELECT talle FROM talles', (error, talles) => {
+                            db.query('SELECT talle FROM talles ORDER BY orden ASC', (error, talles) => {
                                 res.render('publication/create', {
                                     categorias,
                                     materiales,
@@ -83,8 +83,6 @@ router.get('/', authController.isLoggedIn, (req, res) => {
 // Crear la publicación y/o producto
 router.post('/', upload.array("imagen", 12), authController.isLoggedIn, async (req, res) => {
     const action = req.query;
-    console.log(action);
-    console.log(req.body);
     // Cuando se crea una  publicación con un producto ya existente (que se encuentra en la BD)
     if (action.idProducto) {
         // res.send("Utilizando producto")

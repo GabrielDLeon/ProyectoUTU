@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-10-2021 a las 19:08:28
+-- Tiempo de generación: 27-10-2021 a las 21:33:02
 -- Versión del servidor: 10.4.18-MariaDB
 -- Versión de PHP: 8.0.3
 
@@ -180,6 +180,18 @@ CREATE TABLE `curvas` (
   `talle` varchar(255) NOT NULL,
   `publicacion` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `curvas`
+--
+
+INSERT INTO `curvas` (`talle`, `publicacion`) VALUES
+('L', 1),
+('L', 2),
+('M', 1),
+('M', 2),
+('S', 1),
+('XL', 2);
 
 -- --------------------------------------------------------
 
@@ -364,9 +376,10 @@ CREATE TABLE `notificaciones` (
 --
 
 INSERT INTO `notificaciones` (`idNotificacion`, `usuario`, `pregunta`, `visto`) VALUES
-(1, 'penelope@gmail.com', 1, 1),
+(1, 'penelope@gmail.com', 1, 0),
 (3, 'alan@gmail.com', 2, 1),
-(5, 'alan@gmail.com', 3, 0);
+(4, 'alma@gmail.com', 3, 1),
+(6, 'camila@gmail.com', 4, 0);
 
 -- --------------------------------------------------------
 
@@ -413,9 +426,10 @@ CREATE TABLE `preguntas` (
 --
 
 INSERT INTO `preguntas` (`idPregunta`, `mensaje`, `fechaPregunta`, `remitente`, `publicacion`, `respuesta`, `fechaRespuesta`) VALUES
-(1, 'Buenas tardes, me interesa la camisa, donde podría encontrarlos?', '2021-10-23 17:09:37', 'alan@gmail.com', 3, '', '0000-00-00 00:00:00'),
-(2, 'Tienen talle XL?', '2021-10-23 17:10:28', 'alan@gmail.com', 1, 'Si, tenemos talle XL, saludos.', '0000-00-00 00:00:00'),
-(3, 'Me surgió un inconveniente, podría pasar a buscarlo mañana al medidía?', '2021-10-25 23:46:30', 'alan@gmail.com', 1, 'Si por supuesto, lo esperamos mañana con el artículo en la máxima condición, Alma, Saludos.', '2021-10-26 00:39:30');
+(1, 'Buenas tardes, me interesa mucho este producto, donde podría encontrarlos para hacer la compra? gracias', '2021-10-27 15:26:06', 'alan@gmail.com', 3, '', '0000-00-00 00:00:00'),
+(2, 'Hola, tienen talle XL?', '2021-10-27 15:26:34', 'alan@gmail.com', 1, 'Por ahora no tenemos, pero seguro nos llegan dentro de una semana, saludos, Alma', '2021-10-27 15:28:38'),
+(3, 'Tienes el mismo pero de color blanco?', '2021-10-27 15:29:54', 'camila@gmail.com', 2, '', '0000-00-00 00:00:00'),
+(4, 'De que material está hecho?', '2021-10-27 15:30:45', 'camila@gmail.com', 1, 'Está hecho de algodón y poliéster, saludos', '2021-10-27 15:32:23');
 
 -- --------------------------------------------------------
 
@@ -474,6 +488,7 @@ INSERT INTO `publicacion` (`nroPublicacion`, `precio`, `titulo`, `descripcion`, 
 --
 
 CREATE TABLE `talles` (
+  `orden` int(11) NOT NULL,
   `talle` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -481,17 +496,16 @@ CREATE TABLE `talles` (
 -- Volcado de datos para la tabla `talles`
 --
 
-INSERT INTO `talles` (`talle`) VALUES
-('G'),
-('L'),
-('M'),
-('S'),
-('XL'),
-('XS'),
-('XXL'),
-('XXS'),
-('XXXL'),
-('XXXXL');
+INSERT INTO `talles` (`orden`, `talle`) VALUES
+(5, 'L'),
+(4, 'M'),
+(3, 'S'),
+(6, 'XL'),
+(2, 'XS'),
+(7, 'XXL'),
+(1, 'XXS'),
+(8, 'XXXL'),
+(9, 'XXXXL');
 
 -- --------------------------------------------------------
 
@@ -707,13 +721,13 @@ ALTER TABLE `cuenta_personal`
 -- AUTO_INCREMENT de la tabla `notificaciones`
 --
 ALTER TABLE `notificaciones`
-  MODIFY `idNotificacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `idNotificacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `preguntas`
 --
 ALTER TABLE `preguntas`
-  MODIFY `idPregunta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idPregunta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `productos`

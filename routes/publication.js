@@ -33,7 +33,6 @@ router.get('/:nroPublicacion/comments', authController.isLoggedIn, async (req, r
 // Entrar a una publicacion desde URL con el ID
 router.get('/:nroPublicacion', authController.isLoggedIn, async (req, res) => {
     const {nroPublicacion} = req.params;
-    const id = req.params;
     if (req.user){var {email} = req.user.data}
     db.query('SELECT nroPublicacion, titulo, descripcion, precio, emailVendedor, nombreVendedor, fechaPublicacion, idProducto, categoria, genero, material, marca, porcentaje, descuento FROM (view_publicaciones) WHERE nroPublicacion = ?',[nroPublicacion], async (error, publication) => {
         if (publication.length>0){

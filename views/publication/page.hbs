@@ -6,43 +6,50 @@
             <div class="sticky-top pt-sm-0 pt-md-0 pt-lg-5 pt-xl-5" style="z-index: 1">
                 <div class="position-relative m-5 p-lg-2 p-xl-4">
                     {{#with publication}}
-                        <div class="mb-1 text-capitalize">
-                            <a href="/search?key={{categoria}}"><span class="badge rounded-pill bg-dark">{{categoria}}</span></a>
-                            <a href="/search?key={{genero}}"><span class="badge rounded-pill bg-dark">{{genero}}</span></a>
-                            <a href="/search?key={{marca}}"><span class="badge rounded-pill bg-dark">{{marca}}</span></a>
-                            {{#if descuento}}
-                                <a href="/search?sale=1"><span class="badge rounded-pill bg-danger">sale</span></a>
-                            {{/if}}
-                        </div>
+                        {{!-- Detalles de la publicación --}}
                         <div>
-                            <h3 class="fw-bold">{{titulo}}</h3>
-                            <a href="/profile/{{nombreVendedor}}" class="link-unstyled">
-                                <h6 class="text-muted d-inline f-space-2">Promocionado por <span>{{nombreVendedor}}</span></h6><br>
-                            </a>
-                            <small class="text-muted">{{timeago fechaPublicacion}}</small>
-                        </div>
-                        <div class="my-3">
-                            <div>
-                                <h6>Descripción del producto</h6>
-                                <p> {{descripcion}} </p>
+                            <div class="mb-1 text-capitalize">
+                                <a href="/search?key={{categoria}}"><span class="badge rounded-pill bg-dark">{{categoria}}</span></a>
+                                <a href="/search?key={{genero}}"><span class="badge rounded-pill bg-dark">{{genero}}</span></a>
+                                <a href="/search?key={{marca}}"><span class="badge rounded-pill bg-dark">{{marca}}</span></a>
+                                {{#if descuento}}
+                                    <a href="/search?sale=1"><span class="badge rounded-pill bg-danger">sale</span></a>
+                                {{/if}}
                             </div>
                             <div>
-                                <div class="row d-flex">
-                                    {{#if descuento}}
-                                        <div class="col-auto h1">
-                                            <span>${{descuento}}</span>
-                                        </div>
-                                        <div class="col">
-                                            <p class="mb-0">{{porcentaje}}% descuento</p>
-                                            <span class="mr-1"><del>${{precio}}</del></span>
-                                        </div>
-                                    {{else}}
-                                        <div class="col-auto h1">
-                                            <span>${{precio}}</span>
-                                        </div>
-                                    {{/if}}
+                                <h3 class="fw-bold">{{titulo}}</h3>
+                                <a href="/profile/{{nombreVendedor}}" class="link-unstyled">
+                                    <h6 class="text-muted d-inline f-space-2">Promocionado por <span>{{nombreVendedor}}</span></h6><br>
+                                </a>
+                                <small class="text-muted">{{timeago fechaPublicacion}}</small>
+                            </div>
+                            <div class="mt-3">
+                                <div>
+                                    <h6>Descripción del producto</h6>
+                                    <p> {{descripcion}} </p>
+                                </div>
+                                <div>
+                                    <div class="row d-flex">
+                                        {{#if descuento}}
+                                            <div class="col-auto h1">
+                                                <span>${{descuento}}</span>
+                                            </div>
+                                            <div class="col">
+                                                <p class="mb-0">{{porcentaje}}% descuento</p>
+                                                <span class="mr-1"><del>${{precio}}</del></span>
+                                            </div>
+                                        {{else}}
+                                            <div class="col-auto h1">
+                                                <span>${{precio}}</span>
+                                            </div>
+                                        {{/if}}
+                                    </div>
                                 </div>
                             </div>
+                        </div>
+                        
+                        {{!-- Detalles del producto --}}
+                        <div class="my-3">
                             {{#if colors}}
                                 <div class="my-3">
                                     <h6>Colores disponibles</h6>
@@ -80,9 +87,13 @@
                                         </form>
                                     </div>
                                 {{else}}
-                                    <div class="text-muted fw-bold">
-                                        <p>¿Vendes un producto igual? <a href="/create?idProducto={{idProducto}}">Crea una publicación similar</a></p>
-                                    </div>
+                                    {{#ifCond ../user.data.email '==' emailVendedor}}
+                                        <a href="/list/edit/{{nroPublicacion}}" class="fw-bold">Editar publicación</a>
+                                    {{else}}
+                                        <div class="text-muted fw-bold">
+                                            <p>¿Vendes un producto igual? <a href="/create?idProducto={{idProducto}}">Crea una publicación similar</a></p>
+                                        </div>
+                                    {{/ifCond}}
                                 {{/ifCond}}
                             {{/if}}
                         </div>
@@ -296,12 +307,12 @@
                 {{!-- RECOMENDACIONES --}}
                 {{#if recommendations}}
                     <div class="mb-3">
-                        <h4 class="fw-bold mb-3">Otras publicaciones de {{nombreVendedor}}</h4>
+                        <h4 class="fw-bold mb-3">Otras publicaciones de {{publication.nombreVendedor}}</h4>
                         <div class="row row-cols-xl-3 row-cols-lg-2 row-cols-md-2 row-cols-sm-1 g-4 mb-2">
                             {{>products}}
                         </div>
                         <div class="d-grid gap-2">
-                            <button class="btn btn-dark"><a href="/profile/{{nombreVendedor}}" class="link-unstyled">Ver más publicaciones de {{nombreVendedor}}</a></button>
+                            <button class="btn btn-dark"><a href="/profile/{{publication.nombreVendedor}}" class="link-unstyled">Ver más publicaciones de {{publication.nombreVendedor}}</a></button>
                         </div>
                     </div>
                 {{/if}}

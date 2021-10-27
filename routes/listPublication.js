@@ -65,7 +65,7 @@ router.get('/edit/:id', authController.isLoggedIn, async (req, res) => {
                                 db.query('SELECT marca FROM marcas WHERE marca != ?',[marca], (error, marcas) => {
                                     /*SELECT * FROM talles WHERE talle NOT IN (SELECT talle FROM curvas WHERE publicacion = 5)*/
                                     db.query('SELECT talle FROM curvas WHERE publicacion = ?', [id], (error, tallesSelected) => {
-                                        db.query('SELECT talle FROM talles WHERE talle NOT IN (SELECT talle FROM curvas WHERE publicacion = ?)',[id], (error, talles) => {
+                                        db.query('SELECT talle FROM talles WHERE talle NOT IN (SELECT talle FROM curvas WHERE publicacion = ?) ORDER BY orden ASC',[id], (error, talles) => {
                                             res.render('publication/edit', {
                                                 user: req.user,
                                                 categorias,
@@ -99,7 +99,6 @@ router.get('/edit/:id', authController.isLoggedIn, async (req, res) => {
 router.post('/edit/:id', upload.array("imagen", 12), authController.isLoggedIn, async (req, res) => {
     const { id } = req.params;
     const { titulo, descripcion, precio } = req.body;
-    console.log(req.body);
     db.query('SELECT nroPublicacion, titulo, descripcion, precio, descuento FROM (view_publicaciones) WHERE nroPublicacion = ?', [id], (error, result) => {
         db.query('SELECT categoria, genero, material, marca FROM (productos INNER JOIN publicacion ON productos.idProducto = publicacion.producto) WHERE nroPublicacion = ?', [id], (error, product) => {
             const { categoria, genero, material, marca } = product[0];
