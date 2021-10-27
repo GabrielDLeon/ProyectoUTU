@@ -31,9 +31,9 @@ router.get('/:nroPublicacion', authController.isLoggedIn, async (req, res) => {
                     await db.query('SELECT * FROM favoritos WHERE usuario = ? AND publicacion = ?', [email, nroPublicacion], async (error, favorite) => {
                         await db.query('SELECT talle FROM (publicacion INNER JOIN curvas ON publicacion.nroPublicacion = curvas.publicacion) WHERE nroPublicacion = ?', [nroPublicacion], async (error, sizes) => {
                             await db.query('SELECT color FROM (publicacion_color INNER JOIN publicacion ON publicacion_color.publicacion = publicacion.nroPublicacion) WHERE publicacion.nroPublicacion = ?', [nroPublicacion], async (error, colors) => {
-                                await db.query('SELECT nroPublicacion, precio, descuento imagen FROM (view_publicaciones) WHERE emailVendedor = ? AND nroPublicacion != ? LIMIT 6', [emailVendedor ,nroPublicacion], async (error, recommendations) => {
+                                await db.query('SELECT nroPublicacion, precio, descuento, imagen FROM (view_publicaciones) WHERE emailVendedor = ? AND nroPublicacion != ? LIMIT 6', [emailVendedor ,nroPublicacion], async (error, recommendations) => {
                                     await db.query('SELECT * from perfil WHERE email = ?', [emailVendedor], (error, perfil) => {
-                                        console.log("SE ENCUENTRA EN LA PUBLICACIÓN "+nroPublicacion);
+                                        console.log("Se renderizó correctamente la página de la publicación "+nroPublicacion);
                                         res.render('publication/page', {
                                             title: publication[0].titulo,
                                             user: req.user,
@@ -44,7 +44,7 @@ router.get('/:nroPublicacion', authController.isLoggedIn, async (req, res) => {
                                             sizes,
                                             colors,
                                             recommendations,
-                                            perfil
+                                            profile: perfil[0]
                                         });
                                     })
                                 });

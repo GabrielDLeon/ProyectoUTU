@@ -15,7 +15,7 @@ router.get('/', authController.isLoggedIn, async (req, res) => {
         const user = req.user;
         const {email} = user.data;
         if (user){
-            db.query('SELECT idNotificacion,  nroPublicacion, visto, idPregunta, fechaPregunta, mensaje, nombreRemitente, fechaRespuesta, respuesta, nombreVendedor, imagen FROM (notificaciones INNER JOIN view_preguntas ON notificaciones.pregunta = view_preguntas.idPregunta INNER JOIN fotos ON fotos.publicacion = nroPublicacion) WHERE notificaciones.usuario = ? GROUP BY notificaciones.idNotificacion ORDER BY fechaPregunta',[email], (error, result) => {
+            db.query('SELECT idNotificacion,  nroPublicacion, visto, idPregunta, fechaPregunta, mensaje, nombreRemitente, fechaRespuesta, respuesta, nombreVendedor, imagen FROM (notificaciones INNER JOIN view_preguntas ON notificaciones.pregunta = view_preguntas.idPregunta LEFT JOIN fotos ON fotos.publicacion = nroPublicacion) WHERE notificaciones.usuario = ? GROUP BY notificaciones.idNotificacion ORDER BY fechaPregunta DESC',[email], (error, result) => {
                 res.render('notifications', {
                     title: "Notificaciones",
                     notifications: result,
