@@ -81,7 +81,7 @@
                                     </div>
                                 {{else}}
                                     <div class="text-muted fw-bold">
-                                        <p>¿Vendes un producto igual? <a href="/create?idProducto={{publication.producto}}">Crea una publicación similar</a></p>
+                                        <p>¿Vendes un producto igual? <a href="/create?idProducto={{idProducto}}">Crea una publicación similar</a></p>
                                     </div>
                                 {{/ifCond}}
                             {{/if}}
@@ -226,7 +226,7 @@
                                             {{#ifCond ../user.data.email '==' ../publication.emailVendedor}}
                                                 {{!-- <button id="btnAnswer" class="btn btn-outline-dark">Responder pregunta</button> --}}
                                                 <div id="textAnswer" class="mb-3">
-                                                    <form action="/publication/answer/{{idPregunta}}" method="POST">
+                                                    <form action="/publication/answer/{{idPregunta}}?section=publication" method="POST">
                                                         <div class="row">
                                                             <label for="respuesta">Responder</label>
                                                             <div class="col">
@@ -251,9 +251,11 @@
                                 </div>
                             </div>
                         {{/if}}
-                        <div class="mb-5 d-grid gap-2">
-                            <button class="btn btn-dark"><a href="/publication/{{publication.nroPublicacion}}/comments" class="link-unstyled">Ver todos los comentarios</a></button>
-                        </div>
+                        {{#ifCond qLimit.count '>' 8}}
+                            <div class="mb-5 d-grid gap-2">
+                                <button class="btn btn-dark"><a href="/publication/{{publication.nroPublicacion}}/comments" class="link-unstyled">Ver todas las preguntas</a></button>
+                            </div>
+                        {{/ifCond}}
                     </div>
                 </div>
             </section>
