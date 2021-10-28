@@ -16,7 +16,12 @@
           {{#if editCompleto }}
           <p class="text-success text-center mt-1">{{editCompleto}}</p>
           {{/if}}
-      </form>
+</form>
+  <form action="/profile/delete/{{user.id}}" method="post">
+    <div class="mb-3"></div>
+        <button type="submit" class="text-uppercase btn btn-dark" name="delete" id="delete">Eliminar cuenta</button>
+    </div>
+  </form>
 </div>
 <script>
     (function() {

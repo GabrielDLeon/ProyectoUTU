@@ -334,6 +334,17 @@ router.get('/edit/:id', authController.isLoggedIn, async (req, res) => {
   }
 })
 
+router.post('/delete/:id', authController.isLoggedIn, async (req,res) => {
+  if (req.user) {
+  const email = req.user.data.email
+  db.query('DELETE FROM cuentas WHERE `email` = ?',[email])
+  res.clearCookie('jwt')
+  return res.redirect('/')
+  } else {
+    res.redirect('/')
+  }
+})
+
 router.post('/edit/:id', upload.single("imagen"), authController.isLoggedIn, async (req, res) => {
   const {email} = req.user.data;
   if (req.user.data.tipo == 'usuario') {

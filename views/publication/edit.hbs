@@ -19,30 +19,39 @@
             {{!-- <input class="form-control" value="" name="" id="" type="text" placeholder=""> --}}
         </div>
         <div class="mb-3">
-            <select class="form-select" name="categoria" id="categoria" required>
+            <input type="text" class="form-control" list="categoria" name="categoria" placeholder="SELECCIONE UNA CATEGORIA" value="{{product.categoria}}" required/>
+            <datalist name="categoria" id="categoria">
                 <option value="{{product.categoria}}">{{product.categoria}}</option>
                 {{#each categorias}}
-                    <option class="text-capitalize" value="{{categoria}}">{{categoria}}</option>
+                <option class="text-capitalize" value="{{categoria}}">{{categoria}}</option>
                 {{/each}}
-            </select>
+            </datalist>
             <select class="form-select" name="genero" id="genero" required>
-                <option value="">Seleccione un género</option>
+                <option value="{{genero}}" selected>{{genero}}</option>
+                {{#ifCond genero '!=' 'Hombre'}}
                 <option value="Hombre">Hombre</option>
+                {{/ifCond}}
+                {{#ifCond genero '!=' 'Mujer'}}
                 <option value="Mujer">Mujer</option>
+                {{/ifCond}}
+                {{#ifCond genero '!=' 'Unisex'}}
                 <option value="Unisex">Unisex</option>
+                {{/ifCond}}
             </select>
-            <select class="form-select" name="material" id="material" required>
+            <input type="text" class="form-control" list="material" name="material" placeholder="SELECCIONE UN MATERIAL" value="{{product.material}}" required/>
+            <datalist name="material" id="material" required>
                 <option value="{{product.material}}">{{product.material}}</option>
                 {{#each materiales}}
                     <option value="{{material}}">{{material}}</option>
                 {{/each}}
-            </select>
-            <select class="form-select" name="marca" id="marca" required>
+            </datalist>
+            <input type="text" class="form-control" list="marca" name="marca" placeholder="SELECCIONE O INGRESE UNA MARCA" value="{{product.marca}}" required/>
+            <datalist name="marca" id="marca" required>
                 <option value="{{product.marca}}">{{product.marca}}</option>
                 {{#each marcas}}
                     <option value="{{marca}}">{{marca}}</option>
                 {{/each}}
-            </select>
+            </datalist>
             {{!-- <div>
                 <select class="form-select" name="colores" id="colores">
                     <option value="0">Seleccione un color</option>

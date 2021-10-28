@@ -119,23 +119,28 @@ router.post('/edit/:id', upload.array("imagen", 12), authController.isLoggedIn, 
                                 title: "Editar publicación"
                             })
                         }
-                        // if (req.files) {
-                        //     db.query('DELETE FROM fotos WHERE publicacion = ?', [id])
-                        //     imagenes = req.files
-                        //     var buffer = imagenes.map((element) => { return _.pick(element, ['buffer']) })
-                        //     buffer.forEach((imagen) => {
-                        //         resultado = imagen.buffer.toString('base64');
-                        //         db.query("INSERT INTO fotos VALUES (?, ?);", [id, resultado]);
-                        //     })
-                        // }
+                        if (req.files.length > 0) {
+                            db.query('DELETE FROM fotos WHERE publicacion = ?', [id])
+                            imagenes = req.files
+                            var buffer = imagenes.map((element) => { return _.pick(element, ['buffer']) })
+                            buffer.forEach((imagen) => {
+                                resultado = imagen.buffer.toString('base64');
+                                db.query("INSERT INTO fotos VALUES (?, ?);", [id, resultado]);
+                            })
+                        }
                     })
                 })
             })
-        })
-        db.query('UPDATE publicacion SET titulo = ?, descripcion = ?, precio = ? WHERE nroPublicacion = ?', [titulo, descripcion, precio, id], (error, result) => {
+            });
+        const { categoria , genero, material, marca } = req.body;
+        db.query("INSERT INTO productos (categoria, genero, material, marca) VALUES (?, ?, ?, ?)", [categoria, genero, material, marca], (error, result) => {
+            const insert = result.insertId
+            console.log(insert)
+        db.query('UPDATE publicacion SET titulo = ?, descripcion = ?, precio = ?, producto = ? WHERE nroPublicacion = ?', [titulo, descripcion, precio, insert, id], (error, result) => {
             console.log("Se actualizó correctamente la publicación " + id);
             res.redirect('/list');
         })
+    })
         db.query('DELETE FROM curvas WHERE publicacion = ?', [id]);
         const {G, L, M, S, XL, XS, XXL, XXS, XXXL, XXXXL} = req.body;
         var array = [];

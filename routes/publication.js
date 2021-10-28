@@ -30,6 +30,8 @@ router.get('/:nroPublicacion/comments', authController.isLoggedIn, async (req, r
     });
 });
 
+
+
 // Entrar a una publicacion desde URL con el ID
 router.get('/:nroPublicacion', authController.isLoggedIn, async (req, res) => {
     const {nroPublicacion} = req.params;
@@ -39,6 +41,7 @@ router.get('/:nroPublicacion', authController.isLoggedIn, async (req, res) => {
             const {emailVendedor} = publication[0];
             await db.query('SELECT imagen FROM fotos WHERE publicacion = ?', [nroPublicacion], async (error, images) => {
                 await db.query('SELECT * FROM view_preguntas WHERE nroPublicacion = ? ORDER BY fechaPregunta DESC LIMIT 8', [nroPublicacion], async (error, questions) => {
+                    console.log(questions)
                     await db.query('SELECT COUNT(idPregunta) AS count FROM view_preguntas WHERE nroPublicacion = ?', [nroPublicacion], async (error, qLimit) => {
                         await db.query('SELECT * FROM favoritos WHERE usuario = ? AND publicacion = ?', [email, nroPublicacion], async (error, favorite) => {
                             await db.query('SELECT talle FROM (publicacion INNER JOIN curvas ON publicacion.nroPublicacion = curvas.publicacion) WHERE nroPublicacion = ?', [nroPublicacion], async (error, sizes) => {
@@ -72,6 +75,18 @@ router.get('/:nroPublicacion', authController.isLoggedIn, async (req, res) => {
         }
     });
 });
+
+//Eliminar pregunta
+router.post('/question/delete/:id', authController.isLoggedIn, async (req,res) => {
+    if (req.user) {
+        const {id} = req.params;
+        db.query('DELETE FROM preguntas WHERE idPregunta = ?', [id])
+        const path = '/publication/' + id + '/#seccion-preguntas';
+        return res.redirect(path);
+    } else {
+        res.redirect('/')
+    }
+})
 
 // Enviar formulario de pregunta
 router.post('/question/:id', authController.isLoggedIn, async (req, res) => {
