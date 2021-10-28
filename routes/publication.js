@@ -41,7 +41,6 @@ router.get('/:nroPublicacion', authController.isLoggedIn, async (req, res) => {
             const {emailVendedor} = publication[0];
             await db.query('SELECT imagen FROM fotos WHERE publicacion = ?', [nroPublicacion], async (error, images) => {
                 await db.query('SELECT * FROM view_preguntas WHERE nroPublicacion = ? ORDER BY fechaPregunta DESC LIMIT 8', [nroPublicacion], async (error, questions) => {
-                    console.log(questions)
                     await db.query('SELECT COUNT(idPregunta) AS count FROM view_preguntas WHERE nroPublicacion = ?', [nroPublicacion], async (error, qLimit) => {
                         await db.query('SELECT * FROM favoritos WHERE usuario = ? AND publicacion = ?', [email, nroPublicacion], async (error, favorite) => {
                             await db.query('SELECT talle FROM (publicacion INNER JOIN curvas ON publicacion.nroPublicacion = curvas.publicacion) WHERE nroPublicacion = ?', [nroPublicacion], async (error, sizes) => {
@@ -80,9 +79,19 @@ router.get('/:nroPublicacion', authController.isLoggedIn, async (req, res) => {
 router.post('/question/delete/:id', authController.isLoggedIn, async (req,res) => {
     if (req.user) {
         const {id} = req.params;
-        db.query('DELETE FROM preguntas WHERE idPregunta = ?', [id])
-        const path = '/publication/' + id + '/#seccion-preguntas';
-        return res.redirect(path);
+        db.query('SELECT * from PREGUNTAS where idPregunta = ?', [id], (error, result) =>{
+            const remitente = result[0].remitente
+            const user = req.user.data.email
+            const nroPublicacion = result[0].publicacion;
+            if (remitente == user) {
+            db.query('DELETE FROM preguntas WHERE idPregunta = ?', [id])
+            const path = '/publication/' + nroPublicacion + '/#seccion-preguntas';
+            console.log("Se elimino correctamente la pregunta")
+            res.redirect(path)
+            } else {
+                console.log("No puedes eliminar una pregunta que no sea tuya")
+            }
+        })
     } else {
         res.redirect('/')
     }

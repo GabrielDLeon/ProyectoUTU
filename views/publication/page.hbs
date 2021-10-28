@@ -217,11 +217,11 @@
                             {{#each questions}}
                                 <div class="my-3">
                                     <div>
-                                        <p class="mb-2">{{mensaje}}<span class="ms-3 text-muted">{{timeago fechaPregunta}}
+                                        <p class="mb-2">{{mensaje}}<span class="ms-3 text-muted">{{timeago fechaPregunta}}</p></span>
                                         {{#ifCond ../user.data.email '==' emailRemitente}}
                                         <form action="/publication/question/delete/{{idPregunta}}" method="POST">
-                                        <button title="Eliminar pregunta" class="btn btn-outline-dark"><i class="fas fa-times"></i> </button>
-                                        </form></span></p>
+                                        <button title="Eliminar pregunta" class="btn"><i class="fas fa-times"></i> </button>
+                                        </form>
                                         {{/ifCond}}
                                     </div>
                                     {{#if respuesta}}
