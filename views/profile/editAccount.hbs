@@ -1,49 +1,61 @@
 {{>navigation}}
 <div class="container mt-5">
-    <h4>Cambio de contraseña</h4>
-    <form action="/profile/edit/pass/{{data.id}}" method="post" class="needs-validation" novalidate>
-      <div class="mb-3">
-        <label for="pass2" class="form-label">Contraseña actual</label>
-        <input type="password" class="form-control" id="pass" name="pass" value="{{pass}}" required>
+  <form action="/profile/edit/pass/{{data.id}}" method="post" class="needs-validation" novalidate>
+    <div class="card col-sm-12 col-md-8">
+      <div class="card-body s">
+        <h2 class="d-flex justify-content-center">Cambio de contraseña</h2>
+        <div class="form-floating mb-3">
+          <input type="password" class="form-control" placeholder="Contraseña actual" id="pass" name="pass"
+            value="{{pass}}" required>
+          <label for="pass">Contraseña actual</label>
+        </div>
         <div class="col-auto">
         </div>
-      </div>
-      <div class="mb-3">
-        <label for="pass2" class="form-label">Nueva contraseña</label>
-        <input type="password" class="form-control" id="pass" name="newPass" value="{{newPass}}" required>
+        <div class="form-floating mb-3">
+          <input type="password" class="form-control" placeholder="Nueva contraseña" id="pass" name="pass"
+            value="{{newPass}}" required>
+          <label for="newPass">Nueva contraseña</label>
+        </div>
         <div class="col-auto">
         </div>
-        <br>
-        <div class="mb-3">
-          <label for="pass2" class="form-label">Confirmación de la nueva contraseña</label>
-          <input type="password" class="form-control" id="pass" name="newPassConfirm" value="{{newPassConfirm}}" required>
+        <div class="form-floating mb-3">
+          <input type="password" class="form-control" placeholder="Confirmar contraseña" id="pass" name="newPassConfirm"
+            value="{{newPassConfirm}}" required>
+          <label for="newPassConfirm">Confirmar contraseña</label>
           <div class="col-auto">
           </div>
           <div class="d-grid gap-2">
-        <br>
-            <button type="submit" class="text-uppercase btn btn-dark" name="guardar" id="guardar">Editar datos</button>
+            <br>
+            <p>Volver atrás <a href="/profile/edit/{{data.id}}">Click aquí</a></p>
+            <button type="submit" class="text-uppercase btn btn-dark" name="guardar" id="guardar"><i
+                class="fas fa-save"></i> Guardar cambios</button>
+            <a href="/logout" class="text-uppercase btn btn-danger">
+              <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+            </a>
+          </div>
+        </div>
       </div>
       {{#if message }}
-        <p class="text-danger text-center mt-1">{{message}}</p>
+      <p class="text-danger text-center mt-1">{{message}}</p>
       {{/if}}
-      </form>
-</div> 
+  </form>
+</div>
 <script>
-    (function() {
-  'use strict';
-  window.addEventListener('load', function() {
-    // Fetch all the forms we want to apply custom Bootstrap validation styles to
-    var forms = document.getElementsByClassName('needs-validation');
-    // Loop over them and prevent submission
-    var validation = Array.prototype.filter.call(forms, function(form) {
-      form.addEventListener('submit', function(event) {
-        if (form.checkValidity() === false) {
-          event.preventDefault();
-          event.stopPropagation();
-        }
-        form.classList.add('was-validated');
-      }, false);
-    });
-  }, false);
-})();
-</script>   
+  (function () {
+    'use strict';
+    window.addEventListener('load', function () {
+      // Fetch all the forms we want to apply custom Bootstrap validation styles to
+      var forms = document.getElementsByClassName('needs-validation');
+      // Loop over them and prevent submission
+      var validation = Array.prototype.filter.call(forms, function (form) {
+        form.addEventListener('submit', function (event) {
+          if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          form.classList.add('was-validated');
+        }, false);
+      });
+    }, false);
+  })();
+</script>

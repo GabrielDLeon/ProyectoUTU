@@ -16,7 +16,7 @@
                             <label for="mail">E-mail</label>
                         </div>
                         <div class="mb-3 form-floating">
-                            <input type="text" class="form-control" id="nombre" name="nombre" placeholder="a" value="{{data.nombre}}" required>
+                            <input type="text" class="form-control" id="nombre" name="nombre" placeholder="." value="{{data.nombre}}" required>
                             <label for="nombre">Nombre de la tienda</label>
                             <small class="ms-1 text-muted">Con este nombre las personas te identificarán en la página</small>
                         </div>
@@ -50,8 +50,9 @@
                                 {{/ifCond}}
                             </select>
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-3 form-floating">
                             <textarea class="form-control" name="descripcion" id="descripcion" placeholder="Descripción del perfil" maxlength="155">{{data.descripcion}}</textarea>
+                             <label for="descripcion">Descripción del perfil</label>
                         </div>
                         <div class="mb-3 form-floating">
                             <input type="number" class="form-control" id="telefono" name="telefono" placeholder="Ej: 092776255" value="{{data.telefono}}">
@@ -91,7 +92,7 @@
                         </div>
                     </div>
                     <div class="d-grid gap-2">
-                        <button type="submit" class="text-uppercase btn btn-success" name="guardar" id="guardar">Editar datos</button>
+                        <button type="submit" class="text-uppercase btn btn-success" name="guardar" id="guardar"><i class="fas fa-check"></i> Aplicar cambios</button>
                     </div>
                 </div>
                 {{!--
@@ -120,10 +121,10 @@
                         <td class="text-center align-middle">
                             <div class="btn-group align-top m-2">
                                 <form action="/profile/enlaces/edit/{{id}}" method="GET">
-                                    <button style="margin-right: 10px;" title="Editar" class="btn btn-outline"> <i class="fas fa-trash"></i> </button>
+                                    <button style="margin-right: 10px;" title="Editar" class="btn btn-outline-danger"> <i class="fas fa-trash"></i> </button>
                                 </form>
                                 <form action="/profile/enlaces/edit/{{id}}" method="GET">
-                                    <button style="margin-right: 10px;" title="Eliminar" class="btn btn-outline"> <i class="fas fa-edit"></i> </button>
+                                    <button style="margin-right: 10px;" title="Eliminar" class="btn btn-outline-dark"> <i class="fas fa-edit"></i> </button>
                                 </form>
                             </div>
                         </td>

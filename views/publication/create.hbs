@@ -1,45 +1,61 @@
 {{>navigation}}
 <section class="container my-5">
     {{#if product}}
-        <form method="POST" action="/create?idProducto={{product.idProducto}}" enctype="multipart/form-data" class="needs-validation" novalidate>
-    {{else}}
-        <form method="POST" action="/create?newPublication=true" enctype="multipart/form-data" class="needs-validation" novalidate>
-    {{/if}}
-        <div class="d-flex card p-3 shadow p-3 mb-5 bg-body rounded">
-            <div class="card-body">
-                <div class="mb-3">
-                    <h2>Datos de la publicación</h2>
-                    <input class="form-control" name="titulo" id="titulo" type="text" placeholder="Titulo del producto"
-                        value="{{titulo}}" required> <br>
-                    <textarea class="form-control" name="descripcion" id="descripcion" placeholder="Descripción"
-                        maxlength="155" required></textarea> <br>
-                    <label for="formFile">Imágen/es para la publicación</label>
-                    <input class="form-control" type="file" id="formFile" name="imagen" placeholder="Imageasdasdsadn" multiple> <br>
-                    <input class="form-control input-number" name="precio" id="precio" type="number"
-                        placeholder="Precio ($)" value="{{precio}}" required> <br>
-                    <input type="checkbox" name="confirm-descuento" id="confirm-descuento">
-                    <label for="confirm-descuento">Añadir descuento</label>
-                    <input class="form-control input-number" name="descuento" id="descuento" type="number" placeholder="Descuento (%)" onKeyPress="if(this.value.length==2) return false;" required>
-
-                    {{!-- <input class="form-control" value="" name="" id="" type="text" placeholder=""> --}}
-                </div>
-                {{#if product}}
-                    {{#with product}}
-                        <h2>Publicación basada</h2>
-                        <p>{{categoria}}</p>
-                        <p>{{genero}}</p>
-                        <p>{{material}}</p>
-                        <p>{{marca}}</p>
-                    {{/with}}
-                {{else}}
-                    <hr>
+    <form method="POST" action="/create?idProducto={{product.idProducto}}" enctype="multipart/form-data"
+        class="needs-validation" novalidate>
+        {{else}}
+        <form method="POST" action="/create?newPublication=true" enctype="multipart/form-data" class="needs-validation"
+            novalidate>
+            {{/if}}
+            <div class="d-flex card p-3 shadow p-3 mb-5 bg-body rounded">
+                <div class="card-body">
                     <div class="mb-3">
-                        <h2>Caracteristicas del producto</h2> <br>
-                        <input type="text" class="form-control" list="categoria" name="categoria" placeholder="SELECCIONE UNA CATEGORIA" required/>
-                        <datalist name="categoria" id="categoria">
+                        <h3>Datos de la publicación</h3>
+                        <div class="form-floating mb-3">
+                            <input class="form-control" name="titulo" id="titulo" type="text"
+                                placeholder="Titulo del producto" value="{{titulo}}" required>
+                            <label for="title">Título del producto</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <textarea class="form-control" name="descripcion" id="descripcion" placeholder="Descripción"
+                                maxlength="155" required></textarea>
+                            <label for="title">Descripción del producto</label>
+                        </div>
+                        <label for="formFile">Imágen/es para la publicación</label>
+                        <input class="form-control" type="file" id="formFile" name="imagen"
+                            placeholder="Imageasdasdsadn" multiple> <br>
+                        <div class="form-floating mb-3">
+                            <input class="form-control input-number" name="precio" id="precio" type="number"
+                                placeholder="Precio ($)" value="{{precio}}" required>
+                            <label for="precio">Precio ($)</label>
+                        </div>
+                        <input type="checkbox" name="confirm-descuento" id="confirm-descuento">
+                        <label for="confirm-descuento">Añadir descuento</label>
+                        <div class="form-floating mb-3">
+                            <input class="form-control input-number" name="descuento" id="descuento" type="number"
+                                placeholder="Descuento (%)" onKeyPress="if(this.value.length==2) return false;"
+                                required>
+                            <label for="descuento">Descuento (%)</label>
+                        </div>
+                        {{!-- <input class="form-control" value="" name="" id="" type="text" placeholder=""> --}}
+                    </div>
+                    {{#if product}}
+                    {{#with product}}
+                    <h3>Publicación basada</h3>
+                    <p>{{categoria}}</p>
+                    <p>{{genero}}</p>
+                    <p>{{material}}</p>
+                    <p>{{marca}}</p>
+                    {{/with}}
+                    {{else}}
+                    <div class="mb-3">
+                        <h3>Caracteristicas del producto</h3> <br>
+                        <input type="text" class="form-control text-uppercase" list="categoria" name="categoria"
+                            placeholder="SELECCIONE UNA CATEGORIA" required />
+                        <datalist name="categoria" id="categoria" class="">
                             <option value="">Seleccione una categoría</option>
                             {{#each categorias}}
-                            <option class="text-capitalize" value="{{categoria}}">{{categoria}}</option>
+                            <option class="text-uppercase" value="{{categoria}}">{{categoria}}</option>
                             {{/each}}
                         </datalist> <br>
 
@@ -52,21 +68,22 @@
                         <select class="text-uppercase form-select" name="material" id="material" required>
                             <option value="">Seleccione un material</option>
                             {{#each materiales}}
-                                <option value="{{material}}">{{material}}</option>
+                            <option value="{{material}}">{{material}}</option>
                             {{/each}}
                         </select> <br>
-                        <input type="text" class="form-control" list="marca" name="marca" placeholder="SELECCIONE O INGRESE UNA MARCA" required />
+                        <input type="text" class="form-control text-uppercase" list="marca" name="marca"
+                            placeholder="SELECCIONE O INGRESE UNA MARCA" required />
                         <datalist name="marca" id="marca">
-                            <option value="">Seleccione o ingrese una marca</option>
+                            <option class="text-uppercase">Seleccione o ingrese una marca</option>
                             {{#each marcas}}
-                                <option class="text-capitalize" value="{{marca}}">{{marca}}</option>
+                            <option class="text-uppercase" value="{{marca}}">{{marca}}</option>
                             {{/each}}
                         </datalist> <br>
                         {{!-- <div>
                             <select class="text-uppercase form-select" name="colores" id="colores">
                                 <option value="0">Seleccione un color</option>
                                 {{#each colores}}
-                                    <option value="{{color}}">{{color}}</option>
+                                <option value="{{color}}">{{color}}</option>
                                 {{/each}}
                             </select> <br>
                             <p id="textColores">¿No encuentras el color que buscas? Agrégalo tu mismo.</p>
@@ -74,49 +91,53 @@
                                 color</button>
                         </div> --}}
                     </div>
-                {{/if}}
-                {{!-- <button type="button" class="btn btn-outline-dark btn-lg custom">{{talle}}</button> --}}
-                <div class="my-3">
-                    <h3>Selección de talles</h3>
-                    {{#each talles}}
+                    {{/if}}
+                    {{!-- <button type="button" class="btn btn-outline-dark btn-lg custom">{{talle}}</button> --}}
+                    <div class="my-3">
+                        <h3>Selección de talles</h3> <br>
+                        {{#each talles}}
                         <div class="form-check d-inline m-0 p-0">
-                            <input type="checkbox" class="btn-check" name="{{talle}}" id="btn-{{talle}}" autocomplete="off">
-                            <label class="btn btn-outline-dark btn-lg shadow-none" for="btn-{{talle}}" style="width: 100px;">{{talle}}</label>
+                            <input type="checkbox" class="btn-check" name="{{talle}}" id="btn-{{talle}}"
+                                autocomplete="off">
+                            <label class="btn btn-outline-dark btn-lg shadow-none" for="btn-{{talle}}"
+                                style="width: 100px;">{{talle}}</label>
                         </div>
-                    {{/each}}
-                </div>
-                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <button type="submit" class="btn btn-success btn-lg"><i class="fas fa-check"></i> Publicar</button>
-                    <button type="reset" class="btn btn-danger btn-lg"><i class="fas fa-trash"></i> Descartar</button>
-                </div>
-                {{#if success}}
+                        {{/each}}
+                    </div> <br>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button type="submit" class="btn btn-success btn-lg"><i class="fas fa-check"></i>
+                            Publicar</button>
+                        <button type="reset" class="btn btn-danger btn-lg"><i class="fas fa-trash"></i>
+                            Descartar</button>
+                    </div>
+                    {{#if success}}
                     <p class="text-success text-center mt-1">{{success}}</p>
                     <p><a href="/publication/{{id}}">Click aquí</a> para verla </p>
-                {{/if}}
-                {{#if message}}
+                    {{/if}}
+                    {{#if message}}
                     <p class="text-danger text-center mt-1">{{message}}</p>
-                {{/if}}
+                    {{/if}}
+                </div>
             </div>
-        </div>
-    </form>
+        </form>
 </section>
 <script>
-    (function() {
-  'use strict';
-  window.addEventListener('load', function() {
-    // Fetch all the forms we want to apply custom Bootstrap validation styles to
-    var forms = document.getElementsByClassName('needs-validation');
-    // Loop over them and prevent submission
-    var validation = Array.prototype.filter.call(forms, function(form) {
-      form.addEventListener('submit', function(event) {
-        if (form.checkValidity() === false) {
-          event.preventDefault();
-          event.stopPropagation();
-        }
-        form.classList.add('was-validated');
-      }, false);
-    });
-  }, false);
-})();
+    (function () {
+        'use strict';
+        window.addEventListener('load', function () {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
 </script>
 {{>footer}}

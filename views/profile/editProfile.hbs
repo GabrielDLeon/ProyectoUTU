@@ -1,14 +1,20 @@
 {{>navigation}}
 <div class="container mt-5">
 <form action="/profile/edit/{{user.id}}" method="POST" class="needs-validation" novalidate> 
-        <div class="mb-3"> 
-          <label for="name" class="form-label1">Nombre</label>
-          <input type="User" class="form-control" id="name" name="nombre" value="{{user.nombre}}" required>
+<div class="card col-sm-12 col-md-8">
+<div class="card-body s">
+            <h2 class="d-flex justify-content-center">Cambiar Nombre</h2>
+        <div class="form-floating mb-3"> 
+          <input type="User" class="form-control" placeholder="Nombre Completo" id="name" name="nombre" value="{{user.nombre}}" required>
+          <label for="name">Nombre Completo</label>
         </div>
         <p>¿Deseas cambiar la contraseña? <a href="/profile/edit/pass/{{data.id}}">Click aquí</a></p>
         <div class="mb-3">
           <div class="d-grid gap-2">
-            <button type="submit" class="text-uppercase btn btn-dark" name="guardar" id="guardar">Editar nombre</button>
+            <button type="submit" class="text-uppercase btn btn-dark" name="guardar" id="guardar"><i class="fas fa-save"></i> Guardar cambios</button>
+        <a href="/logout" class="text-uppercase btn btn-danger">
+          <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+        </a>
           </div>
           {{#if message }}
            <p class="text-danger text-center mt-1">{{message}}</p>
@@ -22,6 +28,9 @@
         <button type="submit" class="text-uppercase btn btn-dark" name="delete" id="delete" onclick="return confirm('¿Está seguro que desea eliminar su cuenta?');">Eliminar cuenta</button>
     </div>
   </form>
+      </form>
+</div>
+</div>
 </div>
 <script>
     (function() {

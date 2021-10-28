@@ -1,108 +1,128 @@
 {{>navigation}}
 <section class="container my-5">
-    <form method="POST" action="/list/edit/{{publication.nroPublicacion}}" enctype="multipart/form-data" class="needs-validation" novalidate>
-        <div class="mb-3">
-            <h2>Editar datos de la publicación</h2>
-            <input class="form-control" name="titulo" id="titulo" type="text" placeholder="Titulo" value="{{publication.titulo}}" required>
-            <textarea class="form-control" name="descripcion" id="descripcion" placeholder="Descripción" maxlength="155" required>{{publication.descripcion}}</textarea>
-            <input class="form-control" type="file" id="formFile" name="imagen" placeholder="Imagenes" multiple>
-            <input class="form-control input-number" name="precio" id="precio" type="number" placeholder="Precio" value="{{publication.precio}}" required>
-            <input type="checkbox" name="confirm-descuento" id="confirm-descuento">
-            {{#if publication.descuento}}
-            <label for="confirm-descuento">Cambiar descuento</label>
-            {{else}}
-            <label for="confirm-descuento">Añadir descuento</label>
-            {{/if}}
-            <input class="form-control input-number" name="descuento" id="descuento" type="number" placeholder="Descuento" onKeyPress="if(this.value.length==2) return false;" {{#if publication.descuento}}value="{{publication.descuento}}" required{{/if}}>
-            
-            
-            {{!-- <input class="form-control" value="" name="" id="" type="text" placeholder=""> --}}
-        </div>
-        <div class="mb-3">
-            <input type="text" class="form-control" list="categoria" name="categoria" placeholder="SELECCIONE UNA CATEGORIA" value="{{product.categoria}}" required/>
-            <datalist name="categoria" id="categoria">
-                <option value="{{product.categoria}}">{{product.categoria}}</option>
-                {{#each categorias}}
-                <option class="text-capitalize" value="{{categoria}}">{{categoria}}</option>
-                {{/each}}
-            </datalist>
-            <select class="form-select" name="genero" id="genero" required>
-                <option value="{{genero}}" selected>{{genero}}</option>
-                {{#ifCond genero '!=' 'Hombre'}}
-                <option value="Hombre">Hombre</option>
-                {{/ifCond}}
-                {{#ifCond genero '!=' 'Mujer'}}
-                <option value="Mujer">Mujer</option>
-                {{/ifCond}}
-                {{#ifCond genero '!=' 'Unisex'}}
-                <option value="Unisex">Unisex</option>
-                {{/ifCond}}
-            </select>
-            <input type="text" class="form-control" list="material" name="material" placeholder="SELECCIONE UN MATERIAL" value="{{product.material}}" required/>
-            <datalist name="material" id="material" required>
-                <option value="{{product.material}}">{{product.material}}</option>
-                {{#each materiales}}
-                    <option value="{{material}}">{{material}}</option>
-                {{/each}}
-            </datalist>
-            <input type="text" class="form-control" list="marca" name="marca" placeholder="SELECCIONE O INGRESE UNA MARCA" value="{{product.marca}}" required/>
-            <datalist name="marca" id="marca" required>
-                <option value="{{product.marca}}">{{product.marca}}</option>
-                {{#each marcas}}
-                    <option value="{{marca}}">{{marca}}</option>
-                {{/each}}
-            </datalist>
-            {{!-- <div>
-                <select class="form-select" name="colores" id="colores">
-                    <option value="0">Seleccione un color</option>
-                    {{#each colores}}
-                        <option value="{{color}}">{{color}}</option>
-                    {{/each}}
-                </select>
-                <button type="button" class="btn btn-success" name="addColor" id="addColor">Agregar color</button>
-                <p id="textColores">Aquí apareceran los colores</p>
-            </div> --}}
-        </div>
-        <div class="my-3">
-            {{#if tallesSelected}}
-                {{#each tallesSelected}}
-                    <div class="form-check d-inline m-0 p-0">
-                        <input type="checkbox" class="btn-check" name="{{talle}}" id="btn-{{talle}}" autocomplete="off" checked>
-                        <label class="btn btn-outline-dark btn-lg shadow-none" for="btn-{{talle}}" style="width: 100px;">{{talle}}</label>
-                    </div>
-                {{/each}}
-            {{/if}}
-            {{#each talles}}
-                <div class="form-check d-inline m-0 p-0">
-                    <input type="checkbox" class="btn-check" name="{{talle}}" id="btn-{{talle}}" autocomplete="off">
-                    <label class="btn btn-outline-dark btn-lg shadow-none" for="btn-{{talle}}" style="width: 100px;">{{talle}}</label>
+    <form method="POST" action="/list/edit/{{publication.nroPublicacion}}" enctype="multipart/form-data"
+        class="needs-validation" novalidate>
+        <div class="card">
+            <div class="card-body s">
+                <h2 class="d-flex justify-content-center">Editar datos de la publicación</h2>
+                <div class="form-floating mb-3">
+                    <input class="form-control" name="titulo" id="titulo" type="text" placeholder="Titulo"
+                        value="{{publication.titulo}}" required> <br>
+                    <label for="title">Título del producto</label>
                 </div>
-            {{/each}}
-        </div>
-        <div class="">
-            <button type="submit" class="btn btn-success">GUARDAR</button>
-        </div>
-        {{#if message }}
-           <p class="text-danger text-center mt-1">{{message}}</p>
-        {{/if}}
+                <div class="form-floating mb-3">
+                    <textarea class="form-control" name="descripcion" id="descripcion" placeholder="Descripción"
+                        maxlength="155" required>{{publication.descripcion}}</textarea>
+                    <label for="desc">Descripción del producto</label>
+                </div>
+                <br>
+                <input class="form-control" type="file" id="formFile" name="imagen" placeholder="Imagenes" multiple>
+                <br>
+                <div class="form-floating mb-3">
+                    <input class="form-control input-number" name="precio" id="precio" type="number"
+                        placeholder="Precio" value="{{publication.precio}}" required>
+                    <label for="price">Precio del producto ($)</label>
+                </div>
+                <br>
+                <input type="checkbox" name="confirm-descuento" id="confirm-descuento">
+                {{#if publication.descuento}}
+                <label for="confirm-descuento">Cambiar descuento</label>
+                {{else}}
+                <label for="confirm-descuento">Añadir descuento</label>
+                {{/if}}
+                <div class="form-floating mb-3">
+                    <input class="form-control input-number" name="descuento" id="descuento" type="number"
+                        placeholder="Descuento" onKeyPress="if(this.value.length==2) return false;" {{#if
+                        publication.descuento}}value="{{publication.descuento}}" required{{/if}}>
+                    <label for="descuento">Descuento del producto (%)</label>
+                    <br>
+                    {{!-- <input class="form-control" value="" name="" id="" type="text" placeholder=""> --}}
+
+                    <div class="mb-3">
+                        <select class="form-select text-uppercase" name="categoria" id="categoria" required>
+                            <option value="{{product.categoria}}">{{product.categoria}}</option>
+                            {{#each categorias}}
+                            <option class="text-capitalize" value="{{categoria}}">{{categoria}}</option>
+                            {{/each}}
+                        </select> <br>
+                        <select class="form-select text-uppercase" name="genero" id="genero" required>
+                            <option value="">Seleccione un género</option>
+                            <option value="Hombre">Hombre</option>
+                            <option value="Mujer">Mujer</option>
+                            <option value="Unisex">Unisex</option>
+                        </select> <br>
+                        <select class="form-select text-uppercase" name="material" id="material" required>
+                            <option value="{{product.material}}">{{product.material}}</option>
+                            {{#each materiales}}
+                            <option value="{{material}}">{{material}}</option>
+                            {{/each}}
+                        </select> <br>
+                        <select class="form-select text-uppercase" name="marca" id="marca" required>
+                            <option value="{{product.marca}}">{{product.marca}}</option>
+                            {{#each marcas}}
+                            <option value="{{marca}}">{{marca}}</option>
+                            {{/each}}
+                        </select> <br>
+                        {{!-- <div>
+                            <select class="form-select" name="colores" id="colores">
+                                <option value="0">Seleccione un color</option>
+                                {{#each colores}}
+                                <option value="{{color}}">{{color}}</option>
+                                {{/each}}
+                            </select>
+                            <button type="button" class="btn btn-success" name="addColor" id="addColor">Agregar
+                                color</button>
+                            <p id="textColores">Aquí apareceran los colores</p>
+                        </div> --}}
+                    </div>
+                    <div class="my-3">
+                        {{#if tallesSelected}}
+                        {{#each tallesSelected}}
+                        <div class="form-check d-inline m-0 p-0">
+                            <input type="checkbox" class="btn-check" name="{{talle}}" id="btn-{{talle}}"
+                                autocomplete="off" checked>
+                            <label class="btn btn-outline-dark btn-lg shadow-none" for="btn-{{talle}}"
+                                style="width: 100px;">{{talle}}</label>
+                        </div>
+                        {{/each}}
+                        {{/if}}
+                        {{#each talles}}
+                        <div class="form-check d-inline m-0 p-0">
+                            <input type="checkbox" class="btn-check" name="{{talle}}" id="btn-{{talle}}"
+                                autocomplete="off">
+                            <label class="btn btn-outline-dark btn-lg shadow-none" for="btn-{{talle}}"
+                                style="width: 100px;">{{talle}}</label>
+                        </div>
+                        {{/each}}
+                    </div>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button type="submit" class="btn btn-success"><i class="fas fa-check"></i> Aplicar
+                            Cambios</button>
+                        <button type="reset" class="btn btn-danger btn"><i class="fas fa-trash"></i> Descartar</button>
+                    </div>
+                    {{#if message }}
+                    <p class="text-danger text-center mt-1">{{message}}</p>
+                    {{/if}}
+
     </form>
+
 </section>
 <script>
-    (function() {
-  'use strict';
-  window.addEventListener('load', function() {
-    // Fetch all the forms we want to apply custom Bootstrap validation styles to
-    var forms = document.getElementsByClassName('needs-validation');
-    // Loop over them and prevent submission
-    var validation = Array.prototype.filter.call(forms, function(form) {
-      form.addEventListener('submit', function(event) {
-        if (form.checkValidity() === false) {
-          event.preventDefault();
-          event.stopPropagation();
-        }
-        form.classList.add('was-validated');
-      }, false);
-    });
-  }, false);
-})();
+    (function () {
+        'use strict';
+        window.addEventListener('load', function () {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
 </script>
