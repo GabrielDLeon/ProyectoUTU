@@ -25,7 +25,7 @@
                                     <button style="margin-right: 10px;" title="Editar" class="btn btn-outline-dark"> <i class="fas fa-edit"></i> </button>
                                 </form>
                                 <form action="/list/delete/{{nroPublicacion}}" method="POST">
-                                    <button style="margin-right: 10px;" onclick="MyFunction();" title="Eliminar" class="btn btn-outline-danger"> <i class="fas fa-trash"></i> </button>
+                                    <button style="margin-right: 10px;" onclick="return confirm('¿Está seguro que desea eliminar esta publicación?');" title="Eliminar" class="btn btn-outline-danger"> <i class="fas fa-trash"></i> </button>
                                 </form>
                                 <a title="Ver" href="/publication/{{nroPublicacion}}" class="btn btn-outline-dark link-unstyled"> <i class="fas fa-eye"></i> </a>
                             </div>
@@ -49,15 +49,3 @@
         </table>
     </div>
 </div>
-<script>
-    function MyFunction() {
-        var mensaje = confirm("¿Estás seguro que deseas eliminar esta publicación?")
-        alert(mensaje)
-        if (mensaje == true) {
-            alert("Publicacion eliminada");
-        } else {
-            alert("no se elimino")
-            return false;
-        }
-    }
-</script>

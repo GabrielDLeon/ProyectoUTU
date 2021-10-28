@@ -19,7 +19,7 @@
 </form>
   <form action="/profile/delete/{{user.id}}" method="post">
     <div class="mb-3"></div>
-        <button type="submit" class="text-uppercase btn btn-dark" name="delete" id="delete">Eliminar cuenta</button>
+        <button type="submit" class="text-uppercase btn btn-dark" name="delete" id="delete" onclick="return confirm('¿Está seguro que desea eliminar su cuenta?');">Eliminar cuenta</button>
     </div>
   </form>
 </div>
