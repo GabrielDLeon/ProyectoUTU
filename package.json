@@ -23,7 +23,7 @@
     "multer": "^1.4.3",
     "mysql": "^2.18.1",
     "nodemon": "^2.0.3",
-    "sweetalert": "^2.1.2",
+    "sweetalert2": "^11.1.9",
     "timeago.js": "^4.0.2"
   }
 }

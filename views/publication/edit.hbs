@@ -7,7 +7,7 @@
                 <h2 class="d-flex justify-content-center">Editar datos de la publicación</h2>
                 <div class="form-floating mb-3">
                     <input class="form-control" name="titulo" id="titulo" type="text" placeholder="Titulo"
-                        value="{{publication.titulo}}" required> <br>
+                        value="{{publication.titulo}}" required>
                     <label for="title">Título del producto</label>
                 </div>
                 <div class="form-floating mb-3">
@@ -15,7 +15,6 @@
                         maxlength="155" required>{{publication.descripcion}}</textarea>
                     <label for="desc">Descripción del producto</label>
                 </div>
-                <br>
                 <input class="form-control" type="file" id="formFile" name="imagen" placeholder="Imagenes" multiple>
                 <br>
                 <div class="form-floating mb-3">
@@ -23,7 +22,7 @@
                         placeholder="Precio" value="{{publication.precio}}" required>
                     <label for="price">Precio del producto ($)</label>
                 </div>
-                <br>
+                
                 <input type="checkbox" name="confirm-descuento" id="confirm-descuento">
                 {{#if publication.descuento}}
                 <label for="confirm-descuento">Cambiar descuento</label>
@@ -37,32 +36,47 @@
                     <label for="descuento">Descuento del producto (%)</label>
                     <br>
                     {{!-- <input class="form-control" value="" name="" id="" type="text" placeholder=""> --}}
-
+                    <h3>Caracteristicas del producto</h3>
                     <div class="mb-3">
-                        <select class="form-select text-uppercase" name="categoria" id="categoria" required>
-                            <option value="{{product.categoria}}">{{product.categoria}}</option>
-                            {{#each categorias}}
-                            <option class="text-capitalize" value="{{categoria}}">{{categoria}}</option>
-                            {{/each}}
-                        </select> <br>
-                        <select class="form-select text-uppercase" name="genero" id="genero" required>
-                            <option value="">Seleccione un género</option>
-                            <option value="Hombre">Hombre</option>
-                            <option value="Mujer">Mujer</option>
-                            <option value="Unisex">Unisex</option>
-                        </select> <br>
-                        <select class="form-select text-uppercase" name="material" id="material" required>
-                            <option value="{{product.material}}">{{product.material}}</option>
-                            {{#each materiales}}
-                            <option value="{{material}}">{{material}}</option>
-                            {{/each}}
-                        </select> <br>
-                        <select class="form-select text-uppercase" name="marca" id="marca" required>
+                        <div class="mb-3">
+                            <input type="text" class="form-control" list="categoria" name="categoria" {{#if msjCat}} placeholder="{{msjCat}}" value=""{{else}} placeholder="SELECCIONE UNA CATEGORIA" value="{{product.categoria}}"{{/if}} required/>
+                            <datalist name="categoria" id="categoria">
+                                <option value="{{product.categoria}}">{{product.categoria}}</option>
+                                {{#each categorias}}
+                                <option class="text-capitalize" value="{{categoria}}">{{categoria}}</option>
+                                {{/each}}
+                            </datalist>
+                        </div>
+                        <div class="mb-3">
+                            <select class="form-select" name="genero" id="genero" required>
+                                <option value="{{genero}}" selected>{{genero}}</option>
+                                {{#ifCond genero '!=' 'Hombre'}}
+                                <option value="Hombre">Hombre</option>
+                                {{/ifCond}}
+                                {{#ifCond genero '!=' 'Mujer'}}
+                                <option value="Mujer">Mujer</option>
+                                {{/ifCond}}
+                                {{#ifCond genero '!=' 'Unisex'}}
+                                <option value="Unisex">Unisex</option>
+                                {{/ifCond}}
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <input type="text" class="form-control" list="material" name="material" {{#if msjMat}} placeholder="{{msjMat}}" value=""{{else}} placeholder="SELECCIONE UN MATERIAL" value="{{product.material}}"{{/if}} required/>
+                            <datalist name="material" id="material" required>
+                                <option value="{{product.material}}">{{product.material}}</option>
+                                {{#each materiales}}
+                                    <option value="{{material}}">{{material}}</option>
+                                {{/each}}
+                            </datalist>
+                        </div>
+                        <input type="text" class="form-control" list="marca" name="marca" placeholder="SELECCIONE O INGRESE UNA MARCA" value="{{product.marca}}" required/>
+                        <datalist name="marca" id="marca" required>
                             <option value="{{product.marca}}">{{product.marca}}</option>
                             {{#each marcas}}
-                            <option value="{{marca}}">{{marca}}</option>
+                                <option value="{{marca}}">{{marca}}</option>
                             {{/each}}
-                        </select> <br>
+                        </datalist>
                         {{!-- <div>
                             <select class="form-select" name="colores" id="colores">
                                 <option value="0">Seleccione un color</option>
@@ -75,7 +89,9 @@
                             <p id="textColores">Aquí apareceran los colores</p>
                         </div> --}}
                     </div>
+                    <h3>Selección de talles</h3> 
                     <div class="my-3">
+                        
                         {{#if tallesSelected}}
                         {{#each tallesSelected}}
                         <div class="form-check d-inline m-0 p-0">

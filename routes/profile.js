@@ -251,6 +251,15 @@ router.get('/enlaces/edit/:id', authController.isLoggedIn, async (req, res) => {
   })
 })
 
+
+router.post('/enlaces/delete/:tipo', authController.isLoggedIn, async (req, res) => {
+  const email = req.user.data.email
+  const tipo = req.params.tipo
+  console.log(tipo)
+    await db.query('DELETE FROM enlaces WHERE tipo = ? AND enlaces.propietario = ?', [{tipo}, email])
+      res.redirect(req.originalUrl);
+})
+
 router.post('/enlaces/edit/:id', authController.isLoggedIn, async (req, res) => {
   const email = req.user.data.email
   const {Whatsapp, Instagram, Facebook} = req.body

@@ -120,11 +120,11 @@
                         <td class="text-nowrap align-middle"><span>{{URL}}</span></td>
                         <td class="text-center align-middle">
                             <div class="btn-group align-top m-2">
-                                <form action="/profile/enlaces/edit/{{id}}" method="GET">
-                                    <button style="margin-right: 10px;" title="Editar" class="btn btn-outline-danger"> <i class="fas fa-trash"></i> </button>
+                                <form action="/profile/enlaces/delete/{{tipo}}" method="post">
+                                    <button style="margin-right: 10px;" title="Eliminar" class="btn btn-outline-danger" id="delete" name="delete" onclick=""> <i class="fas fa-trash"></i> </button>
                                 </form>
                                 <form action="/profile/enlaces/edit/{{id}}" method="GET">
-                                    <button style="margin-right: 10px;" title="Eliminar" class="btn btn-outline-dark"> <i class="fas fa-edit"></i> </button>
+                                    <button style="margin-right: 10px;" title="Editar" class="btn btn-outline-dark"> <i class="fas fa-edit"></i> </button>
                                 </form>
                             </div>
                         </td>
@@ -132,6 +132,8 @@
                 {{/each}}  
             </tbody>
         </table>
+        {{else}}
+        <p>No tienes redes sociales agregadas, puedes agregar algunas <a href="/profile/newEnlace/{{user.id}}">aquí</a></p> 
         {{/if}}
     </div>
             </div>

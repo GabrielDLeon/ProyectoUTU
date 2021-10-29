@@ -67,7 +67,7 @@ router.get('/edit/:id', authController.isLoggedIn, async (req, res) => {
                                 db.query('SELECT marca FROM marcas WHERE marca != ?',[marca], (error, marcas) => {
                                     /*SELECT * FROM talles WHERE talle NOT IN (SELECT talle FROM curvas WHERE publicacion = 5)*/
                                     db.query('SELECT talle FROM curvas WHERE publicacion = ?', [id], (error, tallesSelected) => {
-                                        db.query('SELECT talle FROM talles WHERE talle NOT IN (SELECT talle FROM curvas WHERE publicacion = ?) ORDER BY orden ASC',[id], (error, talles) => {
+                                        db.query('SELECT talle FROM talles WHERE talle NOT IN (SELECT talle FROM curvas WHERE publicacion = ?) ORDER BY talle ASC',[id], (error, talles) => {
                                             res.render('publication/edit', {
                                                 user: req.user,
                                                 categorias,
@@ -107,6 +107,7 @@ router.post('/edit/:id', upload.array("imagen", 12), authController.isLoggedIn, 
             db.query('SELECT categoria FROM categorias WHERE categoria != ?', [categoria], (error, categorias) => {
                 db.query('SELECT material FROM materiales WHERE material != ?', [material], (error, materiales) => {
                     db.query('SELECT marca FROM marcas WHERE marca != ?', [marca], (error, marcas) => {
+                        db.query('SELECT talle FROM talles WHERE talle NOT IN (SELECT talle FROM curvas WHERE publicacion = ?) ORDER BY talle ASC',[id], (error, talles) => {
                         if (filtro == false) {
                             return res.render('publication/edit', {
                                 //colores,
@@ -130,19 +131,44 @@ router.post('/edit/:id', upload.array("imagen", 12), authController.isLoggedIn, 
                                 db.query("INSERT INTO fotos VALUES (?, ?);", [id, resultado]);
                             })
                         }
-                    })
-                })
-            })
-            });
         const { categoria , genero, material, marca } = req.body;
+        db.query('SELECT categoria FROM categorias WHERE categoria = ?', [categoria], (err, cats) => {
+            db.query('SELECT material FROM materiales WHERE material = ?', [material], (err, mat) => {
+            if (cats.length <= 0) {
+                return res.render('publication/edit', {
+                    user: req.user,
+                    categorias,
+                    genero,
+                    talles,
+                    product: product[0],
+                    publication: result[0],
+                    msjCat: "No existe esa categoria",
+                    title: "Editar publicación"
+                })
+            } else if (mat.length <= 0) {
+                return res.render('publication/edit', {
+                    user: req.user,
+                    categorias,
+                    genero,
+                    talles,
+                    product: product[0],
+                    publication: result[0],
+                    msjMat: "No existe ese material",
+                    title: "Editar publicación"
+                })
+            } else {
         db.query("INSERT INTO productos (categoria, genero, material, marca) VALUES (?, ?, ?, ?)", [categoria, genero, material, marca], (error, result) => {
             const insert = result.insertId
-            console.log(insert)
         db.query('UPDATE publicacion SET titulo = ?, descripcion = ?, precio = ?, producto = ? WHERE nroPublicacion = ?', [titulo, descripcion, precio, insert, id], (error, result) => {
             console.log("Se actualizó correctamente la publicación " + id);
             res.redirect('/list');
         })
     })
+}
+
+})
+})
+})
         db.query('DELETE FROM curvas WHERE publicacion = ?', [id]);
         const {G, L, M, S, XL, XS, XXL, XXS, XXXL, XXXXL} = req.body;
         var array = [];
@@ -159,6 +185,10 @@ router.post('/edit/:id', upload.array("imagen", 12), authController.isLoggedIn, 
         array.forEach(talle => {
             db.query('INSERT INTO curvas VALUES (?, ?)', [talle, id]);
         });
+    })
+})
+})
+});
     })
 })
 module.exports = router;
