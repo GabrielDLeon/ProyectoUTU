@@ -67,7 +67,7 @@ router.get('/edit/:id', authController.isLoggedIn, async (req, res) => {
                                 db.query('SELECT marca FROM marcas WHERE marca != ?',[marca], (error, marcas) => {
                                     /*SELECT * FROM talles WHERE talle NOT IN (SELECT talle FROM curvas WHERE publicacion = 5)*/
                                     db.query('SELECT talle FROM curvas WHERE publicacion = ?', [id], (error, tallesSelected) => {
-                                        db.query('SELECT talle FROM talles WHERE talle NOT IN (SELECT talle FROM curvas WHERE publicacion = ?) ORDER BY talle ASC',[id], (error, talles) => {
+                                        db.query('SELECT talle FROM talles WHERE talle NOT IN (SELECT talle FROM curvas WHERE publicacion = ?) ORDER BY orden ASC',[id], (error, talles) => {
                                             res.render('publication/edit', {
                                                 user: req.user,
                                                 categorias,

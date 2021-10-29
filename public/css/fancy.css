@@ -6,6 +6,10 @@
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
+textarea {
+    resize: none !important;
+}
+
 /* SACAR FLECHAS EN INPUT NUMBER */
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,

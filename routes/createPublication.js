@@ -55,7 +55,7 @@ router.get('/', authController.isLoggedIn, (req, res) => {
                 db.query('SELECT material FROM materiales', (error, materiales) => {
                     db.query('SELECT marca FROM marcas', (error, marcas) => {
                         db.query('SELECT color FROM colores', (error, colores) => {
-                            db.query('SELECT talle FROM talles ORDER BY talle ASC', (error, talles) => {
+                            db.query('SELECT talle FROM talles ORDER BY orden ASC', (error, talles) => {
                                 res.render('publication/create', {
                                     categorias,
                                     materiales,

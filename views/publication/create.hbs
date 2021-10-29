@@ -12,29 +12,23 @@
                     <div class="mb-3">
                         <h3>Datos de la publicación</h3>
                         <div class="form-floating mb-3">
-                            <input class="form-control" name="titulo" id="titulo" type="text"
-                                placeholder="Titulo del producto" value="{{titulo}}" required>
+                            <input class="form-control" name="titulo" id="titulo" type="text" placeholder="Titulo del producto" value="{{titulo}}" required>
                             <label for="title">Título del producto</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <textarea class="form-control" name="descripcion" id="descripcion" placeholder="Descripción"
-                                maxlength="155" required></textarea>
+                            <textarea class="form-control" name="descripcion" id="descripcion" placeholder="Descripción" maxlength="155" rows="4" style="height:100%;" required></textarea>
                             <label for="title">Descripción del producto</label>
                         </div>
                         <label for="formFile">Imágen/es para la publicación</label>
-                        <input class="form-control" type="file" id="formFile" name="imagen"
-                            placeholder="Imageasdasdsadn" multiple> <br>
+                        <input class="form-control" type="file" id="formFile" name="imagen" placeholder="Imageasdasdsadn" multiple> <br>
                         <div class="form-floating mb-3">
-                            <input class="form-control input-number" name="precio" id="precio" type="number"
-                                placeholder="Precio ($)" value="{{precio}}" required>
+                            <input class="form-control input-number" name="precio" id="precio" type="number" placeholder="Precio ($)" value="{{precio}}" required>
                             <label for="precio">Precio ($)</label>
                         </div>
                         <input type="checkbox" name="confirm-descuento" id="confirm-descuento">
                         <label for="confirm-descuento">Añadir descuento</label>
                         <div class="form-floating mb-3">
-                            <input class="form-control input-number" name="descuento" id="descuento" type="number"
-                                placeholder="Descuento (%)" onKeyPress="if(this.value.length==2) return false;"
-                                required>
+                            <input class="form-control input-number" name="descuento" id="descuento" type="number" placeholder="Descuento (%)" onKeyPress="if(this.value.length==2) return false;" required>
                             <label for="descuento">Descuento (%)</label>
                         </div>
                         {{!-- <input class="form-control" value="" name="" id="" type="text" placeholder=""> --}}
