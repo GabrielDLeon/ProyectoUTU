@@ -1,8 +1,8 @@
 {{>navigation}}
 <div class="container mt-5">
-    <form action="/profile/edit/{{data.id}}" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
-        <div class="d-flex card p-3 s p-3 mb-5 bg-body">
-            <div class="card-body">
+    <div class="d-flex card p-3 s p-3 mb-5 bg-body">
+        <div class="card-body">
+            <form action="/profile/edit/{{data.id}}" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
                 <div class="my-3 text-center">
                     <h2>Datos de cuenta</h2>
                 </div>
@@ -52,7 +52,7 @@
                         </div>
                         <div class="mb-3 form-floating">
                             <textarea class="form-control" name="descripcion" id="descripcion" placeholder="Descripción del perfil" maxlength="155">{{data.descripcion}}</textarea>
-                             <label for="descripcion">Descripción del perfil</label>
+                            <label for="descripcion">Descripción del perfil</label>
                         </div>
                         <div class="mb-3 form-floating">
                             <input type="number" class="form-control" id="telefono" name="telefono" placeholder="Ej: 092776255" value="{{data.telefono}}">
@@ -87,7 +87,7 @@
                         </div>
                         <div class="mb-3">
                             <div class="d-grid gap-2">
-                                <a class="btn btn-outline-dark" href="/profile/newEnlace/{{data.id}}">Añadir Red Social</a>
+                                <a class="btn btn-outline-dark" href="/profile/{{data.nombre}}">Ver perfil</a>
                             </div>
                         </div>
                     </div>
@@ -95,50 +95,43 @@
                         <button type="submit" class="text-uppercase btn btn-success" name="guardar" id="guardar"><i class="fas fa-check"></i> Aplicar cambios</button>
                     </div>
                 </div>
-                {{!--
-                <input type="checkbox" name="change_password" id="change_password" value="1"
-                    onclick="setPasswordForm(this.checked)" title="Cambiar contraseña"
-                    class="checkbox no-bg validation-passed">
-                <label for="change_password">Cambiar contraseña</label> --}}
-                <br>
-                <h3>Tus redes sociales</h3>
-    <div class="mb-3">
-      {{#if enlaces}}
-      <div class="table-responsive table-lg mt-3">
-        <table class="table table-striped table-bordered table-hover border-3 text-center">
-            <thead>
-                <tr>
-                    <th>Red social</th>
-                    <th>Enlace</th>
-                    <th>Acción</th>
-                </tr>
-            </thead>
-            <tbody>
-              {{#each enlaces}}
-                    <tr>
-                        <td class="text-nowrap align-middle"><span>{{tipo}}</span></td>
-                        <td class="text-nowrap align-middle"><span>{{URL}}</span></td>
-                        <td class="text-center align-middle">
-                            <div class="btn-group align-top m-2">
-                                <form action="/profile/enlaces/delete/{{tipo}}" method="post">
-                                    <button style="margin-right: 10px;" title="Eliminar" class="btn btn-outline-danger" id="delete" name="delete" onclick=""> <i class="fas fa-trash"></i> </button>
-                                </form>
-                                <form action="/profile/enlaces/edit/{{id}}" method="GET">
-                                    <button style="margin-right: 10px;" title="Editar" class="btn btn-outline-dark"> <i class="fas fa-edit"></i> </button>
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
-                {{/each}}  
-            </tbody>
-        </table>
-        {{else}}
-        <p>No tienes redes sociales agregadas, puedes agregar algunas <a href="/profile/newEnlace/{{user.id}}">aquí</a></p> 
-        {{/if}}
-    </div>
+            </form>
+            <div class="mb-3">
+                {{#if enlaces}}
+                    <h3>Tus redes sociales</h3>
+                    <table class="table table-striped table-bordered table-hover border-3 text-center">
+                        <thead>
+                            <tr>
+                                <th>Red social</th>
+                                <th>Enlace</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each enlaces}}
+                            <tr>
+                                <td class="text-nowrap align-middle"><span>{{tipo}}</span></td>
+                                <td class="text-nowrap align-middle"><span>{{URL}}</span></td>
+                                <td class="text-center align-middle">
+                                    <div class="btn-group align-top m-2">
+                                        <form action="/profile/enlaces/delete/{{tipo}}" method="POST">
+                                            <button style="margin-right: 10px;" title="Eliminar" class="btn btn-outline-danger" id="delete" name="delete" onclick=""> <i class="fas fa-trash"></i> </button>
+                                        </form>
+                                        <form action="/profile/enlaces/edit/{{id}}" method="GET">
+                                            <button style="margin-right: 10px;" title="Editar" class="btn btn-outline-dark"> <i class="fas fa-edit"></i> </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            {{/each}}  
+                        </tbody>
+                    </table>
+                {{else}}
+                    <p>No tienes redes sociales agregadas, puedes agregar algunas <a href="/profile/newEnlace/{{user.id}}">aquí</a></p> 
+                {{/if}}
             </div>
         </div>
-    </form>
+    </div>
 </div>
 <script>
     (function () {
