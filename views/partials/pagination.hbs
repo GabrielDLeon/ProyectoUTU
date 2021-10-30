@@ -3,25 +3,25 @@
         <ul class="pagination justify-content-center">
             {{#ifCond lastPage '!=' 0}}
                 <li class="page-item">
-                        <a class="page-link" href="/profile/{{../profile.nombre}}?page={{lastPage}}">Anterior</a>
+                        <a class="page-link" href="{{path}}{{complement}}page={{lastPage}}">Anterior</a>
                     </li>
-                <li class="page-item"><a class="page-link" href="/profile/{{../profile.nombre}}?page={{lastPage}}">{{lastPage}}</a></li>
+                <li class="page-item"><a class="page-link" href="{{path}}{{complement}}page={{lastPage}}">{{lastPage}}</a></li>
             {{else}}
                 <li class="page-item disabled">
-                    <a class="page-link" href="/profile/{{../profile.nombre}}?page={{lastPage}}">Anterior</a>
+                    <a class="page-link" href="{{path}}{{complement}}page={{lastPage}}">Anterior</a>
                 </li>
             {{/ifCond}}
             <li class="page-item active" aria-current="page">
                 <span class="page-link">{{actualPage}}</span>
             </li>
             {{#if nextPage}}
-                <li class="page-item"><a class="page-link" href="/profile/{{../profile.nombre}}?page={{nextPage}}">{{nextPage}}</a></li>
+                <li class="page-item"><a class="page-link" href="{{path}}{{complement}}page={{nextPage}}">{{nextPage}}</a></li>
                 <li class="page-item">
-                    <a class="page-link" href="/profile/{{../profile.nombre}}?page={{nextPage}}">Siguiente</a>
+                    <a class="page-link" href="{{path}}{{complement}}page={{nextPage}}">Siguiente</a>
                 </li>
             {{else}}
                 <li class="page-item disabled">
-                    <a class="page-link" href="/profile/{{../profile.nombre}}?page={{nextPage}}">Siguiente</a>
+                    <a class="page-link" href="{{path}}{{complement}}page={{nextPage}}">Siguiente</a>
                 </li>
             {{/if}}
         </ul>
