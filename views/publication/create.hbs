@@ -97,7 +97,15 @@
                                 style="width: 100px;">{{talle}}</label>
                         </div>
                         {{/each}}
-                    </div> <br>
+                    </div>
+                    <div class="my-3">
+                        <h3>Selección de colores</h3> 
+                        {{#each colores}}
+                        <div class="form-check d-inline m-0 p-0">
+                            <input type="checkbox" value="{{color}}" name="{{color}}">
+                            <label class="btn btn-outline-dark btn-lg" for="btn-{{color}}" style="width: 100px;" id="btn-{{color}}">ㅤㅤ</label>  
+                        </div>
+                        {{/each}}
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                         <button type="submit" class="btn btn-success btn-lg"><i class="fas fa-check"></i>
                             Publicar</button>

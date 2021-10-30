@@ -41,11 +41,10 @@ router.get('/:nroPublicacion', authController.isLoggedIn, async (req, res) => {
             const {emailVendedor} = publication[0];
             await db.query('SELECT imagen FROM fotos WHERE publicacion = ?', [nroPublicacion], async (error, images) => {
                 await db.query('SELECT * FROM view_preguntas WHERE nroPublicacion = ? ORDER BY fechaPregunta DESC LIMIT 8', [nroPublicacion], async (error, questions) => {
+                    await db.query('SELECT color FROM (publicacion INNER JOIN colorpubli ON publicacion.nroPublicacion = colorpubli.publicacion) WHERE nroPublicacion = ?', [nroPublicacion], async (error, colors) => {
                     await db.query('SELECT COUNT(idPregunta) AS count FROM view_preguntas WHERE nroPublicacion = ?', [nroPublicacion], async (error, qLimit) => {
                         await db.query('SELECT * FROM favoritos WHERE usuario = ? AND publicacion = ?', [email, nroPublicacion], async (error, favorite) => {
-                            await db.query('SELECT talle FROM (publicacion INNER JOIN curvas ON publicacion.nroPublicacion = curvas.publicacion) WHERE nroPublicacion = ?', [nroPublicacion], async (error, sizes) => {
-                                await db.query('SELECT color FROM (publicacion_color INNER JOIN publicacion ON publicacion_color.publicacion = publicacion.nroPublicacion) WHERE publicacion.nroPublicacion = ?', [nroPublicacion], async (error, colors) => {
-                                    await db.query('SELECT nroPublicacion, precio, descuento, imagen FROM (view_publicaciones) WHERE emailVendedor = ? AND nroPublicacion != ? LIMIT 6', [emailVendedor ,nroPublicacion], async (error, recommendations) => {
+                            await db.query('SELECT talle FROM (publicacion INNER JOIN curvas ON publicacion.nroPublicacion = curvas.publicacion) WHERE nroPublicacion = ?', [nroPublicacion], async (error, sizes) => {                                    await db.query('SELECT nroPublicacion, precio, descuento, imagen FROM (view_publicaciones) WHERE emailVendedor = ? AND nroPublicacion != ? LIMIT 6', [emailVendedor ,nroPublicacion], async (error, recommendations) => {
                                         await db.query('SELECT * from perfil WHERE email = ?', [emailVendedor], (error, perfil) => {
                                             console.log("Se renderizó correctamente la página de la publicación "+nroPublicacion);
                                             res.render('publication/page', {

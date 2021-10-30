@@ -75,6 +75,16 @@
                                     </div>
                                 </div>
                             {{/if}}
+                            {{#if ../colors}}
+                                <div class="my-3">
+                                    <h6>Colores disponibles</h6>
+                                    <div>
+                                        {{#each ../colors}}
+                                            <label class="btn btn-outline-dark btn-lg" for="btn-{{color}}" style="width: 100px;" id="btn-{{color}}">ㅤㅤ</label> 
+                                        {{/each}}
+                                    </div>
+                                </div>
+                            {{/if}}
                             {{#if ../user}}
                                 {{#ifCond ../user.data.tipo '==' 'usuario'}}
                                     <div>

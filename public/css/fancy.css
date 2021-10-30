@@ -28,6 +28,62 @@ input[type=number] {
     font-family: 'Montserrat', sans-serif !important;
 }
 
+#btn-azul {
+    background-color: blue;
+}
+
+#btn-beige {
+    background-color: #f5f5dc;
+}
+
+#btn-bordó {
+    background-color: #800040;
+}
+
+#btn-gris {
+    background-color: gray;
+}
+
+#btn-marrón {
+    background-color: brown;
+}
+
+#btn-naranja {
+    background-color: orange;
+}
+
+#btn-negro {
+    background-color: black;
+}
+
+#btn-rojo {
+    background-color: red;
+}
+
+#btn-rosado {
+    background-color: pink;
+}
+
+#btn-salmón {
+    background-color: #fa8072;
+}
+
+#btn-verde {
+    background-color: green;
+}
+
+#btn-violeta {
+    background-color: purple;
+}
+
+#btn-blanco {
+    background-color: white;
+}
+
+#btn-amarillo {
+    background-color: yellow;
+}
+
 h1,h2,h3,h4,h5,h6 {
     font-family: 'Montserrat', sans-serif !important;
     text-transform: uppercase;
