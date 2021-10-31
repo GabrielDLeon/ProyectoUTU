@@ -13,7 +13,7 @@ const db = mysql.createConnection({
 router.post('/', async (req, res) => {
     const { palabra } = req.body;
     if (palabra){
-        const path = '/search?page=1&key='+palabra;
+        const path = '/search?key='+palabra+'&page=1';
         res.redirect(path);
     } else if (!palabra) {
         res.redirect('/');
@@ -110,7 +110,6 @@ router.get('/', authController.isLoggedIn, async (req, res) => {
 
     // Template almacena toda la consulta + variables + join + condiciones + auxiliares
     let template = 'SELECT ' + variables + ' FROM (view_publicaciones' + join + ') ' + condicion + ' GROUP BY (nroPublicacion) ' + auxiliar + 'LIMIT ? OFFSET ?';
-    console.log(template);
     if (req.query.page) {
         const {page} = req.query;
         db.query('SELECT * FROM perfil WHERE perfil.email LIKE "%"?"%"', [key], (error, shops) => {
@@ -125,7 +124,12 @@ router.get('/', authController.isLoggedIn, async (req, res) => {
                         title: "Búsqueda"
                     });
                 } else {
-                    res.redirect(path+'page=1');
+                    res.render('search', {
+                        palabra: key,
+                        shops: shops,
+                        user: req.user,
+                        title: "Búsqueda"
+                    });
                 }
             });
         });

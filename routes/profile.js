@@ -59,7 +59,7 @@ router.get('/:nombre', authController.isLoggedIn, async (req, res) => {
                db.query('SELECT tipo, URL, propietario, nombre FROM (enlaces INNER JOIN perfil ON enlaces.propietario = perfil.email) WHERE propietario = ?', [email], async (error, redes) => {
                   const page = JSON.parse(req.query.page);
                   const query = 'SELECT nroPublicacion, precio, descuento, imagen FROM view_publicaciones WHERE view_publicaciones.nombreVendedor = "' + nombre + '" GROUP BY view_publicaciones.nroPublicacion LIMIT ? OFFSET ?';
-                  let path = '/profile/'+nombre;
+                  let path = '/profile/'+nombre+'?';
                   paginations(page, 9, query, path, function (error, result) {
                      if (result) {
                         res.render('profile/profile', {
@@ -72,7 +72,7 @@ router.get('/:nombre', authController.isLoggedIn, async (req, res) => {
                            redes
                         })
                      } else {
-                        path += '?page=1';
+                        path += 'page=1';
                         res.redirect(path);
                      }
                   });
