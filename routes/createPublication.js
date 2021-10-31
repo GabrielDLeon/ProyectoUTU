@@ -160,7 +160,7 @@ router.post('/', upload.array("imagen", 12), authController.isLoggedIn, async (r
                     db.query('INSERT INTO colorpubli VALUES (?, ?)', [color, idPublicacion]);
                 });
                 db.query("INSERT INTO descuento VALUES (?, ?)", [idPublicacion, newPublication.descuento]);
-                if (req.files) {
+                if (req.files.length > 0) {
                     imagenes = req.files
                     var buffer = imagenes.map((element) => { return _.pick(element, ['buffer']) })
                     buffer.forEach((imagen) => {
@@ -201,7 +201,7 @@ router.post('/', upload.array("imagen", 12), authController.isLoggedIn, async (r
                                 categorias,
                                 materiales,
                                 marcas,
-                                //colores,
+                                colores,
                                 user: req.user,
                                 titulo: req.body.titulo,
                                 descripcion: req.body.descripcion,
@@ -215,7 +215,7 @@ router.post('/', upload.array("imagen", 12), authController.isLoggedIn, async (r
                                 categorias,
                                 materiales,
                                 marcas,
-                                //colores,
+                                colores,
                                 user: req.user,
                                 titulo: req.body.titulo,
                                 descripcion: req.body.descripcion,
@@ -229,6 +229,7 @@ router.post('/', upload.array("imagen", 12), authController.isLoggedIn, async (r
                                 categorias,
                                 materiales,
                                 marcas,
+                                colores,
                                 user: req.user,
                                 titulo: req.body.titulo,
                                 descripcion: req.body.descripcion,

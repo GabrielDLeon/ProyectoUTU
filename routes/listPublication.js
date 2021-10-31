@@ -26,8 +26,6 @@ const db = mysql.createConnection({
   });
 
 router.get('/', authController.isLoggedIn, (req, res) => {
-    
-
     if (req.user) {
         const {email} = req.user.data;
         db.query('SELECT nroPublicacion, titulo, descripcion, precio, idProducto, nombreVendedor, COUNT(preguntas.idPregunta) AS cantPreguntas FROM (view_publicaciones LEFT JOIN preguntas ON preguntas.publicacion = nroPublicacion) WHERE emailVendedor = ? GROUP BY nroPublicacion;', [email], (error, publicacion) => {
@@ -44,13 +42,22 @@ router.get('/', authController.isLoggedIn, (req, res) => {
 
 router.post('/delete/:nroPublicacion', authController.isLoggedIn, async (req, res) => {
     const nroPublicacion = req.params.nroPublicacion
+    await db.query('SELECT nroPublicacion FROM publicacion WHERE nroPublicacion = ?', [nroPublicacion], async (error, result) => { 
+    if (result.length > 0) {
     await db.query('DELETE FROM publicacion WHERE nroPublicacion = ?', [nroPublicacion], (error, results) => {
         if (error) {
             console.log(error)
+            console.log("Algo pasó mal")
+            return res.redirect('/list')
         } else {
             return res.redirect('/list')
         }
     })
+} else {
+    console.log("Esa publicacion no existe")
+    return res.redirect('/list')
+}
+})
 });
 
 router.get('/edit/:id', authController.isLoggedIn, async (req, res) => {
@@ -68,35 +75,41 @@ router.get('/edit/:id', authController.isLoggedIn, async (req, res) => {
                                     /*SELECT * FROM talles WHERE talle NOT IN (SELECT talle FROM curvas WHERE publicacion = 5)*/
                                     db.query('SELECT talle FROM curvas WHERE publicacion = ?', [id], (error, tallesSelected) => {
                                         db.query('SELECT talle FROM talles WHERE talle NOT IN (SELECT talle FROM curvas WHERE publicacion = ?) ORDER BY orden ASC',[id], (error, talles) => {
-                                            res.render('publication/edit', {
-                                                user: req.user,
-                                                categorias,
-                                                materiales,
-                                                marcas,
-                                                genero,
-                                                tallesSelected,
-                                                talles,
-                                                product: product[0],
-                                                publication: result[0],
-                                                title: "Editar publicación"
-                                            })
-                                        });
-                                    })
+                                            db.query('SELECT color FROM colorpubli WHERE publicacion = ?', [id], (error, colorSelected) => {
+                                                db.query('SELECT color FROM colores WHERE color NOT IN (SELECT color FROM colorpubli WHERE publicacion = ?)',[id], (error, colores) => {
+                                                res.render('publication/edit', {
+                                                    user: req.user,
+                                                    categorias,
+                                                    materiales,
+                                                    marcas,
+                                                    genero,
+                                                    tallesSelected,
+                                                    talles,
+                                                    colorSelected,
+                                                    colores,
+                                                    product: product[0],
+                                                    publication: result[0],
+                                                    title: "Editar publicación"
+                                                        })
+                                                    })
+                                                })
+                                            });
+                                        })
+                                    });
                                 });
                             });
                         });
-                    });
-                })
+                    })
+                } else {
+                    console.log("No se pudieron actualizar los datos de la publicación, esto debido a que la cuenta activa no corresponde al usuario vendedor de la publicación")
+                    res.redirect('/');
+                }
             } else {
-                console.log("No se pudieron actualizar los datos de la publicación, esto debido a que la cuenta activa no corresponde al usuario vendedor de la publicación")
+                //console.log("No se encontró ninguna publicación");
                 res.redirect('/');
             }
-        } else {
-            console.log("No se encontró ninguna publicación");
-            res.redirect('/');
-        }
+        })
     })
-})
 
 router.post('/edit/:id', upload.array("imagen", 12), authController.isLoggedIn, async (req, res) => {
     const { id } = req.params;
@@ -184,6 +197,26 @@ router.post('/edit/:id', upload.array("imagen", 12), authController.isLoggedIn, 
         if (XXXXL) array.push('XXXXL');
         array.forEach(talle => {
             db.query('INSERT INTO curvas VALUES (?, ?)', [talle, id]);
+        });
+        db.query('DELETE FROM colorpubli WHERE publicacion = ?', [id]);
+        const {amarillo, azul, beige, blanco, bordó, gris, marrón, naranja, negro, rojo, rosado, salmón, verde, violeta} = req.body
+        var array2 = [];
+        if (amarillo) array2.push('amarillo');
+        if (azul) array2.push('azul');
+        if (beige) array2.push('beige');
+        if (blanco) array2.push('blanco');
+        if (bordó) array2.push('bordó');
+        if (gris) array2.push('gris');
+        if (marrón) array2.push('marrón');
+        if (naranja) array2.push('naranja');
+        if (negro) array2.push('negro');
+        if (rojo) array2.push('rojo');
+        if (rosado) array2.push('rosado');
+        if (salmón) array2.push('salmón');
+        if (verde) array2.push('verde');
+        if (violeta) array2.push('violeta');
+        array2.forEach(color => {
+            db.query('INSERT INTO colorpubli VALUES (?, ?)', [color, id]);
         });
     })
 })

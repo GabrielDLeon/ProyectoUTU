@@ -90,7 +90,6 @@
                     </div>
                     <h3>Selección de talles</h3> 
                     <div class="my-3">
-                        
                         {{#if tallesSelected}}
                         {{#each tallesSelected}}
                         <div class="form-check d-inline m-0 p-0">
@@ -107,6 +106,25 @@
                                 autocomplete="off">
                             <label class="btn btn-outline-dark btn-lg shadow-none" for="btn-{{talle}}"
                                 style="width: 100px;">{{talle}}</label>
+                        </div>
+                        {{/each}}
+                    </div>
+                    <h3>Selección de colores</h3> 
+                    <div class="my-3">
+                        {{#if colorSelected}}
+                        {{#each colorSelected}}
+                        <div class="form-check d-inline m-0 p-0">
+                            <input type="checkbox" name="{{color}}" id="btn-{{color}}"
+                                autocomplete="off" checked>
+                            <label class="btn btn-outline-dark btn-lg" for="btn-{{color}}"
+                                style="width: 100px;" id="btn-{{color}}">ㅤㅤ</label>
+                        </div>
+                        {{/each}}
+                        {{/if}}
+                        {{#each colores}}
+                        <div class="form-check d-inline m-0 p-0">
+                            <input type="checkbox" value="{{color}}" name="{{color}}">
+                            <label class="btn btn-outline-dark btn-lg" for="btn-{{color}}" style="width: 100px;" id="btn-{{color}}">ㅤㅤ</label>
                         </div>
                         {{/each}}
                     </div>
