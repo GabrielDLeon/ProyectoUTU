@@ -10,18 +10,31 @@ const db = mysql.createConnection({
   database: process.env.DATABASE,
 });
 
+function addDays(date, days) {
+  const copy = new Date(Number(date))
+  copy.setDate(date.getDate() + days)
+  return copy
+}
+
 router.get('/', authController.isLoggedIn, async (req, res) => {
     db.query('SELECT direccion, descripcion, telefono, nombre FROM perfil', (error, result) => {
       db.query('SELECT nroPublicacion, precio, descuento, titulo, descripcion, categoria, genero, imagen, nombreVendedor FROM view_publicaciones', (error, recommendations) => {
-        db.query('SELECT * FROM perfil', (error, shops) => {
-        res.render('index', {
-          recommendations,
-          shops,
-          data: result[0],
-          user: req.user,
-          title: "Klouts",
-          })
-        })
+        const date = new Date();
+        const newDate = addDays(date, - process.env.NEWEST_PUBLICATION);
+        let string = newDate.getFullYear() + '-' + (date.getMonth() + 1) + '-' + newDate.getDate();
+        const query = 'SELECT nroPublicacion, fechaPublicacion FROM (view_publicaciones) WHERE (fechaPublicacion >=  "'+string+'") GROUP BY (nroPublicacion)';
+        db.query(query, (error, newest) => {
+          db.query('SELECT * FROM perfil', (error, shops) => {
+            res.render('index', {
+              newest,
+              recommendations,
+              shops,
+              data: result[0],
+              user: req.user,
+              title: "Klouts",
+            });
+          });
+        });
       });
     });
 });

@@ -30,8 +30,6 @@ router.get('/:nroPublicacion/comments', authController.isLoggedIn, async (req, r
     });
 });
 
-
-
 // Entrar a una publicacion desde URL con el ID
 router.get('/:nroPublicacion', authController.isLoggedIn, async (req, res) => {
     const {nroPublicacion} = req.params;
