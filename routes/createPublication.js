@@ -194,13 +194,16 @@ router.post('/', upload.array("imagen", 12), authController.isLoggedIn, async (r
             db.query('SELECT material FROM materiales', (error, materiales) => {
                 db.query('SELECT marca FROM marcas', (error, marcas) => {
                     db.query('SELECT color FROM colores', (error, colores) => {
+                        db.query('SELECT talle FROM talles ORDER BY orden ASC', (error, talles) => {
                         const { titulo, descripcion, precio, descuento, categoria, genero, material, marca } = req.body;
                         db.query('SELECT categoria FROM categorias WHERE categoria = ?', [categoria], (error, categoriasR) => {
+                            db.query('SELECT material FROM materiales WHERE material = ?', [material], (error, materialesR) => {    
                         if (!genero || !titulo || !descripcion || !precio || !material || !marca || !categoria) {
                             return res.render('publication/create', {
                                 categorias,
                                 materiales,
                                 marcas,
+                                talles,
                                 colores,
                                 user: req.user,
                                 titulo: req.body.titulo,
@@ -230,12 +233,28 @@ router.post('/', upload.array("imagen", 12), authController.isLoggedIn, async (r
                                 materiales,
                                 marcas,
                                 colores,
+                                talles,
                                 user: req.user,
                                 titulo: req.body.titulo,
                                 descripcion: req.body.descripcion,
                                 precio: req.body.precio,
                                 descuento: req.body.descuento,
                                 message: "Esa categoria no existe, seleccione otra",
+                                title: "Nueva publicación"
+                            })
+                        } else if (materialesR.length <= 0) {
+                            return res.render('publication/create', {
+                                categorias,
+                                materiales,
+                                marcas,
+                                colores,
+                                talles,
+                                user: req.user,
+                                titulo: req.body.titulo,
+                                descripcion: req.body.descripcion,
+                                precio: req.body.precio,
+                                descuento: req.body.descuento,
+                                message: "Ese material no existe, seleccione otro",
                                 title: "Nueva publicación"
                             })
                         } else {
@@ -323,7 +342,7 @@ router.post('/', upload.array("imagen", 12), authController.isLoggedIn, async (r
                                                             categorias,
                                                             materiales,
                                                             marcas,
-                                                            //colores,
+                                                            colores,
                                                             user: req.user,
                                                             titulo: req.body.titulo,
                                                             descripcion: req.body.descripcion,
@@ -342,7 +361,9 @@ router.post('/', upload.array("imagen", 12), authController.isLoggedIn, async (r
                         }
                     });
                     })
+                    })
                 });
+                })
             });
         });
     }
