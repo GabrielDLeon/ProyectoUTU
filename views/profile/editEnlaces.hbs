@@ -4,7 +4,7 @@
     <div class="card-body">
 <h3 class="d-flex justify-content-center">Editar redes sociales</h3>
 <form action="/profile/enlaces/edit/{{user.id}}" method="POST" class="needs-validation" novalidate> 
-        {{#each enlaces}}
+      {{#each enlaces}}
       <hr class="hr">
         <label class="fs-5 m-1">Tipo de red social</label>  
         <select class="form-select" name="tipo" id="tipo" required disabled>

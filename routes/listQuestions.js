@@ -22,7 +22,6 @@ router.get('/:filter', authController.isLoggedIn, async (req, res) => {
             template+= 'AND respuesta != ""';
         }
         db.query(template, [email], (error, result) => {
-            console.log(result);
             res.render('publication/listQuestions', {
                 result,
                 user: req.user,

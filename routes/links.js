@@ -21,6 +21,8 @@ router.get('/newEnlace/:id', authController.isLoggedIn, async (req, res) => {
             console.log(error)
         }
         const { id } = req.params;
+        const user = req.user.data
+        console.log(user)
         db.query('SELECT cuenta_empresa.email , cuenta_empresa.id FROM cuenta_empresa WHERE cuenta_empresa.email = ?', [email], async (error, result) => {
             db.query('SELECT * FROM enlaces_tipos', async (error, tipo) => {
                 if (result[0].id == id) {
@@ -79,7 +81,9 @@ router.post('/newEnlace/:id', authController.isLoggedIn, async (req, res) => {
 // Cargar página Editar enlace
 router.get('/enlaces/edit/:id', authController.isLoggedIn, async (req, res) => {
     const {email} = req.user.data;
-    await db.query('SELECT tipo, URL, propietario, id FROM enlaces INNER JOIN cuenta_empresa ON cuenta_empresa.email = enlaces.propietario WHERE propietario = ?', [email], (error, enlaces) => {
+    const {id} = req.params
+    await db.query('SELECT tipo, URL, propietario, id FROM enlaces INNER JOIN cuenta_empresa ON cuenta_empresa.email = enlaces.propietario WHERE propietario = ?', [email], (error, enlaces) => {    
+        if (enlaces[0].id == id) {
         db.query('SELECT * from enlaces_tipos', (error, tipos) => {
             res.render('profile/editEnlaces', {
                 user: req.user.data,
@@ -88,6 +92,9 @@ router.get('/enlaces/edit/:id', authController.isLoggedIn, async (req, res) => {
                 tipos
             });
         });
+    } else {
+        res.redirect('/')
+    }
     });
 });
 
@@ -118,7 +125,6 @@ router.post('/enlaces/edit/:id', authController.isLoggedIn, async (req, res) => 
             }
         })
         res.redirect(req.originalUrl);
-
     })
 });
 
