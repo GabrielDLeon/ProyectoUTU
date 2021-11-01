@@ -93,14 +93,14 @@
                         {{#ifCond data.email '==' user.data.email}}
                             <div class="col-12 my-2 text-muted d-flex justify-content-center">
                                 <a href="/profile/edit/{{user.data.id}}">
-                                    <button type='submit' class="btn btn-outline-dark">Editar perfil</button>
+                                    <button type='submit' class="btn btn-outline-dark"><i class="fas fa-user-edit"></i> Editar perfil</button>
                                 </a>
                             </div>
                         {{/ifCond}}
                         {{#ifCond user.data.tipo '==' 'usuario'}}
                             <div class="col-12 my-2 text-muted d-flex justify-content-center">
                                 <a href="/">
-                                    <button type='submit' class="btn btn-success">Seguir cuenta</button>
+                                    <button type='submit' class="btn btn-outline-success"><i class="fas fa-user-plus"></i> Seguir cuenta</button>
                                     {{!-- <button type='submit' class="btn btn-danger">Dejar de seguir</button> --}}
                                 </a>
                             </div>

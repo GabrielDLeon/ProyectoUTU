@@ -249,3 +249,6 @@ thead    {
     float: none; 
     margin-bottom: 10px; 
 }
+.hr{
+    border-top: 5px solid rgb(0, 0, 0);
+  }

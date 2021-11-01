@@ -96,9 +96,9 @@
                     </div>
                 </div>
             </form> <br>
-            <div class="mb-3">
+            {{!-- <div class="mb-3">
                 
-                        <input type="color" value="#000000">
+                        <input type="color" value="#000000"> --}}
                     <h3>Tus redes sociales</h3>
                     {{#if enlaces}}
                     <table class="table table-striped table-bordered table-hover border-3 text-center">
@@ -111,9 +111,9 @@
                         </thead>
                         <tbody>
                             {{#each enlaces}}
-                            <tr>
+                            <tr class="">
                                 <td class="text-nowrap align-middle"><span>{{tipo}}</span></td>
-                                <td class="text-nowrap align-middle"><span>{{URL}}</span></td>
+                                <td class="text-nowrap user-select-all align-middle"><span>{{URL}}</span></td>
                                 <td class="text-center align-middle">
                                     <div class="btn-group align-top m-2">
                                         <form action="/profile/enlaces/delete/{{tipo}}" method="POST">

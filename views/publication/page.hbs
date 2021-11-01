@@ -173,9 +173,9 @@
                         {{#ifCond user.data.tipo '==' 'usuario'}}
                             <form action="/publication/question/{{publication.nroPublicacion}}" method="POST">
                                 <div class="row">
-                                    <label for="question">Preguntale a la tienda</label>
+                                    <p for="question" class="fs-5 fw-bold">Pregúntale a la tienda</p>
                                     <div class="col">
-                                        <textarea class="form-control text-area rounded-0" name="mensaje" id="mensaje" placeholder="Ingrese su pregunta"></textarea>
+                                        <textarea class="form-control text-area rounded-0" name="mensaje" id="mensaje" placeholder="Escribe tu pregunta..."></textarea>
                                     </div>
                                     <div class="col-auto">
                                         <button title="Enviar pregunta" type="submit" class="text-uppercase rounded-0 btn btn-dark" style="height: 100%; width: 100%;"><i class="fas fa-angle-right"></i></button>

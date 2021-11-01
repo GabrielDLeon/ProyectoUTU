@@ -1,15 +1,18 @@
 {{>navigation}}
 <div class="container mt-5">
-<h3>Editar redes sociales</h3>
+  <div class="card s col-md-12 col-lg-8 align-middle">
+    <div class="card-body">
+<h3 class="d-flex justify-content-center">Editar redes sociales</h3>
 <form action="/profile/enlaces/edit/{{user.id}}" method="POST" class="needs-validation" novalidate> 
         {{#each enlaces}}
-        <hr>
+      <hr class="hr">
+        <label class="fs-5 m-1">Tipo de red social</label>  
         <select class="form-select" name="tipo" id="tipo" required disabled>
         <option value="{{tipo}}">{{tipo}}</option>
         </select>
         <br>
         <div class="mb-3"> 
-            <label for="link" class="form-label">Link de la red social:</label> 
+            <label for="link" class="form-label fs-5 m-1">Link de la red social</label> 
                 <input type="url" pattern="https://.*" placeholder="https://instagram.com/ejemplo" class="form-control" id="link" name="{{tipo}}" value="{{URL}}" required> 
             <div class="col-auto">
         </div> 
@@ -27,7 +30,7 @@
           <p class="text-success text-center mt-1">{{linkAgregado}}</p>
           {{/if}}
           {{/each}}
-          <button type="submit" class="text-uppercase btn btn-dark">Editar</button>
+          <button type="submit" class="text-uppercase btn btn-success"><i class="fas fa-check"></i> Aplicar Cambios</button>
 </form>
 
 </div>

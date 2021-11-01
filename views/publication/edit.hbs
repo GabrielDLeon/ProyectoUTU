@@ -38,7 +38,7 @@
                     <h3>Caracteristicas del producto</h3>
                     <div class="mb-3">
                         <div class="mb-3">
-                            <input type="text" class="form-control" list="categoria" name="categoria" {{#if msjCat}} placeholder="{{msjCat}}" value=""{{else}} placeholder="SELECCIONE UNA CATEGORIA" value="{{product.categoria}}"{{/if}} required/>
+                            <input type="text" class="form-control text-uppercase" list="categoria" name="categoria" {{#if msjCat}} placeholder="{{msjCat}}" value=""{{else}} placeholder="SELECCIONE UNA CATEGORIA" value="{{product.categoria}}"{{/if}} required/>
                             <datalist name="categoria" id="categoria">
                                 <option value="{{product.categoria}}">{{product.categoria}}</option>
                                 {{#each categorias}}
@@ -47,7 +47,7 @@
                             </datalist>
                         </div>
                         <div class="mb-3">
-                            <select class="form-select" name="genero" id="genero" required>
+                            <select class="form-select text-uppercase" name="genero" id="genero" required>
                                 <option value="{{genero}}" selected>{{genero}}</option>
                                 {{#ifCond genero '!=' 'Hombre'}}
                                 <option value="Hombre">Hombre</option>
@@ -61,7 +61,7 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <input type="text" class="form-control" list="material" name="material" {{#if msjMat}} placeholder="{{msjMat}}" value=""{{else}} placeholder="SELECCIONE UN MATERIAL" value="{{product.material}}"{{/if}} required/>
+                            <input type="text" class="form-control text-uppercase" list="material" name="material" {{#if msjMat}} placeholder="{{msjMat}}" value=""{{else}} placeholder="SELECCIONE UN MATERIAL" value="{{product.material}}"{{/if}} required/>
                             <datalist name="material" id="material" required>
                                 <option value="{{product.material}}">{{product.material}}</option>
                                 {{#each materiales}}
@@ -69,7 +69,7 @@
                                 {{/each}}
                             </datalist>
                         </div>
-                        <input type="text" class="form-control" list="marca" name="marca" placeholder="SELECCIONE O INGRESE UNA MARCA" value="{{product.marca}}" required/>
+                        <input type="text" class="form-control text-uppercase" list="marca" name="marca" placeholder="SELECCIONE O INGRESE UNA MARCA" value="{{product.marca}}" required/>
                         <datalist name="marca" id="marca" required>
                             <option value="{{product.marca}}">{{product.marca}}</option>
                             {{#each marcas}}
