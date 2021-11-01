@@ -7,7 +7,6 @@
         <form method="POST" action="/create?newPublication=true" enctype="multipart/form-data" class="needs-validation"
             novalidate>
             {{/if}}
-            <div class="card d-flex p-3 mb-5 bg-body rounded s">
                 <div class="card-body">
                     <div class="mb-3">
                         <h3>Datos de la publicación</h3>
@@ -46,29 +45,27 @@
                         <h3>Caracteristicas del producto</h3>
                         <input type="text" class="form-control text-uppercase" list="categoria" name="categoria"
                             placeholder="SELECCIONE UNA CATEGORIA" required />
-                        <datalist name="categoria" id="categoria" class="">
-                            <option value="">Seleccione una categoría</option>
+                        <datalist name="categoria" id="categoria">
                             {{#each categorias}}
                             <option class="text-uppercase" value="{{categoria}}">{{categoria}}</option>
                             {{/each}}
                         </datalist> <br>
-
                         <select class="text-uppercase form-select" name="genero" id="genero" required>
                             <option value="">Seleccione un género</option>
                             <option value="Hombre">Hombre</option>
                             <option value="Mujer">Mujer</option>
                             <option value="Unisex">Unisex</option>
                         </select> <br>
-                        <select class="text-uppercase form-select" name="material" id="material" required>
-                            <option value="">Seleccione un material</option>
+                        <input type="text" class="form-control text-uppercase" list="material" name="material"
+                            placeholder="SELECCIONE EL MATERIAL DE LA PRENDA" required />
+                        <datalist name="material" id="material" class="">
                             {{#each materiales}}
-                            <option value="{{material}}">{{material}}</option>
+                            <option class="text-uppercase" value="{{material}}">{{material}}</option>
                             {{/each}}
-                        </select> <br>
+                        </datalist> <br>
                         <input type="text" class="form-control text-uppercase" list="marca" name="marca"
-                            placeholder="SELECCIONE O INGRESE UNA MARCA" required />
+                            placeholder="SELECCIONE O INGRESE UNA MARCA" required/>
                         <datalist name="marca" id="marca">
-                            <option class="text-uppercase">Seleccione o ingrese una marca</option>
                             {{#each marcas}}
                             <option class="text-uppercase" value="{{marca}}">{{marca}}</option>
                             {{/each}}
@@ -101,14 +98,14 @@
                     <div class="my-3">
                         <h3>Selección de colores</h3> 
                         {{#each colores}}
-                        <div class="form-check d-inline m-0 p-1">
-                            <input type="checkbox" value="{{color}}" name="{{color}}">
-                            
-                            <label class="btn btn-outline-dark btn-lg" for="btn-{{color}}" style="width: 100px;" id="btn-{{color}}">ㅤㅤ</label>  
+                        <div class="form-check d-inline m-0 p-0">
+                            <input type="checkbox" value="{{color}}" name="{{color}}"  autocomplete="off">
+                            <label class="btn btn-dark" for="btn-{{color}}" id="btn-{{color}}">ㅤㅤ</label>  
                         </div>
-                        {{/each}}
-                        
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end m-3">
+                        {{/each}} 
+                        <br>
+                        <br>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                         <button type="submit" class="btn btn-success btn-lg"><i class="fas fa-check"></i>
                             Publicar</button>
                         <button type="reset" class="btn btn-danger btn-lg"><i class="fas fa-trash"></i>

@@ -78,7 +78,6 @@ router.post('/newEnlace/:id', authController.isLoggedIn, async (req, res) => {
 
 // Cargar página Editar enlace
 router.get('/enlaces/edit/:id', authController.isLoggedIn, async (req, res) => {
-    console.log(req.user);
     const {email} = req.user.data;
     await db.query('SELECT tipo, URL, propietario, id FROM enlaces INNER JOIN cuenta_empresa ON cuenta_empresa.email = enlaces.propietario WHERE propietario = ?', [email], (error, enlaces) => {
         db.query('SELECT * from enlaces_tipos', (error, tipos) => {
@@ -107,9 +106,7 @@ router.post('/enlaces/edit/:id', authController.isLoggedIn, async (req, res) => 
               } else { */
         var tipo = enlaces.map((element) => { return _.pick(element, ['tipo']) })
         tipo.forEach((imagen) => {
-            console.log(imagen)
             const tipos = imagen.tipo
-            console.log(tipos)
             if (tipos === 'Facebook') {
                 db.query('UPDATE enlaces set ? WHERE enlaces.tipo = ? AND enlaces.propietario = ? ', [{ URL: Facebook }, tipos, email]);
             }
