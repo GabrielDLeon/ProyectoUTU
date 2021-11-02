@@ -35,13 +35,16 @@ router.get('/', authController.isLoggedIn, (req, res) => {
                 if (product[0]){
                     db.query('SELECT color FROM colores', (error, colores) => {
                         db.query('SELECT talle FROM talles ORDER BY orden ASC', (error, talles) => {
-                            res.render('publication/create', {
-                                product: product[0],
+                            const bodyRender = {
                                 colores,
                                 talles,
+                                title: "Nueva publicación"
+                            }
+                            res.render('publication/create', {
+                                product: product[0],
+                                bodyRender,
                                 user: req.user,
                                 query: "idProducto="+idProducto,
-                                title: "Nueva publicación"
                             });
                         })
                     });
@@ -51,26 +54,22 @@ router.get('/', authController.isLoggedIn, (req, res) => {
                 }
             });
         } else if (query.newPublication){
-            db.query('SELECT categoria FROM categorias', (error, categorias) => {
-                db.query('SELECT material FROM materiales', (error, materiales) => {
-                    db.query('SELECT marca FROM marcas', (error, marcas) => {
-                        db.query('SELECT color FROM colores', (error, colores) => {
-                            db.query('SELECT talle FROM talles ORDER BY orden ASC', (error, talles) => {
-                                res.render('publication/create', {
-                                    categorias,
-                                    materiales,
-                                    marcas,
-                                    colores,
-                                    talles,
-                                    user: req.user,
-                                    query: "newPublication=true",
-                                    title: "Nueva publicación"
-                                });
-                            })
-                        });
-                    });
+            getProductPropieties(function (error, productPropieties) {
+                const { categorias, materiales, marcas, colores, talles } = productPropieties; // Datos de la BD
+                const bodyRender = {
+                    categorias,
+                    materiales,
+                    marcas,
+                    colores,
+                    talles,
+                    title: "Nueva publicación"
+                }
+                res.render('publication/create', {
+                    bodyRender,
+                    user: req.user,
+                    query: "newPublication=true",
                 });
-            });
+            })
         } else {
             res.redirect('/create?newPublication=true')
         }
@@ -84,286 +83,263 @@ router.post('/', upload.array("imagen", 12), authController.isLoggedIn, async (r
     const action = req.query;
     // Cuando se crea una  publicación con un producto ya existente (que se encuentra en la BD)
     if (action.idProducto) {
-        // res.send("Utilizando producto")
+        console.log("=============================================");
         console.log("Se está creando una publicación desde un producto ya existente");
-        const { titulo, descripcion, precio, descuento } = req.body;
-        if (!titulo || !descripcion || !precio) {
-            return res.render('publication/create', {
+        getProductPropieties(function (error, productPropieties) {
+            const { colores, talles } = productPropieties; // Datos de la BD
+            const { titulo, descripcion, precio, descuento } = req.body; // Datos del formulario
+            const bodyRender = {
+                talles,
                 colores,
-                user: req.user,
-                titulo: req.body.titulo,
-                descripcion: req.body.descripcion,
-                precio: req.body.precio,
-                descuento: req.body.descuento,
-                message: "Por favor complete todos los campos antes de crear la publicación",
-                title: "Nueva publicación"
-            })
-        }
-        else if (filtro == false) {
-            return res.render('publication/create', {
-                colores,
-                user: req.user,
-                titulo: req.body.titulo,
-                descripcion: req.body.descripcion,
-                precio: req.body.precio,
-                descuento: req.body.descuento,
-                message: "Compruebe la extensión de las imagenes que quiere subir (solo válidas .png, .jpg, .jpeg, .svg)",
-                title: "Nueva publicación"
-            })
-        } else {
-            const currentDate = new Date();
-            const newPublication = {
                 titulo,
                 descripcion,
                 precio,
                 descuento,
-                vendedor: req.user.data.email,
-                fecha: currentDate
+                title: "Nueva publicación",
             }
-            const { idProducto } = action;
-            db.query("INSERT INTO publicacion (precio, titulo, descripcion, producto, vendedor, fechaPublicacion) VALUES (?, ?, ?, ?, ?, ?)", [newPublication.precio, newPublication.titulo, newPublication.descripcion, idProducto, newPublication.vendedor, newPublication.fecha], async (error, result) => {
-                const idPublicacion = result.insertId;
-                const {G, L, M, S, XL, XS, XXL, XXS, XXXL, XXXXL} = req.body
-                var array = [];
-                if (G) array.push('G');
-                if (L) array.push('L');
-                if (M) array.push('M');
-                if (S) array.push('S');
-                if (XL) array.push('XL');
-                if (XS) array.push('XS');
-                if (XXL) array.push('XXL');
-                if (XXS) array.push('XXS');
-                if (XXXL) array.push('XXXL');
-                if (XXXXL) array.push('XXXXL');
-                array.forEach(talle => {
-                    db.query('INSERT INTO curvas VALUES (?, ?)', [talle, idPublicacion]);
+            if (!titulo || !descripcion || !precio) {
+                return res.render('publication/create', {
+                    user: req.user,
+                    bodyRender,
+                    message: "Por favor complete todos los campos antes de crear la publicación",
                 });
-                const {amarillo, azul, beige, blanco, bordó, gris, marrón, naranja, negro, rojo, rosado, salmón, verde, violeta} = req.body
-                var array2 = [];
-                if (amarillo) array2.push('amarillo');
-                if (azul) array2.push('azul');
-                if (beige) array2.push('beige');
-                if (blanco) array2.push('blanco');
-                if (bordó) array2.push('bordó');
-                if (gris) array2.push('gris');
-                if (marrón) array2.push('marrón');
-                if (naranja) array2.push('naranja');
-                if (negro) array2.push('negro');
-                if (rojo) array2.push('rojo');
-                if (rosado) array2.push('rosado');
-                if (salmón) array2.push('salmón');
-                if (verde) array2.push('verde');
-                if (violeta) array2.push('violeta');
-                array2.forEach(color => {
-                    db.query('INSERT INTO colorpubli VALUES (?, ?)', [color, idPublicacion]);
+            }
+            else if (filtro == false) {
+                return res.render('publication/create', {
+                    user: req.user,
+                    bodyRender,
+                    message: "Compruebe la extensión de las imagenes que quiere subir (solo válidas .png, .jpg, .jpeg, .svg)",
                 });
-                db.query("INSERT INTO descuento VALUES (?, ?)", [idPublicacion, newPublication.descuento]);
-                if (req.files.length > 0) {
-                    imagenes = req.files
-                    var buffer = imagenes.map((element) => { return _.pick(element, ['buffer']) })
-                    buffer.forEach((imagen) => {
-                        resultado = imagen.buffer.toString('base64');
-                        db.query("INSERT INTO fotos VALUES (?, ?);", [idPublicacion, resultado]);
-                    })
+            } else {
+                const currentDate = new Date();
+                const newPublication = {
+                    titulo,
+                    descripcion,
+                    precio,
+                    descuento,
+                    vendedor: req.user.data.email,
+                    fecha: currentDate
                 }
-                db.query('SELECT * FROM productos WHERE idProducto = ?', [idProducto], (error, product) => {
-                    return res.render('publication/create', {
-                        id: idPublicacion,
-                        product: product[0],
+                const { idProducto } = action;
+                db.query("INSERT INTO publicacion (precio, titulo, descripcion, producto, vendedor, fechaPublicacion) VALUES (?, ?, ?, ?, ?, ?)", [newPublication.precio, newPublication.titulo, newPublication.descripcion, idProducto, newPublication.vendedor, newPublication.fecha], async (error, result) => {
+                    const idPublicacion = result.insertId;
+
+                    // Insert de talles en la publicación
+                    const { G, L, M, S, XL, XS, XXL, XXS, XXXL, XXXXL } = req.body
+                    insertTalles(G, L, M, S, XL, XS, XXL, XXS, XXXL, XXXXL, idPublicacion);
+
+                    // Insert de colores en la publicación
+                    const { amarillo, azul, beige, blanco, bordó, gris, marrón, naranja, negro, rojo, rosado, salmón, verde, violeta } = req.body
+                    insertColors(amarillo, azul, beige, blanco, bordó, gris, marrón, naranja, negro, rojo, rosado, salmón, verde, violeta, idPublicacion);
+
+                    db.query("INSERT INTO descuento VALUES (?, ?)", [idPublicacion, newPublication.descuento]);
+                    if (req.files.length > 0) {
+                        imagenes = req.files
+                        var buffer = imagenes.map((element) => { return _.pick(element, ['buffer']) })
+                        buffer.forEach((imagen) => {
+                            resultado = imagen.buffer.toString('base64');
+                            db.query("INSERT INTO fotos VALUES (?, ?);", [idPublicacion, resultado]);
+                        })
+                    }
+                    db.query('SELECT * FROM productos WHERE idProducto = ?', [idProducto], (error, product) => {
+                        return res.render('publication/create', {
+                            bodyRender,
+                            id: idPublicacion,
+                            product: product[0],
+                            user: req.user,
+                            success: "Publicación creada",
+                        });
+                    });
+                });
+            }
+        })
+    } else if (action.newPublication) {
+        console.log("=============================================");
+        console.log("Se está creando una publicación y un producto");
+        getProductPropieties(function (error, productPropieties) {
+            const { categorias, materiales, marcas, colores, talles } = productPropieties; // Datos de la BD
+            const { titulo, descripcion, precio, descuento, categoria, genero, material, marca } = req.body; // Datos del formulario
+            db.query('SELECT categoria FROM categorias WHERE categoria = ?', [categoria], (error, categoriasR) => {
+                db.query('SELECT material FROM materiales WHERE material = ?', [material], (error, materialesR) => {
+                    const bodyRender = {
+                        categorias,
+                        materiales,
+                        marcas,
+                        talles,
                         colores,
-                        user: req.user,
                         titulo: req.body.titulo,
                         descripcion: req.body.descripcion,
                         precio: req.body.precio,
                         descuento: req.body.descuento,
-                        success: "Publicación creada",
-                        title: "Nueva publicación"
-                    })
-                    
-                })
-            });
-        }
-    
-    // Cuando se crea una  publicación con un producto nuevo (que no se encuentra en la BD)
-    } else if (action.newPublication) {
-        // res.send("Nueva publicación")
-        console.log("Se está creando una publicación y un producto");
-        db.query('SELECT categoria FROM categorias', (error, categorias) => {
-            db.query('SELECT material FROM materiales', (error, materiales) => {
-                db.query('SELECT marca FROM marcas', (error, marcas) => {
-                    db.query('SELECT color FROM colores', (error, colores) => {
-                        db.query('SELECT talle FROM talles ORDER BY orden ASC', (error, talles) => {
-                        const { titulo, descripcion, precio, descuento, categoria, genero, material, marca } = req.body;
-                        db.query('SELECT categoria FROM categorias WHERE categoria = ?', [categoria], (error, categoriasR) => {
-                            db.query('SELECT material FROM materiales WHERE material = ?', [material], (error, materialesR) => {    
-                        if (!genero || !titulo || !descripcion || !precio || !material || !marca || !categoria) {
-                            return res.render('publication/create', {
-                                categorias,
-                                materiales,
-                                marcas,
-                                talles,
-                                colores,
-                                user: req.user,
-                                titulo: req.body.titulo,
-                                descripcion: req.body.descripcion,
-                                precio: req.body.precio,
-                                descuento: req.body.descuento,
-                                message: "Por favor complete todos los campos antes de crear la publicación",
-                                title: "Nueva publicación"
-                            })
-                        } else if (filtro == false) {
-                            return res.render('publication/create', {
-                                categorias,
-                                materiales,
-                                marcas,
-                                colores,
-                                user: req.user,
-                                titulo: req.body.titulo,
-                                descripcion: req.body.descripcion,
-                                precio: req.body.precio,
-                                descuento: req.body.descuento,
-                                message: "Compruebe la extensión de las imagenes que quiere subir (solo válidas .png, .jpg, .jpeg, .svg)",
-                                title: "Nueva publicación"
-                            })
-                        } else if (categoriasR.length <= 0) {
-                            return res.render('publication/create', {
-                                categorias,
-                                materiales,
-                                marcas,
-                                colores,
-                                talles,
-                                user: req.user,
-                                titulo: req.body.titulo,
-                                descripcion: req.body.descripcion,
-                                precio: req.body.precio,
-                                descuento: req.body.descuento,
-                                message: "Esa categoria no existe, seleccione otra",
-                                title: "Nueva publicación"
-                            })
-                        } else if (materialesR.length <= 0) {
-                            return res.render('publication/create', {
-                                categorias,
-                                materiales,
-                                marcas,
-                                colores,
-                                talles,
-                                user: req.user,
-                                titulo: req.body.titulo,
-                                descripcion: req.body.descripcion,
-                                precio: req.body.precio,
-                                descuento: req.body.descuento,
-                                message: "Ese material no existe, seleccione otro",
-                                title: "Nueva publicación"
-                            })
-                        } else {
-                            db.query('SELECT * FROM marcas WHERE marca = ?', [marca], (error, result) => {
-                                if (result.length > 0) {
-                                    console.log("la marca existe y no se va a crear")
-                                } else {
-                                    console.log("la marca no existe y se va a crear")
-                                    db.query('INSERT INTO marcas (marca) VALUES (?)', [marca])
-                                }
-                            })
-                            db.query('SELECT categoria FROM categorias', (error, categorias) => {
-                                db.query('SELECT material FROM materiales', (error, materiales) => {
-                                    db.query('SELECT marca FROM marcas', (error, marcas) => {
-                                        db.query('SELECT color FROM colores', (error, colores) => {
-                                            const newProduct = {
-                                                categoria,
-                                                genero,
-                                                material,
-                                                marca
-                                            };
-                                            const currentDate = new Date();
-                                            const newPublication = {
-                                                titulo,
-                                                descripcion,
-                                                precio,
-                                                descuento,
-                                                vendedor: req.user.data.email,
-                                                fecha: currentDate
-                                            }
-                                            db.query("INSERT INTO productos (categoria, genero, material, marca) VALUES (?, ?, ?, ?)", [newProduct.categoria, newProduct.genero, newProduct.material, newProduct.marca], (error, result) => {
-                                                if (error) {
-                                                    console.log("ERROR: " + error);
-                                                } else {
-                                                    const idProducto = result.insertId;
-                                                    db.query("INSERT INTO publicacion (precio, titulo, descripcion, producto, vendedor, fechaPublicacion) VALUES (?, ?, ?, ?, ?, ?)", [newPublication.precio, newPublication.titulo, newPublication.descripcion, idProducto, newPublication.vendedor, newPublication.fecha], async (error, result) => {
-                                                        const idPublicacion = result.insertId;
-                                                        const {G, L, M, S, XL, XS, XXL, XXS, XXXL, XXXXL} = req.body
-                                                        var array = [];
-                                                        if (G) array.push('G');
-                                                        if (L) array.push('L');
-                                                        if (M) array.push('M');
-                                                        if (S) array.push('S');
-                                                        if (XL) array.push('XL');
-                                                        if (XS) array.push('XS');
-                                                        if (XXL) array.push('XXL');
-                                                        if (XXS) array.push('XXS');
-                                                        if (XXXL) array.push('XXXL');
-                                                        if (XXXXL) array.push('XXXXL');
-                                                        array.forEach(talle => {
-                                                            db.query('INSERT INTO curvas VALUES (?, ?)', [talle, idPublicacion]);
-                                                        });
-                                                        const {amarillo, azul, beige, blanco, bordó, gris, marrón, naranja, negro, rojo, rosado, salmón, verde, violeta} = req.body
-                                                        var array2 = [];
-                                                        if (amarillo) array2.push('amarillo');
-                                                        if (azul) array2.push('azul');
-                                                        if (beige) array2.push('beige');
-                                                        if (blanco) array2.push('blanco');
-                                                        if (bordó) array2.push('bordó');
-                                                        if (gris) array2.push('gris');
-                                                        if (marrón) array2.push('marrón');
-                                                        if (naranja) array2.push('naranja');
-                                                        if (negro) array2.push('negro');
-                                                        if (rojo) array2.push('rojo');
-                                                        if (rosado) array2.push('rosado');
-                                                        if (salmón) array2.push('salmón');
-                                                        if (verde) array2.push('verde');
-                                                        if (violeta) array2.push('violeta');
-                                                        array2.forEach(color => {
-                                                            db.query('INSERT INTO colorpubli VALUES (?, ?)', [color, idPublicacion]);
-                                                        });
-                                                        db.query("INSERT INTO descuento VALUES (?, ?);", [idPublicacion, newPublication.descuento]);
-                                                        if (req.files) {
-                                                            imagenes = req.files
-    
-                                                            var buffer = imagenes.map((element) => { return _.pick(element, ['buffer']) })
-                                                            buffer.forEach((imagen) => {
-                                                                resultado = imagen.buffer.toString('base64');
-                                                                db.query("INSERT INTO fotos VALUES (?, ?);", [idPublicacion, resultado]);
-                                                            })
-                                                        }
-                                                        return res.render('publication/create', {
-                                                            id: result.insertId,
-                                                            categorias,
-                                                            materiales,
-                                                            marcas,
-                                                            colores,
-                                                            user: req.user,
-                                                            titulo: req.body.titulo,
-                                                            descripcion: req.body.descripcion,
-                                                            precio: req.body.precio,
-                                                            descuento: req.body.descuento,
-                                                            success: "Publicación creada",
-                                                            title: "Nueva publicación"
-                                                        })
-                                                    });
-                                                }
-                                            });
-                                        });
-                                    });
-                                });
-                            });
+                        title: "Nueva publicación",
+                    }
+                    if (!genero || !titulo || !descripcion || !precio || !material || !marca || !categoria) {
+                        console.log("Por favor complete todos los campos antes de crear la publicación");
+                        return res.render('publication/create', {
+                            bodyRender,
+                            user: req.user,
+                            message: "Por favor complete todos los campos antes de crear la publicación",
+                        })
+                    } else if (filtro == false) {
+                        console.log("Compruebe la extensión de las imagenes que quiere subir (solo válidas .png, .jpg, .jpeg, .svg)");
+                        return res.render('publication/create', {
+                            bodyRender,
+                            user: req.user,
+                            message: "Compruebe la extensión de las imagenes que quiere subir (solo válidas .png, .jpg, .jpeg, .svg)",
+                        })
+                    } else if (categoriasR.length <= 0) {
+                        console.log("Esa categoria no existe, seleccione otra");
+                        return res.render('publication/create', {
+                            bodyRender,
+                            user: req.user,
+                            message: "Esa categoria no existe, seleccione otra",
+                        })
+                    } else if (materialesR.length <= 0) {
+                        console.log("Ese material no existe, seleccione otro");
+                        return res.render('publication/create', {
+                            bodyRender,
+                            user: req.user,
+                            message: "Ese material no existe, seleccione otro",
+                        })
+                    } else {
+                        db.query('SELECT * FROM marcas WHERE marca = ?', [marca], (error, result) => {
+                            if (result.length > 0) {
+                                console.log("la marca existe y no se va a crear")
+                            } else {
+                                console.log("la marca no existe y se va a crear")
+                                db.query('INSERT INTO marcas (marca) VALUES (?)', [marca])
+                            }
+                        });
+                        const newProduct = {
+                            categoria,
+                            genero,
+                            material,
+                            marca
                         }
-                    });
-                    })
-                    })
+                        const currentDate = new Date();
+                        const newPublication = {
+                            titulo,
+                            descripcion,
+                            precio,
+                            descuento,
+                            vendedor: req.user.data.email,
+                            fecha: currentDate
+                        }
+
+                        existProduct(newProduct.categoria, newProduct.genero, newProduct.material, newProduct.marca, function (error, idProducto) {
+                            if (error) {
+                                console.log("ERROR: " + error);
+                            } else {
+                                db.query("INSERT INTO publicacion (precio, titulo, descripcion, producto, vendedor, fechaPublicacion) VALUES (?, ?, ?, ?, ?, ?)", [newPublication.precio, newPublication.titulo, newPublication.descripcion, idProducto, newPublication.vendedor, newPublication.fecha], async (error, result) => {
+                                    const idPublicacion = result.insertId;
+
+                                    // Insert de talles en la publicación
+                                    const { G, L, M, S, XL, XS, XXL, XXS, XXXL, XXXXL } = req.body
+                                    insertTalles(G, L, M, S, XL, XS, XXL, XXS, XXXL, XXXXL, idPublicacion);
+
+                                    //  Insert de colores en la publicación
+                                    const { amarillo, azul, beige, blanco, bordó, gris, marrón, naranja, negro, rojo, rosado, salmón, verde, violeta } = req.body
+                                    insertColors(amarillo, azul, beige, blanco, bordó, gris, marrón, naranja, negro, rojo, rosado, salmón, verde, violeta, idPublicacion);
+
+                                    db.query("INSERT INTO descuento VALUES (?, ?);", [idPublicacion, newPublication.descuento]);
+                                    if (req.files) {
+                                        imagenes = req.files
+
+                                        var buffer = imagenes.map((element) => { return _.pick(element, ['buffer']) })
+                                        buffer.forEach((imagen) => {
+                                            resultado = imagen.buffer.toString('base64');
+                                            db.query("INSERT INTO fotos VALUES (?, ?);", [idPublicacion, resultado]);
+                                        })
+                                    }
+                                    return res.render('publication/create', {
+                                        id: result.insertId,
+                                        user: req.user,
+                                        bodyRender,
+                                        success: "Publicación creada",
+                                    })
+                                });
+                            }
+                        });
+                    }
                 });
-                })
             });
         });
     }
 });
+
+function getProductPropieties (callback) {
+    db.query('SELECT categoria FROM categorias', (error, categorias) => {
+        db.query('SELECT material FROM materiales', (error, materiales) => {
+            db.query('SELECT marca FROM marcas', (error, marcas) => {
+                db.query('SELECT color FROM colores', (error, colores) => {
+                    db.query('SELECT talle FROM talles ORDER BY orden ASC', (error, talles) => {
+                        const result = {
+                            categorias,
+                            materiales,
+                            marcas,
+                            colores,
+                            talles,
+                        }
+                        return callback(null, result);
+                    });
+                });
+            });
+        });
+    });
+}
+
+function insertTalles(G, L, M, S, XL, XS, XXL, XXS, XXXL, XXXXL, idPublicacion) {
+    let array = [];
+    if (G) array.push('G');
+    if (L) array.push('L');
+    if (M) array.push('M');
+    if (S) array.push('S');
+    if (XL) array.push('XL');
+    if (XS) array.push('XS');
+    if (XXL) array.push('XXL');
+    if (XXS) array.push('XXS');
+    if (XXXL) array.push('XXXL');
+    if (XXXXL) array.push('XXXXL');
+    array.forEach(talle => {
+        db.query('INSERT INTO curvas VALUES (?, ?)', [talle, idPublicacion]);
+    });
+}
+
+function insertColors(amarillo, azul, beige, blanco, bordó, gris, marrón, naranja, negro, rojo, rosado, salmón, verde, violeta, idPublicacion) {
+    let array = [];
+    if (amarillo) array.push('amarillo');
+    if (azul) array.push('azul');
+    if (beige) array.push('beige');
+    if (blanco) array.push('blanco');
+    if (bordó) array.push('bordó');
+    if (gris) array.push('gris');
+    if (marrón) array.push('marrón');
+    if (naranja) array.push('naranja');
+    if (negro) array.push('negro');
+    if (rojo) array.push('rojo');
+    if (rosado) array.push('rosado');
+    if (salmón) array.push('salmón');
+    if (verde) array.push('verde');
+    if (violeta) array.push('violeta');
+    array.forEach(color => {
+        db.query('INSERT INTO colorpubli VALUES (?, ?)', [color, idPublicacion]);
+    });
+}
+
+function existProduct(categoria, genero, material, marca, callback) {
+    db.query('SELECT idProducto FROM productos WHERE categoria = ? AND genero = ? AND material = ? AND marca = ?', [categoria, genero, material, marca], (error, existProduct) => {
+        if (existProduct.length > 0) {
+            console.log("El producto " + existProduct[0].idProducto + " coincide con los valores ingresados!");
+            return callback(null, existProduct[0].idProducto)
+        } else {
+            console.log("No existe un producto con esas caracteristicas!");
+            db.query('INSERT INTO productos (categoria, genero, material, marca) VALUES (?, ?, ?, ?)', [categoria, genero, material, marca], (error, newProduct) => {
+                const idProduct = newProduct.insertId;
+                console.log("El producto creado tiene la id " + idProduct);
+                return callback(null, idProduct);
+            })
+        }
+    })
+}
 
 module.exports = router;
