@@ -172,10 +172,12 @@ router.post('/edit/:id', upload.array("imagen", 12), authController.isLoggedIn, 
                 })
             } else {
         db.query("INSERT INTO productos (categoria, genero, material, marca) VALUES (?, ?, ?, ?)", [categoria, genero, material, marca], (error, result) => {
-            const insert = result.insertId
+        const insert = result.insertId
+        if (descuento) {
         if (descuento.length > 0) {
         db.query('UPDATE descuento SET porcentaje = ? WHERE publication = ?', [descuento, id])
         }
+    }
         db.query('UPDATE publicacion SET titulo = ?, descripcion = ?, precio = ?, producto = ? WHERE nroPublicacion = ?', [titulo, descripcion, precio, insert, id], (error, result) => {
             console.log("Se actualizó correctamente la publicación " + id);
             res.redirect('/list');

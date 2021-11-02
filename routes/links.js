@@ -25,7 +25,8 @@ router.get('/newEnlace/:id', authController.isLoggedIn, async (req, res) => {
             db.query('SELECT * FROM enlaces_tipos', async (error, tipo) => {
                 if (result[0].id == id) {
                     res.render('profile/newEnlace', {
-                        user: req.user.data,
+                        user: req.user,
+                        data: req.user.data,
                         tipo,
                         title: "Agregar enlace"
                     })
@@ -47,17 +48,32 @@ router.post('/newEnlace/:id', authController.isLoggedIn, async (req, res) => {
                 return res.render('profile/newEnlace', {
                     name: req.body.name,
                     message: 'No puedes agregar dos enlaces para el mismo tipo de red social',
-                    user: req.user.data,
-                    tipoEnlace
+                    data: req.user.data,
+                    user: req.user,
+                    tipoEnlace,
+                    title: "Agregar enlaces"
                 })
             }
             if (!link) {
                 return res.render('profile/newEnlace', {
                     name: req.body.name,
                     message: 'Por favor ingrese un enlace antes de agregar',
-                    user: req.user.data,
+                    data: req.user.data,
+                    user: req.user,
                     enlaces,
-                    tipoEnlace
+                    tipoEnlace,
+                    title: "Agregar enlaces"
+                })
+            }
+            if (!tipo) {
+                return res.render('profile/newEnlace', {
+                    name: req.body.name,
+                    message: 'Por favor seleccione el tipo de enlace antes de agregar',
+                    data: req.user.data,
+                    user: req.user,
+                    enlaces,
+                    tipoEnlace,
+                    title: "Agregar enlaces"
                 })
             }
             db.query('INSERT INTO enlaces SET ?', { tipo: tipo, URL: link, propietario: email }, (error, results) => {
@@ -65,10 +81,12 @@ router.post('/newEnlace/:id', authController.isLoggedIn, async (req, res) => {
                     console.log(error)
                 } else {
                     return res.render('profile/newEnlace', {
-                        user: req.user.data,
+                        data: req.user.data,
+                        user: req.user,
                         linkAgregado: 'Enlace agregado',
                         enlaces,
-                        tipoEnlace
+                        tipoEnlace,
+                        title: "Agregar enlaces"
                     });
                 }
             });
@@ -84,7 +102,8 @@ router.get('/enlaces/edit/:id', authController.isLoggedIn, async (req, res) => {
         if (enlaces[0].id == id) {
         db.query('SELECT * from enlaces_tipos', (error, tipos) => {
             res.render('profile/editEnlaces', {
-                user: req.user.data,
+                data: req.user.data,
+                user: req.user,
                 title: "Editar redes sociales",
                 enlaces,
                 tipos

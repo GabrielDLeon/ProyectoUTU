@@ -1,8 +1,8 @@
 {{>navigation}}
 <div class="container mt-5">
-<form action="/profile/newEnlace/{{user.id}}" method="POST"> 
-         <select class="form-select" name="tipo" id="tipo">
-        <option value="0">Selecciona una red social</option>
+<form action="/profile/newEnlace/{{data.id}}" method="POST" class="needs-validation" novalidate> 
+        <select class="form-select" name="tipo" id="tipo" required>
+        <option value="">Selecciona una red social</option>
         {{#each tipo}}
         <option value="{{plataforma}}">{{plataforma}}</option>
         {{/each}}
@@ -13,12 +13,9 @@
         <br>
         <div class="mb-3"> 
             <label for="link" class="form-label">Link de la red social:</label> 
-                <input type="url" pattern="https://.*" placeholder="https://ejemplo.com" class="form-control" id="link" name="link" value="{{link}}"> 
+                <input type="url" pattern="https://.*" placeholder="https://ejemplo.com" class="form-control" id="link" name="link" value="{{link}}" required> 
             <div class="col-auto">
         </div> 
-        {{!--
-        <input type="checkbox" name="change_password" id="change_password" value="1" onclick="setPasswordForm(this.checked)" title="Cambiar contraseña" class="checkbox no-bg validation-passed">
-        <label for="change_password">Cambiar contraseña</label> --}}
         <div class="mb-3">
           <div class="d-grid gap-2">
             <br>
@@ -32,3 +29,22 @@
           {{/if}}
 </form>
 </div>
+<script>
+    (function () {
+        'use strict';
+        window.addEventListener('load', function () {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
+</script>
