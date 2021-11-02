@@ -30,27 +30,25 @@
                         </div>
                         <div class="mb-4">
                             <div class="row">
-                                <div class="col-6">
+                                <div class="col-sm-12 col-md-6 mb-3">
                                     <div class="form-floating">
                                         <input type="text" class="form-control rounded-0 input-number" id="rut" name="rut" placeholder="RUT" value="{{rut}}" required onKeyPress="if(this.value.length==12) return false;">
                                         <label for="rut">RUT</label>
                                     </div>
                                 </div>
-                                <div class="col-6">
-                                    <div class="form-floating">
-                                        <select class="form-select" aria-label="Default select example" name="razon" id="razon" required>
-                                            <option selected value="">Razón social</option>
-                                            <option value="Unipersonal">Unipersonal</option>
-                                            <option value="Sociedad Anónima">Sociedad Anónima</option>
-                                            <option value="Sociedad Limitada">Sociedad Limitada</option>
-                                            <option value="Sociedad Cooperativa">Sociedad Cooperativa</option>
-                                            <option value="Sociedad Limitada Nueva Empresa">Sociedad Limitada Nueva Empresa</option>
-                                            <option value="Sociedad Limitada Llaboral">Sociedad Limitada Laboral</option>
-                                            <option value="Sociedad Anonima Laboral">Sociedad Anónima Laboral</option>
-                                            <option value="Sociedad Comanditaria Simple">Sociedad Comanditaria Simple</option>
-                                            <option value="Otra">Otra</option>
-                                        </select>
-                                    </div>
+                                <div class="col">
+                                    <select class="form-select" aria-label="Default select example" name="razon" id="razon" required style="height: 58px;">
+                                        <option selected value="">Razón social</option>
+                                        <option value="Unipersonal">Unipersonal</option>
+                                        <option value="Sociedad Anónima">Sociedad Anónima</option>
+                                        <option value="Sociedad Limitada">Sociedad Limitada</option>
+                                        <option value="Sociedad Cooperativa">Sociedad Cooperativa</option>
+                                        <option value="Sociedad Limitada Nueva Empresa">Sociedad Limitada Nueva Empresa</option>
+                                        <option value="Sociedad Limitada Llaboral">Sociedad Limitada Laboral</option>
+                                        <option value="Sociedad Anonima Laboral">Sociedad Anónima Laboral</option>
+                                        <option value="Sociedad Comanditaria Simple">Sociedad Comanditaria Simple</option>
+                                        <option value="Otra">Otra</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
