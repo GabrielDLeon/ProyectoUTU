@@ -21,8 +21,6 @@ router.get('/newEnlace/:id', authController.isLoggedIn, async (req, res) => {
             console.log(error)
         }
         const { id } = req.params;
-        const user = req.user.data
-        console.log(user)
         db.query('SELECT cuenta_empresa.email , cuenta_empresa.id FROM cuenta_empresa WHERE cuenta_empresa.email = ?', [email], async (error, result) => {
             db.query('SELECT * FROM enlaces_tipos', async (error, tipo) => {
                 if (result[0].id == id) {

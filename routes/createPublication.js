@@ -72,7 +72,6 @@ router.get('/', authController.isLoggedIn, (req, res) => {
                 });
             });
         } else {
-            console.log("Qué intentas hacer? eri gei?");
             res.redirect('/create?newPublication=true')
         }
     } else {
@@ -136,7 +135,6 @@ router.post('/', upload.array("imagen", 12), authController.isLoggedIn, async (r
                 if (XXS) array.push('XXS');
                 if (XXXL) array.push('XXXL');
                 if (XXXXL) array.push('XXXXL');
-                console.log(array)
                 array.forEach(talle => {
                     db.query('INSERT INTO curvas VALUES (?, ?)', [talle, idPublicacion]);
                 });
@@ -323,7 +321,6 @@ router.post('/', upload.array("imagen", 12), authController.isLoggedIn, async (r
                                                         if (salmón) array2.push('salmón');
                                                         if (verde) array2.push('verde');
                                                         if (violeta) array2.push('violeta');
-                                                        console.log(array2);
                                                         array2.forEach(color => {
                                                             db.query('INSERT INTO colorpubli VALUES (?, ?)', [color, idPublicacion]);
                                                         });

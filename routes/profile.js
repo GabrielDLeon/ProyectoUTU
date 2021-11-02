@@ -219,6 +219,7 @@ router.get('/edit/:id', authController.isLoggedIn, async (req, res) => {
          db.query('SELECT cuentas.email , cuentas.password, perfil.fotoPerfil, cuentas.tipo, cuenta_empresa.nombre, cuenta_empresa.id, razonSocial, descripcion, direccion, telefono FROM (cuentas INNER JOIN cuenta_empresa ON cuentas.email = cuenta_empresa.email INNER JOIN perfil ON perfil.email = cuenta_empresa.email) WHERE cuentas.email = ?', [email], async (error, result) => {
             db.query('SELECT tipo, URL, propietario, id FROM enlaces INNER JOIN cuenta_empresa ON cuenta_empresa.email = enlaces.propietario WHERE propietario = ?', [email], (error, enlaces) => {
                db.query('SELECT COUNT(tipo) as redes FROM enlaces WHERE propietario = ?', [email], (error, count) => {
+                  console.log(result[0].id)
                   if (result[0].id == id) {
                      res.render('profile/editEmpresa', {
                         data: result[0],
@@ -293,10 +294,6 @@ router.post('/edit/:id', upload.single("imagen"), authController.isLoggedIn, asy
          res.redirect(req.originalUrl);
       });
    }
-});
-
-router.get('/delete/:mail', authController.deleteAccount, async (req, res) => {
-   res.redirect('/login');
 });
 
 module.exports = router;

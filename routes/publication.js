@@ -21,7 +21,6 @@ router.get('/', (req, res) => {
 router.get('/:nroPublicacion/comments', authController.isLoggedIn, async (req, res) => {
     const {nroPublicacion} = req.params;
     db.query('SELECT * FROM view_preguntas WHERE nroPublicacion = ? ORDER BY fechaPregunta DESC', [nroPublicacion], (error, questions) => {
-        console.log(questions);
         res.render('publication/questions', {
             title: "Comentarios",
             user: req.user,
