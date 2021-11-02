@@ -66,7 +66,7 @@ router.get('/edit/:id', authController.isLoggedIn, async (req, res) => {
     await db.query('SELECT vendedor FROM publicacion WHERE nroPublicacion = ?',[id], (error, result) => {
         if (result.length>0){
             if (email === result[0].vendedor){
-                db.query('SELECT nroPublicacion, titulo, descripcion, precio, descuento FROM (view_publicaciones) WHERE nroPublicacion = ?;',[id], (error, result) => {
+                db.query('SELECT nroPublicacion, titulo, descripcion, precio, descuento, porcentaje FROM (view_publicaciones) WHERE nroPublicacion = ?;',[id], (error, result) => {
                     db.query('SELECT categoria, genero, material, marca FROM (view_publicaciones) WHERE nroPublicacion = ?',[id], (error, product) => {
                         const {categoria, genero, material, marca} = product[0];
                         db.query('SELECT categoria FROM categorias WHERE categoria != ?',[categoria], (error, categorias) => {
@@ -113,7 +113,7 @@ router.get('/edit/:id', authController.isLoggedIn, async (req, res) => {
 
 router.post('/edit/:id', upload.array("imagen", 12), authController.isLoggedIn, async (req, res) => {
     const { id } = req.params;
-    const { titulo, descripcion, precio } = req.body;
+    const { titulo, descripcion, precio, descuento } = req.body;
     db.query('SELECT nroPublicacion, titulo, descripcion, precio, descuento FROM (view_publicaciones) WHERE nroPublicacion = ?', [id], (error, result) => {
         db.query('SELECT categoria, genero, material, marca FROM (productos INNER JOIN publicacion ON productos.idProducto = publicacion.producto) WHERE nroPublicacion = ?', [id], (error, product) => {
             const { categoria, genero, material, marca } = product[0];
@@ -123,9 +123,10 @@ router.post('/edit/:id', upload.array("imagen", 12), authController.isLoggedIn, 
                         db.query('SELECT talle FROM talles WHERE talle NOT IN (SELECT talle FROM curvas WHERE publicacion = ?) ORDER BY talle ASC',[id], (error, talles) => {
                         if (filtro == false) {
                             return res.render('publication/edit', {
-                                //colores,
+                                colores,
                                 user: req.user,
                                 categorias,
+                                talles,
                                 materiales,
                                 marcas,
                                 genero,
@@ -171,7 +172,12 @@ router.post('/edit/:id', upload.array("imagen", 12), authController.isLoggedIn, 
                 })
             } else {
         db.query("INSERT INTO productos (categoria, genero, material, marca) VALUES (?, ?, ?, ?)", [categoria, genero, material, marca], (error, result) => {
-            const insert = result.insertId
+        const insert = result.insertId
+        if (descuento) {
+        if (descuento.length > 0) {
+        db.query('UPDATE descuento SET porcentaje = ? WHERE publication = ?', [descuento, id])
+        }
+    }
         db.query('UPDATE publicacion SET titulo = ?, descripcion = ?, precio = ?, producto = ? WHERE nroPublicacion = ?', [titulo, descripcion, precio, insert, id], (error, result) => {
             console.log("Se actualizó correctamente la publicación " + id);
             res.redirect('/list');

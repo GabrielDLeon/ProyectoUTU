@@ -113,11 +113,17 @@
         {{!-- CONTENIDO --}}
         <div class="col-md-12 col-lg-8 col-xl-8 me-auto ms-auto" id="content">
             <div class="container my-4">
-                <h2 class="text-center">Publicaciones de {{data.nombre}}</h2>
-                <div class="row row-cols-xl-3 row-cols-lg-2 row-cols-md-2 row-cols-sm-1">
-                    {{>products}}
-                </div>
-                {{>pagination}}
+                {{#if recommendations}}
+                    <h2 class="text-center">Publicaciones de {{data.nombre}}</h2>
+                    <div class="row row-cols-xl-3 row-cols-lg-2 row-cols-md-2 row-cols-sm-1">
+                        {{>products}}
+                    </div>
+                    {{>pagination}}
+                {{else}}
+                    <div class="d-flex justify-content-center">
+                        <h3>Esta tienda aún no ha publicado productos</h3>
+                    </div>
+                {{/if}}
             </div>
         </div>
     </div>

@@ -10,6 +10,12 @@ textarea {
     resize: none !important;
 }
 
+.img-invert-color:hover{
+    -webkit-filter: invert(100%);
+    filter: invert(100%);
+    transition: filter 400ms;
+}
+
 /* SACAR FLECHAS EN INPUT NUMBER */
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
@@ -26,6 +32,20 @@ input[type=number] {
 
 .montserrat{
     font-family: 'Montserrat', sans-serif !important;
+}
+
+.product-color.color-azul{
+    background-color: rgb(65, 44, 255);
+}
+
+.product-color.color-blanco{
+    background-color: rgb(235, 235, 235);
+}
+.product-color.color-negro{
+    background-color: rgb(20, 20, 20);
+}
+.product-color.color-rojo{
+    background-color: rgb(231, 31, 31);
 }
 
 #btn-azul {
@@ -158,19 +178,7 @@ p {
     font-size: 12px;
 }
 
-.product-color.color-azul{
-    background-color: rgb(65, 44, 255);
-}
 
-.product-color.color-blanco{
-    background-color: rgb(235, 235, 235);
-}
-.product-color.color-negro{
-    background-color: rgb(20, 20, 20);
-}
-.product-color.color-rojo{
-    background-color: rgb(231, 31, 31);
-}
 
 .imgA {
     background: url("../img/bgImg.jpg") no-repeat;
