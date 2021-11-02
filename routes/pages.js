@@ -10,30 +10,56 @@ const db = mysql.createConnection({
   database: process.env.DATABASE,
 });
 
-function addDays(date, days) {
-  const copy = new Date(Number(date))
-  copy.setDate(date.getDate() + days)
-  return copy
+function calcDate(callback) {
+  const date = new Date();
+  const days = -process.env.NEWEST_PUBLICATION;
+  const newDate = new Date(Number(date));
+  newDate.setDate(date.getDate() + days);
+  const string = newDate.getFullYear() + '-' + (date.getMonth() + 1) + '-' + newDate.getDate();
+  const query = 'SELECT nroPublicacion, fechaPublicacion FROM (view_publicaciones) WHERE (fechaPublicacion >=  "' + string + '") GROUP BY (nroPublicacion)';
+  return callback(null, query);
+}
+
+function countEntities(callback) {
+  db.query('SELECT COUNT(id) AS count FROM cuenta_empresa', (error, countShops) => {
+    db.query('SELECT COUNT(id) AS count FROM cuenta_personal', (error, countUsers) => {
+      db.query('SELECT COUNT(nroPublicacion) AS count FROM publicacion', (error, countPublications) => {
+        const counts = {
+          countShops: countShops[0].count,
+          countUsers: countUsers[0].count,
+          countPublications: Math.round(countPublications[0].count*2/3),
+        }
+        return callback(null, counts);
+      });
+    });
+  });
 }
 
 router.get('/', authController.isLoggedIn, async (req, res) => {
     db.query('SELECT direccion, descripcion, telefono, nombre FROM perfil', (error, result) => {
       db.query('SELECT nroPublicacion, precio, descuento, titulo, descripcion, categoria, genero, imagen, nombreVendedor FROM view_publicaciones', (error, recommendations) => {
-        const date = new Date();
-        const newDate = addDays(date, - process.env.NEWEST_PUBLICATION);
-        let string = newDate.getFullYear() + '-' + (date.getMonth() + 1) + '-' + newDate.getDate();
-        const query = 'SELECT nroPublicacion, fechaPublicacion FROM (view_publicaciones) WHERE (fechaPublicacion >=  "'+string+'") GROUP BY (nroPublicacion)';
-        db.query(query, (error, newest) => {
-          db.query('SELECT * FROM perfil', (error, shops) => {
-            res.render('index', {
-              newest,
-              recommendations,
-              shops,
-              data: result[0],
-              user: req.user,
-              title: "Klouts",
-            });
-          });
+        countEntities(function(error, result) {
+          if (result){
+            const counts = result;
+            calcDate(function(error, query){
+              db.query(query, (error, newest) => {
+                db.query('SELECT * FROM perfil', (error, shops) => {
+                  res.render('index', {
+                    counts,
+                    newest,
+                    recommendations,
+                    shops,
+                    data: result[0],
+                    user: req.user,
+                    title: "Klouts",
+                  });
+                });
+              });
+            })
+          } else {
+            res.redirect('/');
+            console.log("No existe resultado");
+          }
         });
       });
     });

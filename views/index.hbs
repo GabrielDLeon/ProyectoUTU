@@ -5,6 +5,11 @@
         <div style="min-height: 35vh; background-color: #fafafa;" class="jumbotron d-flex align-items-center">
             <div class="container text-center">
                 <h1>Bienvenidos a Klouts</h1>
+                {{#with counts}}
+                <h6>Tiendas oficiales: <span>{{countShops}}</span></h6>
+                <h6>Usuarios registrados: <span>{{countUsers}}</span></h6>
+                <h6>Publicaciones creadas: <span>{{countPublications}}+</span></h6>
+                {{/with}}
                 <p>Te ayudamos a que encuentres lo que buscas sin salir de tu casa, ahorrandote tiempo y al mismo tiempo preservamos el bienestar de todos nuestros usuarios</p>
                 <div class="d-inline">
                     <a href="#tiendas"><button class="btn rounded-pill btn-outline-dark" onclick="hello()">Tiendas oficiales</button></a>
@@ -16,22 +21,22 @@
 
     {{!-- CONTENT --}}
     <section class="container mb-5">
-        <div class="row row-cols-lg-3 row-cols-sm-1 g-4">
-            <div class="col position-relative mt-3">
+        <div class="row row-cols-1 row-cols-sm-3 g-4">
+            <div class="col mt-3">
                 <div class="card border-0">
                     <a href="/search?sale=1&page=1" class="link-unstyled">
                         <img src="./img/Promotions/sales.png" class="card-img-top img-invert-color">
                     </a>
                 </div>
             </div>
-            <div class="col position-relative mt-3">
+            <div class="col mt-3">
                 <div class="card border-0">
                     <a href="/search?newest=1&page=1" class="link-unstyled">
                         <img src="./img/Promotions/newest.png" class="card-img-top img-invert-color">
                     </a>
                 </div>
             </div>
-            <div class="col position-relative mt-3">
+            <div class="col mt-3">
                 <div class="card border-0">
                     <a href="/search?top=1&page=1" class="link-unstyled">
                         <img src="./img/Promotions/top.png" class="card-img-top img-invert-color">
@@ -39,14 +44,34 @@
                 </div>
             </div>
         </div>
+        <div class="row row-cols-2">
+            <div class="col mt-3">
+                <div class="card border-0">
+                    <a href="/search?key=mujer&page=1" class="link-unstyled">
+                        <img src="./img/Promotions/womans.png" class="card-img-top img-invert-color">
+                    </a>
+                </div>
+            </div>
+            <div class="col mt-3">
+                <div class="card border-0">
+                    <a href="/search?key=hombre&page=1" class="link-unstyled">
+                        <img src="./img/Promotions/mans.png" class="card-img-top img-invert-color">
+                    </a>
+                </div>
+            </div>
+        </div>
     </section>
+    
     <section class="container mb-5">
-        <div class="row row-cols-lg-4 row-cols-sm-2 g-4">
+        <div class="row row-cols-2 row-cols-lg-4 g-4">
             {{>products}}
         </div>
+    </section>
+
+    <section class="container mb-5">
         <div class="my-5">
             <h1 class="text-center" id="tiendas">Tiendas oficiales</h1> <br>
-            <div class="row row-cols-lg-4 row-cols-sm-2 g-4">
+            <div class="row row-cols-2 row-cols-lg-4 g-4">
                 {{>shops}}
             </div>
             {{!-- <h1 class="text-center" id="tiendas">Tiendas oficiales</h1> --}}

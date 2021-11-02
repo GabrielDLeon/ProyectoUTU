@@ -72,8 +72,7 @@ router.get('/edit/:id', authController.isLoggedIn, async (req, res) => {
                         db.query('SELECT categoria FROM categorias WHERE categoria != ?',[categoria], (error, categorias) => {
                             db.query('SELECT material FROM materiales WHERE material != ?',[material], (error, materiales) => {
                                 db.query('SELECT marca FROM marcas WHERE marca != ?',[marca], (error, marcas) => {
-                                    /*SELECT * FROM talles WHERE talle NOT IN (SELECT talle FROM curvas WHERE publicacion = 5)*/
-                                    db.query('SELECT talle FROM curvas WHERE publicacion = ?', [id], (error, tallesSelected) => {
+                                    db.query('SELECT curvas.talle FROM (curvas INNER JOIN talles ON curvas.talle = talles.talle) WHERE publicacion = ? ORDER BY orden ASC', [id], (error, tallesSelected) => {
                                         db.query('SELECT talle FROM talles WHERE talle NOT IN (SELECT talle FROM curvas WHERE publicacion = ?) ORDER BY orden ASC',[id], (error, talles) => {
                                             db.query('SELECT color FROM colorpubli WHERE publicacion = ?', [id], (error, colorSelected) => {
                                                 db.query('SELECT color FROM colores WHERE color NOT IN (SELECT color FROM colorpubli WHERE publicacion = ?)',[id], (error, colores) => {

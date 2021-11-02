@@ -26,6 +26,15 @@ function addDays(date, days) {
     return copy
 }
 
+function calcDate(callback) {
+    const date = new Date();
+    const days = -process.env.NEWEST_PUBLICATION;
+    const newDate = new Date(Number(date));
+    newDate.setDate(date.getDate() + days);
+    const string = newDate.getFullYear() + '-' + (date.getMonth() + 1) + '-' + newDate.getDate();
+    return callback(null, string);
+  }
+
 function paginations(Page, quantity, query, path, callback) {
     const page = parseInt(Page);
     let end = (page * quantity);
@@ -72,10 +81,10 @@ router.get('/', authController.isLoggedIn, async (req, res) => {
         pattern.push('sale=1');
     }
     if (newest == 1) {
-        const date = new Date();
-        const newDate = addDays(date, - process.env.NEWEST_PUBLICATION);
-        let string = newDate.getFullYear() + '-' + (date.getMonth() + 1) + '-' + newDate.getDate();
-        array.push('(fechaPublicacion >=  "' + string + '")');
+        calcDate(function(error, string) {
+            console.log(string)
+            array.push('(fechaPublicacion >=  "' + string + '")');
+        });
         variables += ', fechaPublicacion';
         pattern.push('newest=1');
     }
