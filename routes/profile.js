@@ -57,37 +57,25 @@ router.get('/:nombre', authController.isLoggedIn, async (req, res) => {
             db.query('SELECT fotoPerfil, nombre, email, direccion, descripcion, telefono  FROM (perfil) WHERE nombre = ?', [nombre], (error, profile) => {
                const email = profile[0].email;
                db.query('SELECT tipo, URL, propietario, nombre FROM (enlaces INNER JOIN perfil ON enlaces.propietario = perfil.email) WHERE propietario = ?', [email], async (error, redes) => {
-                  db.query('SELECT nroPublicacion FROM view_publicaciones WHERE view_publicaciones.nombreVendedor = ?', [nombre], (error, existPublications) => {
-                     if (existPublications.length>0) {
-                        const page = JSON.parse(req.query.page);
-                        const query = 'SELECT nroPublicacion, precio, descuento, imagen FROM view_publicaciones WHERE view_publicaciones.nombreVendedor = "' + nombre + '" GROUP BY view_publicaciones.nroPublicacion LIMIT ? OFFSET ?';
-                        let path = '/profile/' + nombre + '?';
-                        paginations(page, 9, query, path, function (error, result) {
-                           if (result) {
-                              res.render('profile/profile', {
-                                 recommendations: result.recommendations,
-                                 pagination: result.pagination,
-                                 profile: profile[0],
-                                 data: search[0],
-                                 user: req.user,
-                                 title: search[0].nombre,
-                                 redes
-                              })
-                           } else {
-                              path += 'page=1';
-                              res.redirect(path);
-                           }
-                        });
-                     } else {
+                  const page = JSON.parse(req.query.page);
+                  const query = 'SELECT nroPublicacion, precio, descuento, imagen FROM view_publicaciones WHERE view_publicaciones.nombreVendedor = "' + nombre + '" GROUP BY view_publicaciones.nroPublicacion LIMIT ? OFFSET ?';
+                  let path = '/profile/'+nombre+'?';
+                  paginations(page, 9, query, path, function (error, result) {
+                     if (result) {
                         res.render('profile/profile', {
+                           recommendations: result.recommendations,
+                           pagination: result.pagination,
                            profile: profile[0],
                            data: search[0],
                            user: req.user,
                            title: search[0].nombre,
                            redes
                         })
+                     } else {
+                        path += 'page=1';
+                        res.redirect(path);
                      }
-                  })
+                  });
                });
             });
          } else { res.redirect('/'); }
@@ -106,7 +94,7 @@ router.get('/edit/pass/:id', authController.isLoggedIn, async (req, res) => {
          if (result[0].id == id) {
             res.render('profile/editAccount', {
                data: result[0],
-               user: req.user,
+               user: req.user.data,
                title: "Cambiar contraseña"
             })
          } else {
@@ -199,21 +187,21 @@ router.post('/edit/pass/:id', authController.isLoggedIn, async (req, res) => {
 });
 
 router.get('/edit/:id', authController.isLoggedIn, async (req, res) => {
-   const email = req.user.data.email;
+   const email = req.user.data.email
    if (req.user.data.tipo == 'usuario') {
       await db.query('SELECT cuentas.email , cuentas.password, cuentas.tipo, cuenta_personal.nombre, cuenta_personal.id FROM (cuentas INNER JOIN cuenta_personal ON cuentas.email = cuenta_personal.email) WHERE cuentas.email = ?', [email], (error, result2) => {
          if (!result2) {
             console.log(error)
          }
-         const { email } = req.user.data;
+         req.user = result2[0];
+         const { email } = req.user;
          const { id } = req.params;
          db.query('SELECT cuentas.email, cuentas.password, cuenta_personal.nombre, cuenta_personal.id, cuentas.tipo FROM cuentas INNER JOIN cuenta_personal ON cuentas.email = cuenta_personal.email WHERE cuenta_personal.email = ?', [email], async (error, result) => {
             if (result[0].id == id) {
                res.render('profile/editProfile', {
-                  data: req.user.data,
+                  data: result[0],
                   user: req.user,
-                  title: 'Editar perfil',
-                  data: req.user.data,
+                  title: 'Editar perfil'
                })
             } else {
                res.redirect('/')
@@ -225,7 +213,8 @@ router.get('/edit/:id', authController.isLoggedIn, async (req, res) => {
          if (!result2) {
             console.log(error)
          }
-         const { email } = req.user.data;
+         req.user = result2[0];
+         const { email } = req.user;
          const { id } = req.params;
          db.query('SELECT cuentas.email , cuentas.password, perfil.fotoPerfil, cuentas.tipo, cuenta_empresa.nombre, cuenta_empresa.id, razonSocial, descripcion, direccion, telefono FROM (cuentas INNER JOIN cuenta_empresa ON cuentas.email = cuenta_empresa.email INNER JOIN perfil ON perfil.email = cuenta_empresa.email) WHERE cuentas.email = ?', [email], async (error, result) => {
             db.query('SELECT tipo, URL, propietario, id FROM enlaces INNER JOIN cuenta_empresa ON cuenta_empresa.email = enlaces.propietario WHERE propietario = ?', [email], (error, enlaces) => {
@@ -236,15 +225,15 @@ router.get('/edit/:id', authController.isLoggedIn, async (req, res) => {
                         user: req.user,
                         title: 'Editar perfil',
                         enlaces,
-                        redes: count[0].redes
+                        redes: count[0]
                      })
                   } else {
                      res.redirect('/')
                   }
-               });
-            });
-         });
-      });
+               })
+            })
+         })
+      })
    }
 });
 
@@ -270,8 +259,7 @@ router.post('/edit/:id', upload.single("imagen"), authController.isLoggedIn, asy
             return res.render('profile/editProfile', {
                email: req.body.email,
                nombre: req.body.nombre,
-               data: req.user.data,
-               user: req.user,
+               user: req.user.data,
                message: "Por favor, ingrese su nombre",
                title: 'Editar perfil'
             })
@@ -283,8 +271,8 @@ router.post('/edit/:id', upload.single("imagen"), authController.isLoggedIn, asy
       await db.query('SELECT cuentas.email , cuentas.password, perfil.fotoPerfil, cuentas.tipo, cuenta_empresa.nombre, cuenta_empresa.id, razonSocial, descripcion, direccion, telefono FROM (cuentas INNER JOIN cuenta_empresa ON cuentas.email = cuenta_empresa.email INNER JOIN perfil ON perfil.email = cuenta_empresa.email) WHERE cuentas.email = ?', [email], async (error, result) => {
          const { id } = req.params;
          const email = result[0].email;
-         const { nombre, descripcion, direccion, telefono, razon, mail } = req.body;
-         if (!nombre, !email) {
+         const { nombre, descripcion, direccion, telefono, razon } = req.body;
+         if (!nombre) {
             return res.render('profile/editEmpresa', {
                data: result[0],
                email: req.body.email,
@@ -302,14 +290,13 @@ router.post('/edit/:id', upload.single("imagen"), authController.isLoggedIn, asy
          }
          db.query('UPDATE perfil set ? WHERE email = ?', [{ descripcion: descripcion, direccion: direccion, telefono: telefono }, email]);
          db.query('UPDATE cuenta_empresa set ? WHERE id = ?', [{ nombre: nombre, razonSocial: razon }, id]);
-         if (mail != email) {
-            db.query('UPDATE cuentas SET ? WHERE email = ?', [{ email: mail }, email]);
-            res.clearCookie('jwt')
-            return res.redirect('/login')
-         }
          res.redirect(req.originalUrl);
       });
    }
+});
+
+router.get('/delete/:mail', authController.deleteAccount, async (req, res) => {
+   res.redirect('/login');
 });
 
 module.exports = router;

@@ -10,6 +10,31 @@ const db = mysql.createConnection({
   database: process.env.DATABASE,
 });
 
+exports.deleteAccount = async (req, res, next) => {
+  if(req.cookies.jwt) {
+    try {
+      //1) verify the token
+      const decoded = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRET);
+
+      console.log(decoded);
+      //2) Check if the user still exists
+      db.query('SELECT * FROM cuentas WHERE email = ?', [decoded.id], (error, result) => {
+        console.log(result);
+        if(!result) {
+          return next();
+        }
+        req.user = result[0];
+        return next();
+      });
+    } catch (error) {
+      console.log(error);
+      return next();
+    }
+    const { mail } = req.params
+    db.query('DELETE FROM cuentas WHERE email = ?',[mail]);
+  } 
+}
+
 
 exports.login = async (req, res) => { 
   try {
@@ -115,8 +140,12 @@ exports.register = (req, res) => {
         }
      })
     })
+
+
   });
+
 }
+
 
 exports.registerCompany = (req, res) => {
   const {name, mailEmpresa, pass, passwordConfirm, razon, rut} = req.body;
@@ -224,6 +253,9 @@ exports.registerCompany = (req, res) => {
             title: "Registro de empresa"
       });
     }
+
+    
+
     let hashedPassword = await bcrypt.hash(pass, 8);
 
     db.query('INSERT INTO cuentas SET ?', {email: mailEmpresa, password: hashedPassword , tipo: 'empresa'}, (error, results) => {
@@ -252,7 +284,10 @@ exports.registerCompany = (req, res) => {
 exports.isLoggedIn = async (req, res, next) => {
   if(req.cookies.jwt) {
     try {
+      //1) verify the token
+
       const decoded = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRET);
+
       db.query('SELECT * from cuentas WHERE cuentas.email = ?', [decoded.id], (error, result) => {
         const tipo = (result[0].tipo);
         //comprobacion de q el usuario exista
@@ -266,6 +301,7 @@ exports.isLoggedIn = async (req, res, next) => {
                 data: result2[0],
                 notification: notifications[0].notificaciones
               }
+              // console.log(req.user);
               return next();
             })
           })
@@ -279,6 +315,7 @@ exports.isLoggedIn = async (req, res, next) => {
                 data: result[0],
                 notification: notifications[0].notificaciones
               }
+              // console.log(req.user);
               return next();
             })
           })

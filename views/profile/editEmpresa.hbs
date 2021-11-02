@@ -14,7 +14,6 @@
                         <div class="mb-3 form-floating">
                             <input type="email" class="form-control" id="validationCustom01" name="mail" placeholder="name@example.com" value="{{data.email}}" required>
                             <label for="mail">E-mail</label>
-                            <small class="ms-1 text-danger">Atención: ¡Si cambias tu dirección de correo electrónico tendrás que volver a iniciar sesión!</small>
                         </div>
                         <div class="mb-3 form-floating">
                             <input type="text" class="form-control" id="nombre" name="nombre" placeholder="." value="{{data.nombre}}" required>
@@ -129,11 +128,8 @@
                             {{/each}}  
                         </tbody>
                     </table>
-                {{#ifCond redes '<' 3}}
-                <a href="/profile/newEnlace/{{data.id}}"><button class="btn btn-outline-dark">Agregar red social</button></a>
-                {{/ifCond}}
                 {{else}}
-                    <p>No tienes redes sociales agregadas, puedes agregar algunas <a href="/profile/newEnlace/{{data.id}}">aquí</a></p> 
+                    <p>No tienes redes sociales agregadas, puedes agregar algunas <a href="/profile/newEnlace/{{user.id}}">aquí</a></p> 
                 {{/if}}
             </div>
         </div>

@@ -4,6 +4,8 @@ const mysql = require("mysql");
 const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
 const exphbs = require('express-handlebars');
+const Swal = require('sweetalert2')
+
 
 dotenv.config({ path: './.env'});
 
@@ -85,6 +87,12 @@ app.use('/favorites', require('./routes/favorites'));
 app.use('/publication', require('./routes/publication'));
 app.use('/create', require('./routes/createPublication'));
 app.use('/notifications', require('./routes/notifications'));
+Swal.fire({
+  title: 'Error!',
+  text: 'Do you want to continue',
+  icon: 'error',
+  confirmButtonText: 'Cool'
+})
 
 app.listen(3000, () => {
   console.log("Server started on Port 3000");

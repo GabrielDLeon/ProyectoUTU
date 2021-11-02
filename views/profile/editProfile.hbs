@@ -1,11 +1,11 @@
 {{>navigation}}
 <div class="container mt-5">
-<form action="/profile/edit/{{data.id}}" method="POST" class="needs-validation" novalidate> 
+<form action="/profile/edit/{{user.id}}" method="POST" class="needs-validation" novalidate> 
 <div class="card col-sm-12 col-md-8">
 <div class="card-body s">
             <h2 class="d-flex justify-content-center">Ajustes de cuenta</h2>
         <div class="form-floating mb-3"> 
-          <input type="User" class="form-control" placeholder="Nombre Completo" id="name" name="nombre" value="{{data.nombre}}" required>
+          <input type="User" class="form-control" placeholder="Nombre Completo" id="name" name="nombre" value="{{user.nombre}}" required>
           <label for="name">Nombre Completo</label>
         </div>
         <p>¿Deseas cambiar la contraseña? <a href="/profile/edit/pass/{{data.id}}">Click aquí</a></p>
@@ -21,7 +21,7 @@
           <p class="text-success text-center mt-1">{{editCompleto}}</p>
           {{/if}}
 </form>
-  <form action="/profile/delete/{{data.id}}" method="post">
+  <form action="/profile/delete/{{user.id}}" method="post">
     <div class="mb-3"></div>
         <button type="submit" class="text-uppercase btn btn-danger" name="delete" id="delete" onclick="return confirm('¿Está seguro que desea eliminar su cuenta?');"><i class="fas fa-ban"></i> Eliminar cuenta</button>
     </div>

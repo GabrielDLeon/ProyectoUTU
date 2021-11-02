@@ -7,39 +7,18 @@
                 <h1>Bienvenidos a Klouts</h1>
                 <p>Te ayudamos a que encuentres lo que buscas sin salir de tu casa, ahorrandote tiempo y al mismo tiempo preservamos el bienestar de todos nuestros usuarios</p>
                 <div class="d-inline">
+                    {{#if newest}}
+                        <a href="/search?newest=1&page=1"><button class="btn rounded-pill btn-outline-dark">Novedades</button></a>
+                    {{/if}}
                     <a href="#tiendas"><button class="btn rounded-pill btn-outline-dark" onclick="hello()">Tiendas oficiales</button></a>
-                    <a href="#footer"><button class="btn rounded-pill btn-outline-dark">Sobre Klouts</button></a>
+                    <a href="/search?sale=1&page=1"><button class="btn rounded-pill btn-outline-danger">Mejores ofertas</button></a>
+                    <a href="/search?top=1&page=1"><button class="btn rounded-pill btn-outline-primary">Popular</button></a>
                 </div>
             </div>
         </div>
     </section>
 
     {{!-- CONTENT --}}
-    <section class="container mb-5">
-        <div class="row row-cols-lg-3 row-cols-sm-1 g-4">
-            <div class="col position-relative mt-3">
-                <div class="card border-0">
-                    <a href="/search?sale=1&page=1" class="link-unstyled">
-                        <img src="./img/Promotions/sales.png" class="card-img-top img-invert-color">
-                    </a>
-                </div>
-            </div>
-            <div class="col position-relative mt-3">
-                <div class="card border-0">
-                    <a href="/search?newest=1&page=1" class="link-unstyled">
-                        <img src="./img/Promotions/newest.png" class="card-img-top img-invert-color">
-                    </a>
-                </div>
-            </div>
-            <div class="col position-relative mt-3">
-                <div class="card border-0">
-                    <a href="/search?top=1&page=1" class="link-unstyled">
-                        <img src="./img/Promotions/top.png" class="card-img-top img-invert-color">
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
     <section class="container mb-5">
         <div class="row row-cols-lg-4 row-cols-sm-2 g-4">
             {{>products}}

@@ -21,12 +21,13 @@ router.get('/newEnlace/:id', authController.isLoggedIn, async (req, res) => {
             console.log(error)
         }
         const { id } = req.params;
+        const user = req.user.data
+        console.log(user)
         db.query('SELECT cuenta_empresa.email , cuenta_empresa.id FROM cuenta_empresa WHERE cuenta_empresa.email = ?', [email], async (error, result) => {
             db.query('SELECT * FROM enlaces_tipos', async (error, tipo) => {
                 if (result[0].id == id) {
                     res.render('profile/newEnlace', {
-                        user: req.user,
-                        data: req.user.data,
+                        user: req.user.data,
                         tipo,
                         title: "Agregar enlace"
                     })
@@ -48,32 +49,17 @@ router.post('/newEnlace/:id', authController.isLoggedIn, async (req, res) => {
                 return res.render('profile/newEnlace', {
                     name: req.body.name,
                     message: 'No puedes agregar dos enlaces para el mismo tipo de red social',
-                    data: req.user.data,
-                    user: req.user,
-                    tipoEnlace,
-                    title: "Agregar enlaces"
+                    user: req.user.data,
+                    tipoEnlace
                 })
             }
             if (!link) {
                 return res.render('profile/newEnlace', {
                     name: req.body.name,
                     message: 'Por favor ingrese un enlace antes de agregar',
-                    data: req.user.data,
-                    user: req.user,
+                    user: req.user.data,
                     enlaces,
-                    tipoEnlace,
-                    title: "Agregar enlaces"
-                })
-            }
-            if (!tipo) {
-                return res.render('profile/newEnlace', {
-                    name: req.body.name,
-                    message: 'Por favor seleccione el tipo de enlace antes de agregar',
-                    data: req.user.data,
-                    user: req.user,
-                    enlaces,
-                    tipoEnlace,
-                    title: "Agregar enlaces"
+                    tipoEnlace
                 })
             }
             db.query('INSERT INTO enlaces SET ?', { tipo: tipo, URL: link, propietario: email }, (error, results) => {
@@ -81,12 +67,10 @@ router.post('/newEnlace/:id', authController.isLoggedIn, async (req, res) => {
                     console.log(error)
                 } else {
                     return res.render('profile/newEnlace', {
-                        data: req.user.data,
-                        user: req.user,
+                        user: req.user.data,
                         linkAgregado: 'Enlace agregado',
                         enlaces,
-                        tipoEnlace,
-                        title: "Agregar enlaces"
+                        tipoEnlace
                     });
                 }
             });
@@ -102,8 +86,7 @@ router.get('/enlaces/edit/:id', authController.isLoggedIn, async (req, res) => {
         if (enlaces[0].id == id) {
         db.query('SELECT * from enlaces_tipos', (error, tipos) => {
             res.render('profile/editEnlaces', {
-                data: req.user.data,
-                user: req.user,
+                user: req.user.data,
                 title: "Editar redes sociales",
                 enlaces,
                 tipos

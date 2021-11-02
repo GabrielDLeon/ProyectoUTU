@@ -50,6 +50,16 @@
                         
                         {{!-- Detalles del producto --}}
                         <div class="my-3">
+                            {{#if colors}}
+                                <div class="my-3">
+                                    <h6>Colores disponibles</h6>
+                                    <div>
+                                        {{#each colors}}
+                                            <button type="button" class="btn btn-default btn-circle product-color color-{{color}}"><i class="fas fa-brush"></i></button>
+                                        {{/each}}
+                                    </div>
+                                </div>
+                            {{/if}}
                             {{#if ../sizes}}
                                 <div class="my-3">
                                     <h6>Talles disponibles</h6>
@@ -70,7 +80,7 @@
                                     <h6>Colores disponibles</h6>
                                     <div>
                                         {{#each ../colors}}
-                                            <button type="button" class="btn btn-default btn-circle btn-outline-dark product-color" id="btn-{{color}}"><i class="fas fa-brush"></i></button>
+                                            <label class="btn btn-outline-dark btn-lg" for="btn-{{color}}" style="width: 100px;" id="btn-{{color}}">ㅤㅤ</label> 
                                         {{/each}}
                                     </div>
                                 </div>

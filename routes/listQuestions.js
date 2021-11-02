@@ -25,7 +25,7 @@ router.get('/:filter', authController.isLoggedIn, async (req, res) => {
             res.render('publication/listQuestions', {
                 result,
                 user: req.user,
-                title: "Preguntas realizadas"
+                title: "Mis publicaciones"
             })
         });
     } else {
