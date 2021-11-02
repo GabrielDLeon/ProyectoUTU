@@ -57,25 +57,39 @@ router.get('/:nombre', authController.isLoggedIn, async (req, res) => {
             db.query('SELECT fotoPerfil, nombre, email, direccion, descripcion, telefono  FROM (perfil) WHERE nombre = ?', [nombre], (error, profile) => {
                const email = profile[0].email;
                db.query('SELECT tipo, URL, propietario, nombre FROM (enlaces INNER JOIN perfil ON enlaces.propietario = perfil.email) WHERE propietario = ?', [email], async (error, redes) => {
-                  const page = JSON.parse(req.query.page);
-                  const query = 'SELECT nroPublicacion, precio, descuento, imagen FROM view_publicaciones WHERE view_publicaciones.nombreVendedor = "' + nombre + '" GROUP BY view_publicaciones.nroPublicacion LIMIT ? OFFSET ?';
-                  let path = '/profile/'+nombre+'?';
-                  paginations(page, 9, query, path, function (error, result) {
-                     if (result) {
+                  db.query('SELECT nroPublicacion FROM view_publicaciones WHERE view_publicaciones.nombreVendedor = ?', [nombre], (error, existPublications) => {
+                     if (existPublications.length>0) {
+                        const page = JSON.parse(req.query.page);
+                        const query = 'SELECT nroPublicacion, precio, descuento, imagen FROM view_publicaciones WHERE view_publicaciones.nombreVendedor = "' + nombre + '" GROUP BY view_publicaciones.nroPublicacion LIMIT ? OFFSET ?';
+                        let path = '/profile/' + nombre + '?';
+                        console.log(query);
+                        paginations(page, 9, query, path, function (error, result) {
+                           console.log(result)
+                           if (result) {
+                              res.render('profile/profile', {
+                                 recommendations: result.recommendations,
+                                 pagination: result.pagination,
+                                 profile: profile[0],
+                                 data: search[0],
+                                 user: req.user,
+                                 title: search[0].nombre,
+                                 redes
+                              })
+                           } else {
+                              path += 'page=1';
+                              res.redirect(path);
+                           }
+                        });
+                     } else {
                         res.render('profile/profile', {
-                           recommendations: result.recommendations,
-                           pagination: result.pagination,
                            profile: profile[0],
                            data: search[0],
                            user: req.user,
                            title: search[0].nombre,
                            redes
                         })
-                     } else {
-                        path += 'page=1';
-                        res.redirect(path);
                      }
-                  });
+                  })
                });
             });
          } else { res.redirect('/'); }
@@ -187,7 +201,8 @@ router.post('/edit/pass/:id', authController.isLoggedIn, async (req, res) => {
 });
 
 router.get('/edit/:id', authController.isLoggedIn, async (req, res) => {
-   const email = req.user.data.email
+   console.log(req.user);
+   const email = req.user.data.email;
    if (req.user.data.tipo == 'usuario') {
       await db.query('SELECT cuentas.email , cuentas.password, cuentas.tipo, cuenta_personal.nombre, cuenta_personal.id FROM (cuentas INNER JOIN cuenta_personal ON cuentas.email = cuenta_personal.email) WHERE cuentas.email = ?', [email], (error, result2) => {
          if (!result2) {
@@ -292,10 +307,6 @@ router.post('/edit/:id', upload.single("imagen"), authController.isLoggedIn, asy
          res.redirect(req.originalUrl);
       });
    }
-});
-
-router.get('/delete/:mail', authController.deleteAccount, async (req, res) => {
-   res.redirect('/login');
 });
 
 module.exports = router;

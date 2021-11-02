@@ -115,12 +115,8 @@ exports.register = (req, res) => {
         }
      })
     })
-
-
   });
-
 }
-
 
 exports.registerCompany = (req, res) => {
   const {name, mailEmpresa, pass, passwordConfirm, razon, rut} = req.body;

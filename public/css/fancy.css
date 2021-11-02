@@ -10,6 +10,12 @@ textarea {
     resize: none !important;
 }
 
+.img-invert-color:hover{
+    -webkit-filter: invert(100%);
+    filter: invert(100%);
+    transition: filter 400ms;
+}
+
 /* SACAR FLECHAS EN INPUT NUMBER */
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
