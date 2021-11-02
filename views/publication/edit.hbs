@@ -23,15 +23,17 @@
                 </div>
                 
                 <input type="checkbox" name="confirm-descuento" id="confirm-descuento">
-                {{#if publication.descuento}}
+                {{#if publication.porcentaje}}
                 <label for="confirm-descuento">Cambiar descuento</label>
                 {{else}}
                 <label for="confirm-descuento">Añadir descuento</label>
                 {{/if}}
                 <div class="form-floating mb-3">
                     <input class="form-control input-number" name="descuento" id="descuento" type="number"
-                        placeholder="Descuento" onKeyPress="if(this.value.length==2) return false;" {{#if
-                        publication.descuento}}value="{{publication.descuento}}" required{{/if}}>
+                        placeholder="Descuento" onKeyPress="if(this.value.length==2) return false;" 
+                        {{#if publication.porcentaje}}
+                        value="{{publication.porcentaje}}" required
+                        {{/if}}>
                     <label for="descuento">Descuento del producto (%)</label>
                     <br>
                     {{!-- <input class="form-control" value="" name="" id="" type="text" placeholder=""> --}}
@@ -92,16 +94,16 @@
                     <div class="my-3">
                         {{#if tallesSelected}}
                         {{#each tallesSelected}}
-                        <div class="form-check d-inline m-0 p-0">
+                       <div class="form-check d-inline m-0 p-0">
                             <input type="checkbox" class="btn-check" name="{{talle}}" id="btn-{{talle}}"
-                                autocomplete="off" checked>
+                                autocomplete="off">
                             <label class="btn btn-outline-dark btn-lg shadow-none" for="btn-{{talle}}"
                                 style="width: 100px;">{{talle}}</label>
                         </div>
                         {{/each}}
                         {{/if}}
                         {{#each talles}}
-                        <div class="form-check d-inline m-0 p-0">
+                       <div class="form-check d-inline m-0 p-0">
                             <input type="checkbox" class="btn-check" name="{{talle}}" id="btn-{{talle}}"
                                 autocomplete="off">
                             <label class="btn btn-outline-dark btn-lg shadow-none" for="btn-{{talle}}"
