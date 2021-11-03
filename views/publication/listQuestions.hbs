@@ -14,9 +14,9 @@
     </div> --}}
     <br>
 <div class="d-flex justify-content-center">
-    <a href="/list/questions/inbox?filter=reply"><button style="margin-right: 10px;" class="btn btn-primary">Preguntas respondidas</button></a>
-    <a href="/list/questions/inbox?filter=noreply"><button style="margin-right: 10px;" class="btn btn-primary">Preguntas sin responder</button></a>
-    <a href="/list/questions"><button style="margin-right: 10px;" class="btn btn-primary">Todas las preguntas</button></a>
+    <a href="/list/questions/reply"><button style="margin-right: 10px;" class="btn btn-primary">Preguntas respondidas</button></a>
+    <a href="/list/questions/noreply"><button style="margin-right: 10px;" class="btn btn-primary">Preguntas sin responder</button></a>
+    <a href="/list/questions/all"><button style="margin-right: 10px;" class="btn btn-primary">Todas las preguntas</button></a>
 </div>
 {{#if result}}
     <div class="table-responsive table-lg mt-3">
@@ -61,5 +61,6 @@
                 
             </tbody>
         </table>
+        {{>pagination}}
     </div>
 </div>

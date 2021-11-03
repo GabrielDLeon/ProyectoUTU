@@ -3,19 +3,20 @@
     {{#if product}}
     <form method="POST" action="/create?idProducto={{product.idProducto}}" enctype="multipart/form-data" class="needs-validation" novalidate>
     {{else}}
-    <form method="POST" action="/create?newPublication=true" enctype="multipart/form-data" class="needs-validation" novalidate></form>
+    <form method="POST" action="/create?newPublication=true" enctype="multipart/form-data" class="needs-validation" novalidate>
     {{/if}}
     {{#with bodyRender}}
+    <h1 class="text-center mb-4">Creación de publicación</h1>
         <div class="row">
             {{!-- DATOS DE LA PUBLICACION --}}
             <div class="col">
-                <h1>Formulario</h1>
+                <h1>Datos de la publicación</h1>
                 <div class="form-floating mb-3">
-                    <input class="form-control" name="titulo" id="titulo" type="text" placeholder="Titulo del producto" value="{{titulo}}" required>
+                    <input class="form-control" name="titulo" id="titulo" type="text" placeholder="Titulo del producto" value="{{titulo}}" onKeyPress="if(this.value.length==55) return false;" required>
                     <label for="titulo">Título del producto</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <textarea class="form-control" name="descripcion" id="descripcion" placeholder="Descripción del producto" maxlength="155" rows="4" style="height:100%;" required></textarea>
+                    <textarea class="form-control" name="descripcion" id="descripcion" placeholder="Descripción del producto" maxlength="155" rows="5" style="height:100%;" required></textarea>
                     <label for="descripcion">Descripción del producto</label>
                 </div>
                 <div class="mb-3">
@@ -25,7 +26,7 @@
                 <div class="row">
                     <div class="col">
                         <div class="form-floating mb-3">
-                            <input class="form-control input-number" name="precio" id="precio" type="number" placeholder="Precio ($)" value="{{precio}}" required>
+                            <input class="form-control input-number" name="precio" id="precio" type="number" placeholder="Precio ($)" value="{{precio}}" onKeyPress="if(this.value.length==9) return false;" required>
                             <label for="precio">Precio ($)</label>
                         </div>
                     </div>
@@ -53,25 +54,24 @@
                     {{/with}}
                 {{else}}
                     <div class="mb-3 form-floating">
-                        <input type="text" class="form-control" name="categoria" id="categoria" list="categoria" placeholder="Seleccione una categoría" value="{{categoria}}" style="height: 58px;" required>
+                        <input type="text" class="form-control text-capitalize" name="categoria" list="categoria" placeholder="Seleccione la categoría del producto"required>
                         <label for="categoria">Categoría del producto</label>
                         <datalist name="categoria" id="categoria">
                             {{#each categorias}}
                                 <option class="text-uppercase" value="{{categoria}}">{{categoria}}</option> 
                             {{/each}}
                         </datalist>
-                        {{!-- <input type="text" class="form-control text-uppercase" list="categoria" name="categoria" placeholder="SELECCIONE UNA CATEGORIA" style="height: 58px;" required> --}}
-                    </div>
-                    <div class="mb-3">
-                        <select class="text-uppercase form-select" name="genero" id="genero" required>
-                            <option value="">Seleccione un género</option>
-                            <option value="Hombre">Hombre</option>
-                            <option value="Mujer">Mujer</option>
-                            <option value="Unisex">Unisex</option>
-                        </select>
                     </div>
                     <div class="mb-3 form-floating">
-                        <input type="text" class="form-control text-capitalize" list="material" name="material" placeholder="Seleccione el material del producto" value="{{material}}" required />
+                        <select class="form-select" name="genero" id="genero" style="height: 58px;" required>
+                            <option value="Hombre">Hombre</option>
+                            <option value="Mujer">Mujer</option>
+                            <option value="Unisex" selected>Unisex</option>
+                        </select>
+                        <label for="genero">Seleccione un género</label>
+                    </div>
+                    <div class="mb-3 form-floating">
+                        <input type="text" class="form-control text-capitalize" list="material" name="material" placeholder="Seleccione el material del producto" required>
                         <label for="material">Material del producto</label>
                         <datalist name="material" id="material">
                             {{#each materiales}}
@@ -79,17 +79,46 @@
                             {{/each}}
                         </datalist>
                     </div>
-                    <div class="mb-3">
-                        <input type="text" class="form-control text-uppercase" list="marca" name="marca" placeholder="SELECCIONE O INGRESE UNA MARCA" value="{{marca}}" required />
+                    <div class="mb-3 form-floating">
+                        <input type="text" class="form-control text-capitalize" list="marca" name="marca" placeholder="Seleccione la marca del producto" required>
+                        <label for="material">Marca del producto</label>
                         <datalist name="marca" id="marca">
                             {{#each marcas}}
-                                <option class="text-uppercase" value="{{marca}}">{{marca}}</option>
+                                <option value="{{marca}}">{{marca}}</option>
                             {{/each}}
                         </datalist>
                     </div>
                 {{/if}}
             </div>
         </div>
+        <div class="row">
+            <div class="mb-3">
+                <h3>Selección de talles</h3> 
+                {{#each talles}}
+                <div class="form-check d-inline m-0 p-0">
+                    <input type="checkbox" class="btn-check" name="{{talle}}" id="btn-{{talle}}"
+                        autocomplete="off">
+                    <label class="btn btn-outline-dark btn-lg shadow-none" for="btn-{{talle}}"
+                        style="width: 100px;">{{talle}}</label>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="mb-3">
+                <h3>Selección de colores</h3>
+                {{#each colores}}
+                    <div class="form-check d-inline m-0 p-0">
+                        <input type="checkbox" value="{{color}}" name="{{color}}" autocomplete="off">
+                        <label class="btn btn-dark" for="btn-{{color}}" id="btn-{{color}}">ㅤㅤ</label>
+                    </div>
+                {{/each}}
+            </div>
+        </div>
     {{/with}}
+    <div class="d-grid gap-2 d-md-flex justify-content-center">
+        <button type="submit" class="btn btn-success btn-lg"><i class="fas fa-check"></i> Publicar</button>
+        <button type="reset" class="btn btn-danger btn-lg"><i class="fas fa-trash"></i> Descartar</button>
+    </div>
     </form>
 </section>

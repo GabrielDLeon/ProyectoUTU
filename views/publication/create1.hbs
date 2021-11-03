@@ -43,7 +43,7 @@
                         {{else}}
                             <div class="mb-3">
                                 <h3>Caracteristicas del producto</h3>
-                                <input type="text" class="form-control text-uppercase" list="categoria" name="categoria" placeholder="SELECCIONE UNA CATEGORIA" value="{{categoria}}" required />
+                                <input type="text" class="form-control text-uppercase" list="categoria" name="categoria" placeholder="SELECCIONE UNA CATEGORIA" required />
                                 <datalist name="categoria" id="categoria">
                                     {{#each categorias}}
                                         <option class="text-uppercase" value="{{categoria}}">{{categoria}}</option>
@@ -55,13 +55,13 @@
                                     <option value="Mujer">Mujer</option>
                                     <option value="Unisex">Unisex</option>
                                 </select> <br>
-                                <input type="text" class="form-control text-uppercase" list="material" name="material" placeholder="SELECCIONE EL MATERIAL DE LA PRENDA" value="{{material}}" required />
+                                <input type="text" class="form-control text-uppercase" list="material" name="material" placeholder="SELECCIONE EL MATERIAL DE LA PRENDA" required />
                                 <datalist name="material" id="material" class="">
                                     {{#each materiales}}
                                         <option class="text-uppercase" value="{{material}}">{{material}}</option>
                                     {{/each}}
                                 </datalist> <br>
-                                <input type="text" class="form-control text-uppercase" list="marca" name="marca" placeholder="SELECCIONE O INGRESE UNA MARCA" value="{{marca}}" required/>
+                                <input type="text" class="form-control text-uppercase" list="marca" name="marca" placeholder="SELECCIONE O INGRESE UNA MARCA" required/>
                                 <datalist name="marca" id="marca">
                                     {{#each marcas}}
                                         <option class="text-uppercase" value="{{marca}}">{{marca}}</option>
