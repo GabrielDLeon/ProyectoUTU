@@ -4,9 +4,18 @@
     {{#if questions}}
         {{#each questions}}
             <div class="my-3">
-                <div>
-                    <p class="mb-2">{{mensaje}}<span class="ms-3 text-muted">{{timeago fechaPregunta}}</span></p>
+                <div class="mb-2 text-break">
+                    <span>{{mensaje}}</span>
+                    <span class="ms-3 text-muted">{{timeago fechaPregunta}}</span>
+                    {{#ifCond ../user.data.email '==' emailRemitente}}
+                        <form action="/publication/question/delete/{{idPregunta}}" method="POST" class="d-inline">
+                            <button title="Eliminar pregunta" class="btn mx-1 p-0"><i class="fas fa-times" style="color: red;"></i> </button>
+                        </form>
+                    {{/ifCond}}
                 </div>
+                {{!-- <div>
+                    <p class="mb-2">{{mensaje}}<span class="ms-3 text-muted">{{timeago fechaPregunta}}</span></p>
+                </div> --}}
                 {{!-- <h1>{{../user.data.email}}</h1>
                 <h1>{{emailVendedor}}</h1> --}}
                 {{#if respuesta}}

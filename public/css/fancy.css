@@ -24,6 +24,10 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
+input, textarea, label{
+    user-select:none;
+}
+
 /* Firefox */
 input[type=number] {
   -moz-appearance: textfield;

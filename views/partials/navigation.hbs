@@ -71,7 +71,12 @@
                         {{#ifCond data.tipo '==' 'empresa'}}
                             <li class="nav-item"><a class="nav-link" href="/list">Mis publicaciones</a></li>
                             <li class="nav-item"><a class="nav-link" href="/list/questions">Preguntas</a></li>
-                            <li class="nav-item"><a class="nav-link" href="/create?newPublication=true">Hacer publicacion</a></li>
+                            <li title="Crear publicación" class="nav-item">
+                                <a class="nav-link" href="/create?newPublication=true">
+                                    <i class="fas fa-plus-circle d-none d-lg-inline"></i>
+                                    <span class="d-inline d-lg-none">Crear publicación</span>
+                                </a>
+                            </li>
                         {{/ifCond}}
                         {{#ifCond tipo '==' 'empresa'}}
                             <li class="nav-item"><a class="nav-link" href="/list">Mis publicaciones</a></li>

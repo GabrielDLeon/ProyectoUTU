@@ -165,11 +165,15 @@
                                 <div class="row">
                                     <p for="question" class="fs-5 fw-bold">Pregúntale a la tienda</p>
                                     <div class="col">
-                                        <textarea class="form-control text-area rounded-0" name="mensaje" id="mensaje" placeholder="Escribe tu pregunta..."></textarea>
+                                        <div class="form-floating">
+                                            <textarea class="form-control" name="mensaje" id="mensaje" placeholder="Escribe tu pregunta" maxlength="145" rows="5" style="height:100%;" required></textarea>
+                                            <label for="mensaje">Escribe tu pregunta</label>
+                                        </div>
                                     </div>
                                     <div class="col-auto">
                                         <button title="Enviar pregunta" type="submit" class="text-uppercase rounded-0 btn btn-dark" style="height: 100%; width: 100%;"><i class="fas fa-angle-right"></i></button>
                                     </div>
+                                    <small class="text-muted">Limite de caracteres permitido por pregunta: 145</small>
                                 </div>
                             </form>
                         {{/ifCond}}
@@ -216,12 +220,13 @@
                         {{#if questions}}
                             {{#each questions}}
                                 <div class="my-3">
-                                    <div>
-                                        <p class="mb-2">{{mensaje}}<span class="ms-3 text-muted">{{timeago fechaPregunta}}</p></span>
+                                    <div class="mb-2 text-break">
+                                        <span>{{mensaje}}</span>
+                                        <span class="ms-3 text-muted">{{timeago fechaPregunta}}</span>
                                         {{#ifCond ../user.data.email '==' emailRemitente}}
-                                        <form action="/publication/question/delete/{{idPregunta}}" method="POST">
-                                        <button title="Eliminar pregunta" class="btn"><i class="fas fa-times"></i> </button>
-                                        </form>
+                                            <form action="/publication/question/delete/{{idPregunta}}" method="POST" class="d-inline">
+                                                <button title="Eliminar pregunta" class="btn mx-1 p-0"><i class="fas fa-times" style="color: red;"></i> </button>
+                                            </form>
                                         {{/ifCond}}
                                     </div>
                                     {{#if respuesta}}
@@ -244,9 +249,12 @@
                                                 <div id="textAnswer" class="mb-3">
                                                     <form action="/publication/answer/{{idPregunta}}?section=publication" method="POST">
                                                         <div class="row">
-                                                            <label for="respuesta">Responder</label>
                                                             <div class="col">
-                                                                <textarea class="form-control text-area rounded-0" name="respuesta" id="respuesta" placeholder="Ingrese su respuesta"></textarea>
+                                                                <div class="form-floating">
+                                                                    <textarea class="form-control" name="respuesta" id="respuesta" placeholder="Responde la pregunta" maxlength="145" rows="3" style="height:100%;" required></textarea>
+                                                                    <label for="respuesta">Responde la pregunta</label>
+                                                                </div>
+                                                                {{!-- <textarea class="form-control text-area rounded-0" name="respuesta" id="respuesta" placeholder="Ingrese su respuesta"></textarea> --}}
                                                             </div>
                                                             <div class="col-auto">
                                                                 <button title="Enviar respuesta" type="submit" class="text-uppercase rounded-0 btn btn-dark" style="height: 100%; width: 100%;"><i class="fas fa-angle-right"></i></button>
