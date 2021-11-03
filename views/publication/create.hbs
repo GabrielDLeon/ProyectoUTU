@@ -53,7 +53,7 @@
                     {{/with}}
                 {{else}}
                     <div class="mb-3 form-floating">
-                        <input type="text" class="form-control" name="categoria" id="categoria" list="categoria" placeholder="Seleccione una categoría" style="height: 58px;" required>
+                        <input type="text" class="form-control" name="categoria" id="categoria" list="categoria" placeholder="Seleccione una categoría" value="{{categoria}}" style="height: 58px;" required>
                         <label for="categoria">Categoría del producto</label>
                         <datalist name="categoria" id="categoria">
                             {{#each categorias}}
@@ -71,7 +71,7 @@
                         </select>
                     </div>
                     <div class="mb-3 form-floating">
-                        <input type="text" class="form-control text-capitalize" list="material" name="material" placeholder="Seleccione el material del producto" required />
+                        <input type="text" class="form-control text-capitalize" list="material" name="material" placeholder="Seleccione el material del producto" value="{{material}}" required />
                         <label for="material">Material del producto</label>
                         <datalist name="material" id="material">
                             {{#each materiales}}
@@ -80,7 +80,7 @@
                         </datalist>
                     </div>
                     <div class="mb-3">
-                        <input type="text" class="form-control text-uppercase" list="marca" name="marca" placeholder="SELECCIONE O INGRESE UNA MARCA" required />
+                        <input type="text" class="form-control text-uppercase" list="marca" name="marca" placeholder="SELECCIONE O INGRESE UNA MARCA" value="{{marca}}" required />
                         <datalist name="marca" id="marca">
                             {{#each marcas}}
                                 <option class="text-uppercase" value="{{marca}}">{{marca}}</option>

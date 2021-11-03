@@ -84,6 +84,14 @@ router.get('/login', (req, res) => {
   });
 });
 
+router.get('/terms', (req, res) => {
+  res.render('terms', {
+    title: "Términos y condiciones"
+  });
+});
+
+
+
 router.get('/admin/resetIncremental', authController.isLoggedIn, async (req, res) => {
   const tables = ['cuenta_empresa','cuenta_personal','notificaciones','preguntas','productos','publicacion'];
   const incremental = ['id', 'id', 'idNotificacion', 'idPregunta', 'idProducto', 'nroPublicacion'];

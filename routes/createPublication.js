@@ -40,7 +40,7 @@ router.get('/', authController.isLoggedIn, (req, res) => {
                                 talles,
                                 title: "Nueva publicación"
                             }
-                            res.render('publication/create', {
+                            res.render('publication/create1', {
                                 product: product[0],
                                 bodyRender,
                                 user: req.user,
@@ -64,7 +64,7 @@ router.get('/', authController.isLoggedIn, (req, res) => {
                     talles,
                     title: "Nueva publicación"
                 }
-                res.render('publication/create', {
+                res.render('publication/create1', {
                     bodyRender,
                     user: req.user,
                     query: "newPublication=true",
@@ -98,14 +98,14 @@ router.post('/', upload.array("imagen", 12), authController.isLoggedIn, async (r
                 title: "Nueva publicación",
             }
             if (!titulo || !descripcion || !precio) {
-                return res.render('publication/create', {
+                return res.render('publication/create1', {
                     user: req.user,
                     bodyRender,
                     message: "Por favor complete todos los campos antes de crear la publicación",
                 });
             }
             else if (filtro == false) {
-                return res.render('publication/create', {
+                return res.render('publication/create1', {
                     user: req.user,
                     bodyRender,
                     message: "Compruebe la extensión de las imagenes que quiere subir (solo válidas .png, .jpg, .jpeg, .svg)",
@@ -142,7 +142,7 @@ router.post('/', upload.array("imagen", 12), authController.isLoggedIn, async (r
                         })
                     }
                     db.query('SELECT * FROM productos WHERE idProducto = ?', [idProducto], (error, product) => {
-                        return res.render('publication/create', {
+                        return res.render('publication/create1', {
                             bodyRender,
                             id: idPublicacion,
                             product: product[0],
@@ -171,6 +171,10 @@ router.post('/', upload.array("imagen", 12), authController.isLoggedIn, async (r
                         descripcion: req.body.descripcion,
                         precio: req.body.precio,
                         descuento: req.body.descuento,
+                        material,
+                        marca,
+                        genero,
+                        categoria,
                         title: "Nueva publicación",
                     }
                     if (!genero || !titulo || !descripcion || !precio || !material || !marca || !categoria) {
@@ -251,7 +255,7 @@ router.post('/', upload.array("imagen", 12), authController.isLoggedIn, async (r
                                             db.query("INSERT INTO fotos VALUES (?, ?);", [idPublicacion, resultado]);
                                         })
                                     }
-                                    return res.render('publication/create', {
+                                    return res.render('publication/create1', {
                                         id: result.insertId,
                                         user: req.user,
                                         bodyRender,

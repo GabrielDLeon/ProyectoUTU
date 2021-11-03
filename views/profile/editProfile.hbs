@@ -8,11 +8,15 @@
           <input type="User" class="form-control" placeholder="Nombre Completo" id="name" name="nombre" value="{{data.nombre}}" required>
           <label for="name">Nombre Completo</label>
         </div>
+        <div class="form-floating mb-3"> 
+          <input type="User" class="form-control" placeholder="E-mail" id="mail" name="mail" value="{{data.email}}" required>
+          <label for="name">E-mail</label>
+          <small class="ms-1 text-danger">Atención: ¡Si cambias tu dirección de correo electrónico tendrás que volver a iniciar sesión!</small>
+        </div>
         <p>¿Deseas cambiar la contraseña? <a href="/profile/edit/pass/{{data.id}}">Click aquí</a></p>
         <div class="mb-3">
           <div class="d-grid gap-2">
             <button type="submit" class="text-uppercase btn btn-dark" name="guardar" id="guardar"><i class="fas fa-save"></i> Guardar cambios</button>
-        
           </div>
           {{#if message }}
            <p class="text-danger text-center mt-1">{{message}}</p>

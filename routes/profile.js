@@ -265,7 +265,7 @@ router.post('/edit/:id', upload.single("imagen"), authController.isLoggedIn, asy
       await db.query('SELECT cuentas.email, cuentas.password, cuenta_personal.nombre, cuenta_personal.id FROM cuentas INNER JOIN cuenta_personal ON cuentas.email = cuenta_personal.email WHERE cuenta_personal.email = ?', [email], async (error, result) => {
          const { id } = req.params;
          const email = result[0].email;
-         const { nombre } = req.body;
+         const { nombre, mail } = req.body;
          if (!nombre) {
             return res.render('profile/editProfile', {
                email: req.body.email,
@@ -277,7 +277,11 @@ router.post('/edit/:id', upload.single("imagen"), authController.isLoggedIn, asy
             })
          }
          db.query('UPDATE cuenta_personal set ? WHERE id = ?', [{ nombre: nombre }, id]);
-         res.redirect(req.originalUrl);
+         if (mail != email) {
+         db.query('UPDATE cuentas set ? WHERE email = ?', [{ email: mail }, email]);
+         res.clearCookie('jwt');
+         return res.redirect('/');
+      } else {return res.redirect(req.originalUrl);}
       })
    } else if (req.user.data.tipo == 'empresa') {
       await db.query('SELECT cuentas.email , cuentas.password, perfil.fotoPerfil, cuentas.tipo, cuenta_empresa.nombre, cuenta_empresa.id, razonSocial, descripcion, direccion, telefono FROM (cuentas INNER JOIN cuenta_empresa ON cuentas.email = cuenta_empresa.email INNER JOIN perfil ON perfil.email = cuenta_empresa.email) WHERE cuentas.email = ?', [email], async (error, result) => {
@@ -296,7 +300,7 @@ router.post('/edit/:id', upload.single("imagen"), authController.isLoggedIn, asy
                message: "Por favor, ingrese un nombre"
             })
          }
-         else if (req.file) {
+         else if (req.file.length > 0) {
             imagen = req.file.buffer.toString('base64');
             db.query('UPDATE perfil set ? WHERE email = ?', [{ fotoPerfil: imagen }, email]);
          }
