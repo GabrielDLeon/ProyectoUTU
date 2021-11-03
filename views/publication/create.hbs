@@ -54,7 +54,7 @@
                     {{/with}}
                 {{else}}
                     <div class="mb-3 form-floating">
-                        <input type="text" class="form-control text-capitalize" name="categoria" list="categoria" placeholder="Seleccione la categoría del producto"required>
+                        <input type="text" class="form-control text-capitalize" name="categoria" list="categoria" placeholder="Seleccione la categoría del producto" value="{{categoria}}" required>
                         <label for="categoria">Categoría del producto</label>
                         <datalist name="categoria" id="categoria">
                             {{#each categorias}}
@@ -71,7 +71,7 @@
                         <label for="genero">Seleccione un género</label>
                     </div>
                     <div class="mb-3 form-floating">
-                        <input type="text" class="form-control text-capitalize" list="material" name="material" placeholder="Seleccione el material del producto" required>
+                        <input type="text" class="form-control text-capitalize" list="material" name="material" placeholder="Seleccione el material del producto" value="{{material}}" required>
                         <label for="material">Material del producto</label>
                         <datalist name="material" id="material">
                             {{#each materiales}}
@@ -80,7 +80,7 @@
                         </datalist>
                     </div>
                     <div class="mb-3 form-floating">
-                        <input type="text" class="form-control text-capitalize" list="marca" name="marca" placeholder="Seleccione la marca del producto" required>
+                        <input type="text" class="form-control text-capitalize" list="marca" name="marca" placeholder="Seleccione la marca del producto" value="{{marca}}" required>
                         <label for="material">Marca del producto</label>
                         <datalist name="marca" id="marca">
                             {{#each marcas}}
@@ -121,4 +121,30 @@
         <button type="reset" class="btn btn-danger btn-lg"><i class="fas fa-trash"></i> Descartar</button>
     </div>
     </form>
+    {{#if success}}
+        <p class="text-success text-center mt-1">{{success}}</p>
+        <p><a href="/publication/{{id}}">Click aquí</a> para verla </p>
+    {{/if}}
+    {{#if message}}
+        <p class="text-danger text-center mt-1">{{message}}</p>
+    {{/if}}
 </section>
+<script>
+    (function () {
+        'use strict';
+        window.addEventListener('load', function () {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
+</script>

@@ -56,7 +56,7 @@ router.get('/:type', authController.isLoggedIn, async (req, res) => {
             res.redirect('/list/questions/all?page=1');
         }
         let template = 'SELECT idPregunta, publicacion.nroPublicacion, publicacion.titulo, nombreRemitente, mensaje, fechaPregunta, respuesta, fechaRespuesta, nombreRemitente FROM (view_preguntas INNER JOIN publicacion ON publicacion.nroPublicacion = view_preguntas.nroPublicacion) '+conditions+' ORDER BY fechaPregunta DESC LIMIT ? OFFSET ?';
-        paginations(page, 10, template, path, function (error, result) {
+        paginations(page, 15, template, path, function (error, result) {
             if (result){
                 res.render('publication/listQuestions', {
                     result: result.questions,
