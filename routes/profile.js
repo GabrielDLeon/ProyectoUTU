@@ -54,7 +54,7 @@ router.get('/:nombre', authController.isLoggedIn, async (req, res) => {
       await db.query('SELECT * FROM cuenta_empresa WHERE nombre = ?', [nombre], (error, search) => {
          // Verifica que exista una cuenta de empresa con ese nombre
          if (search.length > 0) {
-            db.query('SELECT fotoPerfil, nombre, email, direccion, descripcion, telefono  FROM (perfil) WHERE nombre = ?', [nombre], (error, profile) => {
+            db.query('SELECT fotoPerfil, nombre, email, direccion, descripcion, telefono FROM (perfil) WHERE nombre = ?', [nombre], (error, profile) => {
                const email = profile[0].email;
                db.query('SELECT tipo, URL, propietario, nombre FROM (enlaces INNER JOIN perfil ON enlaces.propietario = perfil.email) WHERE propietario = ?', [email], async (error, redes) => {
                   db.query('SELECT nroPublicacion FROM view_publicaciones WHERE view_publicaciones.nombreVendedor = ?', [nombre], (error, existPublications) => {
@@ -288,6 +288,8 @@ router.post('/edit/:id', upload.single("imagen"), authController.isLoggedIn, asy
          const { id } = req.params;
          const email = result[0].email;
          const { nombre, descripcion, direccion, telefono, razon, mail } = req.body;
+         console.log(nombre)
+         db.query('SELECT nombre from cuenta_empresa where nombre = ?', [nombre], (error, name) => {
          if (!nombre, !email) {
             return res.render('profile/editEmpresa', {
                data: result[0],
@@ -297,14 +299,28 @@ router.post('/edit/:id', upload.single("imagen"), authController.isLoggedIn, asy
                direccion: req.body.direccion,
                telefono: req.body.telefono,
                user: req.user,
-               message: "Por favor, ingrese un nombre"
+               message: "Por favor, ingrese un nombre",
+               title: "Editar perfil"
             })
          }
-         else if (req.file.length > 0) {
+         if (name.length > 0) {
+            return res.render('profile/editEmpresa', {
+               data: result[0],
+               email: req.body.email,
+               nombre: req.body.nombre,
+               descripcion: req.body.descripcion,
+               direccion: req.body.direccion,
+               telefono: req.body.telefono,
+               user: req.user,
+               message: "Ese nombre de empresa ya está en uso, ingrese otro.",
+               title: "Editar perfil"
+            })
+         }
+         else if (req.file) {
             imagen = req.file.buffer.toString('base64');
             db.query('UPDATE perfil set ? WHERE email = ?', [{ fotoPerfil: imagen }, email]);
          }
-         db.query('UPDATE perfil set ? WHERE email = ?', [{ descripcion: descripcion, direccion: direccion, telefono: telefono }, email]);
+         db.query('UPDATE perfil set ? WHERE email = ?', [{ descripcion: descripcion, direccion: direccion, telefono: telefono, nombre:nombre }, email]);
          db.query('UPDATE cuenta_empresa set ? WHERE id = ?', [{ nombre: nombre, razonSocial: razon }, id]);
          if (mail != email) {
             db.query('UPDATE cuentas SET ? WHERE email = ?', [{ email: mail }, email]);
@@ -313,6 +329,7 @@ router.post('/edit/:id', upload.single("imagen"), authController.isLoggedIn, asy
          }
          res.redirect(req.originalUrl);
       });
+      })
    }
 });
 
