@@ -4,7 +4,7 @@
         {{!-- SIDEBAR --}}
         <div class="col-md-12 col-lg-4 align-middle" id="sidebar" style="background-color: #fafafa;">
             <div class="sticky-top pt-sm-0 pt-md-0 pt-lg-5 pt-xl-5" style="z-index: 1">
-                <div class="m-5 p-lg-2 p-xl-4 position-relative">
+                <div class="m-4 p-lg-2 p-xl-4 position-relative">
                     {{#ifCond data.email '==' user.data.email}}
                         <a class="btn position-absolute translate-middle start-100 m-0 p-0" href="/profile/edit/{{data.id}}">
                             <i class="fas fa-cog p-1" style="font-size: 32px"></i>
@@ -21,7 +21,7 @@
                         </div>
                     </div>
                     {{!-- USER DATA --}}
-                    <div class="row d-flex justify-content-center">
+                    <div class="row d-flex justify-content-center pb-5">
 
                         {{!-- NAME AND DESCRIPTION --}}
                         <div class="row">

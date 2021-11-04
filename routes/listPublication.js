@@ -101,7 +101,7 @@ router.get('/edit/:id', authController.isLoggedIn, async (req, res) => {
                 })
             } else {
                 console.log("No se pudieron actualizar los datos de la publicación, esto debido a que la cuenta activa no corresponde al usuario vendedor de la publicación")
-                res.redirect('/');
+                res.redirect('/list');
             }
         } else {
             //console.log("No se encontró ninguna publicación");

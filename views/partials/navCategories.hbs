@@ -1,7 +1,20 @@
 <div class="sidebar close">
-   <ul class="nav-links d-flex align-items-center p-1">
-      <div>
+   <ul class="nav-links d-flex align-items-center">
+      <div class="">
 
+      {{!-- CABEZA --}}
+      <li>
+         <a href="#">
+            <i class="fas fa-hat-winter"></i>
+            <span class="link_name"></span>
+         </a>
+         <ul class="sub-menu blank">
+            {{#each categories.cabeza}}
+            <li><a class="link_name text-capitalize" href="/search?key={{categoria}}">{{categoria}}</a></li>
+            {{/each}}
+         </ul>
+      </li>
+      
       {{!-- PRENDAS SUPERIORES --}}
       <li>
          <a href="#">
@@ -69,7 +82,7 @@
       {{!-- OTROS --}}
       <li>
          <a href="#">
-            <i class="fas fa-hat-winter"></i>
+            <i class="fas fa-plus"></i>
             <span class="link_name"></span>
          </a>
          <ul class="sub-menu blank">
