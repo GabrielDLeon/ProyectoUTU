@@ -4,7 +4,12 @@
         {{!-- SIDEBAR --}}
         <div class="col-md-12 col-lg-4 align-middle" id="sidebar" style="background-color: #fafafa;">
             <div class="sticky-top pt-sm-0 pt-md-0 pt-lg-5 pt-xl-5" style="z-index: 1">
-                <div class="m-5 p-lg-2 p-xl-4">
+                <div class="m-5 p-lg-2 p-xl-4 position-relative">
+                    {{#ifCond data.email '==' user.data.email}}
+                        <a class="btn position-absolute translate-middle start-100 m-0 p-0" href="/profile/edit/{{data.id}}">
+                            <i class="fas fa-cog p-1" style="font-size: 32px"></i>
+                        </a>
+                    {{/ifCond}}
                     {{!-- PROFILE PICTURE --}}
                     <div class="row justify-content-center">
                         <div class="col-6 mb-4">
@@ -15,7 +20,6 @@
                             {{/if}}
                         </div>
                     </div>
-
                     {{!-- USER DATA --}}
                     <div class="row d-flex justify-content-center">
 
@@ -43,7 +47,11 @@
                                         {{#if profile.direccion}}
                                             {{profile.direccion}}
                                         {{else}}
-                                            <p>No existe una dirección</p>
+                                            {{#ifCond data.email '==' user.data.email}}
+                                                <a href="/profile/edit/{{data.id}}" class="link-unstyled"><p>Click para indicar una dirección</p></a>
+                                            {{else}}
+                                                <p>No se ha indicado una dirección</p>
+                                            {{/ifCond}}
                                         {{/if}}
                                     </span>
                                 </div>
@@ -56,9 +64,13 @@
                                     <p class="m-0"><strong>Teléfono</strong></p>
                                     <span class="text-muted">
                                         {{#if profile.telefono}}
-                                        <p class="text-muted">{{profile.telefono}}</p>
+                                        <p>{{profile.telefono}}</p>
                                         {{else}}
-                                            <p>No existe un teléfono</p>
+                                            {{#ifCond data.email '==' user.data.email}}
+                                                <a href="/profile/edit/{{data.id}}" class="link-unstyled"><p>Click para indicar un teléfono</p></a>
+                                            {{else}}
+                                                <p>No se ha indicado un teléfono</p>
+                                            {{/ifCond}}
                                         {{/if}}
                                     </span>
                                 </div>
@@ -88,23 +100,6 @@
                                 {{/with}}
                             </div>
                         {{/if}}
-
-                        {{!-- BUTTONS --}}
-                        {{#ifCond data.email '==' user.data.email}}
-                            <div class="col-12 my-2 text-muted d-flex justify-content-center">
-                                <a href="/profile/edit/{{user.data.id}}">
-                                    <button type='submit' class="btn btn-outline-dark"><i class="fas fa-user-edit"></i> Editar perfil</button>
-                                </a>
-                            </div>
-                        {{/ifCond}}
-                        {{#ifCond user.data.tipo '==' 'usuario'}}
-                            <div class="col-12 my-2 text-muted d-flex justify-content-center">
-                                <a href="/">
-                                    <button type='submit' class="btn btn-outline-success"><i class="fas fa-user-plus"></i> Seguir cuenta</button>
-                                    {{!-- <button type='submit' class="btn btn-danger">Dejar de seguir</button> --}}
-                                </a>
-                            </div>
-                        {{/ifCond}}
                     </div>
                 </div>
             </div>

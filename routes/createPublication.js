@@ -83,8 +83,6 @@ router.post('/', upload.array("imagen", 12), authController.isLoggedIn, async (r
     const action = req.query;
     // Cuando se crea una  publicación con un producto ya existente (que se encuentra en la BD)
     if (action.idProducto) {
-        console.log("=============================================");
-        console.log("Se está creando una publicación desde un producto ya existente");
         getProductPropieties(function (error, productPropieties) {
             const { colores, talles } = productPropieties; // Datos de la BD
             const { titulo, descripcion, precio, descuento } = req.body; // Datos del formulario
@@ -154,8 +152,6 @@ router.post('/', upload.array("imagen", 12), authController.isLoggedIn, async (r
             }
         })
     } else if (action.newPublication) {
-        console.log("=============================================");
-        console.log("Se está creando una publicación y un producto");
         getProductPropieties(function (error, productPropieties) {
             const { categorias, materiales, marcas, colores, talles } = productPropieties; // Datos de la BD
             const { titulo, descripcion, precio, descuento, categoria, genero, material, marca } = req.body; // Datos del formulario

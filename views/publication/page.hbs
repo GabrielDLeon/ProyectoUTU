@@ -88,7 +88,7 @@
                                     </div>
                                 {{else}}
                                     {{#ifCond ../user.data.email '==' emailVendedor}}
-                                        <a href="/list/edit/{{nroPublicacion}}" class="fw-bold">Editar publicación</a>
+                                        <a title="Editar publicación" href="/list/edit/{{nroPublicacion}}" class="btn btn-default position-absolute top-0 end-0 m-1 p-1"><i class="fas fa-pen" style="font-size: xx-large;"></i></a>
                                     {{else}}
                                         <div class="text-muted fw-bold">
                                             <p>¿Vendes un producto igual? <a href="/create?idProducto={{idProducto}}">Crea una publicación similar</a></p>

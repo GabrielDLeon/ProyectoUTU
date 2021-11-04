@@ -42,7 +42,7 @@ function getLinks(email, callback) {
    db.query('SELECT * FROM enlaces WHERE propietario = ? AND tipo = "facebook"', [email], (error, facebook) => {
       db.query('SELECT * FROM enlaces WHERE propietario = ? AND tipo = "instagram"', [email], (error, instagram) => {
          db.query('SELECT * FROM enlaces WHERE propietario = ? AND tipo = "whatsapp"', [email], (error, whatsapp) => {
-            if (whatsapp) {
+            if (whatsapp.length>0) {
                let phone = whatsapp[0].URL;
                let number = phone.substring(1);
                let wppLink = 'https://wa.me/598' + number;
@@ -53,11 +53,7 @@ function getLinks(email, callback) {
                   wppLink,
                })
             } else {
-               return callback(null, {
-                  whatsapp: whatsapp[0],
-                  facebook: facebook[0],
-                  instagram: instagram[0],
-               })
+               return callback();
             }
          });
       });
@@ -82,7 +78,7 @@ router.get('/:nombre', authController.isLoggedIn, async (req, res) => {
          if (search.length > 0) {
             db.query('SELECT fotoPerfil, nombre, email, direccion, descripcion, telefono FROM (perfil) WHERE nombre = ?', [nombre], (error, profile) => {
                const email = profile[0].email;
-               getLinks(email, function(error, links){                     
+               getLinks(email, function(error, links){
                   db.query('SELECT nroPublicacion FROM view_publicaciones WHERE view_publicaciones.nombreVendedor = ?', [nombre], (error, existPublications) => {
                      if (existPublications.length>0) {
                         const page = JSON.parse(req.query.page);
