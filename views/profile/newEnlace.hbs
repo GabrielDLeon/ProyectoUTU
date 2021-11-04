@@ -11,13 +11,13 @@
                     <div class="text-center mb-3">
                         <i class="fab fa-whatsapp mb-4" style="font-size: 32px;"></i>
                         <h1>Whatsapp</h1>
-                        <p class="m-0">Conecta tu cuenta con Whatsapp para que tus clientes puedan encontrarte más rápido</p>
+                        <p class="m-0">Conecta tu cuenta con Whatsapp para que tus clientes puedan contactarte con más facilidad</p>
                         <small class="text-muted">Ejemplo: 098 444 564</small>
                     </div>
-                    <form action="/links/update/whatsapp" method="POST">
+                    <form action="/links/update/whatsapp" method="POST" class="needs-validation" novalidate>
                         <div class="form-floating mb-3">
                             <input class="form-control input-number" name="URL" id="whatsapp" type="text" placeholder="Número de teléfono" value="{{whatsapp.URL}}"
-                            onKeyPress="if(this.value.length==9) return false;" {{#if whatsapp}}style="background-color: transparent; color:white"{{/if}}>
+                            onKeyPress="if(this.value.length==9) return false;" {{#if whatsapp}}style="background-color: transparent; color:white"{{/if}} required>
                             <label for="whatsapp">Enlace de whatsapp</label>
                         </div>
                         <div class="row">
@@ -49,12 +49,12 @@
                         <i class="fab fa-instagram mb-4" style="font-size: 32px;"></i>
                         <h1>Instagram</h1>
                         <p class="m-0">Conecta tu cuenta con Instagram para que tus clientes puedan encontrarte más rápido</p>
-                        <small class="text-muted">Ejemplo: https://instagram.com/tienda</small>
+                        <small class="text-muted">Ejemplo: https://instagram.com/{{user.data.nombre}}</small>
                     </div>
                     <div class="col">
-                        <form action="/links/update/instagram" method="POST">
+                        <form action="/links/update/instagram" method="POST" class="needs-validation" novalidate>
                             <div class="form-floating mb-3">
-                                <input class="form-control" name="URL" id="instagram" type="text" placeholder="Número de teléfono" value="{{instagram.URL}}" {{#if instagram}}style="background-color: transparent; color:white"{{/if}}>
+                                <input class="form-control" name="URL" id="instagram" type="text" placeholder="Número de teléfono" value="{{instagram.URL}}" {{#if instagram}}style="background-color: transparent; color:white"{{/if}} required>
                                 <label for="instagram">Enlace de instagram</label>
                             </div>
                             <div class="row">
@@ -87,11 +87,11 @@
                         <i class="fab fa-facebook mb-4" style="font-size: 32px;"></i>
                         <h1>Facebook</h1>
                         <p class="m-0">Conecta tu cuenta con Facebook para que tus clientes puedan encontrarte más rápido</p>
-                        <small class="text-muted">Ejemplo: https://facebook.com/tienda</small>
+                        <small class="text-muted">Ejemplo: https://facebook.com/{{user.data.nombre}}</small>
                     </div>
-                    <form action="/links/update/facebook" method="POST">
+                    <form action="/links/update/facebook" method="POST" class="needs-validation" novalidate>
                         <div class="form-floating mb-3">
-                            <input class="form-control" name="URL" id="facebook" type="text" placeholder="Número de teléfono" value="{{facebook.URL}}" {{#if facebook}}style="background-color: transparent; color:white"{{/if}}>
+                            <input class="form-control" name="URL" id="facebook" type="text" placeholder="Número de teléfono" value="{{facebook.URL}}" {{#if facebook}}style="background-color: transparent; color:white"{{/if}} required>
                             <label for="facebook">Enlace de facebook</label>
                         </div>
                         <div class="row">

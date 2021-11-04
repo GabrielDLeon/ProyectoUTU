@@ -72,6 +72,17 @@ router.post('/update/:rs', authController.isLoggedIn, async (req, res) => {
         const { URL } = req.body;
         const { rs } = req.params;
         db.query('SELECT * FROM enlaces WHERE propietario = ? AND tipo = ?', [email, rs], (error, result) => {
+            getLinks(email, function(error, links){
+            if (URL.length < 9) {
+                return res.render('profile/newEnlace', {
+                    whatsapp: links.whatsapp,
+                    facebook: links.facebook,
+                    instagram: links.instagram,
+                    user: req.user,
+                    title: "Agregar enlace",
+                    message: "Ingrese un número válido"
+                });
+            }
             if (result.length>0){
                 let query = 'UPDATE enlaces SET URL = "'+URL+'" WHERE tipo = "'+rs+'" AND propietario = "'+email+'"';
                 db.query(query);
@@ -86,6 +97,7 @@ router.post('/update/:rs', authController.isLoggedIn, async (req, res) => {
                 });
             }
         });
+    })
     } else {
         res.redirect('/login');
     }
