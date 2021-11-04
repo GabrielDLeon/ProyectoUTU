@@ -1,51 +1,47 @@
-{{#if recommendations}}
-    {{#each recommendations}}
-        <div class="col position-relative mt-3">
-            <div class="card border-0 s">
-                <a href="/publication/{{nroPublicacion}}" class="link-unstyled">
-                    <div class="imgbox">
-                        {{#if imagen}}
-                            <img src="data:imagen/png;base64, {{imagen}}" class="card-img-top">
-                        {{else}}
-                            <img src="/img/Generic.png" class="card-img-top">
-                        {{/if}}
-                    </div>
-                </a>
-                {{#if descuento}}
-                    <div class="position-absolute p-1 ms-1 mb-2 text-capitalize">
-                        <a href="/search?sale=1"><span class="badge rounded-pill bg-danger">SALE</span></a>
-                        {{!-- <span class="badge rounded-pill bg-dark">{{categoria}}</span> --}}
-                        {{!-- <span class="badge rounded-pill bg-dark">{{genero}}</span> --}}
-                        {{!-- <span class="badge rounded-pill bg-dark">{{material}}</span> --}}
-                        {{!-- <span class="badge rounded-pill bg-dark">{{marca}}</span> --}}
-                    </div>
+<div class="col position-relative mt-3">
+    <div class="card border-0 s">
+        <a href="/publication/{{nroPublicacion}}" class="link-unstyled">
+            <div class="imgbox">
+                {{#if imagen}}
+                    <img src="data:imagen/png;base64, {{imagen}}" class="card-img-top">
+                {{else}}
+                    <img src="/img/Generic.png" class="card-img-top">
                 {{/if}}
-                <div class="my-3 text-center">
-                    <div class="d-flex justify-content-center">
-                        {{#if descuento}}
-                            <h4 class="m-0">${{descuento}}</h4> 
-                            {{!-- <span class="ms-1 badge rounded-pill bg-danger"><s class="align-middle">${{precio}}</s></span> --}}
-                            <h6 class="m-0 ms-1 fw-bold" style="color: #B53636;"><s>${{precio}}</s></h6>
-                        {{else}}
-                            <h4 class="m-0">${{precio}}</h4>
-                        {{/if}}
-                    </div>
-                    <div class="mt-2">
-                        {{!-- <h6 class="card-title mb-1">{{titulo}}</h6> --}}
-                        <h6 class="mb-0"><a href="/profile/{{nombreVendedor}}?page=1" class="text-muted link-unstyled">{{nombreVendedor}}</a></h6>
-                        {{#if fechaPublicacion}}
-                            <small class="text-muted"><i>{{timeago fechaPublicacion}}</i></small>
-                        {{else}}
-                            {{#if categoria}}
-                                <small class="text-muted text-capitalize"><i>{{categoria}} + {{genero}}</i></small>
-                            {{/if}}
-                        {{/if}}
-                        {{!-- <div><a href="/publication/{{nroPublicacion}}" class="link-unstyled">
-                            <h6 class="card-title mb-1">{{titulo}}</h6>
-                        </a></div> --}}
-                    </div>
-                </div>
+            </div>
+        </a>
+        {{#if descuento}}
+            <div class="position-absolute p-1 ms-1 mb-2 text-capitalize">
+                <a href="/search?sale=1"><span class="badge rounded-pill bg-danger">SALE</span></a>
+                {{!-- <span class="badge rounded-pill bg-dark">{{categoria}}</span> --}}
+                {{!-- <span class="badge rounded-pill bg-dark">{{genero}}</span> --}}
+                {{!-- <span class="badge rounded-pill bg-dark">{{material}}</span> --}}
+                {{!-- <span class="badge rounded-pill bg-dark">{{marca}}</span> --}}
+            </div>
+        {{/if}}
+        <div class="my-3 text-center">
+            <div class="d-flex justify-content-center">
+                {{#if descuento}}
+                    <h4 class="m-0">${{descuento}}</h4> 
+                    {{!-- <span class="ms-1 badge rounded-pill bg-danger"><s class="align-middle">${{precio}}</s></span> --}}
+                    <h6 class="m-0 ms-1 fw-bold" style="color: #B53636;"><s>${{precio}}</s></h6>
+                {{else}}
+                    <h4 class="m-0">${{precio}}</h4>
+                {{/if}}
+            </div>
+            <div class="mt-2">
+                {{!-- <h6 class="card-title mb-1">{{titulo}}</h6> --}}
+                <h6 class="mb-0"><a href="/profile/{{nombreVendedor}}?page=1" class="text-muted link-unstyled">{{nombreVendedor}}</a></h6>
+                {{#if fechaPublicacion}}
+                    <small class="text-muted"><i>{{timeago fechaPublicacion}}</i></small>
+                {{else}}
+                    {{#if categoria}}
+                        <small class="text-muted text-capitalize"><i>{{categoria}} + {{genero}}</i></small>
+                    {{/if}}
+                {{/if}}
+                {{!-- <div><a href="/publication/{{nroPublicacion}}" class="link-unstyled">
+                    <h6 class="card-title mb-1">{{titulo}}</h6>
+                </a></div> --}}
             </div>
         </div>
-    {{/each}}
-{{/if}}
+    </div>
+</div>

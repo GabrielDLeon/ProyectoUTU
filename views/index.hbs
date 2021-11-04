@@ -21,7 +21,7 @@
 
     {{!-- CONTENT --}}
     <section class="container mb-5">
-        <div class="row row-cols-1 row-cols-sm-3 g-4">
+        <div class="row row-cols-1 row-cols-sm-3 g-4 mb-4">
             <div class="col mt-3">
                 <div class="card border-0">
                     <a href="/search?sale=1&page=1" class="link-unstyled">
@@ -44,7 +44,14 @@
                 </div>
             </div>
         </div>
-        <div class="row row-cols-2">
+        <div class="row row-cols-2 row-cols-lg-4 g-4 mb-2">
+            {{#if recommendations}}
+                {{#each recommendations}}
+                    {{>products}}
+                {{/each}}
+            {{/if}}
+        </div>
+        <div class="row row-cols-2 mb-4">
             <div class="col mt-3">
                 <div class="card border-0">
                     <a href="/search?key=mujer&page=1" class="link-unstyled">
@@ -60,35 +67,21 @@
                 </div>
             </div>
         </div>
-    </section>
-    <section class="container mb-5">
-        <div class="row row-cols-2 row-cols-lg-4 g-4">
-            {{>products}}
+        <div class="row row-cols-2 row-cols-lg-4 g-4 mb-2">
+            {{#if recommendations}}
+                {{#each recommendations}}
+                    {{>products}}
+                {{/each}}
+            {{/if}}
         </div>
     </section>
+
     <section class="container mb-5">
         <div class="my-5">
             <h1 class="text-center" id="tiendas">Tiendas oficiales</h1> <br>
             <div class="row row-cols-2 row-cols-lg-4 g-4">
                 {{>shops}}
             </div>
-
-            {{!-- <h1 class="text-center" id="tiendas">Tiendas oficiales</h1> --}}
-            {{!-- <div class="d-flex justify-content-center">
-                <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
-                    <div class="carousel-inner">
-                        <div class="carousel-item active " data-bs-interval="5000">
-                            <img src="/img/testing/aliex.png" class="d-block w-50 mx-auto" alt="/img/testing/aliex.png">
-                        </div>
-                        <div class="carousel-item " data-bs-interval="5000">
-                            <img src="/img/testing/tiendamia.png" class="d-block w-50 mx-auto" alt="/img/testing/aliex.png">
-                        </div>
-                        <div class="carousel-item " data-bs-interval="5000">
-                            <img src="/img/testing/mercado.jpg" class="d-block w-50 mx-auto" alt="/img/testing/aliex.png">
-                        </div>
-                    </div>
-                </div>
-            </div> --}}
         </div>
     </section>
 

@@ -284,10 +284,10 @@ router.post('/delete/:id', authController.isLoggedIn, async (req, res) => {
 router.post('/edit/:id', upload.single("imagen"), authController.isLoggedIn, async (req, res) => {
    const { email } = req.user.data;
    if (req.user.data.tipo == 'usuario') {
-      await db.query('SELECT cuentas.email, cuentas.password, cuenta_personal.nombre, cuenta_personal.id FROM cuentas INNER JOIN cuenta_personal ON cuentas.email = cuenta_personal.email WHERE cuenta_personal.email = ?', [email], async (error, result) => { 
+      await db.query('SELECT cuentas.email, cuentas.password, cuenta_personal.nombre, cuenta_personal.id FROM cuentas INNER JOIN cuenta_personal ON cuentas.email = cuenta_personal.email WHERE cuenta_personal.email = ?', [email], async (error, result) => {
          const { id } = req.params;
          const email = result[0].email;
-         const { nombre, mail } = req.body; 
+         const { nombre, mail } = req.body;
          if (!nombre) {
             return res.render('profile/editProfile', {
                email: req.body.email,
@@ -298,25 +298,12 @@ router.post('/edit/:id', upload.single("imagen"), authController.isLoggedIn, asy
                title: 'Editar perfil'
             })
          }
-         db.query('SELECT email from cuentas WHERE email = ?', [mail], (error, result) => {
-         if (result.length > 0) {
-            return res.render('profile/editProfile', {
-                email: req.body.email,
-                nombre: req.body.nombre,
-                data: req.user.data,
-                user: req.user,
-                message: "Mail ya en uso, ingrese otro",
-                title: 'Editar perfil'
-             })
-            }
-         if (mail != email) {
-            db.query('UPDATE cuentas set ? WHERE email = ?', [{ email: mail }, email]);
-            res.clearCookie('jwt');
-            res.redirect('/');
-            }
          db.query('UPDATE cuenta_personal set ? WHERE id = ?', [{ nombre: nombre }, id]);
-         res.redirect(req.originalUrl);
-         })
+         if (mail != email) {
+         db.query('UPDATE cuentas set ? WHERE email = ?', [{ email: mail }, email]);
+         res.clearCookie('jwt');
+         return res.redirect('/');
+      } else {return res.redirect(req.originalUrl);}
       })
    } else if (req.user.data.tipo == 'empresa') {
       await db.query('SELECT cuentas.email , cuentas.password, perfil.fotoPerfil, cuentas.tipo, cuenta_empresa.nombre, cuenta_empresa.id, razonSocial, descripcion, direccion, telefono FROM (cuentas INNER JOIN cuenta_empresa ON cuentas.email = cuenta_empresa.email INNER JOIN perfil ON perfil.email = cuenta_empresa.email) WHERE cuentas.email = ?', [email], async (error, result) => {
@@ -357,7 +344,6 @@ router.post('/edit/:id', upload.single("imagen"), authController.isLoggedIn, asy
          }
          db.query('UPDATE perfil set ? WHERE email = ?', [{ descripcion: descripcion, direccion: direccion, telefono: telefono, nombre:nombre }, email]);
          db.query('UPDATE cuenta_empresa set ? WHERE id = ?', [{ nombre: nombre, razonSocial: razon }, id]);
-         res.redirect(req.originalUrl);
          if (mail != email) {
             db.query('UPDATE cuentas SET ? WHERE email = ?', [{ email: mail }, email]);
             res.clearCookie('jwt')
