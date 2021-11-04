@@ -6,11 +6,11 @@
     <form method="POST" action="/create?newPublication=true" enctype="multipart/form-data" class="needs-validation" novalidate>
     {{/if}}
     {{#with bodyRender}}
-    <h1 class="text-center mb-4">Creación de publicación</h1>
-        <div class="row">
+        <h1 class="text-center mb-4">Creación de publicación</h1>
+        <div class="row row-cols-1 row-cols-lg-2 my-2">
             {{!-- DATOS DE LA PUBLICACION --}}
-            <div class="col">
-                <h1>Datos de la publicación</h1>
+            <div class="col my-2">
+                <h3>Datos de la publicación</h3>
                 <div class="form-floating mb-3">
                     <input class="form-control" name="titulo" id="titulo" type="text" placeholder="Titulo del producto" value="{{titulo}}" onKeyPress="if(this.value.length==55) return false;" required>
                     <label for="titulo">Título del producto</label>
@@ -19,10 +19,6 @@
                     <textarea class="form-control" name="descripcion" id="descripcion" placeholder="Descripción del producto" maxlength="155" rows="5" style="height:100%;" required></textarea>
                     <label for="descripcion">Descripción del producto</label>
                 </div>
-                <div class="mb-3">
-                    <label for="formFile">Imágen/es para la publicación</label>
-                    <input class="form-control" type="file" id="formFile" name="imagen" placeholder="Imageasdasdsadn" multiple> <br>
-                </div>
                 <div class="row">
                     <div class="col">
                         <div class="form-floating mb-3">
@@ -30,20 +26,27 @@
                             <label for="precio">Precio ($)</label>
                         </div>
                     </div>
-                    <div class="col">
-                        <input type="checkbox" name="confirm-descuento" id="confirm-descuento" class="form-control-file">
-                        <label for="confirm-descuento">Añadir descuento</label>
-                        <div class="form-floating mb-3">
-                            <input class="form-control input-number" name="descuento" id="descuento" type="number" placeholder="Descuento (%)" onKeyPress="if(this.value.length==2) return false;" required>
-                            <label for="descuento">Descuento (%)</label>
+                    <div class="col-12 col-lg-auto">
+                        <div class="input-group mb-3">
+                            <div class="input-group-text">
+                                <input type="checkbox" name="confirm-descuento" id="confirm-descuento" class="form-control-file">
+                            </div>
+                            <div class="form-floating">
+                                <input class="form-control input-number" name="descuento" id="descuento" type="number" placeholder="Descuento (%)" onKeyPress="if(this.value.length==2) return false;" required>
+                                <label for="descuento">Descuento (%)</label>
+                            </div>
                         </div>
                     </div>
+                </div>
+                <div class="mb-1">
+                    <label for="formFile">Imágen/es para la publicación</label>
+                    <input class="form-control" type="file" id="formFile" name="imagen" placeholder="Imageasdasdsadn" multiple>
                 </div>
             </div>
 
             {{!-- DATOS DEL PRODUCTO --}}
-            <div class="col">
-                <h1>Datos del producto</h1>
+            <div class="col my-2">
+                <h3>Datos del producto</h3>
                 {{#if ../product}}
                     {{#with ../product}}
                         <h3>Publicación basada</h3>
@@ -90,8 +93,9 @@
                     </div>
                 {{/if}}
             </div>
+
         </div>
-        <div class="row">
+        <div class="row my-3">
             <div class="mb-3">
                 <h3>Selección de talles</h3> 
                 {{#each talles}}
@@ -104,7 +108,7 @@
                 {{/each}}
             </div>
         </div>
-        <div class="row">
+        <div class="row my-3">
             <div class="mb-3">
                 <h3>Selección de colores</h3>
                 {{#each colores}}
@@ -118,7 +122,7 @@
     {{/with}}
     <div class="d-grid gap-2 d-md-flex justify-content-center">
         <button type="submit" class="btn btn-success btn-lg"><i class="fas fa-check"></i> Publicar</button>
-        <button type="reset" class="btn btn-danger btn-lg"><i class="fas fa-trash"></i> Descartar</button>
+        <a class="btn btn-danger btn-lg" href="/create?newPublication=true" onclick="return confirm('¿Deseas descartar la publicación actual?')"><i class="fas fa-trash"></i> Descartar</a>
     </div>
     </form>
     {{#if success}}
