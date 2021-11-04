@@ -1,64 +1,71 @@
 {{>navigation}}
 <div class="container">
     {{#if publicacion}}
-        {{#each publicacion}}
-            <div class="card my-3 s">
-                <div class="row g-0">
-                    <a href="/publication/{{nroPublicacion}}">
-                        <div class="d-none d-md-block col-2" style="max-height: 264px;">
-                            {{#if imagen}}
-                                <img src="data:imagen/png;base64, {{imagen}}" style="display: block; object-fit: cover; height: 100%; width: 100%;" class="img-fluid rounded-start" alt="...">
-                            {{else}}
-                                <img src="./img/Generic.png" style="display: block; object-fit: cover; height: 100%;" class="img-fluid rounded-start" alt="...">
-                            {{/if}}
-                            </a>
-                        </div>
-                    <div class="col-sm-12 col-md-10 d-flex justify-content-center align-items-center">
-                        <div class="card-body p-3 p-md-4 p-lg-5">
-                            <p class="card-text mb-1"></p>
-                            <a class="link-unstyled" href="/publication/{{nroPublicacion}}">
-                                <h5 class="card-title">{{titulo}}</h5>
-                            </a>
-                            <small class="card-text text-muted text-break">{{descripcion}}</small>
-                            {{#if descuento}}
-                                <div class="d-flex">
-                                    <h3 class="card-text">${{descuento}}</h3>
-                                    <span class="text-muted ms-1"><s>{{precio}}</s></span>
-                                </div>
-                            {{else}}
-                                <h3 class="card-text">${{precio}}</h3>
-                            {{/if}}
-                            <div class="d-flex">
-                                <div class="me-1">
-                                    <form action="/list/delete/{{nroPublicacion}}" method="POST">
-                                        <button style="margin-right: 10px;" onclick="return confirm('¿Está seguro que desea eliminar esta publicación?');" title="Eliminar" class="btn btn-danger"><i class="fas fa-trash"></i> Eliminar</button>
-                                    </form>
-                                </div>
-                                <div class="me-1">
-                                    <form action="/list/edit/{{nroPublicacion}}" method="GET">
-                                        <button style="margin-right: 10px;" title="Editar" class="btn btn-dark">Editar <i class="fas fa-edit"></i></button>
-                                    </form>
-                                </div>
-                                <div class="d-sm-grid d-md-block gap-2">
-                                    <a href="/publication/{{nroPublicacion}}" class="btn btn-success link-unstyled">Ver</a>
-                                </div>
-                            </div>
-                        </div>
+    {{#each publicacion}}
+    <div class="card my-3 s">
+        <div class="row g-0">
+            <a href="/publication/{{nroPublicacion}}">
+                <div class="d-none d-md-block col-2" style="max-height: 264px;">
+                    {{#if imagen}}
+                    <img src="data:imagen/png;base64, {{imagen}}"
+                        style="display: block; object-fit: cover; height: 100%; width: 100%;"
+                        class="img-fluid rounded-start" alt="...">
+                    {{else}}
+                    <img src="./img/Generic.png" style="display: block; object-fit: cover; height: 100%;"
+                        class="img-fluid rounded-start" alt="...">
+                    {{/if}}
+            </a>
+        </div>
+        <div class="col-sm-12 col-md-10 d-flex justify-content-center align-items-center">
+            <div class="card-body p-3 p-md-4 p-lg-5">
+                <p class="card-text mb-1"></p>
+                <a class="link-unstyled" href="/publication/{{nroPublicacion}}">
+                    <h5 class="card-title">{{titulo}}</h5>
+                </a>
+                <small class="card-text text-muted text-break">{{descripcion}}</small>
+                {{#if descuento}}
+                <div class="d-flex">
+                    <h3 class="card-text">${{descuento}}</h3>
+                    <span class="text-muted ms-1"><s>{{precio}}</s></span>
+                </div>
+                {{else}}
+                <h3 class="card-text">${{precio}}</h3>
+                {{/if}}
+                <div class="d-flex">
+                    <div class="me-1">
+                        <form action="/list/delete/{{nroPublicacion}}" method="POST">
+                            <button style="margin-right: 10px;"
+                                onclick="return confirm('¿Está seguro que desea eliminar esta publicación?');"
+                                title="Eliminar" class="btn btn-danger"><i class="fas fa-trash"></i> Eliminar</button>
+                        </form>
+                    </div>
+                    <div class="me-1">
+                        <form action="/list/edit/{{nroPublicacion}}" method="GET">
+                            <button style="margin-right: 10px;" title="Editar" class="btn btn-dark">Editar <i
+                                    class="fas fa-edit"></i></button>
+                        </form>
+                    </div>
+                    <div class="d-sm-grid d-md-block gap-2">
+                        <a href="/publication/{{nroPublicacion}}" class="btn btn-success link-unstyled">Ver</a>
                     </div>
                 </div>
             </div>
-        {{/each}}
-    {{else}}
-        <div class="row d-flex justify-content-center">
-            <div class="col-10 p-5 text-center">
-                <div>
-                    <h2>No se encontraron publicaciones</h2>
-                </div>
-                <div class="text-muted">
-                    <p>Aquí encontrarás todos las publicaciones que hayas creado. A pesar de que no hayas creado ninguna todavía, lo puedes hacer en la sección "Hacer publicación"</p>
-                    <a href="/create?newPublication=true">Hacer una publicación</a>
-                </div>
-            </div>
         </div>
-    {{/if}}
+    </div>
+</div>
+{{/each}}
+{{else}}
+<div class="row d-flex justify-content-center">
+    <div class="col-10 p-5 text-center">
+        <div>
+            <h2>No se encontraron publicaciones</h2>
+        </div>
+        <div class="text-muted">
+            <p>Aquí encontrarás todos las publicaciones que hayas creado. A pesar de que no hayas creado ninguna
+                todavía, lo puedes hacer en la sección "Hacer publicación"</p>
+            <a href="/create?newPublication=true">Hacer una publicación</a>
+        </div>
+    </div>
+</div>
+{{/if}}
 </div>

@@ -19,7 +19,8 @@
         <div class="col-auto">
         </div>
         <div class="form-floating mb-3">
-          <input type="password" class="form-control" placeholder="Confirmar contraseña" id="pass" name="newPassConfirm" value="{{newPassConfirm}}" required>
+          <input type="password" class="form-control" placeholder="Confirmar contraseña" id="pass" name="newPassConfirm"
+            value="{{newPassConfirm}}" required>
           <label for="newPassConfirm">Confirmar contraseña</label>
           <div class="col-auto">
           </div>
@@ -35,7 +36,12 @@
         </div>
       </div>
       {{#if message }}
-      <p class="text-danger text-center mt-1">{{message}}</p>
+      <div class="d-flex justify-content-center">
+        <div class="alert alert-danger" role="alert" style="width: 70%;">
+          <p class="text-danger text-center mt-1 fw-bold">{{message}}</p>
+          <i class="fas fa-exclamation-triangle d-flex justify-content-center" style="font-size: 30px;"></i>
+        </div>
+      </div>
       {{/if}}
   </form>
 </div>

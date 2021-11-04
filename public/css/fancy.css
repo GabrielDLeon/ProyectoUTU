@@ -515,4 +515,7 @@ thead    {
     display: none;
   }
 }
-
+.ppp {
+  -webkit-filter: invert(100%);
+    filter: invert(100%);
+}

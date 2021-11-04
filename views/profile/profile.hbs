@@ -1,4 +1,5 @@
 {{>navigation}}
+
 <body style="overflow-x: hidden;">
     <div class="row" style="height: 100vh;">
         {{!-- SIDEBAR --}}
@@ -6,17 +7,20 @@
             <div class="sticky-top pt-sm-0 pt-md-0 pt-lg-5 pt-xl-5" style="z-index: 1">
                 <div class="m-4 p-lg-2 p-xl-4 position-relative">
                     {{#ifCond data.email '==' user.data.email}}
-                        <a class="btn position-absolute translate-middle start-100 m-0 p-0" href="/profile/edit/{{data.id}}">
-                            <i class="fas fa-cog p-1" style="font-size: 32px"></i>
-                        </a>
+                    <a class="btn position-absolute translate-middle start-100 m-0 p-0"
+                        href="/profile/edit/{{data.id}}">
+                        <i class="fas fa-cog p-1" style="font-size: 32px"></i>
+                    </a>
                     {{/ifCond}}
                     {{!-- PROFILE PICTURE --}}
                     <div class="row justify-content-center">
                         <div class="col-6 mb-4">
                             {{#if profile.fotoPerfil}}
-                                <img src="data:imagen/png;base64, {{profile.fotoPerfil}}" class="img-fluid rounded-circle" style="width: max-content; z-index: 1" id="imagen">
+                            <img src="data:imagen/png;base64, {{profile.fotoPerfil}}" class="img-fluid rounded-circle"
+                                style="width: max-content; z-index: 1" id="imagen">
                             {{else}}
-                                <img src="/img/avatar.png" alt="Generic placeholder image" class="img-fluid rounded-circle" style="width: max-content; z-index: 1" id="imagen">
+                            <img src="/img/avatar.png" alt="Generic placeholder image" class="img-fluid rounded-circle"
+                                style="width: max-content; z-index: 1" id="imagen">
                             {{/if}}
                         </div>
                     </div>
@@ -45,13 +49,15 @@
                                     <p class="m-0"><strong>Dirección</strong></p>
                                     <span class="text-muted">
                                         {{#if profile.direccion}}
-                                            {{profile.direccion}}
+                                        {{profile.direccion}}
                                         {{else}}
-                                            {{#ifCond data.email '==' user.data.email}}
-                                                <a href="/profile/edit/{{data.id}}" class="link-unstyled"><p>Click para indicar una dirección</p></a>
-                                            {{else}}
-                                                <p>No se ha indicado una dirección</p>
-                                            {{/ifCond}}
+                                        {{#ifCond data.email '==' user.data.email}}
+                                        <a href="/profile/edit/{{data.id}}" class="link-unstyled">
+                                            <p>Click para indicar una dirección</p>
+                                        </a>
+                                        {{else}}
+                                        <p>No se ha indicado una dirección</p>
+                                        {{/ifCond}}
                                         {{/if}}
                                     </span>
                                 </div>
@@ -66,11 +72,13 @@
                                         {{#if profile.telefono}}
                                         <p>{{profile.telefono}}</p>
                                         {{else}}
-                                            {{#ifCond data.email '==' user.data.email}}
-                                                <a href="/profile/edit/{{data.id}}" class="link-unstyled"><p>Click para indicar un teléfono</p></a>
-                                            {{else}}
-                                                <p>No se ha indicado un teléfono</p>
-                                            {{/ifCond}}
+                                        {{#ifCond data.email '==' user.data.email}}
+                                        <a href="/profile/edit/{{data.id}}" class="link-unstyled">
+                                            <p>Click para indicar un teléfono</p>
+                                        </a>
+                                        {{else}}
+                                        <p>No se ha indicado un teléfono</p>
+                                        {{/ifCond}}
                                         {{/if}}
                                     </span>
                                 </div>
@@ -79,47 +87,50 @@
 
                         {{!-- LINKS --}}
                         {{#if links}}
-                            <div class="row">
-                                <h6 class="text-center">Nuestras redes sociales</h6>
-                                {{#with links}}
-                                    {{#if instagram}}
-                                        <div class="col-12 my-md-1 my-sm-2 text-muted d-flex justify-content-center">
-                                            <a class="link-unstyled" href="{{instagram.URL}}" target="_blank"><i class="fab fa-instagram"></i> {{../data.nombre}} en Instagram</a>
-                                        </div>
-                                    {{/if}}
-                                    {{#if facebook}}
-                                        <div class="col-12 my-md-1 my-sm-2 text-muted d-flex justify-content-center">
-                                            <a class="link-unstyled" href="{{facebook.URL}}" target="_blank"><i class="fab fa-facebook"></i> {{../data.nombre}} en Facebook</a>
-                                        </div>
-                                    {{/if}}
-                                    {{#if whatsapp}}
-                                        <div class="col-12 my-md-1 my-sm-2 text-muted d-flex justify-content-center">
-                                            <a class="link-unstyled" href="{{wppLink}}" target="_blank"><i class="fab fa-whatsapp"></i> {{../data.nombre}} en Whatsapp</a>
-                                        </div>
-                                    {{/if}}
-                                {{/with}}
+                        <div class="row">
+                            <h6 class="text-center">Nuestras redes sociales</h6>
+                            {{#with links}}
+                            {{#if instagram}}
+                            <div class="col-12 my-md-1 my-sm-2 text-muted d-flex justify-content-center">
+                                <a class="link-unstyled" href="{{instagram.URL}}" target="_blank"><i
+                                        class="fab fa-instagram"></i> {{../data.nombre}} en Instagram</a>
                             </div>
+                            {{/if}}
+                            {{#if facebook}}
+                            <div class="col-12 my-md-1 my-sm-2 text-muted d-flex justify-content-center">
+                                <a class="link-unstyled" href="{{facebook.URL}}" target="_blank"><i
+                                        class="fab fa-facebook"></i> {{../data.nombre}} en Facebook</a>
+                            </div>
+                            {{/if}}
+                            {{#if whatsapp}}
+                            <div class="col-12 my-md-1 my-sm-2 text-muted d-flex justify-content-center">
+                                <a class="link-unstyled" href="{{wppLink}}" target="_blank"><i
+                                        class="fab fa-whatsapp"></i> {{../data.nombre}} en Whatsapp</a>
+                            </div>
+                            {{/if}}
+                            {{/with}}
+                        </div>
                         {{/if}}
                     </div>
                 </div>
             </div>
         </div>
-        
+
         {{!-- CONTENIDO --}}
         <div class="col-md-12 col-lg-8 col-xl-8 me-auto ms-auto" id="content">
             <div class="container my-4">
                 {{#if recommendations}}
-                    <h2 class="text-center">Publicaciones de {{data.nombre}}</h2>
-                    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3">
-                        {{#each recommendations}}
-                            {{>products}}
-                        {{/each}}
-                    </div>
-                    {{>pagination}}
+                <h2 class="text-center">Publicaciones de {{data.nombre}}</h2>
+                <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3">
+                    {{#each recommendations}}
+                    {{>products}}
+                    {{/each}}
+                </div>
+                {{>pagination}}
                 {{else}}
-                    <div class="d-flex justify-content-center">
-                        <h3>Esta tienda aún no ha publicado productos</h3>
-                    </div>
+                <div class="d-flex justify-content-center">
+                    <h3>Esta tienda aún no ha publicado productos</h3>
+                </div>
                 {{/if}}
             </div>
         </div>

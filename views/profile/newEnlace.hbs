@@ -4,139 +4,160 @@
         <div class="col">
             {{#if whatsapp}}
             <div class="card text-white bg-dark s border-0">
-            {{else}}
-            <div class="card s border-0">
-            {{/if}}
-                <div class="cardbody p-5">
-                    <div class="text-center mb-3">
-                        <i class="fab fa-whatsapp mb-4" style="font-size: 32px;"></i>
-                        <h1>Whatsapp</h1>
-                        <p class="m-0">Conecta tu cuenta con Whatsapp para que tus clientes puedan contactarte con más facilidad</p>
-                        <small class="text-muted">Ejemplo: 098 444 564</small>
-                    </div>
-                    <form action="/links/update/whatsapp" method="POST" class="needs-validation" novalidate>
-                        <div class="form-floating mb-3">
-                            <input class="form-control input-number" name="URL" id="whatsapp" type="text" placeholder="Número de teléfono" value="{{whatsapp.URL}}"
-                            onKeyPress="if(this.value.length==9) return false;" {{#if whatsapp}}style="background-color: transparent; color:white"{{/if}} required>
-                            <label for="whatsapp">Enlace de whatsapp</label>
+                {{else}}
+                <div class="card s border-0">
+                    {{/if}}
+                    <div class="cardbody p-5">
+                        <div class="text-center mb-3">
+                            <i class="fab fa-whatsapp mb-4" style="font-size: 32px;"></i>
+                            <h1>Whatsapp</h1>
+                            <p class="m-0">Conecta tu cuenta con Whatsapp para que tus clientes puedan contactarte con
+                                más facilidad</p>
+                            <small class="text-muted">Ejemplo: 098 444 564</small>
                         </div>
-                        <div class="row">
-                            {{#if whatsapp}}
+                        <form action="/links/update/whatsapp" method="POST" class="needs-validation" novalidate>
+                            <div class="form-floating mb-3">
+                                <input class="form-control input-number" name="URL" id="whatsapp" type="text"
+                                    placeholder="Número de teléfono" value="{{whatsapp.URL}}"
+                                    onKeyPress="if(this.value.length==9) return false;" {{#if
+                                    whatsapp}}style="background-color: transparent; color:white" {{/if}} required>
+                                <label for="whatsapp">Enlace de whatsapp</label>
+                            </div>
+                            <div class="row">
+                                {{#if whatsapp}}
                                 <div class="col pe-0">
                                     <button type="submit" class="btn btn-primary w-100">Actualizar</button>
                                 </div>
                                 <div class="col-auto ps-0">
-                                    <a href="/links/delete/whatsapp" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                    <a href="/links/delete/whatsapp" class="btn btn-danger"><i
+                                            class="fas fa-trash"></i></a>
                                 </div>
-                            {{else}}
+                                {{else}}
                                 <div class="d-grid">
                                     <button type="submit" class="btn btn-dark">Guardar</button>
                                 </div>
-                            {{/if}}
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            {{#if instagram}}
-            <div class="card text-white bg-dark s border-0">
-            {{else}}
-            <div class="card s border-0">
-            {{/if}}
-                <div class="cardbody p-5 text-center">
-                    <div class="text-center mb-3">
-                        <i class="fab fa-instagram mb-4" style="font-size: 32px;"></i>
-                        <h1>Instagram</h1>
-                        <p class="m-0">Conecta tu cuenta con Instagram para que tus clientes puedan encontrarte más rápido</p>
-                        <small class="text-muted">Ejemplo: https://instagram.com/{{user.data.nombre}}</small>
-                    </div>
-                    <div class="col">
-                        <form action="/links/update/instagram" method="POST" class="needs-validation" novalidate>
-                            <div class="form-floating mb-3">
-                                <input class="form-control" name="URL" id="instagram" type="text" placeholder="Número de teléfono" value="{{instagram.URL}}" {{#if instagram}}style="background-color: transparent; color:white"{{/if}} required>
-                                <label for="instagram">Enlace de instagram</label>
-                            </div>
-                            <div class="row">
-                                {{#if instagram}}
-                                    <div class="col pe-0">
-                                        <button type="submit" class="btn btn-primary w-100">Actualizar</button>
-                                    </div>
-                                    <div class="col-auto ps-0">
-                                        <a href="/links/delete/instagram" class="btn btn-danger"><i class="fas fa-trash"></i></a>
-                                    </div>
-                                {{else}}
-                                    <div class="d-grid">
-                                        <button type="submit" class="btn btn-dark">Guardar</button>
-                                    </div>
                                 {{/if}}
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col">
-            {{#if facebook}}
-            <div class="card text-white bg-dark s border-0">
-            {{else}}
-            <div class="card s border-0">
-            {{/if}}
-                <div class="cardbody p-5 text-center">
-                    <div class="text-center mb-3">
-                        <i class="fab fa-facebook mb-4" style="font-size: 32px;"></i>
-                        <h1>Facebook</h1>
-                        <p class="m-0">Conecta tu cuenta con Facebook para que tus clientes puedan encontrarte más rápido</p>
-                        <small class="text-muted">Ejemplo: https://facebook.com/{{user.data.nombre}}</small>
+            <div class="col">
+                {{#if instagram}}
+                <div class="card text-white bg-dark s border-0">
+                    {{else}}
+                    <div class="card s border-0">
+                        {{/if}}
+                        <div class="cardbody p-5 text-center">
+                            <div class="text-center mb-3">
+                                <i class="fab fa-instagram mb-4" style="font-size: 32px;"></i>
+                                <h1>Instagram</h1>
+                                <p class="m-0">Conecta tu cuenta con Instagram para que tus clientes puedan encontrarte
+                                    más rápido</p>
+                                <small class="text-muted">Ejemplo: https://instagram.com/{{user.data.nombre}}</small>
+                            </div>
+                            <div class="col">
+                                <form action="/links/update/instagram" method="POST" class="needs-validation"
+                                    novalidate>
+                                    <div class="form-floating mb-3">
+                                        <input class="form-control" name="URL" id="instagram" type="text"
+                                            placeholder="Número de teléfono" value="{{instagram.URL}}" {{#if
+                                            instagram}}style="background-color: transparent; color:white" {{/if}}
+                                            required>
+                                        <label for="instagram">Enlace de instagram</label>
+                                    </div>
+                                    <div class="row">
+                                        {{#if instagram}}
+                                        <div class="col pe-0">
+                                            <button type="submit" class="btn btn-primary w-100">Actualizar</button>
+                                        </div>
+                                        <div class="col-auto ps-0">
+                                            <a href="/links/delete/instagram" class="btn btn-danger"><i
+                                                    class="fas fa-trash"></i></a>
+                                        </div>
+                                        {{else}}
+                                        <div class="d-grid">
+                                            <button type="submit" class="btn btn-dark">Guardar</button>
+                                        </div>
+                                        {{/if}}
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                     </div>
-                    <form action="/links/update/facebook" method="POST" class="needs-validation" novalidate>
-                        <div class="form-floating mb-3">
-                            <input class="form-control" name="URL" id="facebook" type="text" placeholder="Número de teléfono" value="{{facebook.URL}}" {{#if facebook}}style="background-color: transparent; color:white"{{/if}} required>
-                            <label for="facebook">Enlace de facebook</label>
-                        </div>
-                        <div class="row">
-                            {{#if facebook}}
-                                <div class="col pe-0">
-                                    <button type="submit" class="btn btn-primary w-100">Actualizar</button>
-                                </div>
-                                <div class="col-auto ps-0">
-                                    <a href="/links/delete/facebook" class="btn btn-danger"><i class="fas fa-trash"></i></a>
-                                </div>
-                            {{else}}
-                                <div class="d-grid">
-                                    <button type="submit" class="btn btn-dark">Guardar</button>
-                                </div>
-                            {{/if}}
-                        </div>
-                    </form>
                 </div>
+                <div class="col">
+                    {{#if facebook}}
+                    <div class="card text-white bg-dark s border-0">
+                        {{else}}
+                        <div class="card s border-0">
+                            {{/if}}
+                            <div class="cardbody p-5 text-center">
+                                <div class="text-center mb-3">
+                                    <i class="fab fa-facebook mb-4" style="font-size: 32px;"></i>
+                                    <h1>Facebook</h1>
+                                    <p class="m-0">Conecta tu cuenta con Facebook para que tus clientes puedan
+                                        encontrarte más rápido</p>
+                                    <small class="text-muted">Ejemplo: https://facebook.com/{{user.data.nombre}}</small>
+                                </div>
+                                <form action="/links/update/facebook" method="POST" class="needs-validation" novalidate>
+                                    <div class="form-floating mb-3">
+                                        <input class="form-control" name="URL" id="facebook" type="text"
+                                            placeholder="Número de teléfono" value="{{facebook.URL}}" {{#if
+                                            facebook}}style="background-color: transparent; color:white" {{/if}}
+                                            required>
+                                        <label for="facebook">Enlace de facebook</label>
+                                    </div>
+                                    <div class="row">
+                                        {{#if facebook}}
+                                        <div class="col pe-0">
+                                            <button type="submit" class="btn btn-primary w-100">Actualizar</button>
+                                        </div>
+                                        <div class="col-auto ps-0">
+                                            <a href="/links/delete/facebook" class="btn btn-danger"><i
+                                                    class="fas fa-trash"></i></a>
+                                        </div>
+                                        {{else}}
+                                        <div class="d-grid">
+                                            <button type="submit" class="btn btn-dark">Guardar</button>
+                                        </div>
+                                        {{/if}}
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    {{#if message }}
+                    <div class="d-flex justify-content-center">
+                        <div class="alert alert-danger" role="alert" style="width: 70%;">
+                            <p class="text-danger text-center mt-1 fw-bold">{{message}}</p>
+                            <i class="fas fa-exclamation-triangle d-flex justify-content-center"
+                                style="font-size: 30px;"></i>
+                        </div>
+                    </div>
+                    {{/if}}
+                    {{#if linkAgregado }}
+                    <p class="text-success text-center mt-1">{{linkAgregado}}</p>
+                    {{/if}}
+                </div>
+                {{!-- <button class="btn btn-outline-dark">Ver perfil</button> --}}
             </div>
-        </div>
-        {{#if message }}
-            <p class="text-danger text-center mt-1">{{message}}</p>
-        {{/if}}
-        {{#if linkAgregado }}
-            <p class="text-success text-center mt-1">{{linkAgregado}}</p>
-        {{/if}}
-    </div>
-    {{!-- <button class="btn btn-outline-dark">Ver perfil</button> --}}
-</div>
-<script>
-    (function () {
-        'use strict';
-        window.addEventListener('load', function () {
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-            var forms = document.getElementsByClassName('needs-validation');
-            // Loop over them and prevent submission
-            var validation = Array.prototype.filter.call(forms, function (form) {
-                form.addEventListener('submit', function (event) {
-                    if (form.checkValidity() === false) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }
-                    form.classList.add('was-validated');
-                }, false);
-            });
-        }, false);
-    })();
-</script>
+            <script>
+                (function () {
+                    'use strict';
+                    window.addEventListener('load', function () {
+                        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                        var forms = document.getElementsByClassName('needs-validation');
+                        // Loop over them and prevent submission
+                        var validation = Array.prototype.filter.call(forms, function (form) {
+                            form.addEventListener('submit', function (event) {
+                                if (form.checkValidity() === false) {
+                                    event.preventDefault();
+                                    event.stopPropagation();
+                                }
+                                form.classList.add('was-validated');
+                            }, false);
+                        });
+                    }, false);
+                })();
+            </script>

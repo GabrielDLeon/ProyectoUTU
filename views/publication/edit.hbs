@@ -1,6 +1,7 @@
 {{>navigation}}
 <section class="container my-5">
-    <form method="POST" action="/list/edit/{{publication.nroPublicacion}}" enctype="multipart/form-data" class="needs-validation" novalidate>
+    <form method="POST" action="/list/edit/{{publication.nroPublicacion}}" enctype="multipart/form-data"
+        class="needs-validation" novalidate>
         <h1 class="text-center mb-4">Modificación de publicación</h1>
         <div class="row row-cols-1 row-cols-lg-2 my-2">
             {{!-- DATOS DE LA PUBLICACION --}}
@@ -8,27 +9,35 @@
                 {{#with publication}}
                 <h3>Datos de la publicación</h3>
                 <div class="form-floating mb-3">
-                    <input class="form-control" name="titulo" id="titulo" type="text" placeholder="Titulo del producto" value="{{titulo}}" onKeyPress="if(this.value.length==55) return false;" required>
+                    <input class="form-control" name="titulo" id="titulo" type="text" placeholder="Titulo del producto"
+                        value="{{titulo}}" onKeyPress="if(this.value.length==55) return false;" required>
                     <label for="titulo">Título del producto</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <textarea class="form-control" name="descripcion" id="descripcion" placeholder="Descripción del producto" maxlength="155" rows="5" style="height:100%;" required>{{descripcion}}</textarea>
+                    <textarea class="form-control" name="descripcion" id="descripcion"
+                        placeholder="Descripción del producto" maxlength="155" rows="5" style="height:100%;"
+                        required>{{descripcion}}</textarea>
                     <label for="descripcion">Descripción del producto</label>
                 </div>
                 <div class="row">
                     <div class="col">
                         <div class="form-floating mb-3">
-                            <input class="form-control input-number" name="precio" id="precio" type="number" placeholder="Precio ($)" value="{{precio}}" onKeyPress="if(this.value.length==9) return false;" required>
+                            <input class="form-control input-number" name="precio" id="precio" type="number"
+                                placeholder="Precio ($)" value="{{precio}}"
+                                onKeyPress="if(this.value.length==9) return false;" required>
                             <label for="precio">Precio ($)</label>
                         </div>
                     </div>
                     <div class="col-12 col-lg-auto">
                         <div class="input-group mb-3">
                             <div class="input-group-text">
-                                <input type="checkbox" name="confirm-descuento" id="confirm-descuento" class="form-control-file" {{#if porcentaje}}checked{{/if}}>
+                                <input type="checkbox" name="confirm-descuento" id="confirm-descuento"
+                                    class="form-control-file" {{#if porcentaje}}checked{{/if}}>
                             </div>
                             <div class="form-floating">
-                                <input class="form-control input-number" name="descuento" id="descuento" type="number" value="{{porcentaje}}" placeholder="Descuento (%)" onKeyPress="if(this.value.length==2) return false;" required>
+                                <input class="form-control input-number" name="descuento" id="descuento" type="number"
+                                    value="{{porcentaje}}" placeholder="Descuento (%)"
+                                    onKeyPress="if(this.value.length==2) return false;" required>
                                 <label for="descuento">Descuento (%)</label>
                             </div>
                         </div>
@@ -36,7 +45,8 @@
                 </div>
                 <div class="mb-1">
                     <label for="formFile">Imágen/es para la publicación</label>
-                    <input class="form-control" type="file" id="formFile" name="imagen" placeholder="Imageasdasdsadn" multiple>
+                    <input class="form-control" type="file" id="formFile" name="imagen" placeholder="Imageasdasdsadn"
+                        multiple>
                 </div>
                 {{/with}}
             </div>
@@ -45,11 +55,12 @@
             <div class="col my-2">
                 <h3>Datos del producto</h3>
                 <div class="mb-3 form-floating">
-                    <input type="text" class="form-control text-capitalize" name="categoria" list="categoria" placeholder="Seleccione la categoría del producto" value="{{product.categoria}}" required>
+                    <input type="text" class="form-control text-capitalize" name="categoria" list="categoria"
+                        placeholder="Seleccione la categoría del producto" value="{{product.categoria}}" required>
                     <label for="categoria">Categoría del producto</label>
                     <datalist name="categoria" id="categoria">
                         {{#each categorias}}
-                            <option class="text-uppercase" value="{{categoria}}">{{categoria}}</option> 
+                        <option class="text-uppercase" value="{{categoria}}">{{categoria}}</option>
                         {{/each}}
                     </datalist>
                 </div>
@@ -62,20 +73,22 @@
                     <label for="genero">Seleccione un género</label>
                 </div>
                 <div class="mb-3 form-floating">
-                    <input type="text" class="form-control text-capitalize" list="material" name="material" placeholder="Seleccione el material del producto" value="{{product.material}}" required>
+                    <input type="text" class="form-control text-capitalize" list="material" name="material"
+                        placeholder="Seleccione el material del producto" value="{{product.material}}" required>
                     <label for="material">Material del producto</label>
                     <datalist name="material" id="material">
                         {{#each materiales}}
-                            <option value="{{material}}">{{material}}</option>
+                        <option value="{{material}}">{{material}}</option>
                         {{/each}}
                     </datalist>
                 </div>
                 <div class="mb-3 form-floating">
-                    <input type="text" class="form-control text-capitalize" list="marca" name="marca" placeholder="Seleccione la marca del producto" value="{{product.marca}}" required>
+                    <input type="text" class="form-control text-capitalize" list="marca" name="marca"
+                        placeholder="Seleccione la marca del producto" value="{{product.marca}}" required>
                     <label for="material">Marca del producto</label>
                     <datalist name="marca" id="marca">
                         {{#each marcas}}
-                            <option value="{{marca}}">{{marca}}</option>
+                        <option value="{{marca}}">{{marca}}</option>
                         {{/each}}
                     </datalist>
                 </div>
@@ -85,18 +98,21 @@
             <div class="mb-3">
                 <h3>Selección de talles</h3>
                 {{#if tallesSelected}}
-                    {{#each tallesSelected}}
-                        <div class="form-check d-inline m-0 p-0">
-                            <input type="checkbox" class="btn-check" name="{{talle}}" id="btn-{{talle}}" autocomplete="off" checked>
-                            <label class="btn btn-outline-dark btn-lg shadow-none" for="btn-{{talle}}" style="width: 100px;">{{talle}}</label>
-                        </div>
-                    {{/each}}
+                {{#each tallesSelected}}
+                <div class="form-check d-inline m-0 p-0">
+                    <input type="checkbox" class="btn-check" name="{{talle}}" id="btn-{{talle}}" autocomplete="off"
+                        checked>
+                    <label class="btn btn-outline-dark btn-lg shadow-none" for="btn-{{talle}}"
+                        style="width: 100px;">{{talle}}</label>
+                </div>
+                {{/each}}
                 {{/if}}
                 {{#each talles}}
-                    <div class="form-check d-inline m-0 p-0">
-                        <input type="checkbox" class="btn-check" name="{{talle}}" id="btn-{{talle}}" autocomplete="off">
-                        <label class="btn btn-outline-dark btn-lg shadow-none" for="btn-{{talle}}" style="width: 100px;">{{talle}}</label>
-                    </div>
+                <div class="form-check d-inline m-0 p-0">
+                    <input type="checkbox" class="btn-check" name="{{talle}}" id="btn-{{talle}}" autocomplete="off">
+                    <label class="btn btn-outline-dark btn-lg shadow-none" for="btn-{{talle}}"
+                        style="width: 100px;">{{talle}}</label>
+                </div>
                 {{/each}}
             </div>
         </div>
@@ -104,34 +120,42 @@
             <div class="mb-3">
                 <h3>Selección de colores</h3>
                 {{#if colorSelected}}
-                    {{#each colorSelected}}
-                    <div class="form-check d-inline m-0 p-0">
-                        <input type="checkbox" name="{{color}}" id="btn-{{color}}" autocomplete="off" checked>
-                        <label class="btn btn-outline-dark" for="btn-{{color}}" id="btn-{{color}}">ㅤㅤ</label>
-                    </div>
-                    {{/each}}
+                {{#each colorSelected}}
+                <div class="form-check d-inline m-0 p-0">
+                    <input type="checkbox" name="{{color}}" id="btn-{{color}}" autocomplete="off" checked>
+                    <label class="btn btn-outline-dark" for="btn-{{color}}" id="btn-{{color}}">ㅤㅤ</label>
+                </div>
+                {{/each}}
                 {{/if}}
                 {{#each colores}}
-                    <div class="form-check d-inline m-0 p-0">
-                        <input type="checkbox" value="{{color}}" name="{{color}}">
-                        <label class="btn btn-outline-dark" for="btn-{{color}}" id="btn-{{color}}">ㅤㅤ</label>
-                    </div>
+                <div class="form-check d-inline m-0 p-0">
+                    <input type="checkbox" value="{{color}}" name="{{color}}">
+                    <label class="btn btn-outline-dark" for="btn-{{color}}" id="btn-{{color}}">ㅤㅤ</label>
+                </div>
                 {{/each}}
             </div>
         </div>
         <div class="d-grid gap-2 d-md-flex justify-content-center">
             <button type="submit" class="btn btn-success btn-lg"><i class="fas fa-check"></i> Publicar</button>
-            <a class="btn btn-danger btn-lg" href="/list" onclick="return confirm('¿Deseas descartar las modificaciones a la publicación actual?')"><i class="fas fa-trash"></i> Descartar</a>
+            <a class="btn btn-danger btn-lg" href="/list"
+                onclick="return confirm('¿Deseas descartar las modificaciones a la publicación actual?')"><i
+                    class="fas fa-trash"></i> Descartar</a>
             <a class="btn btn-primary btn-lg" href="/list/edit/{{publication.nroPublicacion}}">Restablecer datos</a>
-            <a class="btn btn-dark btn-lg" href="/publication/{{publication.nroPublicacion}}" target="_blank">Ver publicación</a>
+            <a class="btn btn-dark btn-lg" href="/publication/{{publication.nroPublicacion}}" target="_blank">Ver
+                publicación</a>
         </div>
     </form>
     {{#if success}}
-        <p class="text-success text-center mt-1">{{success}}</p>
-        <p><a href="/publication/{{id}}">Click aquí</a> para verla </p>
+    <p class="text-success text-center mt-1">{{success}}</p>
+    <p><a href="/publication/{{id}}">Click aquí</a> para verla </p>
     {{/if}}
     {{#if message}}
-        <p class="text-danger text-center mt-1">{{message}}</p>
+    <div class="d-flex justify-content-center">
+        <div class="alert alert-danger" role="alert" style="width: 70%;">
+            <p class="text-danger text-center mt-1 fw-bold">{{message}}</p>
+            <i class="fas fa-exclamation-triangle d-flex justify-content-center" style="font-size: 30px;"></i>
+        </div>
+    </div>
     {{/if}}
 </section>
 <script>
