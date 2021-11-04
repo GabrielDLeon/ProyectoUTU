@@ -515,10 +515,4 @@ thead    {
     display: none;
   }
 }
-.trousers {
-    background: url('/img/testing/trousers.png');
-    height: 20px;
-    width: 20px;
-    display: block;
-    color: white;
-}
+
