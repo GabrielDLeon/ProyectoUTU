@@ -21,7 +21,6 @@ router.post('/', async (req, res) => {
 })
 
 function paginations(Page, quantity, query, path, callback) {
-    console.log(query);
     const page = parseInt(Page);
     let end = (page * quantity);
     let start = end - quantity;

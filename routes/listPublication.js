@@ -113,7 +113,7 @@ router.get('/edit/:id', authController.isLoggedIn, async (req, res) => {
 router.post('/edit/:id', upload.array("imagen", 12), authController.isLoggedIn, async (req, res) => {
     const { id } = req.params;
     const { titulo, descripcion, precio, descuento } = req.body;
-    db.query('SELECT nroPublicacion, titulo, descripcion, precio, descuento FROM (view_publicaciones) WHERE nroPublicacion = ?', [id], (error, result) => {
+    db.query('SELECT nroPublicacion, titulo, descripcion, precio, porcentaje, descuento FROM (view_publicaciones) WHERE nroPublicacion = ?', [id], (error, result) => {
         db.query('SELECT categoria, genero, material, marca FROM (productos INNER JOIN publicacion ON productos.idProducto = publicacion.producto) WHERE nroPublicacion = ?', [id], (error, product) => {
             const { categoria, genero, material, marca } = product[0];
             db.query('SELECT categoria FROM categorias WHERE categoria != ?', [categoria], (error, categorias) => {
