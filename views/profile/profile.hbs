@@ -66,26 +66,26 @@
                         </div>
 
                         {{!-- LINKS --}}
-                        {{#if redes}}
+                        {{#if links}}
                             <div class="row">
                                 <h6 class="text-center">Nuestras redes sociales</h6>
-                                {{#each redes}}
-                                    {{#ifCond tipo '==' 'Instagram'}}
+                                {{#with links}}
+                                    {{#if instagram}}
                                         <div class="col-12 my-md-1 my-sm-2 text-muted d-flex justify-content-center">
-                                            <a class="link-unstyled" href="{{URL}}" target="_blank"><i class="fab fa-instagram"></i> {{nombre}} en Instagram</a>
+                                            <a class="link-unstyled" href="{{instagram.URL}}" target="_blank"><i class="fab fa-instagram"></i> {{../data.nombre}} en Instagram</a>
                                         </div>
-                                    {{/ifCond}}
-                                    {{#ifCond tipo '==' 'Facebook'}}
+                                    {{/if}}
+                                    {{#if facebook}}
                                         <div class="col-12 my-md-1 my-sm-2 text-muted d-flex justify-content-center">
-                                            <a class="link-unstyled" href="{{URL}}" target="_blank"><i class="fab fa-facebook"></i> {{nombre}} en Facebook</a>
+                                            <a class="link-unstyled" href="{{facebook.URL}}" target="_blank"><i class="fab fa-facebook"></i> {{../data.nombre}} en Facebook</a>
                                         </div>
-                                    {{/ifCond}}
-                                    {{#ifCond tipo '==' 'Whatsapp'}}
+                                    {{/if}}
+                                    {{#if whatsapp}}
                                         <div class="col-12 my-md-1 my-sm-2 text-muted d-flex justify-content-center">
-                                            <a class="link-unstyled" href="{{URL}}" target="_blank"><i class="fab fa-whatsapp"></i> {{nombre}} en Whatsapp</a>
+                                            <a class="link-unstyled" href="{{wppLink}}" target="_blank"><i class="fab fa-whatsapp"></i> {{../data.nombre}} en Whatsapp</a>
                                         </div>
-                                    {{/ifCond}}
-                                {{/each}}
+                                    {{/if}}
+                                {{/with}}
                             </div>
                         {{/if}}
 

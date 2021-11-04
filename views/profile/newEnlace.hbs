@@ -1,19 +1,30 @@
 {{>navigation}}
 <div class="container mt-5">
-    <div class="row">
+    <div class="row row-cols-1 row-cols-lg-3">
         <div class="col">
             <div class="card">
                 <div class="cardbody p-5">
                     <h1>Whatsapp</h1>
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit soluta odit magni id incidunt, nisi explicabo illo itaque, eos ullam, odio neque et rerum dolor assumenda quisquam dicta! Quae, laudantium.</p>
-                    <form action="/profile/links/newLink/whatsapp" method="POST">
+                    <form action="/links/update/whatsapp" method="POST">
                         <div class="form-floating mb-3">
                             <input class="form-control input-number" name="URL" id="whatsapp" type="text" placeholder="Número de teléfono" value="{{whatsapp.URL}}" onKeyPress="if(this.value.length==9) return false;">
                             <label for="whatsapp">Enlace de whatsapp</label>
                             <small class="text-muted">{{wpplink}}</small>
                         </div>
-                        <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-success">Guardar</button>
+                        <div class="row">
+                            {{#if whatsapp}}
+                                <div class="col pe-0">
+                                    <button type="submit" class="btn btn-primary w-100">Actualizar</button>
+                                </div>
+                                <div class="col-auto ps-0">
+                                    <a href="/links/delete/whatsapp" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                </div>
+                            {{else}}
+                                <div class="col">
+                                    <button type="submit" class="btn btn-success">Guardar</button>
+                                </div>
+                            {{/if}}
                         </div>
                     </form>
                 </div>
@@ -25,13 +36,24 @@
                     <h1>Instagram</h1>
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit soluta odit magni id incidunt, nisi explicabo illo itaque, eos ullam, odio neque et rerum dolor assumenda quisquam dicta! Quae, laudantium.</p>
                     <div class="col">
-                        <form action="/profile/links/newLink/instagram" method="POST">
+                        <form action="/links/update/instagram" method="POST">
                             <div class="form-floating mb-5">
                                 <input class="form-control" name="URL" id="instagram" type="text" placeholder="Número de teléfono" value="{{instagram.URL}}">
                                 <label for="instagram">Enlace de instagram</label>
                             </div>
-                            <div class="d-grid gap-2">
-                                <button type="submit" class="btn btn-success">Guardar</button>
+                            <div class="row">
+                                {{#if instagram}}
+                                    <div class="col pe-0">
+                                        <button type="submit" class="btn btn-primary w-100">Actualizar</button>
+                                    </div>
+                                    <div class="col-auto ps-0">
+                                        <a href="/links/delete/instagram" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                    </div>
+                                {{else}}
+                                    <div class="d-grid">
+                                        <button type="submit" class="btn btn-success">Guardar</button>
+                                    </div>
+                                {{/if}}
                             </div>
                         </form>
                     </div>
@@ -43,13 +65,24 @@
                 <div class="cardbody p-5">
                     <h1>Facebook</h1>
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit soluta odit magni id incidunt, nisi explicabo illo itaque, eos ullam, odio neque et rerum dolor assumenda quisquam dicta! Quae, laudantium.</p>
-                    <form action="/profile/links/newLink/facebook" method="POST">
+                    <form action="/links/update/facebook" method="POST">
                         <div class="form-floating mb-5">
                             <input class="form-control" name="URL" id="facebook" type="text" placeholder="Número de teléfono" value="{{facebook.URL}}">
                             <label for="facebook">Enlace de facebook</label>
                         </div>
-                        <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-success">Guardar</button>
+                        <div class="row">
+                            {{#if facebook}}
+                                <div class="col pe-0">
+                                    <button type="submit" class="btn btn-primary w-100">Actualizar</button>
+                                </div>
+                                <div class="col-auto ps-0">
+                                    <a href="/links/delete/facebook" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                </div>
+                            {{else}}
+                                <div class="col">
+                                    <button type="submit" class="btn btn-success">Guardar</button>
+                                </div>
+                            {{/if}}
                         </div>
                     </form>
                 </div>
@@ -62,39 +95,7 @@
             <p class="text-success text-center mt-1">{{linkAgregado}}</p>
         {{/if}}
     </div>
-    
-    {{!-- <form action="/profile/newEnlace/{{data.id}}" method="POST" class="needs-validation" novalidate>
-        <select class="form-select" name="tipo" id="tipo" required>
-            <option value="">Selecciona una red social</option>
-            {{#each tipo}}
-            <option value="{{plataforma}}">{{plataforma}}</option>
-            {{/each}}
-            {{#each tipoEnlace}}
-            <option value="{{plataforma}}">{{plataforma}}</option>
-            {{/each}}
-        </select>
-        <br>
-        <div class="mb-3">
-            <label for="link" class="form-label">Link de la red social:</label>
-            <input type="url" pattern="https://.*" placeholder="https://ejemplo.com" class="form-control" id="link"
-                name="link" value="{{link}}" required>
-            <div class="col-auto">
-            </div>
-            <div class="mb-3">
-                <div class="d-grid gap-2">
-                    <br>
-                    <button type="submit" class="text-uppercase btn btn-dark">Agregar</button>
-                </div>
-                {{#if message }}
-                <p class="text-danger text-center mt-1">{{message}}</p>
-                {{/if}}
-                {{#if linkAgregado }}
-                <p class="text-success text-center mt-1">{{linkAgregado}}</p>
-                {{/if}}
-            </div>
-        </div>
-    </form> --}}
-
+    {{!-- <button class="btn btn-outline-dark">Ver perfil</button> --}}
 </div>
 <script>
     (function () {
