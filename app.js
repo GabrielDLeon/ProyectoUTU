@@ -80,7 +80,7 @@ app.use('/search', require('./routes/search'));
 app.use('/list', require('./routes/listPublication'));
 app.use('/list/questions', require('./routes/listQuestions'));
 app.use('/profile', require('./routes/profile'));
-app.use('/profile', require('./routes/links'));
+app.use('/profile/links', require('./routes/links'));
 app.use('/favorites', require('./routes/favorites'));
 app.use('/publication', require('./routes/publication'));
 app.use('/create', require('./routes/createPublication'));

@@ -13,85 +13,128 @@ const db = mysql.createConnection({
     database: process.env.DATABASE,
 });
 
-// Cargar página Crear nuevo enlace
-router.get('/newEnlace/:id', authController.isLoggedIn, async (req, res) => {
-    const { email } = req.user.data;
-    await db.query('SELECT cuentas.email , cuentas.password, cuentas.tipo, cuenta_empresa.nombre, cuenta_empresa.id FROM (cuentas INNER JOIN cuenta_empresa ON cuentas.email = cuenta_empresa.email) WHERE cuentas.email = ?', [email], (error, result2) => {
-        if (!result2) {
-            console.log(error)
-        }
-        const { id } = req.params;
-        db.query('SELECT cuenta_empresa.email , cuenta_empresa.id FROM cuenta_empresa WHERE cuenta_empresa.email = ?', [email], async (error, result) => {
-            db.query('SELECT * FROM enlaces_tipos', async (error, tipo) => {
-                if (result[0].id == id) {
-                    res.render('profile/newEnlace', {
-                        user: req.user,
-                        data: req.user.data,
-                        tipo,
-                        title: "Agregar enlace"
-                    })
-                } else {
-                    res.redirect('/')
+function getLinks (email, callback) {
+    db.query('SELECT * FROM enlaces WHERE propietario = ? AND tipo = "whatsapp"', [email], (error, whatsapp) => {
+        db.query('SELECT * FROM enlaces WHERE propietario = ? AND tipo = "facebook"', [email], (error, facebook) => {
+            db.query('SELECT * FROM enlaces WHERE propietario = ? AND tipo = "instagram"', [email], (error, instagram) => {
+                const result = {
+                    whatsapp: whatsapp[0],
+                    facebook: facebook[0],
+                    instagram: instagram[0],
                 }
+                return callback(null, result);
             });
         });
     });
+}
+
+function numberToLink(phone, callback) {
+    let number = phone.substring(1);
+    let link = 'https://wa.me/598'+number;
+    return callback(null, link);
+}
+
+// Cargar página Crear nuevo enlace
+router.get('/newLink', authController.isLoggedIn, async (req, res) => {
+    if (req.user.data.tipo == 'empresa'){
+        const { email } = req.user.data;
+        getLinks(email, function(error, result){
+            numberToLink(result.whatsapp.URL, function(error, wpplink){
+                res.render('profile/newEnlace', {
+                    whatsapp: result.whatsapp,
+                    facebook: result.facebook,
+                    instagram: result.instagram,
+                    user: req.user,
+                    wpplink,
+                    title: "Agregar enlace"
+                });
+            });
+        });
+    } else {
+        res.redirect('/login');
+    }
 });
 
 // Crear nuevo enlace
-router.post('/newEnlace/:id', authController.isLoggedIn, async (req, res) => {
-    const { email } = req.user.data;
-    const { tipo, link } = req.body;
-    await db.query('SELECT * FROM enlaces_tipos', async (error, tipoEnlace) => {
-        await db.query('SELECT tipo from enlaces WHERE tipo = ? AND propietario = ?', [tipo, email], async (error, enlaces) => {
-            if (enlaces.length > 0) {
-                return res.render('profile/newEnlace', {
-                    name: req.body.name,
-                    message: 'No puedes agregar dos enlaces para el mismo tipo de red social',
-                    data: req.user.data,
-                    user: req.user,
-                    tipoEnlace,
-                    title: "Agregar enlaces"
-                })
+router.post('/newLink/:rs', authController.isLoggedIn, async (req, res) => {
+    if (req.user){
+        const { email } = req.user.data;
+        const { URL } = req.body;
+        const { rs } = req.params;
+        db.query('SELECT * FROM enlaces WHERE propietario = ? AND tipo = ?', [email, rs], (error, result) => {
+            if (result.length>0){
+                let query = 'UPDATE enlaces SET URL = "'+URL+'" WHERE tipo = "'+rs+'" AND propietario = "'+email+'"';
+                console.log(query);
+                db.query(query);
+                res.redirect('/profile/links/newLink');
+            } else {
+                db.query('INSERT INTO enlaces (tipo, URL, propietario) VALUES (?, ?, ?)', ['instagram', instagram, email], (error, results) => {
+                    if (error) {
+                        console.log(error);
+                    } else {
+                        res.render('profile/newEnlace', {
+                            user: req.user,
+                            linkAgregado: 'Enlace agregado',
+                            title: "Agregar enlaces"
+                        });
+                    }
+                });
             }
-            if (!link) {
-                return res.render('profile/newEnlace', {
-                    name: req.body.name,
-                    message: 'Por favor ingrese un enlace antes de agregar',
-                    data: req.user.data,
-                    user: req.user,
-                    enlaces,
-                    tipoEnlace,
-                    title: "Agregar enlaces"
-                })
-            }
-            if (!tipo) {
-                return res.render('profile/newEnlace', {
-                    name: req.body.name,
-                    message: 'Por favor seleccione el tipo de enlace antes de agregar',
-                    data: req.user.data,
-                    user: req.user,
-                    enlaces,
-                    tipoEnlace,
-                    title: "Agregar enlaces"
-                })
-            }
-            db.query('INSERT INTO enlaces SET ?', { tipo: tipo, URL: link, propietario: email }, (error, results) => {
-                if (error) {
-                    console.log(error)
-                } else {
-                    return res.render('profile/newEnlace', {
-                        data: req.user.data,
-                        user: req.user,
-                        linkAgregado: 'Enlace agregado',
-                        enlaces,
-                        tipoEnlace,
-                        title: "Agregar enlaces"
-                    });
-                }
-            });
         });
-    });
+    } else {
+        res.redirect('/login');
+    }
+    
+    // await db.query('SELECT * FROM enlaces_tipos', async (error, tipoEnlace) => {
+    //     await db.query('SELECT tipo from enlaces WHERE tipo = ? AND propietario = ?', [tipo, email], async (error, enlaces) => {
+    //         if (enlaces.length > 0) {
+    //             return res.render('profile/newEnlace', {
+    //                 name: req.body.name,
+    //                 message: 'No puedes agregar dos enlaces para el mismo tipo de red social',
+    //                 data: req.user.data,
+    //                 user: req.user,
+    //                 tipoEnlace,
+    //                 title: "Agregar enlaces"
+    //             })
+    //         }
+    //         if (!link) {
+    //             return res.render('profile/newEnlace', {
+    //                 name: req.body.name,
+    //                 message: 'Por favor ingrese un enlace antes de agregar',
+    //                 data: req.user.data,
+    //                 user: req.user,
+    //                 enlaces,
+    //                 tipoEnlace,
+    //                 title: "Agregar enlaces"
+    //             })
+    //         }
+    //         if (!tipo) {
+    //             return res.render('profile/newEnlace', {
+    //                 name: req.body.name,
+    //                 message: 'Por favor seleccione el tipo de enlace antes de agregar',
+    //                 data: req.user.data,
+    //                 user: req.user,
+    //                 enlaces,
+    //                 tipoEnlace,
+    //                 title: "Agregar enlaces"
+    //             })
+    //         }
+    //         db.query('INSERT INTO enlaces SET ?', { tipo: tipo, URL: link, propietario: email }, (error, results) => {
+    //             if (error) {
+    //                 console.log(error)
+    //             } else {
+                    // return res.render('profile/newEnlace', {
+                    //     data: req.user.data,
+                    //     user: req.user,
+                    //     linkAgregado: 'Enlace agregado',
+                    //     enlaces,
+                    //     tipoEnlace,
+                    //     title: "Agregar enlaces"
+                    // });
+    //             }
+    //         });
+    //     });
+    // });
 });
 
 // Cargar página Editar enlace

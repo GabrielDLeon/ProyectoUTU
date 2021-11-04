@@ -1,33 +1,100 @@
 {{>navigation}}
 <div class="container mt-5">
-<form action="/profile/newEnlace/{{data.id}}" method="POST" class="needs-validation" novalidate> 
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="cardbody p-5">
+                    <h1>Whatsapp</h1>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit soluta odit magni id incidunt, nisi explicabo illo itaque, eos ullam, odio neque et rerum dolor assumenda quisquam dicta! Quae, laudantium.</p>
+                    <form action="/profile/links/newLink/whatsapp" method="POST">
+                        <div class="form-floating mb-3">
+                            <input class="form-control input-number" name="URL" id="whatsapp" type="text" placeholder="Número de teléfono" value="{{whatsapp.URL}}" onKeyPress="if(this.value.length==9) return false;">
+                            <label for="whatsapp">Enlace de whatsapp</label>
+                            <small class="text-muted">{{wpplink}}</small>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="cardbody p-5">
+                    <h1>Instagram</h1>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit soluta odit magni id incidunt, nisi explicabo illo itaque, eos ullam, odio neque et rerum dolor assumenda quisquam dicta! Quae, laudantium.</p>
+                    <div class="col">
+                        <form action="/profile/links/newLink/instagram" method="POST">
+                            <div class="form-floating mb-5">
+                                <input class="form-control" name="URL" id="instagram" type="text" placeholder="Número de teléfono" value="{{instagram.URL}}">
+                                <label for="instagram">Enlace de instagram</label>
+                            </div>
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-success">Guardar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="cardbody p-5">
+                    <h1>Facebook</h1>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit soluta odit magni id incidunt, nisi explicabo illo itaque, eos ullam, odio neque et rerum dolor assumenda quisquam dicta! Quae, laudantium.</p>
+                    <form action="/profile/links/newLink/facebook" method="POST">
+                        <div class="form-floating mb-5">
+                            <input class="form-control" name="URL" id="facebook" type="text" placeholder="Número de teléfono" value="{{facebook.URL}}">
+                            <label for="facebook">Enlace de facebook</label>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {{#if message }}
+            <p class="text-danger text-center mt-1">{{message}}</p>
+        {{/if}}
+        {{#if linkAgregado }}
+            <p class="text-success text-center mt-1">{{linkAgregado}}</p>
+        {{/if}}
+    </div>
+    
+    {{!-- <form action="/profile/newEnlace/{{data.id}}" method="POST" class="needs-validation" novalidate>
         <select class="form-select" name="tipo" id="tipo" required>
-        <option value="">Selecciona una red social</option>
-        {{#each tipo}}
-        <option value="{{plataforma}}">{{plataforma}}</option>
-        {{/each}}
-        {{#each tipoEnlace}}
-        <option value="{{plataforma}}">{{plataforma}}</option>
-        {{/each}}
+            <option value="">Selecciona una red social</option>
+            {{#each tipo}}
+            <option value="{{plataforma}}">{{plataforma}}</option>
+            {{/each}}
+            {{#each tipoEnlace}}
+            <option value="{{plataforma}}">{{plataforma}}</option>
+            {{/each}}
         </select>
         <br>
-        <div class="mb-3"> 
-            <label for="link" class="form-label">Link de la red social:</label> 
-                <input type="url" pattern="https://.*" placeholder="https://ejemplo.com" class="form-control" id="link" name="link" value="{{link}}" required> 
-            <div class="col-auto">
-        </div> 
         <div class="mb-3">
-          <div class="d-grid gap-2">
-            <br>
-            <button type="submit" class="text-uppercase btn btn-dark">Agregar</button>
-          </div>
-          {{#if message }}
-           <p class="text-danger text-center mt-1">{{message}}</p>
-          {{/if}}
-          {{#if linkAgregado }}
-          <p class="text-success text-center mt-1">{{linkAgregado}}</p>
-          {{/if}}
-</form>
+            <label for="link" class="form-label">Link de la red social:</label>
+            <input type="url" pattern="https://.*" placeholder="https://ejemplo.com" class="form-control" id="link"
+                name="link" value="{{link}}" required>
+            <div class="col-auto">
+            </div>
+            <div class="mb-3">
+                <div class="d-grid gap-2">
+                    <br>
+                    <button type="submit" class="text-uppercase btn btn-dark">Agregar</button>
+                </div>
+                {{#if message }}
+                <p class="text-danger text-center mt-1">{{message}}</p>
+                {{/if}}
+                {{#if linkAgregado }}
+                <p class="text-success text-center mt-1">{{linkAgregado}}</p>
+                {{/if}}
+            </div>
+        </div>
+    </form> --}}
+
 </div>
 <script>
     (function () {

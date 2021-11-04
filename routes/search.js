@@ -20,22 +20,8 @@ router.post('/', async (req, res) => {
     }
 })
 
-function addDays(date, days) {
-    const copy = new Date(Number(date))
-    copy.setDate(date.getDate() + days)
-    return copy
-}
-
-function calcDate(callback) {
-    const date = new Date();
-    const days = -process.env.NEWEST_PUBLICATION;
-    const newDate = new Date(Number(date));
-    newDate.setDate(date.getDate() + days);
-    const string = newDate.getFullYear() + '-' + (date.getMonth() + 1) + '-' + newDate.getDate();
-    return callback(null, string);
-  }
-
 function paginations(Page, quantity, query, path, callback) {
+    console.log(query);
     const page = parseInt(Page);
     let end = (page * quantity);
     let start = end - quantity;
@@ -60,7 +46,7 @@ router.get('/', authController.isLoggedIn, async (req, res) => {
     let pattern = [];
     const query = req.query;
     let path = '/search?';
-    let condicion = '', auxiliar = '', join = '';
+    let condicion = '', auxiliar = '', join = '', group = '';
     const { key, sale, newest, minPrice, maxPrice, top } = query;
     // Creación de las Variables
     let variables = 'nroPublicacion, titulo, descripcion, precio, descuento, nombreVendedor, categoria, genero, material, marca, imagen';
@@ -81,13 +67,13 @@ router.get('/', authController.isLoggedIn, async (req, res) => {
         pattern.push('sale=1');
     }
     if (newest == 1) {
-        calcDate(function(error, string) {
-            console.log(string)
-            array.push('(fechaPublicacion >=  "' + string + '")');
-        });
         variables += ', fechaPublicacion';
+        group += 'fechaPublicacion DESC'
         pattern.push('newest=1');
+    } else if (newest != 1){
+        group += 'nroPublicacion'
     }
+
     if (minPrice) {
         array.push('(precio >= ' + minPrice + ' OR descuento >= ' + minPrice + ')')
         pattern.push('minPrice=' + minPrice);
@@ -118,7 +104,7 @@ router.get('/', authController.isLoggedIn, async (req, res) => {
     }
 
     // Template almacena toda la consulta + variables + join + condiciones + auxiliares
-    let template = 'SELECT ' + variables + ' FROM (view_publicaciones' + join + ') ' + condicion + ' GROUP BY (nroPublicacion) ' + auxiliar + 'LIMIT ? OFFSET ?';
+    let template = 'SELECT ' + variables + ' FROM (view_publicaciones' + join + ') ' + condicion + ' GROUP BY ' + group + ' ' + auxiliar + 'LIMIT ? OFFSET ?';
     if (req.query.page) {
         const {page} = req.query;
         db.query('SELECT * FROM perfil WHERE perfil.email LIKE "%"?"%"', [key], (error, shops) => {
