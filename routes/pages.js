@@ -27,24 +27,28 @@ function countEntities(callback) {
 
 router.get('/', authController.isLoggedIn, async (req, res) => {
    db.query('SELECT direccion, descripcion, telefono, nombre FROM perfil', (error, result) => {
-      db.query('SELECT nroPublicacion, precio, descuento, imagen, nombreVendedor, fechaPublicacion FROM view_publicaciones ORDER BY fechaPublicacion DESC LIMIT 8', (error, recommendations) => {
-         countEntities(function (error, result) {
-            if (result) {
-               const counts = result;
-               db.query('SELECT * FROM perfil', (error, shops) => {
-                  res.render('index', {
-                     counts,
-                     recommendations,
-                     shops,
-                     data: result[0],
-                     user: req.user,
-                     title: "Klouts",
+      db.query('SELECT nroPublicacion, precio, descuento, imagen, nombreVendedor, fechaPublicacion FROM view_publicaciones ORDER BY fechaPublicacion DESC LIMIT 8', (error, newest) => {
+         db.query('SELECT nroPublicacion, precio, descuento, imagen, nombreVendedor, categoria, genero, COUNT(favoritos.publicacion) AS cantFavoritos FROM (view_publicaciones INNER JOIN favoritos ON favoritos.publicacion = view_publicaciones.nroPublicacion) GROUP BY nroPublicacion HAVING (COUNT(cantFavoritos)) ORDER BY cantFavoritos LIMIT 8', (error, top) => {
+            console.log(top);
+            countEntities(function (error, result) {
+               if (result) {
+                  const counts = result;
+                  db.query('SELECT * FROM perfil', (error, shops) => {
+                     res.render('index', {
+                        counts,
+                        newest,
+                        top, 
+                        shops,
+                        data: result[0],
+                        user: req.user,
+                        title: "Klouts",
+                     });
                   });
-               });
-            } else {
-               res.redirect('/');
-               console.log("No existe resultado");
-            }
+               } else {
+                  res.redirect('/');
+                  console.log("No existe resultado");
+               }
+            });
          });
       });
    });

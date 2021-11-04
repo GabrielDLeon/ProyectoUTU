@@ -1,0 +1,84 @@
+<div class="sidebar close">
+   <ul class="nav-links d-flex align-items-center">
+      <div>
+
+      {{!-- PRENDAS SUPERIORES --}}
+      <li>
+         <a href="#">
+            <i class="fas fa-tshirt"></i>
+            <span class="link_name"></span>
+         </a>
+         <ul class="sub-menu blank">
+            {{#each categories.superior}}
+               <li><a class="link_name text-capitalize" href="/search?key={{categoria}}">{{categoria}}</a></li>
+            {{/each}}
+         </ul>
+      </li>
+
+      {{!-- PRENDAS INFERIORES --}}
+      <li>
+         <a href="#">
+            <i class="trousers"></i>
+            <span class="link_name"></span>
+         </a>
+         <ul class="sub-menu blank">
+            {{#each categories.inferior}}
+               <li><a class="link_name text-capitalize" href="/search?key={{categoria}}">{{categoria}}</a></li>
+            {{/each}}
+         </ul>
+      </li>
+
+      {{!-- PRENDAS INTERIORES --}}
+      <li>
+         <a href="#">
+            <i class="fas fa-socks"></i>
+            <span class="link_name"></span>
+         </a>
+         <ul class="sub-menu blank">
+            {{#each categories.interior}}
+               <li><a class="link_name text-capitalize" href="/search?key={{categoria}}">{{categoria}}</a></li>
+            {{/each}}
+         </ul>
+      </li>
+
+      {{!-- CALZADOS --}}
+      <li>
+         <a href="#">
+            <i class="fas fa-boot"></i>
+            <span class="link_name"></span>
+         </a>
+         <ul class="sub-menu blank">
+            {{#each categories.calzado}}
+               <li><a class="link_name text-capitalize" href="/search?key={{categoria}}">{{categoria}}</a></li>
+            {{/each}}
+         </ul>
+      </li>
+
+      {{!-- ACCESORIOS --}}
+      <li>
+         <a href="/search?key=accesorio">
+            <i class="fas fa-scarf"></i>
+            <span class="link_name"></span>
+         </a>
+         <ul class="sub-menu blank">
+            {{#each categories.accesorio}}
+               <li><a class="link_name text-capitalize" href="/search?key={{categoria}}">{{categoria}}</a></li>
+            {{/each}}
+         </ul>
+      </li>
+
+      {{!-- OTROS --}}
+      <li>
+         <a href="#">
+            <i class="fas fa-hat-winter"></i>
+            <span class="link_name"></span>
+         </a>
+         <ul class="sub-menu blank">
+            {{#each categories.otro}}
+               <li><a class="link_name text-capitalize" href="/search?key={{categoria}}">{{categoria}}</a></li>
+            {{/each}}
+         </ul>
+      </li>
+      </div>
+   </ul>
+</div>

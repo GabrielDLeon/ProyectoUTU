@@ -2,7 +2,7 @@ const express = require('express');
 const authController = require('../controllers/auth');
 const router = express.Router();
 const mysql = require("mysql");
-const { filter } = require('lodash');
+const { filter, result } = require('lodash');
 const db = mysql.createConnection({
     host: process.env.DATABASE_HOST,
     user: process.env.DATABASE_USER,
@@ -19,6 +19,32 @@ router.post('/', async (req, res) => {
         res.redirect('/');
     }
 })
+
+function getCategories(callback) {
+    db.query('SELECT categoria FROM categorias WHERE general = "accesorio"', (error, accesorio) => {
+        db.query('SELECT categoria FROM categorias WHERE general = "cabeza"', (error, cabeza) => {
+            db.query('SELECT categoria FROM categorias WHERE general = "calzado"', (error, calzado) => {
+                db.query('SELECT categoria FROM categorias WHERE general = "superior"', (error, superior) => {
+                    db.query('SELECT categoria FROM categorias WHERE general = "inferior"', (error, inferior) => {
+                        db.query('SELECT categoria FROM categorias WHERE general = "interior"', (error, interior) => {
+                            db.query('SELECT categoria FROM categorias WHERE general = "otro"', (error, otro) => {
+                                return callback(null, {
+                                    accesorio,
+                                    cabeza,
+                                    calzado,
+                                    superior,
+                                    inferior,
+                                    interior,
+                                    otro
+                                });
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    });
+}
 
 function paginations(Page, quantity, query, path, callback) {
     const page = parseInt(Page);
@@ -40,7 +66,7 @@ function paginations(Page, quantity, query, path, callback) {
     });
 }
 
-router.get('/', authController.isLoggedIn, async (req, res) => {    
+router.get('/', authController.isLoggedIn, async (req, res) => {
     let array = [];
     let pattern = [];
     const query = req.query;
@@ -105,28 +131,32 @@ router.get('/', authController.isLoggedIn, async (req, res) => {
     // Template almacena toda la consulta + variables + join + condiciones + auxiliares
     let template = 'SELECT ' + variables + ' FROM (view_publicaciones' + join + ') ' + condicion + ' GROUP BY ' + group + ' ' + auxiliar + 'LIMIT ? OFFSET ?';
     if (req.query.page) {
-        const {page} = req.query;
-        db.query('SELECT * FROM perfil WHERE perfil.email LIKE "%"?"%"', [key], (error, shops) => {
-            paginations(page, 12, template, path, function (error, result) {
-                if (result) {
-                    res.render('search', {
-                        recommendations: result.recommendations,
-                        pagination: result.pagination,
-                        palabra: key,
-                        shops: shops,
-                        user: req.user,
-                        title: "Búsqueda"
-                    });
-                } else {
-                    res.render('search', {
-                        palabra: key,
-                        shops: shops,
-                        user: req.user,
-                        title: "Búsqueda"
-                    });
-                }
+        getCategories(function(error, categories){
+            const {page} = req.query;
+            db.query('SELECT * FROM perfil WHERE perfil.email LIKE "%"?"%"', [key], (error, shops) => {
+                paginations(page, 12, template, path, function (error, result) {
+                    if (result) {
+                        res.render('search', {
+                            categories,
+                            recommendations: result.recommendations,
+                            pagination: result.pagination,
+                            palabra: key,
+                            shops: shops,
+                            user: req.user,
+                            title: "Búsqueda"
+                        });
+                    } else {
+                        res.render('search', {
+                            categories,
+                            palabra: key,
+                            shops: shops,
+                            user: req.user,
+                            title: "Búsqueda"
+                        });
+                    }
+                });
             });
-        });
+        })
     } else {
         res.redirect(path+'page=1');
     }
