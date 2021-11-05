@@ -17,14 +17,17 @@
         {{>products}}
         {{/each}}
       </div>
-      {{else}}
+      {{/if}}
+      {{#ifCond recommendations '==' undefined}}
+      {{#ifCond shops '==' 0}}
       <div class="d-flex justify-content-center">
         <div class="alert alert-danger" role="alert" style="width: 70%;">
           <p class="text-danger text-center mt-1 fw-bold">No hay coincidencias con la búsqueda</p>
           <i class="fas fa-exclamation-triangle d-flex justify-content-center" style="font-size: 30px;"></i>
         </div>
       </div>
-      {{/if}}
+      {{/ifCond}}
+      {{/ifCond}}
       {{>pagination}}
     </div>
   </div>

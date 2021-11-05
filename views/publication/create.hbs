@@ -140,10 +140,15 @@
                     onclick="return confirm('¿Deseas descartar la publicación actual?')"><i class="fas fa-trash"></i>
                     Descartar</a>
             </div>
-        </form>
+        </form> <br>
         {{#if success}}
-        <p class="text-success text-center mt-1">{{success}}</p>
-        <p><a href="/publication/{{id}}">Click aquí</a> para verla </p>
+        <div class="d-flex justify-content-center">
+            <div class="alert alert-success" role="alert" style="width: 70%;">
+                <p class="text-success text-center mt-1 fw-bold">{{success}}</p> <a href=""></a>
+                <p class="text-success text-center mt-1 fw-bold"><a href="/publication/{{id}}">Click aquí</a> para verla</p>
+                <i class="fas fa-check d-flex justify-content-center" style="font-size: 30px;"></i>
+            </div>
+        </div>
         {{/if}} <br>
         {{#if message}}
         <div class="d-flex justify-content-center">

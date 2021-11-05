@@ -28,7 +28,7 @@ exports.login = async (req, res) => {
       if( results.length == 0 || !(await bcrypt.compare(pass, results[0].password)) ) {
         res.status(401).render('./auth/login', {
           mail: req.body.mail,
-          message: 'Email o contraseña incorrectos',
+          message: 'El e-mail o la contraseña no son correctos. Compruébelo.', 
           title: "Login"
         })
       } else {
@@ -109,7 +109,7 @@ exports.register = (req, res) => {
         if (error) {console.log(error)
         } else {
           return res.render('./auth/register', {
-            registroCompleto: 'Usuario registrado, puede ingresar',
+            registroCompleto: 'Registro completo',
             title: "Registro completo"
           });
         }
@@ -238,7 +238,7 @@ exports.registerCompany = (req, res) => {
         if (error) {console.log(error)
         } else {
           return res.render('./auth/registerCompany', {
-            registroCompleto:'Empresa registrada correctamente, puede ingresar',
+            registroCompleto:'Empresa registrada',
             title: 'Registro Completo'
           });
         }
