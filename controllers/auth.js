@@ -151,7 +151,7 @@ exports.registerCompany = (req, res) => {
   }
   const expReg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   const esValido = expReg.test(mailEmpresa);
-
+db.query('SELECT RUT FROM cuenta_empresa where RUT = ?', [rut], async (error, ruts) => {
   db.query('SELECT email FROM cuentas WHERE email = ?', [mailEmpresa], async (error, results) => {
     if(error) {
       console.log(error);
@@ -180,6 +180,7 @@ exports.registerCompany = (req, res) => {
   //        pass: req.body.pass,
   //        pass2: req.body.passwordConfirm,
   //        name: req.body.name,
+  //        rut: req.body.rut,
   //        title: 'Registro de empresa',
   //        message: 'RUT inválido'
   //  })
@@ -192,6 +193,17 @@ exports.registerCompany = (req, res) => {
           rut: req.body.rut,
           mailEmpresa: req.body.mailEmpresa,
           message: 'Nombre ya en uso',
+          title: "Registro de empresa"
+    })
+  }
+  if( ruts.length > 0 ) {
+    return res.render('./auth/registerCompany', {
+          pass: req.body.pass,
+          pass2: req.body.passwordConfirm,
+          name: req.body.name,
+          rut: req.body.rut,
+          mailEmpresa: req.body.mailEmpresa,
+          message: 'RUT ya registrado por otra empresa',
           title: "Registro de empresa"
     })
   }
@@ -247,6 +259,7 @@ exports.registerCompany = (req, res) => {
   })
   })
   });
+})
 }
 
 exports.isLoggedIn = async (req, res, next) => {
