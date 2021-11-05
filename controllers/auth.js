@@ -173,18 +173,18 @@ db.query('SELECT RUT FROM cuenta_empresa where RUT = ?', [rut], async (error, ru
             title: "Registro de empresa"
       })
    }
-  //  if (validate_isRUT(rut) == false) {
-  //   return res.render('./auth/registerCompany', {
-  //     mailEmpresa: req.body.mailEmpresa,
-  //        razon: req.body.razon,
-  //        pass: req.body.pass,
-  //        pass2: req.body.passwordConfirm,
-  //        name: req.body.name,
-  //        rut: req.body.rut,
-  //        title: 'Registro de empresa',
-  //        message: 'RUT inválido'
-  //  })
-  //  }
+   if (validate_isRUT(rut) == false) {
+    return res.render('./auth/registerCompany', {
+      mailEmpresa: req.body.mailEmpresa,
+         razon: req.body.razon,
+         pass: req.body.pass,
+         pass2: req.body.passwordConfirm,
+         name: req.body.name,
+         rut: req.body.rut,
+         title: 'Registro de empresa',
+         message: 'RUT inválido'
+   })
+   }
   if( result.length > 0 ) {
     return res.render('./auth/registerCompany', {
           pass: req.body.pass,
