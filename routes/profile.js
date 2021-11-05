@@ -52,6 +52,9 @@ function getLinks(email, callback) {
                   wppLink,
                })
             } else {
+               if (instagram.length<=0 && facebook.length<=0){
+                  return callback();
+               }
                return callback(null, {
                   whatsapp: whatsapp[0],
                   facebook: facebook[0],
