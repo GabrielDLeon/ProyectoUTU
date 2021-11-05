@@ -268,7 +268,6 @@ exports.isLoggedIn = async (req, res, next) => {
       const decoded = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRET);
       db.query('SELECT * from cuentas WHERE cuentas.email = ?', [decoded.id], (error, result) => {
         const tipo = (result[0].tipo);
-        //comprobacion de q el usuario exista
         if (tipo == 'usuario') {
           db.query('SELECT cuentas.email, cuentas.password, cuentas.tipo, cuenta_personal.nombre, cuenta_personal.id FROM (cuentas INNER JOIN cuenta_personal ON cuentas.email = cuenta_personal.email) WHERE cuentas.email = ?', [decoded.id], (error, result2) => {
             if(!result2) {

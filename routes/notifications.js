@@ -25,11 +25,9 @@ router.get('/', authController.isLoggedIn, async (req, res) => {
             })
         } else {
             // Usuario no iniciado
-            console.log("No se ha iniciado sesión con un usuario");
             res.redirect('/');
         }
     } else {
-        console.log("No se ha iniciado sesión con un usuario");
         res.redirect('/');
     }
 });
@@ -45,17 +43,14 @@ router.post('/delete/:notification', authController.isLoggedIn, async (req, res)
                         console.log(error)
                         return res.redirect('/notifications')
                     } else {
-                        console.log("Se ha eliminado correctamente la notificación " + notification)
                         return res.redirect('/notifications')
                     }
                 });
             } else {
-                console.log("El usuario y la notificación NO coinciden")
                 res.redirect('/notifications')
             }
         })
     } else {
-        console.log("No se ha iniciado sesión con un usuario");
         res.redirect('/');
     }
 });

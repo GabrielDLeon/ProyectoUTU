@@ -4,7 +4,6 @@ const mysql = require("mysql");
 const router = express.Router();
 const multer = require('multer');
 var _ = require('lodash');
-// Load the core build.
 var _ = require('lodash/core');
 var path = require('path');
 var filtro; 
@@ -49,7 +48,6 @@ router.get('/', authController.isLoggedIn, (req, res) => {
                         })
                     });
                 } else {
-                    console.log("El producto que desea utilizar no existe")
                     res.redirect('/create?newPublication=true')
                 }
             });
@@ -174,28 +172,24 @@ router.post('/', upload.array("imagen", 12), authController.isLoggedIn, async (r
                         title: "Nueva publicación",
                     }
                     if (!genero || !titulo || !descripcion || !precio || !material || !marca || !categoria) {
-                        console.log("Por favor complete todos los campos antes de crear la publicación");
                         return res.render('publication/create', {
                             bodyRender,
                             user: req.user,
                             message: "Por favor complete todos los campos antes de crear la publicación",
                         })
                     } else if (filtro == false) {
-                        console.log("Compruebe la extensión de las imagenes que quiere subir (solo válidas .png, .jpg, .jpeg, .svg)");
                         return res.render('publication/create', {
                             bodyRender,
                             user: req.user,
                             message: "Compruebe la extensión de las imagenes que quiere subir (solo válidas .png, .jpg, .jpeg, .svg)",
                         })
                     } else if (categoriasR.length <= 0) {
-                        console.log("Esa categoria no existe, seleccione otra");
                         return res.render('publication/create', {
                             bodyRender,
                             user: req.user,
                             message: "Esa categoria no existe, seleccione otra",
                         })
                     } else if (materialesR.length <= 0) {
-                        console.log("Ese material no existe, seleccione otro");
                         return res.render('publication/create', {
                             bodyRender,
                             user: req.user,
@@ -204,9 +198,7 @@ router.post('/', upload.array("imagen", 12), authController.isLoggedIn, async (r
                     } else {
                         db.query('SELECT * FROM marcas WHERE marca = ?', [marca], (error, result) => {
                             if (result.length > 0) {
-                                console.log("la marca existe y no se va a crear")
                             } else {
-                                console.log("la marca no existe y se va a crear")
                                 db.query('INSERT INTO marcas (marca) VALUES (?)', [marca])
                             }
                         });
@@ -329,13 +321,10 @@ function insertColors(amarillo, azul, beige, blanco, bordó, gris, marrón, nara
 function existProduct(categoria, genero, material, marca, callback) {
     db.query('SELECT idProducto FROM productos WHERE categoria = ? AND genero = ? AND material = ? AND marca = ?', [categoria, genero, material, marca], (error, existProduct) => {
         if (existProduct.length > 0) {
-            console.log("El producto " + existProduct[0].idProducto + " coincide con los valores ingresados!");
             return callback(null, existProduct[0].idProducto)
         } else {
-            console.log("No existe un producto con esas caracteristicas!");
             db.query('INSERT INTO productos (categoria, genero, material, marca) VALUES (?, ?, ?, ?)', [categoria, genero, material, marca], (error, newProduct) => {
                 const idProduct = newProduct.insertId;
-                console.log("El producto creado tiene la id " + idProduct);
                 return callback(null, idProduct);
             })
         }

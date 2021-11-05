@@ -4,7 +4,6 @@ const mysql = require("mysql");
 const router = express.Router();
 const multer = require('multer');
 var _ = require('lodash');
-// Load the core build.
 var _ = require('lodash/core');
 var path = require('path');
 var filtro; 
@@ -47,14 +46,12 @@ router.post('/delete/:nroPublicacion', authController.isLoggedIn, async (req, re
             await db.query('DELETE FROM publicacion WHERE nroPublicacion = ?', [nroPublicacion], (error, results) => {
                 if (error) {
                     console.log(error)
-                    console.log("Algo pasó mal")
                     return res.redirect('/list')
                 } else {
                     return res.redirect('/list')
                 }
             })
         } else {
-            console.log("Esa publicacion no existe")
             return res.redirect('/list')
         }
     })
@@ -100,11 +97,9 @@ router.get('/edit/:id', authController.isLoggedIn, async (req, res) => {
                     });
                 })
             } else {
-                console.log("No se pudieron actualizar los datos de la publicación, esto debido a que la cuenta activa no corresponde al usuario vendedor de la publicación")
                 res.redirect('/list');
             }
         } else {
-            //console.log("No se encontró ninguna publicación");
             res.redirect('/');
         }
     });
@@ -178,7 +173,6 @@ router.post('/edit/:id', upload.array("imagen", 12), authController.isLoggedIn, 
                                                 }
                                             }
                                             db.query('UPDATE publicacion SET titulo = ?, descripcion = ?, precio = ?, producto = ? WHERE nroPublicacion = ?', [titulo, descripcion, precio, insert, id], (error, result) => {
-                                                console.log("Se actualizó correctamente la publicación " + id);
                                                 res.redirect('/list');
                                             })
                                         })

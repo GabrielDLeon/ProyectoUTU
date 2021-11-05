@@ -30,7 +30,6 @@ router.post('/delete/:id', authController.isLoggedIn, async (req, res) => {
                 if (error) {
                     console.log(error)
                 } else {
-                    console.log("Se ha eliminado correctamente de favoritos la publicación "+id)
                     return res.redirect('/favorites')
                 }
             })   

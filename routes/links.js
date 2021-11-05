@@ -3,7 +3,6 @@ const authController = require('../controllers/auth');
 const mysql = require("mysql");
 const router = express.Router();
 var _ = require('lodash');
-// Load the core build.
 var _ = require('lodash/core');
 
 const db = mysql.createConnection({
@@ -114,7 +113,6 @@ router.get('/delete/:rs', authController.isLoggedIn, async (req, res) => {
                 db.query('DELETE FROM enlaces WHERE tipo = ? AND enlaces.propietario = ?', [rs, email]);
                 res.redirect('/links');
             } else {
-                console.log("No se ha encontrado enlace");
                 res.redirect('/links');
             }
         })

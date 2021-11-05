@@ -44,7 +44,6 @@ router.get('/:nroPublicacion', authController.isLoggedIn, async (req, res) => {
                                 await db.query('SELECT talle FROM (publicacion INNER JOIN curvas ON publicacion.nroPublicacion = curvas.publicacion) WHERE nroPublicacion = ?', [nroPublicacion], async (error, sizes) => {
                                     await db.query('SELECT nroPublicacion, precio, descuento, imagen FROM (view_publicaciones) WHERE emailVendedor = ? AND nroPublicacion != ? LIMIT 6', [emailVendedor, nroPublicacion], async (error, recommendations) => {
                                         await db.query('SELECT * from perfil WHERE email = ?', [emailVendedor], (error, perfil) => {
-                                            console.log("Se renderizó correctamente la página de la publicación " + nroPublicacion);
                                             res.render('publication/page', {
                                                 title: publication[0].titulo,
                                                 user: req.user,
@@ -83,11 +82,8 @@ router.post('/question/delete/:id', authController.isLoggedIn, async (req,res) =
             if (remitente == user) {
             db.query('DELETE FROM preguntas WHERE idPregunta = ?', [id])
             const path = '/publication/' + nroPublicacion + '/#seccion-preguntas';
-            console.log("Se elimino correctamente la pregunta")
             res.redirect(path)
-            } else {
-                console.log("No puedes eliminar una pregunta que no sea tuya")
-            }
+            } 
         })
     } else {
         res.redirect('/')
@@ -117,9 +113,7 @@ router.post('/question/:id', authController.isLoggedIn, async (req, res) => {
                 const idPregunta = insert.insertId;
                 const vendedor = result[0].vendedor;
                 db.query('INSERT INTO notificaciones (`usuario`, `pregunta`) VALUES (?, ?)', [vendedor, idPregunta]);
-                console.log("Se envió correctamente la notificación al usuario: "+vendedor)
             })
-            console.log('Pregunta enviada correctamente');
             const path = '/publication/' + id + '/#seccion-preguntas';
             res.redirect(path);
         });
@@ -147,29 +141,20 @@ router.post('/answer/:id', authController.isLoggedIn, async (req, res) => {
                 await db.query('SELECT remitente FROM preguntas WHERE idPregunta = ?', [idPregunta], (error, result) => {
                     const {remitente} = result[0];
                     db.query('INSERT INTO notificaciones (`usuario`, `pregunta`) VALUES (?, ?)', [remitente, idPregunta]);
-                    console.log("Se envió correctamente la notificación al usuario: "+remitente)
                 })
                 // Eliminar notificación de la pregunta del vendedor
                 await db.query('SELECT idNotificacion FROM notificaciones WHERE pregunta = ?', [idPregunta], (error, result) => {
                     if (result.length > 0){
                         const {idNotificacion} = result[0];
                         db.query('DELETE FROM notificaciones WHERE idNotificacion = ?', [idNotificacion]);
-                        console.log("Se eliminó correctamente la notificación vinculada a la pregunta");
-                    } else { console.log("No se encontró la pregunta") }
+                    } 
                 })
-                console.log('Respuesta enviada correctamente');
                 const path = '/publication/' + nroPublicacion + '/#seccion-preguntas';
                 return res.redirect(path);
             });
         }
     })
 });
-
-// Función que calcula el precio final a partir de un descuento
-function saleCalculator (price, sale){
-    const result = price - ((price * sale) / 100);
-    return result;
-}
 
 // Agregar o quitar una publicación de favoritos
 router.post('/addFavorite/:id', authController.isLoggedIn, async (req, res) => {
@@ -180,11 +165,9 @@ router.post('/addFavorite/:id', authController.isLoggedIn, async (req, res) => {
         await db.query('SELECT * FROM favoritos WHERE usuario = ? AND publicacion = ?', [email, id], async (error, result) => {
             if (result.length > 0) {
                 db.query('DELETE FROM favoritos WHERE usuario = ? AND publicacion = ?', [email, id])
-                console.log("Se eliminó la publicación de favoritos")
                 res.redirect(path)
             } else {
                 await db.query('INSERT INTO favoritos VALUES (?, ?)', [email, id])
-                console.log("Se guardó la publicación como favoritos")
                 res.redirect(path)
             }
         })

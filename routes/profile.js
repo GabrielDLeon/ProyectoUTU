@@ -7,7 +7,6 @@ const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
 const multer = require('multer');
 var _ = require('lodash');
-// Load the core build.
 var _ = require('lodash/core');
 
 const upload = multer({ storage: multer.memoryStorage() });

@@ -70,17 +70,17 @@
                         {{#ifCond data.tipo '==' 'empresa'}}
                             <li class="nav-item"><a class="nav-link" href="/list">Mis publicaciones</a></li>
                             <li class="nav-item"><a class="nav-link" href="/list/questions">Preguntas</a></li>
-                            <li class="nav-item"><a class="nav-link" href="/create?newPublication=true"><i class="fas fa-plus-circle"></i></a></li>
+                            <li class="nav-item"><a class="nav-link" title="Nueva publicación" href="/create?newPublication=true"><i class="fas fa-plus-circle"></i></a></li>
                         {{/ifCond}}
                         {{#ifCond tipo '==' 'empresa'}}
                             <li class="nav-item"><a class="nav-link" href="/list">Mis publicaciones</a></li>
                             <li class="nav-item"><a class="nav-link" href="/list/questions">Preguntas</a></li>
-                            <li class="nav-item"><a class="nav-link" href="/create?newPublication=true"><i class="fas fa-plus-circle"></i></a></li>
+                            <li class="nav-item"><a class="nav-link" title="Nueva publicación" href="/create?newPublication=true"><i class="fas fa-plus-circle"></i></a></li>
                         {{/ifCond}}
                     {{/with}}
                 {{else}}
                     <li class="nav-item"><a class="nav-link" href="/login">Ingresa</a></li>
-                    <li class="nav-item"><a class="nav-link rounded-pill border border-light" href="/register">Registro</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/register">Regístrate</a></li>
                 {{/if}}
             </ul>
         </div>

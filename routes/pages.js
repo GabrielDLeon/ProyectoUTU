@@ -43,7 +43,6 @@ router.get('/', authController.isLoggedIn, async (req, res) => {
                   });
                } else {
                   res.redirect('/');
-                  console.log("No existe resultado");
                }
             });
          });
@@ -92,7 +91,6 @@ router.get('/admin/resetIncremental', authController.isLoggedIn, async (req, res
          });
       });
    }
-   console.log("Reset exitoso!");
    res.redirect('/');
 });
 
@@ -113,14 +111,12 @@ router.get('/admin/deleteGeneric', authController.isLoggedIn, async (req, res) =
    if (req.user.data.tipo == 'empresa') {
       const { email } = req.user.data;
       db.query('DELETE FROM publicacion WHERE titulo = "Generic Publication" AND vendedor = ?', [email]);
-      console.log("Publicaciones genéricas eliminadas correctamente!")
       res.redirect('/admin/resetIncremental')
    }
 })
 
 router.get('/admin/deleteGenericAll', authController.isLoggedIn, async (req, res) => {
    db.query('DELETE FROM publicacion WHERE titulo = "Generic Publication"');
-   console.log("Publicaciones genéricas eliminadas correctamente!")
    res.redirect('/admin/resetIncremental')
 })
 
