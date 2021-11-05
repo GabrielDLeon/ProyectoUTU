@@ -34,6 +34,7 @@ router.get('/:nroPublicacion', authController.isLoggedIn, async (req, res) => {
     const { nroPublicacion } = req.params;
     if (req.user) { var { email } = req.user.data }
     db.query('SELECT nroPublicacion, titulo, descripcion, precio, emailVendedor, nombreVendedor, fechaPublicacion, idProducto, categoria, genero, material, marca, porcentaje, descuento FROM (view_publicaciones) WHERE nroPublicacion = ?', [nroPublicacion], async (error, publication) => {
+        console.log(publication[0].nombreVendedor);
         if (publication.length > 0) {
             const { emailVendedor } = publication[0];
             await db.query('SELECT imagen FROM fotos WHERE publicacion = ?', [nroPublicacion], async (error, images) => {

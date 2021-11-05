@@ -8,8 +8,18 @@ const jwt = require('jsonwebtoken');
 const multer = require('multer');
 var _ = require('lodash');
 var _ = require('lodash/core');
+var path = require('path');
+var filtro; 
+const upload = multer({storage:multer.memoryStorage(), fileFilter: function (req, file, callback) {
+    var ext = path.extname(file.originalname);
+    if(ext !== '.png' && ext !== '.jpg' && ext !== '.svg' && ext !== '.jpeg' && ext !== '.PNG') {
+        filtro = false;
+    } else{
+        filtro = true;
+    }
+    callback(null, true)
+}});
 
-const upload = multer({ storage: multer.memoryStorage() });
 
 const db = mysql.createConnection({
    host: process.env.DATABASE_HOST,
@@ -67,10 +77,14 @@ function getLinks(email, callback) {
 }
 
 router.get('/', authController.isLoggedIn, async (req, res) => {
-   if (req.user.data.tipo == 'empresa') {
-      const { nombre } = req.user.data;
-      const path = '/profile/' + nombre + '?page=1';
-      res.redirect(path);
+   if (req.user) {
+      if (req.user.data.tipo == 'empresa') {
+         const { nombre } = req.user.data;
+         const path = '/profile/' + nombre + '?page=1';
+         res.redirect(path);
+      } else {
+         res.redirect('/')
+      }
    } else {
       res.redirect('/')
    }
@@ -127,34 +141,38 @@ router.get('/:nombre', authController.isLoggedIn, async (req, res) => {
 });
 
 router.get('/edit/pass/:id', authController.isLoggedIn, async (req, res) => {
-   if (req.user.data.tipo == 'empresa') {
-      const { email } = req.user.data;
-      const { id } = req.params;
-      db.query('SELECT cuentas.email, cuentas.password, cuenta_empresa.id FROM cuentas INNER JOIN cuenta_empresa ON cuentas.email = cuenta_empresa.email WHERE cuentas.email = ?', [email], async (error, result) => {
-         if (result[0].id == id) {
-            res.render('profile/editAccount', {
-               data: result[0],
-               user: req.user,
-               title: "Cambiar contraseña"
-            })
-         } else {
-            res.redirect('/')
-         }
-      })
-   } else if (req.user.data.tipo == 'usuario') {
-      const { email } = req.user.data;
-      const { id } = req.params;
-      db.query('SELECT cuentas.email, cuentas.password, cuenta_personal.id FROM cuentas INNER JOIN cuenta_personal ON cuentas.email = cuenta_personal.email WHERE cuentas.email = ?', [email], async (error, result) => {
-         if (result[0].id == id) {
-            res.render('profile/editAccount', {
-               data: result[0],
-               user: req.user.data,
-               title: "Cambiar contraseña"
-            })
-         } else {
-            res.redirect('/')
-         }
-      })
+   if (req.user) {
+      if (req.user.data.tipo == 'empresa') {
+         const { email } = req.user.data;
+         const { id } = req.params;
+         db.query('SELECT cuentas.email, cuentas.password, cuenta_empresa.id FROM cuentas INNER JOIN cuenta_empresa ON cuentas.email = cuenta_empresa.email WHERE cuentas.email = ?', [email], async (error, result) => {
+            if (result[0].id == id) {
+               res.render('profile/editAccount', {
+                  data: result[0],
+                  user: req.user,
+                  title: "Cambiar contraseña"
+               })
+            } else {
+               res.redirect('/')
+            }
+         })
+      } else if (req.user.data.tipo == 'usuario') {
+         const { email } = req.user.data;
+         const { id } = req.params;
+         db.query('SELECT cuentas.email, cuentas.password, cuenta_personal.id FROM cuentas INNER JOIN cuenta_personal ON cuentas.email = cuenta_personal.email WHERE cuentas.email = ?', [email], async (error, result) => {
+            if (result[0].id == id) {
+               res.render('profile/editAccount', {
+                  data: result[0],
+                  user: req.user.data,
+                  title: "Cambiar contraseña"
+               })
+            } else {
+               res.redirect('/')
+            }
+         })
+      }
+   } else {
+      res.redirect('/')
    }
 });
 
@@ -227,7 +245,8 @@ router.post('/edit/pass/:id', authController.isLoggedIn, async (req, res) => {
 });
 
 router.get('/edit/:id', authController.isLoggedIn, async (req, res) => {
-   const email = req.user.data.email;
+   if (req.user) {
+      const email = req.user.data.email;
    if (req.user.data.tipo == 'usuario') {
       await db.query('SELECT cuentas.email , cuentas.password, cuentas.tipo, cuenta_personal.nombre, cuenta_personal.id FROM (cuentas INNER JOIN cuenta_personal ON cuentas.email = cuenta_personal.email) WHERE cuentas.email = ?', [email], (error, result2) => {
          if (!result2) {
@@ -274,6 +293,9 @@ router.get('/edit/:id', authController.isLoggedIn, async (req, res) => {
          });
       });
    }
+   } else {
+      res.redirect('/')
+   } 
 });
 
 router.post('/delete/:id', authController.isLoggedIn, async (req, res) => {
@@ -300,6 +322,17 @@ router.post('/edit/:id', upload.single("imagen"), authController.isLoggedIn, asy
                data: req.user.data,
                user: req.user,
                message: "Por favor, ingrese su nombre",
+               title: 'Editar perfil'
+            })
+         }
+         console.log(filtro);
+         if (filtro == false) {
+            return res.render('profile/editProfile', {
+               email: req.body.email,
+               nombre: req.body.nombre,
+               data: req.user.data,
+               user: req.user,
+               message: "Compruebe la extensión de las imagenes que quiere subir (solo válidas .png, .jpg, .jpeg, .svg)",
                title: 'Editar perfil'
             })
          }
@@ -344,6 +377,19 @@ router.post('/edit/:id', upload.single("imagen"), authController.isLoggedIn, asy
                user: req.user,
                message: "Por favor, ingrese un nombre",
                title: "Editar perfil"
+            })
+         }
+         if (filtro == false) {
+            return res.render('profile/editEmpresa', {
+               data: result[0],
+               email: req.body.email,
+               nombre: req.body.nombre,
+               descripcion: req.body.descripcion,
+               direccion: req.body.direccion,
+               telefono: req.body.telefono,
+               user: req.user,
+               message: "Compruebe la extensión de las imagenes que quiere subir (solo válidas .png, .jpg, .jpeg, .svg)",
+               title: 'Editar perfil'
             })
          }
          if (nick != nombre) {

@@ -27,8 +27,7 @@
                             <small class="ms-1 text-muted">Con este nombre las personas te identificarán en la
                                 página</small>
                         </div>
-                        <div class="mb-3">
-                            <label for="razon" class="fw-bold">Razón social</label>
+                        <div class="mb-3 form-floating">
                             <select class="form-select" name="razon" id="razon" style="height: 58px;">
                                 <option value="{{data.razonSocial}}">{{data.razonSocial}}</option>
                                 {{#ifCond data.razonSocial '!=' 'Sociedad Anonima'}}
@@ -56,10 +55,11 @@
                                 <option value="Otra">Otra</option>
                                 {{/ifCond}}
                             </select>
+                            <label for="razon">Razón social</label>
                         </div>
                         <div class="mb-3 form-floating">
                             <textarea class="form-control" name="descripcion" id="descripcion"
-                                placeholder="Descripción del perfil" maxlength="155">{{data.descripcion}}</textarea>
+                                placeholder="Descripción del perfil" maxlength="155" rows="4" style="height: 100%;">{{data.descripcion}}</textarea>
                             <label for="descripcion">Descripción del perfil</label>
                         </div>
                         <div class="mb-3 form-floating">

@@ -63,11 +63,6 @@
                                 <button type="button" class="btn btn-outline-dark btn-lg custom">{{talle}}</button>
                                 {{/each}}
                             </div>
-                            <div class="my-2">
-                                <a href="/publication/{{nroPublicacion}}/#guiaTalles" class="text-reset">
-                                    <p class="d-inline">Guia de talles</p>
-                                </a>
-                            </div>
                         </div>
                         {{/if}}
                         {{#if ../colors}}
@@ -341,7 +336,7 @@
                                     <h3 class="card-title text-center f-space-3">Sobre nosotros</h3>
                                     <p class="card-text">{{descripcion}}</p>
                                     <div class="d-flex">
-                                        <a href="/profile" class="link-unstyled ms-auto">
+                                        <a href="/profile/{{../publication.nombreVendedor}}" class="link-unstyled ms-auto">
                                             <span
                                                 class="card-subtitle d-inline text-muted carattere me-3">{{../publication.nombreVendedor}}</span>
                                         </a>
