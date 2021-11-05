@@ -28,7 +28,7 @@ function countEntities(callback) {
 router.get('/', authController.isLoggedIn, async (req, res) => {
    db.query('SELECT direccion, descripcion, telefono, nombre FROM perfil', (error, result) => {
       db.query('SELECT nroPublicacion, precio, descuento, imagen, nombreVendedor, categoria, genero FROM view_publicaciones ORDER BY fechaPublicacion DESC LIMIT 8', (error, newest) => {
-         db.query('SELECT nroPublicacion, precio, descuento, imagen, nombreVendedor, categoria, genero, COUNT(favoritos.publicacion) AS cantFavoritos FROM (view_publicaciones INNER JOIN favoritos ON favoritos.publicacion = view_publicaciones.nroPublicacion) GROUP BY nroPublicacion HAVING (COUNT(cantFavoritos)) ORDER BY cantFavoritos LIMIT 8', (error, top) => {
+         db.query('SELECT nroPublicacion, precio, descuento, imagen, nombreVendedor, categoria, genero, COUNT(favoritos.publicacion) AS cantFavoritos FROM (view_publicaciones INNER JOIN favoritos ON favoritos.publicacion = view_publicaciones.nroPublicacion) GROUP BY nroPublicacion HAVING (COUNT(cantFavoritos)) ORDER BY cantFavoritos DESC LIMIT 8', (error, top) => {
             countEntities(function (error, result) {
                if (result) {
                   db.query('SELECT * FROM perfil', (error, shops) => {

@@ -53,7 +53,11 @@ function getLinks(email, callback) {
                   wppLink,
                })
             } else {
-               return callback();
+               return callback(null, {
+                  whatsapp: whatsapp[0],
+                  facebook: facebook[0],
+                  instagram: instagram[0],
+               });
             }
          });
       });
