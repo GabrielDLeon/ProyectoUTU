@@ -26,14 +26,18 @@ const db = mysql.createConnection({
 
 router.get('/', authController.isLoggedIn, (req, res) => {
     if (req.user) {
-        const {email} = req.user.data;
-        db.query('SELECT nroPublicacion, titulo, imagen, descuento, porcentaje, descripcion, precio, idProducto, nombreVendedor, COUNT(preguntas.idPregunta) AS cantPreguntas FROM (view_publicaciones LEFT JOIN preguntas ON preguntas.publicacion = nroPublicacion) WHERE emailVendedor = ? GROUP BY nroPublicacion;', [email], (error, publicacion) => {
-            res.render('publication/list', {
-                publicacion,
-                user: req.user,
-                title: "Mis publicaciones"
-            })
-        });
+        if (req.user.data.tipo == 'empresa'){
+            const {email} = req.user.data;
+            db.query('SELECT nroPublicacion, titulo, imagen, descuento, porcentaje, descripcion, precio, idProducto, nombreVendedor, COUNT(preguntas.idPregunta) AS cantPreguntas FROM (view_publicaciones LEFT JOIN preguntas ON preguntas.publicacion = nroPublicacion) WHERE emailVendedor = ? GROUP BY nroPublicacion;', [email], (error, publicacion) => {
+                res.render('publication/list', {
+                    publicacion,
+                    user: req.user,
+                    title: "Mis publicaciones"
+                })
+            });
+        } else {
+            res.redirect('/');
+        }
     } else {
         res.redirect('/login')
     }
@@ -58,51 +62,59 @@ router.post('/delete/:nroPublicacion', authController.isLoggedIn, async (req, re
 });
 
 router.get('/edit/:id', authController.isLoggedIn, async (req, res) => {
-    const { id } = req.params;
-    const { email } = req.user.data;
-    await db.query('SELECT vendedor FROM publicacion WHERE nroPublicacion = ?', [id], (error, result) => {
-        if (result.length > 0) {
-            if (email === result[0].vendedor) {
-                db.query('SELECT nroPublicacion, titulo, descripcion, precio, descuento, porcentaje FROM (view_publicaciones) WHERE nroPublicacion = ?;', [id], (error, result) => {
-                    db.query('SELECT categoria, genero, material, marca FROM (view_publicaciones) WHERE nroPublicacion = ?', [id], (error, product) => {
-                        const { categoria, genero, material, marca } = product[0];
-                        db.query('SELECT categoria FROM categorias WHERE categoria != ?', [categoria], (error, categorias) => {
-                            db.query('SELECT material FROM materiales WHERE material != ?', [material], (error, materiales) => {
-                                db.query('SELECT marca FROM marcas WHERE marca != ?', [marca], (error, marcas) => {
-                                    db.query('SELECT curvas.talle FROM (curvas INNER JOIN talles ON curvas.talle = talles.talle) WHERE publicacion = ? ORDER BY orden ASC', [id], (error, tallesSelected) => {
-                                        db.query('SELECT talle FROM talles WHERE talle NOT IN (SELECT talle FROM curvas WHERE publicacion = ?) ORDER BY orden ASC', [id], (error, talles) => {
-                                            db.query('SELECT color FROM colorpubli WHERE publicacion = ?', [id], (error, colorSelected) => {
-                                                db.query('SELECT color FROM colores WHERE color NOT IN (SELECT color FROM colorpubli WHERE publicacion = ?)', [id], (error, colores) => {
-                                                    res.render('publication/edit', {
-                                                        user: req.user,
-                                                        categorias,
-                                                        materiales,
-                                                        marcas,
-                                                        genero,
-                                                        tallesSelected,
-                                                        talles,
-                                                        colorSelected,
-                                                        colores,
-                                                        product: product[0],
-                                                        publication: result[0],
-                                                        title: "Editar publicación"
+    if (req.user){
+        if (req.user.data.tipo == 'empresa'){
+            const { id } = req.params;
+            const { email } = req.user.data;
+            await db.query('SELECT vendedor FROM publicacion WHERE nroPublicacion = ?', [id], (error, result) => {
+                if (result.length > 0) {
+                    if (email === result[0].vendedor) {
+                        db.query('SELECT nroPublicacion, titulo, descripcion, precio, descuento, porcentaje FROM (view_publicaciones) WHERE nroPublicacion = ?;', [id], (error, result) => {
+                            db.query('SELECT categoria, genero, material, marca FROM (view_publicaciones) WHERE nroPublicacion = ?', [id], (error, product) => {
+                                const { categoria, genero, material, marca } = product[0];
+                                db.query('SELECT categoria FROM categorias WHERE categoria != ?', [categoria], (error, categorias) => {
+                                    db.query('SELECT material FROM materiales WHERE material != ?', [material], (error, materiales) => {
+                                        db.query('SELECT marca FROM marcas WHERE marca != ?', [marca], (error, marcas) => {
+                                            db.query('SELECT curvas.talle FROM (curvas INNER JOIN talles ON curvas.talle = talles.talle) WHERE publicacion = ? ORDER BY orden ASC', [id], (error, tallesSelected) => {
+                                                db.query('SELECT talle FROM talles WHERE talle NOT IN (SELECT talle FROM curvas WHERE publicacion = ?) ORDER BY orden ASC', [id], (error, talles) => {
+                                                    db.query('SELECT color FROM colorpubli WHERE publicacion = ?', [id], (error, colorSelected) => {
+                                                        db.query('SELECT color FROM colores WHERE color NOT IN (SELECT color FROM colorpubli WHERE publicacion = ?)', [id], (error, colores) => {
+                                                            res.render('publication/edit', {
+                                                                user: req.user,
+                                                                categorias,
+                                                                materiales,
+                                                                marcas,
+                                                                genero,
+                                                                tallesSelected,
+                                                                talles,
+                                                                colorSelected,
+                                                                colores,
+                                                                product: product[0],
+                                                                publication: result[0],
+                                                                title: "Editar publicación"
+                                                            })
+                                                        })
                                                     })
-                                                })
+                                                });
                                             })
                                         });
-                                    })
+                                    });
                                 });
                             });
-                        });
-                    });
-                })
-            } else {
-                res.redirect('/list');
-            }
+                        })
+                    } else {
+                        res.redirect('/list');
+                    }
+                } else {
+                    res.redirect('/');
+                }
+            });
         } else {
             res.redirect('/');
         }
-    });
+    } else {
+        res.redirect('/login');
+    }
 });
 
 router.post('/edit/:id', upload.array("imagen", 12), authController.isLoggedIn, async (req, res) => {

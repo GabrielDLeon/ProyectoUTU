@@ -26,53 +26,57 @@ const db = mysql.createConnection({
 
 // Cargar la página de creación de publicación
 router.get('/', authController.isLoggedIn, (req, res) => {
-    if (req.user.data.tipo == 'empresa') {
-        const query = req.query;
-        if (query.idProducto) {
-            const {idProducto} = query;
-            db.query('SELECT * FROM productos WHERE idProducto = ?', [idProducto], (error, product) => {
-                if (product[0]){
-                    db.query('SELECT color FROM colores', (error, colores) => {
-                        db.query('SELECT talle FROM talles ORDER BY orden ASC', (error, talles) => {
-                            const bodyRender = {
-                                colores,
-                                talles,
-                                title: "Nueva publicación"
-                            }
-                            res.render('publication/create', {
-                                product: product[0],
-                                bodyRender,
-                                user: req.user,
-                                query: "idProducto="+idProducto,
-                            });
-                        })
-                    });
-                } else {
-                    res.redirect('/create?newPublication=true')
-                }
-            });
-        } else if (query.newPublication){
-            getProductPropieties(function (error, productPropieties) {
-                const { categorias, materiales, marcas, colores, talles } = productPropieties; // Datos de la BD
-                const bodyRender = {
-                    categorias,
-                    materiales,
-                    marcas,
-                    colores,
-                    talles,
-                    title: "Nueva publicación"
-                }
-                res.render('publication/create', {
-                    bodyRender,
-                    user: req.user,
-                    query: "newPublication=true",
+    if (req.user){
+        if (req.user.data.tipo == 'empresa') {
+            const query = req.query;
+            if (query.idProducto) {
+                const {idProducto} = query;
+                db.query('SELECT * FROM productos WHERE idProducto = ?', [idProducto], (error, product) => {
+                    if (product[0]){
+                        db.query('SELECT color FROM colores', (error, colores) => {
+                            db.query('SELECT talle FROM talles ORDER BY orden ASC', (error, talles) => {
+                                const bodyRender = {
+                                    colores,
+                                    talles,
+                                    title: "Nueva publicación"
+                                }
+                                res.render('publication/create', {
+                                    product: product[0],
+                                    bodyRender,
+                                    user: req.user,
+                                    query: "idProducto="+idProducto,
+                                });
+                            })
+                        });
+                    } else {
+                        res.redirect('/create?newPublication=true')
+                    }
                 });
-            })
+            } else if (query.newPublication){
+                getProductPropieties(function (error, productPropieties) {
+                    const { categorias, materiales, marcas, colores, talles } = productPropieties; // Datos de la BD
+                    const bodyRender = {
+                        categorias,
+                        materiales,
+                        marcas,
+                        colores,
+                        talles,
+                        title: "Nueva publicación"
+                    }
+                    res.render('publication/create', {
+                        bodyRender,
+                        user: req.user,
+                        query: "newPublication=true",
+                    });
+                })
+            } else {
+                res.redirect('/create?newPublication=true')
+            }
         } else {
-            res.redirect('/create?newPublication=true')
+            res.redirect('/');
         }
     } else {
-        res.redirect('/login');
+        res.redirect('/login')
     }
 })
 

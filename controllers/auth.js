@@ -119,7 +119,7 @@ exports.register = (req, res) => {
 }
 
 exports.registerCompany = (req, res) => {
-  const {name, mailEmpresa, pass, passwordConfirm, razon, rut} = req.body;
+  const { name, mailEmpresa, pass, passwordConfirm, razon, rut } = req.body;
   function validate_isRUT(rut) {
     if (rut.length != 12) {
       return false;
@@ -151,18 +151,19 @@ exports.registerCompany = (req, res) => {
   }
   const expReg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   const esValido = expReg.test(mailEmpresa);
-db.query('SELECT RUT FROM cuenta_empresa where RUT = ?', [rut], async (error, ruts) => {
-  db.query('SELECT email FROM cuentas WHERE email = ?', [mailEmpresa], async (error, results) => {
-    if(error) {
-      console.log(error);
-    }
-    db.query('SELECT nombre FROM perfil WHERE nombre = ?', [name], async (error, result) => {
-      if(error) {
+  db.query('SELECT RUT FROM cuenta_empresa where RUT = ?', [rut], async (error, ruts) => {
+    db.query('SELECT email FROM cuentas WHERE email = ?', [mailEmpresa], async (error, results) => {
+      if (error) {
         console.log(error);
       }
-    if(!pass || !mailEmpresa || !name || !rut || !razon ) {
-      return res.render('./auth/registerCompany', {
-         mailEmpresa: req.body.mailEmpresa,
+      db.query('SELECT nombre FROM cuenta_empresa WHERE nombre = ?', [name], async (error, result) => {
+        console.log(result);
+        if (error) {
+          console.log(error);
+        }
+        if (!pass || !mailEmpresa || !name || !rut || !razon) {
+          return res.render('./auth/registerCompany', {
+            mailEmpresa: req.body.mailEmpresa,
             rut: req.body.rut,
             razon: req.body.razon,
             pass: req.body.pass,
@@ -171,95 +172,96 @@ db.query('SELECT RUT FROM cuenta_empresa where RUT = ?', [rut], async (error, ru
             title: 'Registro de empresa',
             message: 'Complete todos los campos',
             title: "Registro de empresa"
-      })
-   }
-   if (validate_isRUT(rut) == false) {
-    return res.render('./auth/registerCompany', {
-      mailEmpresa: req.body.mailEmpresa,
-         razon: req.body.razon,
-         pass: req.body.pass,
-         pass2: req.body.passwordConfirm,
-         name: req.body.name,
-         rut: req.body.rut,
-         title: 'Registro de empresa',
-         message: 'RUT inválido'
-   })
-   }
-  if( result.length > 0 ) {
-    return res.render('./auth/registerCompany', {
-          pass: req.body.pass,
-          pass2: req.body.passwordConfirm,
-          name: req.body.name,
-          rut: req.body.rut,
-          mailEmpresa: req.body.mailEmpresa,
-          message: 'Nombre ya en uso',
-          title: "Registro de empresa"
-    })
-  }
-  if( ruts.length > 0 ) {
-    return res.render('./auth/registerCompany', {
-          pass: req.body.pass,
-          pass2: req.body.passwordConfirm,
-          name: req.body.name,
-          rut: req.body.rut,
-          mailEmpresa: req.body.mailEmpresa,
-          message: 'RUT ya registrado por otra empresa',
-          title: "Registro de empresa"
-    })
-  }
-   if (esValido == false) {  
-    return res.render('./auth/registerCompany', {
-          pass: req.body.pass,
-          pass2: req.body.passwordConfirm,
-          name: req.body.name,
-          rut: req.body.rut,
-          razon: req.body.razon,
-          message: 'El correo ingresado es inválido, ingrese su correo original.',
-          title: "Registro de empresa"
-        })
-      }
-    if( results.length > 0 ) {
-      return res.render('./auth/registerCompany', {
+          })
+        }
+        if (validate_isRUT(rut) == false) {
+          return res.render('./auth/registerCompany', {
+            mailEmpresa: req.body.mailEmpresa,
+            razon: req.body.razon,
+            pass: req.body.pass,
+            pass2: req.body.passwordConfirm,
+            name: req.body.name,
+            rut: req.body.rut,
+            title: 'Registro de empresa',
+            message: 'RUT inválido'
+          })
+        }
+        if (result.length > 0) {
+          return res.render('./auth/registerCompany', {
+            pass: req.body.pass,
+            pass2: req.body.passwordConfirm,
+            name: req.body.name,
+            rut: req.body.rut,
+            mailEmpresa: req.body.mailEmpresa,
+            message: 'Nombre ya en uso',
+            title: "Registro de empresa"
+          })
+        }
+        if (ruts.length > 0) {
+          return res.render('./auth/registerCompany', {
+            pass: req.body.pass,
+            pass2: req.body.passwordConfirm,
+            name: req.body.name,
+            rut: req.body.rut,
+            mailEmpresa: req.body.mailEmpresa,
+            message: 'RUT ya registrado por otra empresa',
+            title: "Registro de empresa"
+          })
+        }
+        if (esValido == false) {
+          return res.render('./auth/registerCompany', {
+            pass: req.body.pass,
+            pass2: req.body.passwordConfirm,
+            name: req.body.name,
+            rut: req.body.rut,
+            razon: req.body.razon,
+            message: 'El correo ingresado es inválido, ingrese su correo original.',
+            title: "Registro de empresa"
+          })
+        }
+        if (results.length > 0) {
+          return res.render('./auth/registerCompany', {
             pass: req.body.pass,
             pass2: req.body.passwordConfirm,
             name: req.body.name,
             message: 'Mail ya en uso',
             title: "Registro de empresa"
-      })
-    } else if( pass !== passwordConfirm ) {
-      return res.render('./auth/registerCompany', {
-        mailEmpresa: req.body.mailEmpresa,
+          })
+        } else if (pass !== passwordConfirm) {
+          return res.render('./auth/registerCompany', {
+            mailEmpresa: req.body.mailEmpresa,
             name: req.body.name,
             rut: req.body.rut,
             razon: req.body.razon,
             message: 'Las contraseñas no coinciden',
             title: "Registro de empresa"
-      });
-    }
-    let hashedPassword = await bcrypt.hash(pass, 8);
-
-    db.query('INSERT INTO cuentas SET ?', {email: mailEmpresa, password: hashedPassword , tipo: 'empresa'}, (error, results) => {
-      if(error) {
-        console.log(error);
-      } 
-    db.query('INSERT INTO perfil SET ?', {email: mailEmpresa, nombre:name}, (error, results) => {
-        if(error) {
-          console.log(error);
-        } 
-    db.query('INSERT INTO cuenta_empresa SET ?' , {email:mailEmpresa, nombre:name, RUT:rut, razonSocial:razon} , (error, results)=> {
-        if (error) {console.log(error)
-        } else {
-          return res.render('./auth/registerCompany', {
-            registroCompleto:'Empresa registrada',
-            title: 'Registro Completo'
           });
         }
-     })
-    })
+        let hashedPassword = await bcrypt.hash(pass, 8);
+
+        db.query('INSERT INTO cuentas SET ?', { email: mailEmpresa, password: hashedPassword, tipo: 'empresa' }, (error, results) => {
+          if (error) {
+            console.log(error);
+          }
+          db.query('INSERT INTO perfil SET ?', { email: mailEmpresa}, (error, results) => {
+            if (error) {
+              console.log(error);
+            }
+            db.query('INSERT INTO cuenta_empresa SET ?', { email: mailEmpresa, nombre: name, RUT: rut, razonSocial: razon }, (error, results) => {
+              if (error) {
+                console.log(error)
+              } else {
+                return res.render('./auth/registerCompany', {
+                  registroCompleto: 'Empresa registrada',
+                  title: 'Registro Completo'
+                });
+              }
+            })
+          })
+        })
+      })
+    });
   })
-  })
-  });
-})
 }
 
 exports.isLoggedIn = async (req, res, next) => {

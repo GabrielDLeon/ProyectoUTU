@@ -12,53 +12,36 @@ const db = mysql.createConnection({
     database: process.env.DATABASE,
 });
 
-function getLinks (email, callback) {
-    db.query('SELECT * FROM enlaces WHERE propietario = ? AND tipo = "whatsapp"', [email], (error, whatsapp) => {
-        db.query('SELECT * FROM enlaces WHERE propietario = ? AND tipo = "facebook"', [email], (error, facebook) => {
-            db.query('SELECT * FROM enlaces WHERE propietario = ? AND tipo = "instagram"', [email], (error, instagram) => {
-                const result = {
-                    whatsapp: whatsapp[0],
-                    facebook: facebook[0],
-                    instagram: instagram[0],
-                }
-                return callback(null, result);
-            });
-        });
-    });
-}
-
-function numberToLink(phone, callback) {
-    let number = phone.substring(1);
-    let link = 'https://wa.me/598'+number;
-    return callback(null, link);
-}
-
 // Cargar página Crear nuevo enlace
 router.get('/', authController.isLoggedIn, async (req, res) => {
-    if (req.user.data.tipo == 'empresa'){
-        const { email } = req.user.data;
-        getLinks(email, function(error, result){
-            if (result.whatsapp){
-                numberToLink(result.whatsapp.URL, function(error, wpplink){
+    if (req.user) {
+        if (req.user.data.tipo == 'empresa'){
+            const { email } = req.user.data;
+            getLinks(email, function(error, result){
+                if (result.whatsapp){
+                    numberToLink(result.whatsapp.URL, function(error, wpplink){
+                        res.render('profile/newEnlace', {
+                            whatsapp: result.whatsapp,
+                            facebook: result.facebook,
+                            instagram: result.instagram,
+                            user: req.user,
+                            wpplink,
+                            title: "Agregar enlace"
+                        });
+                    });
+                } else {
                     res.render('profile/newEnlace', {
                         whatsapp: result.whatsapp,
                         facebook: result.facebook,
                         instagram: result.instagram,
                         user: req.user,
-                        wpplink,
                         title: "Agregar enlace"
                     });
-                });
-            } else {
-                res.render('profile/newEnlace', {
-                    whatsapp: result.whatsapp,
-                    facebook: result.facebook,
-                    instagram: result.instagram,
-                    user: req.user,
-                    title: "Agregar enlace"
-                });
-            }
-        });
+                }
+            });
+        } else {
+            res.redirect('/');
+        }
     } else {
         res.redirect('/login');
     }
@@ -121,5 +104,26 @@ router.get('/delete/:rs', authController.isLoggedIn, async (req, res) => {
         res.redirect('/login');
     }
 });
+
+function getLinks (email, callback) {
+    db.query('SELECT * FROM enlaces WHERE propietario = ? AND tipo = "whatsapp"', [email], (error, whatsapp) => {
+        db.query('SELECT * FROM enlaces WHERE propietario = ? AND tipo = "facebook"', [email], (error, facebook) => {
+            db.query('SELECT * FROM enlaces WHERE propietario = ? AND tipo = "instagram"', [email], (error, instagram) => {
+                const result = {
+                    whatsapp: whatsapp[0],
+                    facebook: facebook[0],
+                    instagram: instagram[0],
+                }
+                return callback(null, result);
+            });
+        });
+    });
+}
+
+function numberToLink(phone, callback) {
+    let number = phone.substring(1);
+    let link = 'https://wa.me/598'+number;
+    return callback(null, link);
+}
 
 module.exports = router;

@@ -51,7 +51,7 @@ app.engine('.hbs', exphbs({
   partialsDir: path.join(app.get('views'), 'partials'),
   extname: '.hbs',
   helpers: require('./lib/handlebars')
-}))
+}));
 
 const publicDirectory = path.join(__dirname, './public');
 app.use(express.static(publicDirectory));
@@ -61,7 +61,6 @@ app.use(express.urlencoded({ extended: false }));
 // Parse JSON bodies (as sent by API clients)
 app.use(express.json());
 app.use(cookieParser());
-
 
 app.set('view engine', 'hbs');
 
@@ -85,6 +84,12 @@ app.use('/favorites', require('./routes/favorites'));
 app.use('/publication', require('./routes/publication'));
 app.use('/create', require('./routes/createPublication'));
 app.use('/notifications', require('./routes/notifications'));
+
+// middleware to catch non-existing routes
+app.use( function(req, res, next) {
+  res.status(404);
+  res.render('error', { error: 'Ruta no encontrada', title: 'ERROR'});
+});
 
 app.listen(3000, () => {
   console.log("Server started on Port 3000");

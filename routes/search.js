@@ -18,53 +18,7 @@ router.post('/', async (req, res) => {
     } else if (!palabra) {
         res.redirect('/');
     }
-})
-
-function getCategories(callback) {
-    db.query('SELECT categoria FROM categorias WHERE general = "accesorio"', (error, accesorio) => {
-        db.query('SELECT categoria FROM categorias WHERE general = "cabeza"', (error, cabeza) => {
-            db.query('SELECT categoria FROM categorias WHERE general = "calzado"', (error, calzado) => {
-                db.query('SELECT categoria FROM categorias WHERE general = "superior"', (error, superior) => {
-                    db.query('SELECT categoria FROM categorias WHERE general = "inferior"', (error, inferior) => {
-                        db.query('SELECT categoria FROM categorias WHERE general = "interior"', (error, interior) => {
-                            db.query('SELECT categoria FROM categorias WHERE general = "otro"', (error, otro) => {
-                                return callback(null, {
-                                    accesorio,
-                                    cabeza,
-                                    calzado,
-                                    superior,
-                                    inferior,
-                                    interior,
-                                    otro
-                                });
-                            });
-                        });
-                    });
-                });
-            });
-        });
-    });
-}
-
-function paginations(Page, quantity, query, path, callback) {
-    const page = parseInt(Page);
-    let end = (page * quantity);
-    let start = end - quantity;
-    db.query(query, [quantity, start], (error, recommendations) => {
-        if (recommendations.length > 0) {
-            db.query(query, [quantity, (start + quantity)], (error, existNextPage) => {
-                if (existNextPage.length > 0) { var pagination = { lastPage: page - 1, actualPage: page, nextPage: page + 1, path} }
-                else { var pagination = { lastPage: page - 1, actualPage: page, path} }
-                return (callback(null, {
-                    recommendations,
-                    pagination,
-                }))
-            })
-        } else {
-            return callback();
-        }
-    });
-}
+});
 
 router.get('/', authController.isLoggedIn, async (req, res) => {
     let array = [];
@@ -161,5 +115,51 @@ router.get('/', authController.isLoggedIn, async (req, res) => {
         res.redirect(path+'page=1');
     }
 });
+
+function getCategories(callback) {
+    db.query('SELECT categoria FROM categorias WHERE general = "accesorio"', (error, accesorio) => {
+        db.query('SELECT categoria FROM categorias WHERE general = "cabeza"', (error, cabeza) => {
+            db.query('SELECT categoria FROM categorias WHERE general = "calzado"', (error, calzado) => {
+                db.query('SELECT categoria FROM categorias WHERE general = "superior"', (error, superior) => {
+                    db.query('SELECT categoria FROM categorias WHERE general = "inferior"', (error, inferior) => {
+                        db.query('SELECT categoria FROM categorias WHERE general = "interior"', (error, interior) => {
+                            db.query('SELECT categoria FROM categorias WHERE general = "otro"', (error, otro) => {
+                                return callback(null, {
+                                    accesorio,
+                                    cabeza,
+                                    calzado,
+                                    superior,
+                                    inferior,
+                                    interior,
+                                    otro
+                                });
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    });
+}
+
+function paginations(Page, quantity, query, path, callback) {
+    const page = parseInt(Page);
+    let end = (page * quantity);
+    let start = end - quantity;
+    db.query(query, [quantity, start], (error, recommendations) => {
+        if (recommendations.length > 0) {
+            db.query(query, [quantity, (start + quantity)], (error, existNextPage) => {
+                if (existNextPage.length > 0) { var pagination = { lastPage: page - 1, actualPage: page, nextPage: page + 1, path} }
+                else { var pagination = { lastPage: page - 1, actualPage: page, path} }
+                return (callback(null, {
+                    recommendations,
+                    pagination,
+                }))
+            })
+        } else {
+            return callback();
+        }
+    });
+}
 
 module.exports = router;

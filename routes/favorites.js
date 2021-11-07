@@ -11,14 +11,22 @@ const db = mysql.createConnection({
 });
 
 router.get('/', authController.isLoggedIn, async (req, res) => {
-    const {email} = req.user.data;
-    await db.query('SELECT nroPublicacion, titulo, descripcion, nombreVendedor, precio, descuento, imagen FROM (view_publicaciones INNER JOIN favoritos ON view_publicaciones.nroPublicacion = favoritos.publicacion) WHERE favoritos.usuario = ? GROUP BY view_publicaciones.nroPublicacion', [email], (error, result) => {
-        res.render('publication/favorites', {
-            favorite: result,
-            user: req.user,
-            title: "Mis publicaciones"
-        })
-    });
+    if (req.user) {
+        if (req.user.data.tipo == 'usuario'){
+            const {email} = req.user.data;
+            await db.query('SELECT nroPublicacion, titulo, descripcion, nombreVendedor, precio, descuento, imagen FROM (view_publicaciones INNER JOIN favoritos ON view_publicaciones.nroPublicacion = favoritos.publicacion) WHERE favoritos.usuario = ? GROUP BY view_publicaciones.nroPublicacion', [email], (error, result) => {
+                res.render('publication/favorites', {
+                    favorite: result,
+                    user: req.user,
+                    title: "Mis publicaciones"
+                })
+            });
+        } else {
+            res.redirect('/');
+        }
+    } else {
+        res.redirect('/login');
+    }
 });
 
 router.post('/delete/:id', authController.isLoggedIn, async (req, res) => {

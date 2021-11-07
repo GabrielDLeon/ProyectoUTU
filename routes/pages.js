@@ -10,36 +10,19 @@ const db = mysql.createConnection({
    database: process.env.DATABASE,
 });
 
-function countEntities(callback) {
-   db.query('SELECT COUNT(id) AS count FROM cuenta_empresa', (error, countShops) => {
-      db.query('SELECT COUNT(id) AS count FROM cuenta_personal', (error, countUsers) => {
-         db.query('SELECT COUNT(nroPublicacion) AS count FROM publicacion', (error, countPublications) => {
-            const counts = {
-               countShops: countShops[0].count,
-               countUsers: countUsers[0].count,
-               countPublications: Math.round(countPublications[0].count * 2 / 3),
-            }
-            return callback(null, counts);
-         });
-      });
-   });
-}
-
 router.get('/', authController.isLoggedIn, async (req, res) => {
-   db.query('SELECT direccion, descripcion, telefono, nombre FROM perfil', (error, result) => {
+   db.query('SELECT fotoPerfil, cuenta_empresa.email, nombre, descripcion, direccion, telefono FROM (cuenta_empresa INNER JOIN perfil ON cuenta_empresa.email = perfil.email)', (error, shops) => {
       db.query('SELECT nroPublicacion, precio, descuento, imagen, nombreVendedor, categoria, genero FROM view_publicaciones ORDER BY fechaPublicacion DESC LIMIT 8', (error, newest) => {
          db.query('SELECT nroPublicacion, precio, descuento, imagen, nombreVendedor, categoria, genero, COUNT(favoritos.publicacion) AS cantFavoritos FROM (view_publicaciones INNER JOIN favoritos ON favoritos.publicacion = view_publicaciones.nroPublicacion) GROUP BY nroPublicacion HAVING (COUNT(cantFavoritos)) ORDER BY cantFavoritos DESC LIMIT 8', (error, top) => {
             countEntities(function (error, result) {
                if (result) {
-                  db.query('SELECT * FROM perfil', (error, shops) => {
-                     res.render('index', {
-                        counts: result,
-                        newest,
-                        top, 
-                        shops,
-                        user: req.user,
-                        title: "Klouts",
-                     });
+                  res.render('index', {
+                     counts: result,
+                     newest,
+                     top, 
+                     shops,
+                     user: req.user,
+                     title: "Klouts",
                   });
                } else {
                   res.redirect('/');
@@ -75,9 +58,23 @@ router.get('/terms', (req, res) => {
    });
 });
 
+function countEntities(callback) {
+   db.query('SELECT COUNT(id) AS count FROM cuenta_empresa', (error, countShops) => {
+      db.query('SELECT COUNT(id) AS count FROM cuenta_personal', (error, countUsers) => {
+         db.query('SELECT COUNT(nroPublicacion) AS count FROM publicacion', (error, countPublications) => {
+            const counts = {
+               countShops: countShops[0].count,
+               countUsers: countUsers[0].count,
+               countPublications: Math.round(countPublications[0].count * 2 / 3),
+            }
+            return callback(null, counts);
+         });
+      });
+   });
+}
 
-
-router.get('/admin/resetIncremental', authController.isLoggedIn, async (req, res) => {
+// FUNCIONES DE PRUEBA DESABILITADAS
+/*router.get('/admin/resetIncremental', authController.isLoggedIn, async (req, res) => {
    const tables = ['cuenta_empresa', 'cuenta_personal', 'notificaciones', 'preguntas', 'productos', 'publicacion'];
    const incremental = ['id', 'id', 'idNotificacion', 'idPregunta', 'idProducto', 'nroPublicacion'];
    let template = '', query = '';
@@ -113,11 +110,11 @@ router.get('/admin/deleteGeneric', authController.isLoggedIn, async (req, res) =
       db.query('DELETE FROM publicacion WHERE titulo = "Generic Publication" AND vendedor = ?', [email]);
       res.redirect('/admin/resetIncremental')
    }
-})
+});
 
 router.get('/admin/deleteGenericAll', authController.isLoggedIn, async (req, res) => {
    db.query('DELETE FROM publicacion WHERE titulo = "Generic Publication"');
    res.redirect('/admin/resetIncremental')
-})
+});*/
 
 module.exports = router;

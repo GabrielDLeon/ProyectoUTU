@@ -16,11 +16,9 @@
                     <div class="row justify-content-center">
                         <div class="col-6 mb-4">
                             {{#if profile.fotoPerfil}}
-                            <img src="data:imagen/png;base64, {{profile.fotoPerfil}}" class="img-fluid rounded-circle"
-                                style="width: max-content; z-index: 1" id="imagen">
+                                <img src="data:imagen/png;base64, {{profile.fotoPerfil}}" class="img-fluid rounded-circle" style="width: max-content; z-index: 1" id="imagen">
                             {{else}}
-                            <img src="/img/avatar.png" alt="Generic placeholder image" class="img-fluid rounded-circle"
-                                style="width: max-content; z-index: 1" id="imagen">
+                                <img src="/img/generic/avatar.png" alt="Generic placeholder image" class="img-fluid rounded-circle" style="width: max-content; z-index: 1" id="imagen">
                             {{/if}}
                         </div>
                     </div>

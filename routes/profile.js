@@ -20,61 +20,12 @@ const upload = multer({storage:multer.memoryStorage(), fileFilter: function (req
     callback(null, true)
 }});
 
-
 const db = mysql.createConnection({
    host: process.env.DATABASE_HOST,
    user: process.env.DATABASE_USER,
    password: process.env.DATABASE_PASSWORD,
    database: process.env.DATABASE
 });
-
-function paginations(page, quantity, query, path, callback) {
-   let end = (page * quantity);
-   let start = end - quantity;
-   db.query(query, [quantity, start], (error, recommendations) => {
-       if (recommendations.length > 0) {
-           db.query(query, [quantity, (start + quantity)], (error, existNextPage) => {
-               if (existNextPage.length > 0) { var pagination = { lastPage: page - 1, actualPage: page, nextPage: page + 1, path} }
-               else { var pagination = { lastPage: page - 1, actualPage: page, path} }
-               return (callback(null, {
-                   recommendations,
-                   pagination,
-               }))
-           })
-       } else {
-           return callback();
-       }
-   });
-}
-
-function getLinks(email, callback) {
-   db.query('SELECT * FROM enlaces WHERE propietario = ? AND tipo = "facebook"', [email], (error, facebook) => {
-      db.query('SELECT * FROM enlaces WHERE propietario = ? AND tipo = "instagram"', [email], (error, instagram) => {
-         db.query('SELECT * FROM enlaces WHERE propietario = ? AND tipo = "whatsapp"', [email], (error, whatsapp) => {
-            if (whatsapp.length>0) {
-               let phone = whatsapp[0].URL;
-               let number = phone.substring(1);
-               let wppLink = 'https://wa.me/598' + number;
-               return callback(null, {
-                  whatsapp: whatsapp[0],
-                  facebook: facebook[0],
-                  instagram: instagram[0],
-                  wppLink,
-               })
-            } else {
-               if (instagram.length<=0 && facebook.length<=0){
-                  return callback();
-               }
-               return callback(null, {
-                  whatsapp: whatsapp[0],
-                  facebook: facebook[0],
-                  instagram: instagram[0],
-               });
-            }
-         });
-      });
-   });
-}
 
 router.get('/', authController.isLoggedIn, async (req, res) => {
    if (req.user) {
@@ -86,7 +37,7 @@ router.get('/', authController.isLoggedIn, async (req, res) => {
          res.redirect('/')
       }
    } else {
-      res.redirect('/')
+      res.redirect('/login')
    }
 });
 
@@ -96,8 +47,8 @@ router.get('/:nombre', authController.isLoggedIn, async (req, res) => {
       await db.query('SELECT * FROM cuenta_empresa WHERE nombre = ?', [nombre], (error, search) => {
          // Verifica que exista una cuenta de empresa con ese nombre
          if (search.length > 0) {
-            db.query('SELECT fotoPerfil, nombre, email, direccion, descripcion, telefono FROM (perfil) WHERE nombre = ?', [nombre], (error, profile) => {
-               const email = profile[0].email;
+            db.query('SELECT fotoPerfil, cuenta_empresa.email, nombre, descripcion, direccion, telefono FROM (cuenta_empresa INNER JOIN perfil ON cuenta_empresa.email = perfil.email) WHERE cuenta_empresa.nombre = ?', [nombre], (error, profile) => {
+               const { email } = profile[0];
                getLinks(email, function(error, links){
                   db.query('SELECT nroPublicacion FROM view_publicaciones WHERE view_publicaciones.nombreVendedor = ?', [nombre], (error, existPublications) => {
                      if (existPublications.length>0) {
@@ -165,14 +116,14 @@ router.get('/edit/pass/:id', authController.isLoggedIn, async (req, res) => {
                   data: result[0],
                   user: req.user.data,
                   title: "Cambiar contraseña"
-               })
+               });
             } else {
-               res.redirect('/')
+               res.redirect('/');
             }
-         })
+         });
       }
    } else {
-      res.redirect('/')
+      res.redirect('/login');
    }
 });
 
@@ -247,52 +198,52 @@ router.post('/edit/pass/:id', authController.isLoggedIn, async (req, res) => {
 router.get('/edit/:id', authController.isLoggedIn, async (req, res) => {
    if (req.user) {
       const email = req.user.data.email;
-   if (req.user.data.tipo == 'usuario') {
-      await db.query('SELECT cuentas.email , cuentas.password, cuentas.tipo, cuenta_personal.nombre, cuenta_personal.id FROM (cuentas INNER JOIN cuenta_personal ON cuentas.email = cuenta_personal.email) WHERE cuentas.email = ?', [email], (error, result2) => {
-         if (!result2) {
-            console.log(error)
-         }
-         const { email } = req.user.data;
-         const { id } = req.params;
-         db.query('SELECT cuentas.email, cuentas.password, cuenta_personal.nombre, cuenta_personal.id, cuentas.tipo FROM cuentas INNER JOIN cuenta_personal ON cuentas.email = cuenta_personal.email WHERE cuenta_personal.email = ?', [email], async (error, result) => {
-            if (result[0].id == id) {
-               res.render('profile/editProfile', {
-                  data: req.user.data,
-                  user: req.user,
-                  title: 'Editar perfil',
-                  data: req.user.data,
-               })
-            } else {
-               res.redirect('/')
+      if (req.user.data.tipo == 'usuario') {
+         await db.query('SELECT cuentas.email , cuentas.password, cuentas.tipo, cuenta_personal.nombre, cuenta_personal.id FROM (cuentas INNER JOIN cuenta_personal ON cuentas.email = cuenta_personal.email) WHERE cuentas.email = ?', [email], (error, result2) => {
+            if (!result2) {
+               console.log(error)
             }
+            const { email } = req.user.data;
+            const { id } = req.params;
+            db.query('SELECT cuentas.email, cuentas.password, cuenta_personal.nombre, cuenta_personal.id, cuentas.tipo FROM cuentas INNER JOIN cuenta_personal ON cuentas.email = cuenta_personal.email WHERE cuenta_personal.email = ?', [email], async (error, result) => {
+               if (result[0].id == id) {
+                  res.render('profile/editProfile', {
+                     data: req.user.data,
+                     user: req.user,
+                     title: 'Editar perfil',
+                     data: req.user.data,
+                  })
+               } else {
+                  res.redirect('/')
+               }
+            })
          })
-      })
-   } if (req.user.data.tipo == 'empresa') {
-      await db.query('SELECT cuentas.email , cuentas.password , cuentas.tipo, cuenta_empresa.nombre, cuenta_empresa.id FROM (cuentas INNER JOIN cuenta_empresa ON cuentas.email = cuenta_empresa.email INNER JOIN perfil ON perfil.email = cuenta_empresa.email) WHERE cuentas.email = ?', [email], (error, result2) => {
-         if (!result2) {
-            console.log(error)
-         }
-         const { email } = req.user.data;
-         const { id } = req.params;
-         db.query('SELECT cuentas.email , cuentas.password, perfil.fotoPerfil, cuentas.tipo, cuenta_empresa.nombre, cuenta_empresa.id, razonSocial, descripcion, direccion, telefono FROM (cuentas INNER JOIN cuenta_empresa ON cuentas.email = cuenta_empresa.email INNER JOIN perfil ON perfil.email = cuenta_empresa.email) WHERE cuentas.email = ?', [email], async (error, result) => {
-            db.query('SELECT tipo, URL, propietario, id FROM enlaces INNER JOIN cuenta_empresa ON cuenta_empresa.email = enlaces.propietario WHERE propietario = ?', [email], (error, enlaces) => {
-               db.query('SELECT COUNT(tipo) as redes FROM enlaces WHERE propietario = ?', [email], (error, count) => {
-                  if (result[0].id == id) {
-                     res.render('profile/editEmpresa', {
-                        data: result[0],
-                        user: req.user,
-                        title: 'Editar perfil',
-                        enlaces,
-                        redes: count[0].redes
-                     })
-                  } else {
-                     res.redirect('/')
-                  }
+      } else if (req.user.data.tipo == 'empresa') {
+         await db.query('SELECT cuentas.email , cuentas.password , cuentas.tipo, cuenta_empresa.nombre, cuenta_empresa.id FROM (cuentas INNER JOIN cuenta_empresa ON cuentas.email = cuenta_empresa.email INNER JOIN perfil ON perfil.email = cuenta_empresa.email) WHERE cuentas.email = ?', [email], (error, result2) => {
+            if (!result2) {
+               console.log(error)
+            }
+            const { email } = req.user.data;
+            const { id } = req.params;
+            db.query('SELECT cuentas.email , cuentas.password, perfil.fotoPerfil, cuentas.tipo, cuenta_empresa.nombre, cuenta_empresa.id, razonSocial, descripcion, direccion, telefono FROM (cuentas INNER JOIN cuenta_empresa ON cuentas.email = cuenta_empresa.email INNER JOIN perfil ON perfil.email = cuenta_empresa.email) WHERE cuentas.email = ?', [email], async (error, result) => {
+               db.query('SELECT tipo, URL, propietario, id FROM enlaces INNER JOIN cuenta_empresa ON cuenta_empresa.email = enlaces.propietario WHERE propietario = ?', [email], (error, enlaces) => {
+                  db.query('SELECT COUNT(tipo) as redes FROM enlaces WHERE propietario = ?', [email], (error, count) => {
+                     if (result[0].id == id) {
+                        res.render('profile/editEmpresa', {
+                           data: result[0],
+                           user: req.user,
+                           title: 'Editar perfil',
+                           enlaces,
+                           redes: count[0].redes
+                        })
+                     } else {
+                        res.redirect('/')
+                     }
+                  });
                });
             });
          });
-      });
-   }
+      }
    } else {
       res.redirect('/')
    } 
@@ -423,5 +374,53 @@ router.post('/edit/:id', upload.single("imagen"), authController.isLoggedIn, asy
       })
    }
 });
+
+function paginations(page, quantity, query, path, callback) {
+   let end = (page * quantity);
+   let start = end - quantity;
+   db.query(query, [quantity, start], (error, recommendations) => {
+       if (recommendations.length > 0) {
+           db.query(query, [quantity, (start + quantity)], (error, existNextPage) => {
+               if (existNextPage.length > 0) { var pagination = { lastPage: page - 1, actualPage: page, nextPage: page + 1, path} }
+               else { var pagination = { lastPage: page - 1, actualPage: page, path} }
+               return (callback(null, {
+                   recommendations,
+                   pagination,
+               }))
+           })
+       } else {
+           return callback();
+       }
+   });
+}
+
+function getLinks(email, callback) {
+   db.query('SELECT * FROM enlaces WHERE propietario = ? AND tipo = "facebook"', [email], (error, facebook) => {
+      db.query('SELECT * FROM enlaces WHERE propietario = ? AND tipo = "instagram"', [email], (error, instagram) => {
+         db.query('SELECT * FROM enlaces WHERE propietario = ? AND tipo = "whatsapp"', [email], (error, whatsapp) => {
+            if (whatsapp.length>0) {
+               let phone = whatsapp[0].URL;
+               let number = phone.substring(1);
+               let wppLink = 'https://wa.me/598' + number;
+               return callback(null, {
+                  whatsapp: whatsapp[0],
+                  facebook: facebook[0],
+                  instagram: instagram[0],
+                  wppLink,
+               })
+            } else {
+               if (instagram.length<=0 && facebook.length<=0){
+                  return callback();
+               }
+               return callback(null, {
+                  whatsapp: whatsapp[0],
+                  facebook: facebook[0],
+                  instagram: instagram[0],
+               });
+            }
+         });
+      });
+   });
+}
 
 module.exports = router;

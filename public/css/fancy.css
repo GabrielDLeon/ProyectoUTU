@@ -24,7 +24,7 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-input, textarea, label{
+input, textarea, label, .product-color{
     user-select:none;
 }
 

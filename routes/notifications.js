@@ -12,23 +12,17 @@ const db = mysql.createConnection({
 
 router.get('/', authController.isLoggedIn, async (req, res) => {
     if (req.user){
-        const user = req.user;
-        const {email} = user.data;
-        if (user){
-            db.query('SELECT idNotificacion,  nroPublicacion, visto, idPregunta, fechaPregunta, mensaje, nombreRemitente, fechaRespuesta, respuesta, nombreVendedor, imagen FROM (notificaciones INNER JOIN view_preguntas ON notificaciones.pregunta = view_preguntas.idPregunta LEFT JOIN fotos ON fotos.publicacion = nroPublicacion) WHERE notificaciones.usuario = ? GROUP BY notificaciones.idNotificacion ORDER BY fechaPregunta DESC',[email], (error, result) => {
-                res.render('notifications', {
-                    title: "Notificaciones",
-                    notifications: result,
-                    user,
-                });
-                db.query('UPDATE notificaciones SET visto = 1 WHERE visto = 0 AND usuario = ?', [email]);
-            })
-        } else {
-            // Usuario no iniciado
-            res.redirect('/');
-        }
+        const {email} = req.user.data;
+        db.query('SELECT idNotificacion,  nroPublicacion, visto, idPregunta, fechaPregunta, mensaje, nombreRemitente, fechaRespuesta, respuesta, nombreVendedor, imagen FROM (notificaciones INNER JOIN view_preguntas ON notificaciones.pregunta = view_preguntas.idPregunta LEFT JOIN fotos ON fotos.publicacion = nroPublicacion) WHERE notificaciones.usuario = ? GROUP BY notificaciones.idNotificacion ORDER BY fechaPregunta DESC',[email], (error, result) => {
+            res.render('notifications', {
+                title: "Notificaciones",
+                notifications: result,
+                user: req.user,
+            });
+            db.query('UPDATE notificaciones SET visto = 1 WHERE visto = 0 AND usuario = ?', [email]);
+        });
     } else {
-        res.redirect('/');
+        res.redirect('/login');
     }
 });
 

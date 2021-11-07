@@ -10,21 +10,17 @@
                     {{!-- Detalles de la publicación --}}
                     <div>
                         <div class="mb-1 text-capitalize">
-                            <a href="/search?key={{categoria}}"><span
-                                    class="badge rounded-pill bg-dark">{{categoria}}</span></a>
-                            <a href="/search?key={{genero}}"><span
-                                    class="badge rounded-pill bg-dark">{{genero}}</span></a>
-                            <a href="/search?key={{marca}}"><span
-                                    class="badge rounded-pill bg-dark">{{marca}}</span></a>
+                            <a href="/search?key={{categoria}}"><span class="badge rounded-pill bg-dark">{{categoria}}</span></a>
+                            <a href="/search?key={{genero}}"><span class="badge rounded-pill bg-dark">{{genero}}</span></a>
+                            <a href="/search?key={{marca}}"><span class="badge rounded-pill bg-dark">{{marca}}</span></a>
                             {{#if descuento}}
-                            <a href="/search?sale=1"><span class="badge rounded-pill bg-danger">sale</span></a>
+                                <a href="/search?sale=1"><span class="badge rounded-pill bg-danger">sale</span></a>
                             {{/if}}
                         </div>
                         <div>
                             <h3 class="fw-bold">{{titulo}}</h3>
                             <a href="/profile/{{nombreVendedor}}" class="link-unstyled">
-                                <h6 class="text-muted d-inline f-space-2">Promocionado por
-                                    <span>{{nombreVendedor}}</span></h6><br>
+                                <h6 class="text-muted d-inline f-space-2">Promocionado por <span>{{nombreVendedor}}</span></h6><br>
                             </a>
                             <small class="text-muted">{{timeago fechaPublicacion}}</small>
                         </div>
@@ -70,39 +66,31 @@
                             <h6>Colores disponibles</h6>
                             <div>
                                 {{#each ../colors}}
-                                <button type="button" class="btn btn-default btn-circle btn-outline-dark product-color"
-                                    id="btn-{{color}}"><i class="fas fa-brush"></i></button>
+                                    <button type="button" class="btn btn-default btn-circle btn-outline-dark product-color" id="btn-{{color}}"><i class="fas fa-brush"></i></button>
                                 {{/each}}
                             </div>
                         </div>
                         {{/if}}
                         {{#if ../user}}
-                        {{#ifCond ../user.data.tipo '==' 'usuario'}}
-                        <div>
-                            <form action="/publication/addFavorite/{{nroPublicacion}}" method="POST">
-                                {{#if ../favorite}}
-                                <button title="Eliminar de favoritos"
-                                    class="btn btn-default position-absolute top-0 end-0 m-1 p-1"><i
-                                        class="fas fa-heart" style="font-size: xx-large;"></i></button>
+                            {{#ifCond ../user.data.tipo '==' 'usuario'}}
+                                <div>
+                                    <form action="/publication/addFavorite/{{nroPublicacion}}" method="POST">
+                                        {{#if ../favorite}}
+                                            <button title="Eliminar de favoritos" class="btn btn-default position-absolute top-0 end-0 m-1 p-1"><i class="fas fa-heart" style="font-size: xx-large;"></i></button>
+                                        {{else}}
+                                            <button title="Agregar a favoritos" class="btn btn-default position-absolute top-0 end-0 m-1 p-1"><i class="far fa-heart" style="font-size: xx-large;"></i></button>
+                                        {{/if}}
+                                    </form>
+                                </div>
+                            {{else}}
+                                {{#ifCond ../user.data.email '==' emailVendedor}}
+                                    <a title="Editar publicación" href="/list/edit/{{nroPublicacion}}" class="btn btn-default position-absolute top-0 end-0 m-1 p-1"><i class="fas fa-pen" style="font-size: xx-large;"></i></a>
                                 {{else}}
-                                <button title="Agregar a favoritos"
-                                    class="btn btn-default position-absolute top-0 end-0 m-1 p-1"><i
-                                        class="far fa-heart" style="font-size: xx-large;"></i></button>
-                                {{/if}}
-                            </form>
-                        </div>
-                        {{else}}
-                        {{#ifCond ../user.data.email '==' emailVendedor}}
-                        <a title="Editar publicación" href="/list/edit/{{nroPublicacion}}"
-                            class="btn btn-default position-absolute top-0 end-0 m-1 p-1"><i class="fas fa-pen"
-                                style="font-size: xx-large;"></i></a>
-                        {{else}}
-                        <div class="text-muted fw-bold">
-                            <p>¿Vendes un producto igual? <a href="/create?idProducto={{idProducto}}">Crea una
-                                    publicación similar</a></p>
-                        </div>
-                        {{/ifCond}}
-                        {{/ifCond}}
+                                    <div class="text-muted fw-bold">
+                                        <p>¿Vendes un producto igual? <a href="/create?idProducto={{idProducto}}">Crea una publicación similar</a></p>
+                                    </div>
+                                {{/ifCond}}
+                            {{/ifCond}}
                         {{/if}}
                     </div>
                     {{/with}}
@@ -119,36 +107,34 @@
                     <div id="carousel" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-indicators">
                             {{#if images}}
-                            {{#each images}}
-                            {{#ifCond @index '==' 0}}
-                            <button type="button" data-bs-target="#carousel" data-bs-slide-to="{{@index}}"
-                                class="active" aria-current="true"></button>
+                                {{#each images}}
+                                    {{#ifCond @index '==' 0}}
+                                        <button type="button" data-bs-target="#carousel" data-bs-slide-to="{{@index}}" class="active" aria-current="true"></button>
+                                    {{else}}
+                                        <button type="button" data-bs-target="#carousel" data-bs-slide-to="{{@index}}"></button>
+                                    {{/ifCond}}
+                                {{/each}}
                             {{else}}
-                            <button type="button" data-bs-target="#carousel" data-bs-slide-to="{{@index}}"></button>
-                            {{/ifCond}}
-                            {{/each}}
-                            {{else}}
-                            <button type="button" data-bs-target="#carousel" data-bs-slide-to="0" class="active"
-                                aria-current="true"></button>
+                                <button type="button" data-bs-target="#carousel" data-bs-slide-to="0" class="active" aria-current="true"></button>
                             {{/if}}
                         </div>
                         <div class="carousel-inner">
                             {{#if images}}
-                            {{#each images}}
-                            {{#ifCond @index '==' 0}}
-                            <div class="carousel-item active">
-                                <img src="data:imagen/png;base64, {{imagen}}" class="d-block w-100" alt="...">
-                            </div>
+                                {{#each images}}
+                                    {{#ifCond @index '==' 0}}
+                                        <div class="carousel-item active">
+                                            <img src="data:imagen/png;base64, {{imagen}}" class="d-block w-100" alt="...">
+                                        </div>
+                                    {{else}}
+                                        <div class="carousel-item">
+                                            <img src="data:imagen/png;base64, {{imagen}}" class="d-block w-100" alt="...">
+                                        </div>
+                                    {{/ifCond}}
+                                {{/each}}
                             {{else}}
-                            <div class="carousel-item">
-                                <img src="data:imagen/png;base64, {{imagen}}" class="d-block w-100" alt="...">
-                            </div>
-                            {{/ifCond}}
-                            {{/each}}
-                            {{else}}
-                            <div class="carousel-item active">
-                                <img src="/img/Generic.png" class="d-block w-100" alt="...">
-                            </div>
+                                <div class="carousel-item active">
+                                    <img src="/img/generic/publication.png" class="d-block w-100" alt="...">
+                                </div>
                             {{/if}}
                         </div>
                         <button class="carousel-control-prev" type="button" data-bs-target="#carousel"
@@ -243,71 +229,60 @@
                                 <span>{{mensaje}}</span>
                                 <span class="ms-3 text-muted">{{timeago fechaPregunta}}</span>
                                 {{#ifCond ../user.data.email '==' emailRemitente}}
-                                <form action="/publication/question/delete/{{idPregunta}}" method="POST"
-                                    class="d-inline">
-                                    <button title="Eliminar pregunta" class="btn mx-1 p-0"><i class="fas fa-times"
-                                            style="color: red;"></i> </button>
-                                </form>
+                                    <form action="/publication/question/delete/{{idPregunta}}" method="POST" class="d-inline">
+                                        <button title="Eliminar pregunta" class="btn mx-1 p-0"><i class="fas fa-times" style="color: red;"></i> </button>
+                                    </form>
                                 {{/ifCond}}
                             </div>
                             {{#if respuesta}}
-                            <div class="ms-4 text-muted">
-                                <a href="/profile" class="link-unstyled">
-                                    <div class="montserrat d-inline">
-                                        <span class="fw-bold">{{../publication.nombreVendedor}}</span>
-                                        <span class="badge rounded-pill bg-secondary ms-1">Respuesta</span>
+                                <div class="ms-4 text-muted">
+                                    <a href="/profile/{{../publication.nombreVendedor}}?page=1" class="link-unstyled">
+                                        <div class="montserrat d-inline">
+                                            <span class="fw-bold">{{../publication.nombreVendedor}}</span>
+                                            <span class="badge rounded-pill bg-secondary ms-1">Respuesta</span>
+                                        </div>
+                                    </a>
+                                    <div class="d-flex">
+                                        <p>{{respuesta}}</p>
                                     </div>
-                                </a>
-                                <div class="d-flex">
-                                    {{!-- El comentario contiene la fecha de la respuesta --}}
-                                    <p>{{respuesta}} {{!-- <span class="ms-3">{{timeago fechaRespuesta}}</span> --}}</p>
                                 </div>
-                            </div>
                             {{else}}
-                            {{#if ../user}}
-                            {{#ifCond ../user.data.email '==' ../publication.emailVendedor}}
-                            {{!-- <button id="btnAnswer" class="btn btn-outline-dark">Responder pregunta</button> --}}
-                            <div id="textAnswer" class="mb-3">
-                                <form action="/publication/answer/{{idPregunta}}?section=publication" method="POST">
-                                    <div class="row">
-                                        <div class="col">
-                                            <div class="form-floating">
-                                                <textarea class="form-control" name="respuesta" id="respuesta"
-                                                    placeholder="Responde la pregunta" maxlength="145" rows="3"
-                                                    style="height:100%;" required></textarea>
-                                                <label for="respuesta">Responde la pregunta</label>
-                                            </div>
-                                            {{!-- <textarea class="form-control text-area rounded-0" name="respuesta"
-                                                id="respuesta" placeholder="Ingrese su respuesta"></textarea> --}}
+                                {{#if ../user}}
+                                    {{#ifCond ../user.data.email '==' ../publication.emailVendedor}}
+                                        <div id="textAnswer" class="mb-3">
+                                            <form action="/publication/answer/{{idPregunta}}?section=publication" method="POST">
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <div class="form-floating">
+                                                            <textarea class="form-control" name="respuesta" id="respuesta"
+                                                                placeholder="Responde la pregunta" maxlength="145" rows="3"
+                                                                style="height:100%;" required></textarea>
+                                                            <label for="respuesta">Responde la pregunta</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <button title="Enviar respuesta" type="submit" class="text-uppercase rounded-0 btn btn-dark" style="height: 100%; width: 100%;"><i class="fas fa-angle-right"></i></button>
+                                                    </div>
+                                                </div>
+                                            </form>
                                         </div>
-                                        <div class="col-auto">
-                                            <button title="Enviar respuesta" type="submit"
-                                                class="text-uppercase rounded-0 btn btn-dark"
-                                                style="height: 100%; width: 100%;"><i
-                                                    class="fas fa-angle-right"></i></button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                            {{/ifCond}}
-                            {{/if}}
+                                    {{/ifCond}}
+                                {{/if}}
                             {{/if}}
                         </div>
                         {{/each}}
                         {{else}}
-                        {{!-- Cuando la publicación no tiene preguntas --}}
-                        <div class="my-2">
-                            <div class="mt-2 ms-4 text-muted">
-                                <p>Aún nadie ha realizado una pregunta sobre este producto{{#ifCond user.data.tipo '=='
-                                    'usuario'}}, ¡sé el primero en hacerlo!{{/ifCond}}</p>
+                            {{!-- Cuando la publicación no tiene preguntas --}}
+                            <div class="my-2">
+                                <div class="mt-2 ms-4 text-muted">
+                                    <p>Aún nadie ha realizado una pregunta sobre este producto{{#ifCond user.data.tipo '==' 'usuario'}}, ¡sé el primero en hacerlo!{{/ifCond}}</p>
+                                </div>
                             </div>
-                        </div>
                         {{/if}}
                         {{#ifCond qLimit.count '>' 8}}
-                        <div class="mb-5 d-grid gap-2">
-                            <button class="btn btn-dark"><a href="/publication/{{publication.nroPublicacion}}/comments"
-                                    class="link-unstyled">Ver todas las preguntas</a></button>
-                        </div>
+                            <div class="mb-5 d-grid gap-2">
+                                <button class="btn btn-dark"><a href="/publication/{{publication.nroPublicacion}}/comments" class="link-unstyled">Ver todas las preguntas</a></button>
+                            </div>
                         {{/ifCond}}
                     </div>
                 </div>
@@ -327,8 +302,7 @@
                                 <img src="data:imagen/png;base64, {{fotoPerfil}}" alt="Generic placeholder image"
                                     class="img-fluid rounded-circle img-thumbnail" style="width: 75%; z-index: 1">
                                 {{else}}
-                                <img src="/img/avatar.png" alt="Generic placeholder image"
-                                    class="img-fluid rounded-circle" style="width: max-content; z-index: 1" id="imagen">
+                                <img src="/img/avatar.png" alt="Generic placeholder image" class="img-fluid rounded-circle" style="width: max-content; z-index: 1" id="imagen">
                                 {{/if}}
                             </div>
                             <div class="col-md-9">
@@ -337,8 +311,7 @@
                                     <p class="card-text">{{descripcion}}</p>
                                     <div class="d-flex">
                                         <a href="/profile/{{../publication.nombreVendedor}}" class="link-unstyled ms-auto">
-                                            <span
-                                                class="card-subtitle d-inline text-muted carattere me-3">{{../publication.nombreVendedor}}</span>
+                                            <span class="card-subtitle d-inline text-muted carattere me-3">{{../publication.nombreVendedor}}</span>
                                         </a>
                                     </div>
                                 </div>
