@@ -3,6 +3,7 @@
         <div class="col position-relative my-3">
             <div class="card border-0 s">
                 <div class="my-1">
+                    <a href="/profile/{{nombre}}">
                     <div class="card-head p-1 d-flex justify-content-center">
                         {{#if fotoPerfil}}
                             <img class="img-fluid rounded-circle" src="data:imagen/png;base64, {{fotoPerfil}}" alt="" width="50%">
@@ -10,6 +11,7 @@
                             <img class="img-fluid rounded-circle" src="./img/generic/avatar.png" alt="" width="50%">
                         {{/if}}
                     </div>
+                    </a>
                     <div class="card-body">
                         <div class="text-center mb-3">
                             <h3 class="card-title f-space-3 mb-0">{{nombre}}</h3>

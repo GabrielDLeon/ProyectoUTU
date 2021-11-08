@@ -157,7 +157,6 @@ exports.registerCompany = (req, res) => {
         console.log(error);
       }
       db.query('SELECT nombre FROM cuenta_empresa WHERE nombre = ?', [name], async (error, result) => {
-        console.log(result);
         if (error) {
           console.log(error);
         }
@@ -247,7 +246,7 @@ exports.registerCompany = (req, res) => {
             if (error) {
               console.log(error);
             }
-            db.query('INSERT INTO cuenta_empresa SET ?', { email: mailEmpresa, nombre: name, RUT: rut, razonSocial: razon }, (error, results) => {
+            db.query('INSERT INTO cuenta_empresa SET ?', { email: mailEmpresa, RUT:rut , nombre: name, razonSocial: razon }, (error, results) => {
               if (error) {
                 console.log(error)
               } else {
