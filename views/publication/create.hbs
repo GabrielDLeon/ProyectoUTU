@@ -61,11 +61,30 @@
                     <h3>Datos del producto</h3>
                     {{#if ../product}}
                     {{#with ../product}}
-                    <h3>Publicación basada</h3>
-                    <p>{{categoria}}</p>
-                    <p>{{genero}}</p>
-                    <p>{{material}}</p>
-                    <p>{{marca}}</p>
+                    <div class="mb-3 form-floating">
+                        <select class="form-select text-capitalize" id="categoria1" style="height: 58px;" disabled>
+                            <option>{{categoria}}</option>
+                        </select>
+                        <label for="categoria1">Categoría del producto</label>
+                    </div>
+                    <div class="mb-3 form-floating">
+                        <select class="form-select text-capitalize" id="genero1" style="height: 58px;" disabled>
+                            <option>{{genero}}</option>
+                        </select>
+                        <label for="genero1">Género del producto</label>
+                    </div>
+                    <div class="mb-3 form-floating">
+                        <select class="form-select text-capitalize" id="material1" style="height: 58px;" disabled>
+                            <option>{{material}}</option>
+                        </select>
+                        <label for="material1">Material del producto</label>
+                    </div>
+                    <div class="mb-3 form-floating">
+                        <select class="form-select text-capitalize" id="marca1" style="height: 58px;" disabled>
+                            <option>{{marca}}</option>
+                        </select>
+                        <label for="marca1">Marca del producto</label>
+                    </div>
                     {{/with}}
                     {{else}}
                     <div class="mb-3 form-floating">
