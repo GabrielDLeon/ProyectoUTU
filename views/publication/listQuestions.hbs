@@ -14,12 +14,9 @@
     </div> --}}
     <br>
     <div class="d-flex justify-content-center">
-        <a href="/list/questions/reply"><button style="margin-right: 10px;" class="btn btn-primary">Preguntas
-                respondidas</button></a>
-        <a href="/list/questions/noreply"><button style="margin-right: 10px;" class="btn btn-primary">Preguntas sin
-                responder</button></a>
-        <a href="/list/questions/all"><button style="margin-right: 10px;" class="btn btn-primary">Todas las
-                preguntas</button></a>
+        <a href="/list/questions/reply"><button style="margin-right: 10px;" class="btn btn-primary">Preguntas respondidas</button></a>
+        <a href="/list/questions/noreply"><button style="margin-right: 10px;" class="btn btn-primary">Preguntas sin responder</button></a>
+        <a href="/list/questions/all"><button style="margin-right: 10px;" class="btn btn-primary">Todas las preguntas</button></a>
     </div>
     {{#if result}}
     <div class="table-responsive table-lg mt-3">
@@ -42,14 +39,7 @@
                     <td class="text-center align-middle"><span>{{titulo}}</span></td>
                     <td class="text-center align-middle">
                         <div class="btn-group align-top">
-                            {{!-- <form action="/list/edit/{{nroPublicacion}}" method="GET">
-                                <button class="btn btn-primary">Editar</button>
-                            </form> --}}
-                            {{!-- <form action="/list/delete/{{nroPublicacion}}" method="POST">
-                                <button class="btn btn-danger">Eliminar</button>
-                            </form> --}}
-                            <a href="/publication/{{nroPublicacion}}" class="btn btn-outline-dark link-unstyled"><i
-                                    class="fas fa-eye"></i></a>
+                            <a href="/publication/{{nroPublicacion}}" class="btn btn-outline-dark link-unstyled"><i class="fas fa-eye"></i></a>
                         </div>
                     </td>
                 </tr>
@@ -61,8 +51,7 @@
                             <h2>No se encontraron preguntas</h2>
                         </div>
                     </div>
-                    {{/if}}
-
+                {{/if}}
             </tbody>
         </table>
         {{>pagination}}

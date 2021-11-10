@@ -7,12 +7,9 @@
             <a href="/publication/{{nroPublicacion}}">
                 <div class="d-none d-md-block col-2" style="max-height: 264px;">
                     {{#if imagen}}
-                    <img src="data:imagen/png;base64, {{imagen}}"
-                        style="display: block; object-fit: cover; height: 100%; width: 100%;"
-                        class="img-fluid rounded-start" alt="...">
+                        <img src="data:imagen/png;base64, {{imagen}}" style="display: block; object-fit: cover; height: 100%; width: 100%;" class="img-fluid rounded-start" alt="...">
                     {{else}}
-                    <img src="./img/Generic.png" style="display: block; object-fit: cover; height: 100%;"
-                        class="img-fluid rounded-start" alt="...">
+                        <img src="./img/generic/publication.png" style="display: block; object-fit: cover; height: 100%;" class="img-fluid rounded-start" alt="...">
                     {{/if}}
             </a>
         </div>
@@ -46,7 +43,7 @@
                         </form>
                     </div>
                     <div class="d-sm-grid d-md-block gap-2">
-                        <a href="/publication/{{nroPublicacion}}" class="btn btn-success link-unstyled">Ver</a>
+                        <a href="/publication/{{nroPublicacion}}" class="btn btn-success">Ver</a>
                     </div>
                 </div>
             </div>

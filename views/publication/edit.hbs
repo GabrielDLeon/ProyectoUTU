@@ -120,29 +120,26 @@
             <div class="mb-3">
                 <h3>Selección de colores</h3>
                 {{#if colorSelected}}
-                {{#each colorSelected}}
-                <div class="form-check d-inline m-0 p-0">
-                    <input type="checkbox" name="{{color}}" id="btn-{{color}}" autocomplete="off" checked>
-                    <label class="btn btn-outline-dark" for="btn-{{color}}" id="btn-{{color}}">ㅤㅤ</label>
-                </div>
-                {{/each}}
+                    {{#each colorSelected}}
+                        <div class="form-checkbox d-inline m-0 p-0">
+                            <input type="checkbox" class="btn-check" name="{{color}}" id="btn-{{color}}" autocomplete="off" checked>
+                            <label class="btn btn-lg btn-circle shadow-none btn-{{color}}" for="btn-{{color}}" style="width: 50px; height: 50px;">
+                        </div>
+                    {{/each}}
                 {{/if}}
                 {{#each colores}}
-                <div class="form-check d-inline m-0 p-0">
-                    <input type="checkbox" value="{{color}}" name="{{color}}">
-                    <label class="btn btn-outline-dark" for="btn-{{color}}" id="btn-{{color}}">ㅤㅤ</label>
-                </div>
+                    <div class="form-checkbox d-inline m-0 p-0">
+                        <input type="checkbox" class="btn-check" name="{{color}}" id="btn-{{color}}" autocomplete="off">
+                        <label class="btn btn-lg btn-circle shadow-none btn-{{color}}" for="btn-{{color}}" style="width: 50px; height: 50px;">
+                    </div>
                 {{/each}}
             </div>
         </div>
         <div class="d-grid gap-2 d-md-flex justify-content-center">
             <button type="submit" class="btn btn-success btn-lg"><i class="fas fa-check"></i> Publicar</button>
-            <a class="btn btn-danger btn-lg" href="/list"
-                onclick="return confirm('¿Deseas descartar las modificaciones a la publicación actual?')"><i
-                    class="fas fa-trash"></i> Descartar</a>
+            <a class="btn btn-danger btn-lg" href="/list" onclick="return confirm('¿Deseas descartar las modificaciones a la publicación actual?')"><i class="fas fa-trash"></i> Descartar</a>
             <a class="btn btn-primary btn-lg" href="/list/edit/{{publication.nroPublicacion}}">Restablecer datos</a>
-            <a class="btn btn-dark btn-lg" href="/publication/{{publication.nroPublicacion}}" target="_blank">Ver
-                publicación</a>
+            <a class="btn btn-dark btn-lg" href="/publication/{{publication.nroPublicacion}}" target="_blank">Ver publicación</a>
         </div>
     </form>
     {{#if success}}
