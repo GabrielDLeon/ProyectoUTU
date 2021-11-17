@@ -7,13 +7,18 @@ document.querySelector(".input-number").addEventListener("keypress", function (e
 
 const a = document.getElementById('confirm-descuento');
 const b = document.getElementById('descuento');
-b.disabled = true;
+if (a.checked == true){
+    b.disabled = false;
+} else {
+    b.disabled = true;
+}
 
 a.addEventListener("click", function(){
     if (a.checked == true){
         b.disabled = false;
     } else {
         b.disabled = true;
+        b.value = '';
     }
 })
 

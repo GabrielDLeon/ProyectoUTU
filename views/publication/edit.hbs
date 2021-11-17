@@ -29,18 +29,22 @@
                         </div>
                     </div>
                     <div class="col-12 col-lg-auto">
-                        <div class="input-group mb-3">
-                            <div class="input-group-text">
-                                <input type="checkbox" name="confirm-descuento" id="confirm-descuento"
-                                    class="form-control-file" {{#if porcentaje}}checked{{/if}}>
-                            </div>
-                            <div class="form-floating">
-                                <input class="form-control input-number" name="descuento" id="descuento" type="number"
-                                    value="{{porcentaje}}" placeholder="Descuento (%)"
-                                    onKeyPress="if(this.value.length==2) return false;" required>
+                        {{#if porcentaje}}
+                            <div class="form-floating mb-3">
+                                <input class="form-control input-number" name="descuento" id="descuento" type="number" value="{{porcentaje}}" placeholder="Descuento (%)" onKeyPress="if(this.value.length==2) return false;">
                                 <label for="descuento">Descuento (%)</label>
                             </div>
-                        </div>
+                        {{else}}
+                            <div class="input-group mb-3">
+                                <div class="input-group-text">
+                                    <input type="checkbox" name="confirm-descuento" id="confirm-descuento" class="form-control-file">
+                                </div>
+                                <div class="form-floating">
+                                    <input class="form-control input-number" name="descuento" id="descuento" type="number" value="{{porcentaje}}" placeholder="Descuento (%)" onKeyPress="if(this.value.length==2) return false;">
+                                    <label for="descuento">Descuento (%)</label>
+                                </div>
+                            </div>
+                        {{/if}}
                     </div>
                 </div>
                 <div class="mb-1">

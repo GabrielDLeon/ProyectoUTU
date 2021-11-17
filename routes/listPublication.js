@@ -120,7 +120,8 @@ router.get('/edit/:id', authController.isLoggedIn, async (req, res) => {
 router.post('/edit/:id', upload.array("imagen", 12), authController.isLoggedIn, async (req, res) => {
     const { id } = req.params;
     const { titulo, descripcion, precio, descuento } = req.body;
-    db.query('SELECT nroPublicacion, titulo, descripcion, precio, porcentaje, descuento FROM (view_publicaciones) WHERE nroPublicacion = ?', [id], (error, result) => {
+    db.query('SELECT nroPublicacion, titulo, descripcion, precio, porcentaje, descuento, fechaPublicacion FROM (view_publicaciones) WHERE nroPublicacion = ?', [id], (error, result) => {
+        const {fechaPublicacion} = result[0];
         db.query('SELECT categoria, genero, material, marca FROM (productos INNER JOIN publicacion ON productos.idProducto = publicacion.producto) WHERE nroPublicacion = ?', [id], (error, product) => {
             const { categoria, genero, material, marca } = product[0];
             db.query('SELECT categoria FROM categorias WHERE categoria != ?', [categoria], (error, categorias) => {
@@ -179,15 +180,10 @@ router.post('/edit/:id', upload.array("imagen", 12), authController.isLoggedIn, 
                                     } else {
                                         db.query("INSERT INTO productos (categoria, genero, material, marca) VALUES (?, ?, ?, ?)", [categoria, genero, material, marca], (error, result) => {
                                             const insert = result.insertId
-                                            if (descuento) {
-                                                if (descuento.length > 0) {
-                                                    db.query('UPDATE descuento SET porcentaje = ? WHERE publication = ?', [descuento, id])
-                                                }
-                                            }
-                                            db.query('UPDATE publicacion SET titulo = ?, descripcion = ?, precio = ?, producto = ? WHERE nroPublicacion = ?', [titulo, descripcion, precio, insert, id], (error, result) => {
+                                            db.query('UPDATE publicacion SET titulo = ?, descripcion = ?, precio = ?, producto = ?, fechaPublicacion = ? WHERE nroPublicacion = ?', [titulo, descripcion, precio, insert, fechaPublicacion, id], (error, result) => {
                                                 res.redirect('/list');
-                                            })
-                                        })
+                                            });
+                                        });
                                     }
 
                                 })
@@ -195,45 +191,66 @@ router.post('/edit/:id', upload.array("imagen", 12), authController.isLoggedIn, 
                         })
                         db.query('DELETE FROM curvas WHERE publicacion = ?', [id]);
                         const { G, L, M, S, XL, XS, XXL, XXS, XXXL, XXXXL } = req.body;
-                        var array = [];
-                        if (G) array.push('G');
-                        if (L) array.push('L');
-                        if (M) array.push('M');
-                        if (S) array.push('S');
-                        if (XL) array.push('XL');
-                        if (XS) array.push('XS');
-                        if (XXL) array.push('XXL');
-                        if (XXS) array.push('XXS');
-                        if (XXXL) array.push('XXXL');
-                        if (XXXXL) array.push('XXXXL');
-                        array.forEach(talle => {
-                            db.query('INSERT INTO curvas VALUES (?, ?)', [talle, id]);
-                        });
+                        insertTalles(G, L, M, S, XL, XS, XXL, XXS, XXXL, XXXXL, id);
+
                         db.query('DELETE FROM colorpubli WHERE publicacion = ?', [id]);
                         const { amarillo, azul, beige, blanco, bordó, gris, marrón, naranja, negro, rojo, rosado, salmón, verde, violeta } = req.body
-                        var array2 = [];
-                        if (amarillo) array2.push('amarillo');
-                        if (azul) array2.push('azul');
-                        if (beige) array2.push('beige');
-                        if (blanco) array2.push('blanco');
-                        if (bordó) array2.push('bordó');
-                        if (gris) array2.push('gris');
-                        if (marrón) array2.push('marrón');
-                        if (naranja) array2.push('naranja');
-                        if (negro) array2.push('negro');
-                        if (rojo) array2.push('rojo');
-                        if (rosado) array2.push('rosado');
-                        if (salmón) array2.push('salmón');
-                        if (verde) array2.push('verde');
-                        if (violeta) array2.push('violeta');
-                        array2.forEach(color => {
-                            db.query('INSERT INTO colorpubli VALUES (?, ?)', [color, id]);
-                        });
-                    })
-                })
-            })
+                        insertColors(amarillo, azul, beige, blanco, bordó, gris, marrón, naranja, negro, rojo, rosado, salmón, verde, violeta, id);
+
+                        if (descuento){
+                            db.query('SELECT publication FROM descuento WHERE publication = ?', [id], (error, result) => {
+                                if (result.length>0){
+                                    db.query('UPDATE descuento SET porcentaje = ? WHERE publication = ?', [descuento, id]);
+                                } else {
+                                    db.query('INSERT INTO descuento VALUES (?, ?)', [id, descuento]);
+                                }
+                            })
+                        } else {
+                            db.query('DELETE FROM descuento WHERE publication = ?', [id]);
+                        }
+                    });
+                });
+            });
         });
-    })
+    });
 });
+
+function insertTalles(G, L, M, S, XL, XS, XXL, XXS, XXXL, XXXXL, idPublicacion) {
+    let array = [];
+    if (G) array.push('G');
+    if (L) array.push('L');
+    if (M) array.push('M');
+    if (S) array.push('S');
+    if (XL) array.push('XL');
+    if (XS) array.push('XS');
+    if (XXL) array.push('XXL');
+    if (XXS) array.push('XXS');
+    if (XXXL) array.push('XXXL');
+    if (XXXXL) array.push('XXXXL');
+    array.forEach(talle => {
+        db.query('INSERT INTO curvas VALUES (?, ?)', [talle, idPublicacion]);
+    });
+}
+
+function insertColors(amarillo, azul, beige, blanco, bordó, gris, marrón, naranja, negro, rojo, rosado, salmón, verde, violeta, idPublicacion) {
+    let array = [];
+    if (amarillo) array.push('amarillo');
+    if (azul) array.push('azul');
+    if (beige) array.push('beige');
+    if (blanco) array.push('blanco');
+    if (bordó) array.push('bordó');
+    if (gris) array.push('gris');
+    if (marrón) array.push('marrón');
+    if (naranja) array.push('naranja');
+    if (negro) array.push('negro');
+    if (rojo) array.push('rojo');
+    if (rosado) array.push('rosado');
+    if (salmón) array.push('salmón');
+    if (verde) array.push('verde');
+    if (violeta) array.push('violeta');
+    array.forEach(color => {
+        db.query('INSERT INTO colorpubli VALUES (?, ?)', [color, idPublicacion]);
+    });
+}
 
 module.exports = router;

@@ -37,17 +37,14 @@ function a(emailVendedor, nroPublicacion, callback) {
                 publications,
                 existMorePublications: true,
             }
-            console.log("MAS 6");
             return callback(null, recommendations);
         } else if (result.length > 0 && result.length <= 6) {
-            console.log("MENOS 6");
             const recommendations = {
                 publications: result,
                 existMorePublications: false,
             }
             return callback(null, recommendations);
         } else {
-            console.log("HAY 0");
             return callback();
         }
     });
