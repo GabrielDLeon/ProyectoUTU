@@ -362,7 +362,7 @@ router.post('/edit/:id', upload.single("imagen"), authController.isLoggedIn, asy
             imagen = req.file.buffer.toString('base64');
             db.query('UPDATE perfil set ? WHERE email = ?', [{ fotoPerfil: imagen }, email]);
          }
-         db.query('UPDATE perfil set ? WHERE email = ?', [{ descripcion: descripcion, direccion: direccion, telefono: telefono, nombre:nombre }, email]);
+         db.query('UPDATE perfil set ? WHERE email = ?', [{ descripcion: descripcion, direccion: direccion, telefono: telefono }, email]);
          db.query('UPDATE cuenta_empresa set ? WHERE id = ?', [{ nombre: nombre, razonSocial: razon }, id]);
          if (mail != email) {
             db.query('UPDATE cuentas SET ? WHERE email = ?', [{ email: mail }, email]);

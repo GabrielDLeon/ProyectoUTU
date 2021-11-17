@@ -26,6 +26,33 @@ router.get('/:nroPublicacion/comments', authController.isLoggedIn, async (req, r
     });
 });
 
+function a(emailVendedor, nroPublicacion, callback) {
+    db.query('SELECT nroPublicacion, precio, descuento, imagen FROM (view_publicaciones) WHERE emailVendedor = ? AND nroPublicacion != ? ORDER BY fechaPublicacion DESC LIMIT 12', [emailVendedor, nroPublicacion], async (error, result) => {
+        if (result.length>6){
+            const publications = [];
+            for (let index = 0; index < 6; index++) {
+                publications.push(result[index]);
+            }
+            const recommendations = {
+                publications,
+                existMorePublications: true,
+            }
+            console.log("MAS 6");
+            return callback(null, recommendations);
+        } else if (result.length > 0 && result.length <= 6) {
+            console.log("MENOS 6");
+            const recommendations = {
+                publications: result,
+                existMorePublications: false,
+            }
+            return callback(null, recommendations);
+        } else {
+            console.log("HAY 0");
+            return callback();
+        }
+    });
+}
+
 // Entrar a una publicacion desde URL con el ID
 router.get('/:nroPublicacion', authController.isLoggedIn, async (req, res) => {
     const { nroPublicacion } = req.params;
@@ -39,8 +66,8 @@ router.get('/:nroPublicacion', authController.isLoggedIn, async (req, res) => {
                         await db.query('SELECT COUNT(idPregunta) AS count FROM view_preguntas WHERE nroPublicacion = ?', [nroPublicacion], async (error, qLimit) => {
                             await db.query('SELECT * FROM favoritos WHERE usuario = ? AND publicacion = ?', [email, nroPublicacion], async (error, favorite) => {
                                 await db.query('SELECT talles.talle FROM (talles INNER JOIN curvas ON talles.talle = curvas.talle) WHERE curvas.publicacion = ? ORDER BY orden', [nroPublicacion], async (error, sizes) => {
-                                    await db.query('SELECT nroPublicacion, precio, descuento, imagen FROM (view_publicaciones) WHERE emailVendedor = ? AND nroPublicacion != ? LIMIT 6', [emailVendedor, nroPublicacion], async (error, recommendations) => {
-                                        await db.query('SELECT * from perfil WHERE email = ?', [emailVendedor], (error, perfil) => {
+                                    await db.query('SELECT * from perfil WHERE email = ?', [emailVendedor], (error, perfil) => {
+                                        a(emailVendedor, nroPublicacion, function(error, recommendations){
                                             res.render('publication/page', {
                                                 title: publication[0].titulo,
                                                 user: req.user,
@@ -54,7 +81,7 @@ router.get('/:nroPublicacion', authController.isLoggedIn, async (req, res) => {
                                                 recommendations,
                                                 profile: perfil[0]
                                             });
-                                        })
+                                        });
                                     });
                                 });
                             });

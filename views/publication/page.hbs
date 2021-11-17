@@ -324,18 +324,19 @@
 
                 {{!-- RECOMENDACIONES --}}
                 {{#if recommendations}}
-                <div class="mb-3">
-                    <h4 class="fw-bold mb-3">Otras publicaciones de {{publication.nombreVendedor}}</h4>
-                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mb-2">
-                        {{#each recommendations}}
-                        {{>products}}
-                        {{/each}}
+                    <div class="mb-3">
+                        <h4 class="fw-bold mb-3">Otras publicaciones de {{publication.nombreVendedor}}</h4>
+                        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mb-2">
+                            {{#each recommendations.publications}}
+                                {{>products}}
+                            {{/each}}
+                        </div>
+                        {{#if recommendations.existMorePublications}}
+                            <div class="d-grid gap-2">
+                                <a href="/profile/{{publication.nombreVendedor}}" class="btn btn-dark">Ver más publicaciones de {{publication.nombreVendedor}}</a>
+                            </div>
+                        {{/if}}
                     </div>
-                    <div class="d-grid gap-2">
-                        <a href="/profile/{{publication.nombreVendedor}}" class="btn btn-dark link-unstyled">Ver más
-                            publicaciones de {{publication.nombreVendedor}}</a>
-                    </div>
-                </div>
                 {{/if}}
             </section>
         </div>
