@@ -53,7 +53,7 @@ router.get('/:nombre', authController.isLoggedIn, async (req, res) => {
                   db.query('SELECT nroPublicacion FROM view_publicaciones WHERE view_publicaciones.nombreVendedor = ?', [nombre], (error, existPublications) => {
                      if (existPublications.length>0) {
                         const page = JSON.parse(req.query.page);
-                        const query = 'SELECT nroPublicacion, precio, descuento, imagen FROM view_publicaciones WHERE view_publicaciones.nombreVendedor = "' + nombre + '" GROUP BY view_publicaciones.nroPublicacion LIMIT ? OFFSET ?';
+                        const query = 'SELECT nroPublicacion, precio, descuento, imagen FROM view_publicaciones WHERE view_publicaciones.nombreVendedor = "' + nombre + '" GROUP BY view_publicaciones.nroPublicacion ORDER BY fechaPublicacion DESC LIMIT ? OFFSET ?';
                         let path = '/profile/' + nombre + '?';
                         paginations(page, 9, query, path, function (error, result) {
                            if (result) {
@@ -263,9 +263,9 @@ router.post('/delete/:id', authController.isLoggedIn, async (req, res) => {
 router.post('/edit/:id', upload.single("imagen"), authController.isLoggedIn, async (req, res) => {
    const { email } = req.user.data;
    if (req.user.data.tipo == 'usuario') {
-      await db.query('SELECT cuentas.email, cuentas.password, cuenta_personal.nombre, cuenta_personal.id FROM cuentas INNER JOIN cuenta_personal ON cuentas.email = cuenta_personal.email WHERE cuenta_personal.email = ?', [email], async (error, result) => { 
+      await db.query('SELECT cuentas.email, cuentas.password, cuenta_personal.nombre, cuenta_personal.id FROM cuentas INNER JOIN cuenta_personal ON cuentas.email = cuenta_personal.email WHERE cuenta_personal.email = ?', [email], async (error, result) => {
          const { id } = req.params;
-         const { nombre, mail } = req.body; 
+         const { nombre, mail } = req.body;
          if (!nombre) {
             return res.render('profile/editProfile', {
                email: req.body.email,
@@ -288,28 +288,28 @@ router.post('/edit/:id', upload.single("imagen"), authController.isLoggedIn, asy
             })
          }
          db.query('SELECT email from cuentas WHERE email = ? and email != ?', [mail, email], (error, result) => {
-         if (mail != email) {
-         if (result.length > 0) {
-            return res.render('profile/editProfile', {
-                email: req.body.email,
-                nombre: req.body.nombre,
-                data: req.user.data,
-                user: req.user,
-                message: "Mail ya en uso, ingrese otro",
-                title: 'Editar perfil'
-             })
+            if (mail != email) {
+               if (result.length > 0) {
+                  return res.render('profile/editProfile', {
+                     email: req.body.email,
+                     nombre: req.body.nombre,
+                     data: req.user.data,
+                     user: req.user,
+                     message: "Mail ya en uso, ingrese otro",
+                     title: 'Editar perfil'
+                  })
+               }
             }
-         }
-         if (mail != email) {
-            db.query('UPDATE cuentas set ? WHERE email = ?', [{ email: mail }, email]);
-            res.clearCookie('jwt');
-            return res.redirect('/');
+            if (mail != email) {
+               db.query('UPDATE cuentas set ? WHERE email = ?', [{ email: mail }, email]);
+               res.clearCookie('jwt');
+               return res.redirect('/');
             }
-         db.query('UPDATE cuenta_personal set ? WHERE id = ?', [{ nombre: nombre }, id]);
-         return res.redirect(req.originalUrl);
+            db.query('UPDATE cuenta_personal set ? WHERE id = ?', [{ nombre: nombre }, id]);
+            return res.redirect(req.originalUrl);
          })
       })
-      
+
    } else if (req.user.data.tipo == 'empresa') {
       await db.query('SELECT cuentas.email , cuentas.password, perfil.fotoPerfil, cuentas.tipo, cuenta_empresa.nombre, cuenta_empresa.id, razonSocial, descripcion, direccion, telefono FROM (cuentas INNER JOIN cuenta_empresa ON cuentas.email = cuenta_empresa.email INNER JOIN perfil ON perfil.email = cuenta_empresa.email) WHERE cuentas.email = ?', [email], async (error, result) => {
          const { id } = req.params;
@@ -317,34 +317,7 @@ router.post('/edit/:id', upload.single("imagen"), authController.isLoggedIn, asy
          const { nombre, descripcion, direccion, telefono, razon, mail } = req.body;
          const nick = req.user.data.nombre
          db.query('SELECT nombre from cuenta_empresa where nombre = ? and nombre != ?', [nombre, nick], (error, name) => {
-         if (!nombre, !email) {
-            return res.render('profile/editEmpresa', {
-               data: result[0],
-               email: req.body.email,
-               nombre: req.body.nombre,
-               descripcion: req.body.descripcion,
-               direccion: req.body.direccion,
-               telefono: req.body.telefono,
-               user: req.user,
-               message: "Por favor, ingrese un nombre",
-               title: "Editar perfil"
-            })
-         }
-         if (filtro == false) {
-            return res.render('profile/editEmpresa', {
-               data: result[0],
-               email: req.body.email,
-               nombre: req.body.nombre,
-               descripcion: req.body.descripcion,
-               direccion: req.body.direccion,
-               telefono: req.body.telefono,
-               user: req.user,
-               message: "Compruebe la extensión de las imagenes que quiere subir (solo válidas .png, .jpg, .jpeg, .svg)",
-               title: 'Editar perfil'
-            })
-         }
-         if (nick != nombre) {
-            if (name.length > 0) {
+            if (!nombre, !email) {
                return res.render('profile/editEmpresa', {
                   data: result[0],
                   email: req.body.email,
@@ -353,25 +326,52 @@ router.post('/edit/:id', upload.single("imagen"), authController.isLoggedIn, asy
                   direccion: req.body.direccion,
                   telefono: req.body.telefono,
                   user: req.user,
-                  message: "Ese nombre de empresa ya está en uso, ingrese otro.",
+                  message: "Por favor, ingrese un nombre",
                   title: "Editar perfil"
-            })
-         }
-      }
-         else if (req.file) {
-            imagen = req.file.buffer.toString('base64');
-            db.query('UPDATE perfil set ? WHERE email = ?', [{ fotoPerfil: imagen }, email]);
-         }
-         db.query('UPDATE perfil set ? WHERE email = ?', [{ descripcion: descripcion, direccion: direccion, telefono: telefono }, email]);
-         db.query('UPDATE cuenta_empresa set ? WHERE id = ?', [{ nombre: nombre, razonSocial: razon }, id]);
-         if (mail != email) {
-            db.query('UPDATE cuentas SET ? WHERE email = ?', [{ email: mail }, email]);
-            res.clearCookie('jwt')
-            return res.redirect('/login')
-         }
-         res.redirect(req.originalUrl);
+               })
+            }
+            if (filtro == false) {
+               return res.render('profile/editEmpresa', {
+                  data: result[0],
+                  email: req.body.email,
+                  nombre: req.body.nombre,
+                  descripcion: req.body.descripcion,
+                  direccion: req.body.direccion,
+                  telefono: req.body.telefono,
+                  user: req.user,
+                  message: "Compruebe la extensión de las imagenes que quiere subir (solo válidas .png, .jpg, .jpeg, .svg)",
+                  title: 'Editar perfil'
+               })
+            }
+            if (nick != nombre) {
+               if (name.length > 0) {
+                  return res.render('profile/editEmpresa', {
+                     data: result[0],
+                     email: req.body.email,
+                     nombre: req.body.nombre,
+                     descripcion: req.body.descripcion,
+                     direccion: req.body.direccion,
+                     telefono: req.body.telefono,
+                     user: req.user,
+                     message: "Ese nombre de empresa ya está en uso, ingrese otro.",
+                     title: "Editar perfil"
+                  })
+               }
+            }
+            else if (req.file) {
+               imagen = req.file.buffer.toString('base64');
+               db.query('UPDATE perfil set ? WHERE email = ?', [{ fotoPerfil: imagen }, email]);
+            }
+            db.query('UPDATE perfil set ? WHERE email = ?', [{ descripcion: descripcion, direccion: direccion, telefono: telefono }, email]);
+            db.query('UPDATE cuenta_empresa set ? WHERE id = ?', [{ nombre: nombre, razonSocial: razon }, id]);
+            if (mail != email) {
+               db.query('UPDATE cuentas SET ? WHERE email = ?', [{ email: mail }, email]);
+               res.clearCookie('jwt')
+               return res.redirect('/login')
+            }
+            res.redirect(req.originalUrl);
+         });
       });
-      })
    }
 });
 

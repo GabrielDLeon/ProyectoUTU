@@ -28,7 +28,7 @@ router.get('/', authController.isLoggedIn, (req, res) => {
     if (req.user) {
         if (req.user.data.tipo == 'empresa'){
             const {email} = req.user.data;
-            db.query('SELECT nroPublicacion, titulo, imagen, descuento, porcentaje, descripcion, precio, idProducto, nombreVendedor, COUNT(preguntas.idPregunta) AS cantPreguntas FROM (view_publicaciones LEFT JOIN preguntas ON preguntas.publicacion = nroPublicacion) WHERE emailVendedor = ? GROUP BY nroPublicacion;', [email], (error, publicacion) => {
+            db.query('SELECT nroPublicacion, titulo, imagen, descuento, porcentaje, descripcion, precio, idProducto, nombreVendedor, fechaPublicacion, COUNT(preguntas.idPregunta) AS cantPreguntas FROM (view_publicaciones LEFT JOIN preguntas ON preguntas.publicacion = nroPublicacion) WHERE emailVendedor = ? GROUP BY nroPublicacion ORDER BY fechaPublicacion DESC', [email], (error, publicacion) => {
                 res.render('publication/list', {
                     publicacion,
                     user: req.user,
