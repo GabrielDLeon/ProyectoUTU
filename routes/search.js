@@ -87,7 +87,7 @@ router.get('/', authController.isLoggedIn, async (req, res) => {
     if (req.query.page) {
         getCategories(function(error, categories){
             const {page} = req.query;
-            db.query('SELECT * FROM perfil WHERE perfil.email LIKE "%"?"%"', [key], (error, shops) => {
+            db.query('SELECT fotoPerfil, cuenta_empresa.email, descripcion, direccion, telefono, nombre FROM (perfil INNER JOIN cuenta_empresa ON perfil.email = cuenta_empresa.email) WHERE perfil.email LIKE "%"?"%"', [key], (error, shops) => {
                 paginations(page, 12, template, path, function (error, result) {
                     if (result) {
                         res.render('search', {
