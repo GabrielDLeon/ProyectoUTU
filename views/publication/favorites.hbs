@@ -1,61 +1,61 @@
 {{>navigation}}
 <div class="container">
     {{#if favorite}}
-    {{#each favorite}}
-    <div class="card my-3">
-        <div class="row g-0">
-            <div class="d-none d-md-block col-2" style="max-height: 264px;">
-                {{#if imagen}}
-                <img src="data:imagen/png;base64, {{imagen}}"
-                    style="display: block; object-fit: cover; height: 100%; width: 100%;"
-                    class="img-fluid rounded-start" alt="...">
-                {{else}}
-                <img src="./img/generic/publication.png" style="display: block; object-fit: cover; height: 100%;"
-                    class="img-fluid rounded-start" alt="...">
-                {{/if}}
-            </div>
-            <div class="col-sm-12 col-md-10 d-flex justify-content-center align-items-center">
-                <div class="card-body p-3 p-md-4 p-lg-5">
-                    <div class="d-flex">
-                        <h3 class="card-text">${{precio}}</h3>
-                        <span class="text-muted ms-1"><s>{{descuento}}</s></span>
+        {{#each favorite}}
+            <div class="card my-3">
+                <div class="row g-0">
+                    <div class="d-none d-md-block col-2" style="max-height: 264px;">
+                        {{#if imagen}}
+                        <img src="data:imagen/png;base64, {{imagen}}"
+                            style="display: block; object-fit: cover; height: 100%; width: 100%;"
+                            class="img-fluid rounded-start" alt="...">
+                        {{else}}
+                        <img src="./img/generic/publication.png" style="display: block; object-fit: cover; height: 100%;"
+                            class="img-fluid rounded-start" alt="...">
+                        {{/if}}
                     </div>
-                    <h5 class="card-title">{{titulo}}</h5>
-                    <a href="/profile/{{vendedor}}?page=1" class="link-unstyled">
-                        <small class="card-text text-muted">{{vendedor}}</small>
-                    </a>
-                    <p class="card-text mb-1"><small class="text-muted">{{descripcion}}</small></p>
-                    <div class="d-flex">
-                        <div class="me-1">
-                            <form action="/favorites/delete/{{nroPublicacion}}" method="POST">
-                                <div class="d-sm-grid d-md-block gap-2">
-                                    <button class="btn btn-danger">Eliminar favorito</button>
+                    <div class="col-sm-12 col-md-10 d-flex justify-content-center align-items-center">
+                        <div class="card-body p-3 p-md-4 p-lg-5">
+                            <div class="d-flex">
+                                <h3 class="card-text">${{precio}}</h3>
+                                <span class="text-muted ms-1"><s>{{descuento}}</s></span>
+                            </div>
+                            <h5 class="card-title">{{titulo}}</h5>
+                            <a href="/profile/{{vendedor}}?page=1" class="link-unstyled">
+                                <small class="card-text text-muted">{{vendedor}}</small>
+                            </a>
+                            <p class="card-text mb-1"><small class="text-muted">{{descripcion}}</small></p>
+                            <div class="d-flex">
+                                <div class="me-1">
+                                    <form action="/favorites/delete/{{nroPublicacion}}" method="POST">
+                                        <div class="d-sm-grid d-md-block gap-2">
+                                            <button class="btn btn-danger">Eliminar favorito</button>
+                                        </div>
+                                    </form>
                                 </div>
-                            </form>
-                        </div>
-                        <div class="d-sm-grid d-md-block gap-2">
-                            <a href="/publication/{{nroPublicacion}}" class="btn btn-success link-unstyled">Ver
-                                publicación relacionada</a>
+                                <div class="d-sm-grid d-md-block gap-2">
+                                    <a href="/publication/{{nroPublicacion}}" class="btn btn-success">Ver
+                                        publicación relacionada</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    {{/each}}
+        {{/each}}
     {{else}}
-    <div class="row d-flex justify-content-center">
-        <div class="col-10 p-5 text-center">
-            <div>
-                <h2>No se encontraron publicaciones favoritas</h2>
-            </div>
-            <div class="text-muted">
-                <p>Aquí encontrarás todos los artículos que has marcado como favoritos. A pesar de que en estos momentos
-                    no cuentes con publicación favoritas, no tienes limites al momento de explorar las diversas opciones
-                    que se encuentran en el catálogo</p>
-                <a href="/">Ir al catálogo</a>
+        <div class="row d-flex justify-content-center">
+            <div class="col-10 p-5 text-center">
+                <div>
+                    <h2>No se encontraron publicaciones favoritas</h2>
+                </div>
+                <div class="text-muted">
+                    <p>Aquí encontrarás todos los artículos que has marcado como favoritos. A pesar de que en estos momentos
+                        no cuentes con publicación favoritas, no tienes limites al momento de explorar las diversas opciones
+                        que se encuentran en el catálogo</p>
+                    <a href="/">Ir al catálogo</a>
+                </div>
             </div>
         </div>
-    </div>
     {{/if}}
 </div>
