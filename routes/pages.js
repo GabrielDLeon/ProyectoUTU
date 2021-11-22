@@ -33,6 +33,24 @@ router.get('/', authController.isLoggedIn, async (req, res) => {
    });
 });
 
+router.get('/tutorial', authController.isLoggedIn, (req, res) => {
+   if (req.user){
+      if (req.user.data.tipo == 'empresa') {
+         getVideos(function(error, videos){
+            res.render('tutorial', {
+               title: "Tutoriales",
+               user: req.user,
+               videos
+            });
+         })
+      } else {
+         res.redirect('/');
+      }
+   } else {
+      res.redirect('/login');
+   }
+})
+
 router.get('/register', (req, res) => {
    res.render('./auth/register', {
       title: "Registro"
@@ -57,6 +75,42 @@ router.get('/terms', (req, res) => {
       title: "Términos y condiciones"
    });
 });
+
+function getVideos(callback){
+   const videos = [
+      {
+         link: 'https://www.youtube.com/embed/qmipysWTgIo',
+         title: '¿Cómo crear mi cuenta de empresa?',
+         description: '',
+      },
+      {
+         link: 'https://www.youtube.com/embed/t3HFXWyfJYE',
+         title: '¿Cómo editar mis datos de cuenta?',
+         description: '',
+      },
+      {
+         link: 'https://www.youtube.com/embed/UF-v1a1tmfs',
+         title: '¿Cómo vincular mis redes sociales con Klouts?',
+         description: '',
+      },
+      {
+         link: 'https://www.youtube.com/embed/D8hqsrKuyuA',
+         title: '¿Cómo crear una publicación?',
+         description: '',
+      },
+      {
+         link: 'https://www.youtube.com/embed/akLOEDTzxyc',
+         title: '¿Cómo editar o eliminar una publicación?',
+         description: '',
+      },
+      {
+         link: 'https://www.youtube.com/embed/3__37fCuVkM',
+         title: '¿Cómo responder comentarios de usuarios?',
+         description: '',
+      },
+   ]
+   return callback(null, videos);
+}
 
 function countEntities(callback) {
    db.query('SELECT COUNT(id) AS count FROM cuenta_empresa', (error, countShops) => {

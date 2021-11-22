@@ -1,0 +1,20 @@
+{{>navigation}}
+<div class="container my-3">
+    {{#each videos}}
+        <div class="row d-flex justify-content-center">
+            <div id="{{@index}}" class="card s m-4 col-10">
+                <div class="row m-sm-3 m-md-5 d-flex justify-content-center">
+                    <div class="col-auto d-flex">
+                        <iframe src="{{link}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <div class="col m-5 m-md-3">
+                        <h4 class="mb-0">{{title}}</h4>
+                        <small class="text-muted">Tutorial n°{{@index}}</small>
+                        <p>{{description}}</p>
+                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Explicabo inventore aliquid aspernatur culpa libero vitae, dolorem a dolorum ratione commodi nam repellendus repudiandae nihil amet?</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{/each}}
+</div>

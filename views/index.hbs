@@ -12,15 +12,12 @@
                         <p>Encontrar la vestimenta que buscabas nunca fue
                                 tan fácil y rápido como ahora</p>
                         <div class="d-inline">
-                            <a href="#tiendas"><button class="btn rounded-pill btn-outline-dark"
-                                    onclick="hello()">Tiendas oficiales</button></a>
-                            <a href="#footer"><button class="btn rounded-pill btn-outline-dark">Sobre
-                                    Klouts</button></a>
+                            <a href="#tiendas"><button class="btn rounded-pill btn-outline-dark" onclick="hello()">Tiendas oficiales</button></a>
+                            <a href="#footer"><button class="btn rounded-pill btn-outline-dark">Sobre Klouts</button></a>
                             {{#ifCond user.data.tipo '==' 'empresa'}}
-                            <a href="#footer" class="btn rounded-pill btn-outline-danger position-relative">
+                            <a href="/tutorial" class="btn rounded-pill btn-outline-danger position-relative">
                                 <span>Tutoriales</span>
-                                <span
-                                    class="position-absolute me-2 mt-1 top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
+                                <span class="position-absolute me-2 mt-1 top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
                                     <span class="visually-hidden">New alerts</span>
                                 </span>
                             </a>
