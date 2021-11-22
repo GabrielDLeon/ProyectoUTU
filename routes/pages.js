@@ -79,12 +79,12 @@ router.get('/terms', (req, res) => {
 function getVideos(callback){
    const videos = [
       {
-         link: 'https://www.youtube.com/embed/qmipysWTgIo',
+         link: 'https://www.youtube.com/embed/GcMzdJzf0K0',
          title: '¿Cómo crear mi cuenta de empresa?',
          description: '',
       },
       {
-         link: 'https://www.youtube.com/embed/t3HFXWyfJYE',
+         link: 'https://www.youtube.com/embed/zsoarv4RhVQ',
          title: '¿Cómo editar mis datos de cuenta?',
          description: '',
       },
