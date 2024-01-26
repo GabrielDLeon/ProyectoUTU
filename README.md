@@ -2,8 +2,7 @@
 
 ## Estado del proyecto (Actualizado 26-12-2023)
 
-El repositorio será archivado debido a que no recibió cambios hace mucho tiempo, ni tampoco recibirá actualizaciones en un futuro.
-De todas formas, el repositorio y el código fuente seguirá disponible, por si quieren descargarlo con total libertad, no aseguramos que funcione (muy posible que no ande nada).
+Este repositorio será archivado debido a la falta de actividad reciente y la ausencia de planes para futuras actualizaciones. No obstante, el código fuente permanecerá disponible para su descarga, aunque no podemos garantizar su funcionamiento.
 
 ## Demos
 
